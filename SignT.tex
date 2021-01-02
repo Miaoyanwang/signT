@@ -133,187 +133,156 @@
 
 
 \begin{abstract}
-We consider the problem of tensor estimation from noisy observations with possibly missing entries. A nonparametric approach to tensor completion is developed based on a new model which we coin as ``sign representable tensors.'' The model represents a real-valued signal tensor using a series of sign tensors with low sign ranks. Unlike earlier methods, the sign series representation enables effective analysis of high-rank signal tensors, while encompassing many existing low-rank tensor models---including CP models, Tucker models, single index models, certain hypergraphon models---as special cases. We show that the sign tensor series are theoretically characterized, and computationally estimable, by classification tasks with carefully-specified weights. The excess risk rate, estimation error bound, and sample complexity are established. The results uncover the joint contribution of statistical bias-variance errors and discretization errors. Numerical results demonstrate the robustness of our proposal over previous tensor methods.
+We consider the problem of tensor estimation from noisy observations with missing entries. A nonparametric approach to tensor completion is developed based on a new model which we coin as ``sign representable tensors.'' The model represents real-valued signal tensors using a series of sign tensors with low sign-ranks. Unlike earlier methods, the sign series representation effectively addresses both low- and high-rank signal tensors, while encompassing many existing tensor models---including CP models, Tucker models, single index models, certain hypergraphon models---as special cases. We show that the sign tensor series are theoretically characterized, and computationally solvable, by classification tasks with carefully-specified weights. The excess risk rate, estimation error bound, and sample complexity are established. The results uncover the joint contribution of statistical bias-variance errors and discretization errors. Numerical results demonstrate the robustness of our proposal over previous tensor methods.
 \end{abstract}
 
 \section{Introduction}\label{Intro}
 
-\section{Preliminaries}
-%Let $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote a real-valued tensor. 
-We use $\sign(\cdot)\colon \mathbb{R}\to\{-1,1\}$ to denote the sign function, where $\sign(y)=1$ if $y\geq 0$ and $-1$ otherwise. We allow univariate functions, such as $\sign(\cdot)$ or general $f\colon \mathbb{R}\to\mathbb{R}$, to be applied to tensors in an element-wise manner. We use the shorthand $[n]$ to denote the $n$-set $\{1,\ldots,n\}$ for $n\in\mathbb{N}_{+}$. We use $\otimes$ to denote the outer product of vectors, $\vnormSize{}{\mx}$ to denote the vector $2$-norm, and $\mathbb{S}^{d-1}=\{\mx\in\mathbb{R}\colon \vnormSize{}{\mx}=1\}$ to denote the $(d-1)$-dimensional unit sphere.
+Advantages:
+(1) exactly recovers the signal tensor under a wide range of low- and high-rank tensor models; 
+(2) brings the nonparametric advantages of flexibility into tensor estimation and completion; 
+(3) achieves computational efficiency by leveraging classification and divide-and-conquer algorithms.
 
-We use $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ to denote an order-$K$ $(d_1,\ldots,d_k)$-dimensional tensor, and use $\tY(\omega)\in\mathbb{R}$ to denote the tensor entry indexed by $\omega \in[d_1]\times \cdots \times [d_K]$. The Frobenius norm of $\tY$ is defined as $\FnormSize{}{\tY}=\sqrt{\sum_{\omega}\tY^2(\omega)}$. Unlike matrices, various notions of decomposition have been developed for tensors of order $K\geq 3$. The Canonical Polyadic (CP) tensor decomposition~\cite{hitchcock1927expression} for a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
+\section{Preliminaries}
+We use the shorthand $[n]$ to denote the $n$-set $\{1,\ldots,n\}$ for $n\in\mathbb{N}_{+}$. We use $\otimes$ to denote the outer product of vectors, $\vnormSize{}{\mx}$ to denote the vector $2$-norm, and $\mathbf{S}^{d-1}=\{\mx\in\mathbb{R}\colon \vnormSize{}{\mx}=1\}$ to denote the $(d-1)$-dimensional unit sphere. Let $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_k)$-dimensional tensor, and $\tY(\omega)\in\mathbb{R}$ denote the tensor entry indexed by $\omega \in[d_1]\times \cdots \times [d_K]$. The Frobenius norm of $\tY$ is defined as $\FnormSize{}{\tY}=\sqrt{\sum_{\omega}\tY^2(\omega)}$. Unlike matrices, various notions of decomposition have been developed for tensors of order $K\geq 3$. The Canonical Polyadic (CP) tensor decomposition~\cite{hitchcock1927expression} for a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
 \begin{equation}\label{eq:CP}
 \Theta=\sum_{r=1}^R\lambda_r \ma^{(1)}_r\otimes\cdots\otimes \ma^{(K)}_r,
 \end{equation}
 where $\lambda_1\geq \cdots \geq \lambda_R>0$ are called tensor singular values, and $\ma^{(k)}_r \in \mathbf{S}^{d_k-1}$ are called tensor singular vectors, for all $r\in[R]$, $k\in[K]$. The minimal $R$ for which the decomposition~\eqref{eq:CP} holds is called the tensor rank, denoted as $\rank(\Theta)$. 
+
+We use $\sign(\cdot)\colon \mathbb{R}\to\{-1,1\}$ to denote the sign function, where $\sign(y)=1$ if $y\geq 0$ and $-1$ otherwise. We allow univariate functions, such as $\sign(\cdot)$ or general $f\colon \mathbb{R}\to\mathbb{R}$, to be applied to tensors in an element-wise manner. For a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$, its sign pattern $\sign(\Theta)$ is an order-$K$ $(d_1,\ldots,d_K)$-dimensional binary tensor with entries in $\{-1,1\}$. 
+
+
+
 \section{Motivation and method overview}
 
 Let $\tY$ be an order-$K$ $(d_1,\ldots,d_K)$-dimensional data tensor. Assume that $\tY$ is generated from the following model,
 \begin{equation}\label{eq:model}
 \tY=\Theta+\tE,
 \end{equation}
-where $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is the unknown signal tensor of interest, and $\tE$ is a noise tensor consisting of mean-zero, independent but not necessarily identically distributed entries. We allow heterogenous noise in that the marginal distribution of noise entry $\tE(\omega)$ may depend on $\omega$; this incorporates, for example, a Bernoulli tensor whose entries $\tY(\omega)$ have mean $\Theta(\omega)$ and variance $\text{Var}(\tE(\omega))=\Theta(\omega)(1-\Theta(\omega))$. In general, assume the entries of the tensor $\tY$ take values in a bounded interval $[-L, L]$. Without loss of generality, we assume $L=1$ throughout the paper. 
+where $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is the unknown signal tensor of interest, and $\tE$ is a noise tensor consisting of mean-zero, independent but not necessarily identically distributed entries. We allow heterogenous noise in that the marginal distribution of noise entry $\tE(\omega)$ may depend on $\omega$. This incorporates, for example, a Bernoulli tensor whose entries $\tY(\omega)$ have mean $\Theta(\omega)$ and variance $\text{var}(\tE(\omega))=\Theta(\omega)(1-\Theta(\omega))$. In general, we assume $\tY(\omega)$ take values in a bounded interval $[-L, L]$; other than that, we make no particular parametric assumptions on the distribution of $\tE(\omega)$.
+%Unless otherwise specified, we assume $L=1$ throughout the paper. 
 
 \begin{figure*}[h!]
 \centerline{\includegraphics[width=1\textwidth]{image_new2.pdf}}
-\caption{Illustration of our proposed method. For visualization purpose, we plot an order-2 tensor (a.k.a. matrix) in the figure; similar procedure applies to higher-order tensors. (a): input tensor $\tY_\Omega$ with noisy and incomplete entries. (b) and (c): the algorithm uses weighted classification to estimate sign tensors $\sign(\Theta-\pi)$ for a sequence of levels $\pi\in \{-1,\ldots,-{1\over H},0,{1\over H},\ldots,1\}$. (d) output tensor $\hat \Theta$ with denoised and imputed entries. The depicted example is based on Example 5, where the true signal matrix has full rank. }\label{fig:demo}
+\caption{Illustration of our proposed method. For visualization purpose, we plot an order-2 tensor (a.k.a. matrix) in the figure; similar procedure applies to higher-order tensors. (a): input tensor $\tY_\Omega$ with noisy and incomplete entries. (b) and (c): our method uses weighted classification to estimate sign tensors $\sign(\Theta-\pi)$ for a sequence of levels $\pi\in \{-1,\ldots,-{1\over H},0,{1\over H},\ldots,1\}$. (d) output tensor $\hat \Theta$ with denoised and imputed entries. The depicted example is based on Example 5, where the true signal matrix has full rank. }\label{fig:demo}
 \end{figure*}
 
-Our observation is an incomplete data tensor from~\eqref{eq:model}, denoted $\tY_\Omega$, where $\Omega\subset[d_1]\times\cdots\times[d_K]$ denotes the index set of observed entries. We consider an observation model of $\Omega$ that allows both uniform and non-uniform sampling. Specifically, let $\Pi=\{\pi_\omega\}$ be an arbitrarily predefined probability distribution over the full index set such that $\sum_{\omega\in[d_1\times \cdots \times d_K]}\pi_\omega=1$. We assume the entries $\omega$ in $\Omega$ are i.i.d.\ draws with replacement from the full index set using distribution $\Pi$. The sampling rule will be denoted as $\omega\sim \Pi$.
+Our observation is an incomplete data tensor from~\eqref{eq:model}, denoted $\tY_\Omega$, where $\Omega\subset[d_1]\times\cdots\times[d_K]$ is the index set of observed entries. We consider a general model on $\Omega$ that allows both uniform and non-uniform samplings. Specifically, let $\Pi=\{\pi_\omega\}$ be an arbitrarily predefined probability distribution over the full index set with $\sum_{\omega\in[d_1\times \cdots \times d_K]}\pi_\omega=1$. We assume the entries $\omega$ in $\Omega$ are i.i.d.\ draws with replacement from the full index set using distribution $\Pi$. The sampling rule will be denoted as $\omega\sim \Pi$.
 
 Our goal is to accurately estimate $\Theta$ from the incomplete, noisy observation $\tY_\Omega$. In particular, we focus on the following two problems:
 \begin{itemize}[leftmargin=*]
 \item Q1 [Nonparametric tensor estimation]. How to flexibly estimate $\Theta$ under a wide range of structures, including both low-rankness and high-rankness?
-\item Q2 [Tensor Completion]. How many observed tensor entries do we need to consistently estimate the signal $\Theta$?
+\item Q2 [Tensor completion]. How many observed tensor entries do we need to consistently estimate the signal $\Theta$?
 \end{itemize}
 
 
-\subsection{Inadequacies of common low-rank models}
+\subsection{Inadequacies of common low-rank models}\label{sec:example}
 The signal plus noise model~\eqref{eq:model} is common in tensor literature. Most existing methods perform estimation based on the low-rankness of $\Theta$~\cite{anandkumar2014tensor,montanari2018spectral,kadmon2018statistical,cai2019nonconvex}. While these methods have shown great success in low-rank recovery, little is explored when the underlying signal tensor is of high rank. Here we provide two examples to illustrate the limitation of classical low-rank models.
 
-The first example reveals the sensitivity of tensor rank to order-preserving transformations. Let $\tZ \in \mathbb{R}^{d\times d\times d}$ be an order-3 tensor with $\text{rank}(\tZ)=3$. Suppose a monotonic transformation $f(z)=(1+\exp(-cz))^{-1}$ is applied to $\tZ$ entrywise, and we observe data from model~\eqref{eq:model} with the signal tensor $\Theta=f(\tZ)$. Figure~\ref{fig:example}a plots the numerical rank of $\Theta$ versus $c$ when the tensor dimension $d=30$. As we can see, the rank increases rapidly with $c$, rending traditional low-rank tensor methods ineffective in the presence of order-preserving nonlinearities. In applications such as digital processing and genomics analysis, the tensor of interest often undergoes some unknown transformation prior to measurements. The sensitivity to transformation therefore makes the low-rank model less desirable in practice. 
+The first example reveals the sensitivity of tensor rank to order-preserving transformations. Let $\tZ \in \mathbb{R}^{30\times 30\times 30}$ be an order-3 tensor with $\text{rank}(\tZ)=3$. Suppose a monotonic transformation $f(z)=(1+\exp(-cz))^{-1}$ is applied to $\tZ$ entrywise, and we observe data from model~\eqref{eq:model} with the signal tensor $\Theta=f(\tZ)$. Figure~\ref{fig:example}(a) plots the numerical rank of $\Theta$ versus $c$. Note that a smaller $c$ implies an approximate linear transformation $f(z)\approx -cz$, whereas a larger $c$ implies a higher nonlinearity $z\mapsto \{0,1\}$. As we see, the rank increases rapidly with $c$, rending traditional low-rank tensor methods ineffective even in the presence of mild order-preserving nonlinearities. In applications of digital processing and genomics analysis, the tensor of interest often undergoes some unknown transformation prior to measurements. The sensitivity to transformation therefore makes the low-rank model less desirable in practice. 
 
-The second example shows that the classical low-rankness may exclude interesting tensor structures. Here we consider the signal tensor of the form $\Theta=\log(1+\tZ)$, where $\tZ$ is an order-3 tensor with entries $\tZ(i,j,k)={1\over d}\max(i,j,k)$ for $(i,j,k)\in[d]^3$. In this example neither $\Theta$ nor $\tZ$ is low rank; in fact, we are able to show that both tensor ranks are lower bounded by dimension $d$ (see proofs in Appendix and Figure~1b). The matrix analogy of this structured $\Theta$ was first studied in~\citet{chan2014consistent} in the context of graphon analysis. However, classical tensor models fail to incoporate these types of structures.  
-
-\begin{figure}
-\includegraphics[width=3.9cm]{example1.pdf}
-\includegraphics[width=4.2cm]{example2.pdf}
-\caption{(a) Numerical rank of $\Theta=f(\tZ)$ versus $c$ in Example 1. Here $\tZ$ is generated using a rank-3 tensor whose (unnormalized) eigenvectors consist of i.i.d.\ entries from $N(0,1)$. The numerical rank is computed as the minimal $R$ such that $\min_{\rank(\tA)\leq R}{ \FnormSize{}{\Theta-\tA}\over \FnormSize{}{\Theta}} \leq 0.1$. (b). Top $d=30$ numerical singular values of tensors $\Theta$ and $\tZ$ in Example 2. The reported values in both figures are obtained by running CP decomposition ten times using random initializations. }\label{fig:example}
+The second example shows that the classical low-rankness may exclude important specially-structured tensors. Here we consider the signal tensor of the form $\Theta=\log(1+\tZ)$, where $\tZ$ is an order-3 tensor with entries $\tZ(i,j,k)={1\over d}\max(i,j,k)$ for $(i,j,k)\in[d]^3$. In this case neither $\Theta$ nor $\tZ$ is low-rank; indeed, both tensors have rank lower bounded by dimension $d$ as illustrated in Figure~\ref{fig:example}(b) (proofs in Appendix). The matrix analogy of this $\Theta$ was studied in~\citet{chan2014consistent} in the context of graphon analysis. However, classical low-rank models fail to address these types of structures. 
+\begin{figure}[h]
+\includegraphics[width=.47\textwidth]{example_comb.pdf}
+\caption{(a) Numerical rank of $\Theta=f(\tZ)$ versus $c$ in Example 1. Here, the numerical rank is computed as the minimal rank for which the relative least-squares error is below 0.1, and $\tZ$ is a rank-3 tensor with i.i.d.\ $N(0,1)$ entries in the (unnormalized) singular vectors. Reported ranks are averaged across 10 replicates of $\tZ$, with standard errors given in error bars. (b) Top $d=30$ tensor singular values in Example 2. Numerical values in both figures are obtained by running CP decomposition with random initialization.}\label{fig:example}
 \end{figure}
-In the above and many other examples, the signal tensor of interest is structured but of high rank. %We argue that, this low-rankness is restricted, and not necessarily for accurate recovery. 
+In the above and many other examples, the signal tensors $\Theta$ exhibit high rank in spite of the special structures they admit. These structures are hardly detectable using classical low-rank models. New methods that allow flexible tensor modeling have yet to be developed. 
 
-
-%\begin{example}[Binary tensor]
-%For a binary tensor $\tY\in\{0,1\}^{d_1\times \cdots \times d_K}$, the entries in the noise $\tE=\tY-\mathbb{E}(\tY)$ are bounded by $1/4$. 
-%\end{example}
-
-%\subsection{Algebraic properties of low sign rank tensors}
 \subsection{Overview of our proposal}
-Before describing the main results, we outline the main crux of our idea. In the earlier two examples, the tensor $\Theta$ is of high rank. However, the runcated $(\Theta-\pi)$ has the same sign pattern as low-rank tensors. This observation suggests a  a more general framework that allows flexibly modeling..... Indeed as we see in Section~\ref{sec:method}, the model not only corporates common low-rank models such as CP/Tucker and single index model, but also allows substantial class of structured tensors. 
+Before describing our main results, we provide the intuition behind our method. In the earlier two examples, the high-rankness in the signal $\Theta$ makes the efficient estimation challenging. However, if we examine the sign of the $\pi$-shifted signal, $\sign(\Theta-\pi)$, for an arbitrary $\pi$ in the range of observations, then these sign tensors exhibit easily detectable low-rankness. For instance, the signal tensor in example 1 has the same sign pattern as a rank-$4$ tensor, since $\sign(\Theta-\pi)=\sign(\tZ-f^{-1}(\pi))$. The signal tensor in example 2 has the same sign pattern as a rank-2 block tensor~\cite{wang2019multiway}, since $\sign(\Theta-\pi)=\sign(\max(i,j,k)-d(1-e^{\pi}))$.
 
-Figure~\ref{fig:demo} illustrates the main approach of our method. We convert the data tensor into a tensor series $\bar \tY_\pi= (\tY-\pi)$ for $\pi\in \tH=\{-1,\ldots, {\scriptstyle -{1\over H}},0,{\scriptstyle {1\over H}},\ldots,1\}$ and perform classification to estimate the sign signal of each, 
+The above observation suggests a general framework to analyze both low- and high-rank signal tensors. Figure~\ref{fig:demo} illustrates the main crux of our method. We dichotomize the data tensor into a series of sign tensors, $\sign (\tY_\Omega-\pi)$, for $\pi\in \tH=\{-1,\ldots, {\scriptstyle -{1\over H}},0,{\scriptstyle {1\over H}},\ldots,1\}$, and then estimate the sign signals, $\sign(\Theta-\pi)$, by performing classification
 \[
-\hat \tZ_\pi=\argmin_{\text{$\tZ\in $ classifier model}} \risk(\tZ,\ \sign \bar \tY_\pi).
+\hat \tZ_\pi=\argmin_{\text{low rank tensor $\tZ$}} L(\sign(\tZ),\ \sign (\tY_\Omega-\pi)).
 \]
-Then, the nonparametric estimate takes the form of
+Here, $L(\cdot,\cdot)$ denotes a carefully-designed classification objective function which will be described in later sections. The final proposed tensor estimate is 
 \[
 \hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH} \sign(\hat \tZ_\pi).
 \]
-Here $\risk_\pi(\cdot,\cdot)$ is a weighted extension of usual classification risk, and the classifier models refer to a tensor model which will be described in next section. 
-
-The main approach is to estimate $\hat \Theta$ from the binary tensor series $\{\sign(\tY-\pi)\colon \pi \in \tH\}$. 1) exactly recover the signal tensor under a wide range of currently used tensor models; 2) brings the benefit of high-rank tensor estimation and completion; 3) leverage efficient classification algorithms. 
-We choose the classifier model that is broader that incorporates low rank tensor model, single index tensor model, and nonlinear tensor model, etc, in the literature. It may be counterintuitive that dichotomization may lose information in the data. It turns out the ensemble model based on dichotomizations not only preserves all information in the data, but also brings the nonparametric benefit of model-free and flexibility over classical parameter models.
+Our approach is built on the nonparametric sign representation of signal tensors, and the estimate $\hat \Theta$ is essentially estimated from dichotomized tensor series $\{\sign(\tY_\Omega-\pi)\colon \pi \in \tH\}$. Surprisingly, we show that proper analysis based on dichotomized data not only preserves all information in the original signals, but also brings benefits of accuracy and flexibility over classical low-rank models. The method enjoys both statistical effectiveness and computational efficiency. 
 
 
-\section{Sign representable tensors}
-In this section, we introduce the sign representable tensors and the properties of sign tensor series. 
+\section{Sign representable tensors}\label{sec:representation}
+In this section, we develop sign representable tensor models. The algebraic and statistical characterization of sign tensor series provides the accuracy guarantee for our method. 
 
-\subsection{Sign rank of tensors}
-Let $\Theta$ be a real-valued tensor, and $\sign (\Theta)$ be the induced sign tensor.  
-The sign pattern induces an equivalence relationship between tensors. Two tensors are called sign equivalent, denoted $\simeq$, if they share the same sign pattern. 
+\subsection{Sign-rank and sign tensor series}
+Let $\Theta$ be a real-valued tensor, and $\sign (\Theta)$ be the corresponding sign patten. The sign pattern induces an equivalence relationship between tensors. Two tensors are called sign equivalent, denoted $\simeq$, if they share the same sign patterns. 
 
-\begin{defn}[Sign rank]
-%We call a tensor has a low sign rank, if for every $\pi \in [-L, L]$, $\sign (\Theta - \pi ) = \sign (\tM)$, where $\tM$ is a tensor with Tucker rank bounded by $\mr$.
-The sign rank of a tensor $\Theta$ is the minimal rank among all tensors that share the same sign pattern as $\Theta$,
+\begin{defn}[Sign-rank]
+The sign-rank of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_L}$ is the minimal rank among all tensors that share the same sign patterns as $\Theta$; i.e.,
 \[
 \srank(\Theta) = \min \{\rank(\Theta')\colon  \Theta'\simeq \Theta,\ \Theta'\in\mathbb{R}^{d_1\times \cdots \times d_K}\}.
 \]
 \end{defn}
-The sign rank is also called \emph{support rank}~\cite{cohn2013fast}, \emph{minimal rank}, \emph{nondeterministic rank}~\cite{de2003nondeterministic}, in the filed of combinatorics and computational complexity. Some literature defines sign rank for binary tensors/matrices only; we extend the notion to real-valued tensors. Note that the sign rank concerns only the sign pattern of $\Theta$ but discards the magnitudes information. In particular, $\srank(\Theta)=\srank(\sign \Theta)$. 
-%\begin{proof} 
-%Consider a tensor $\Theta=\entry{\Theta_{ijk}}\in\{-1,1\}^{d\times d\times d}$ with entries $\Theta(i,j,k)=-1$ if $i=j$ and $\Theta(i,j,k)=1$ otherwise. Then the tensor has usual rank $d$, but its srank equals to 2. 
-%$\rank(\Theta)=\rank(\Theta(\cdot,\cdot,1))=d, \srank(\Theta)=\srank(\Theta(\cdot,\cdot,1))=2$.
-%\end{proof}
-%We use $\caliP(r)=\{\Theta \colon\srank(\Theta)\leq r, \maxnormSize{}{\Theta}\leq 1\}$ to denote the family of tensors with sign rank bounded by $r$. The sign pattern induces an equivalent class in the tensor family. Two tensors are called equivalent if they share the same sign pattern. We will use $\sign (\Theta)$ to denote the equivalent that share the $\{\tS\colon \sign (\tS)=\sign (\Theta)\}$. Note that $\tS$ itself may be even full rank, although it shares the same sign pattern as a low rank tensor $\sign (\Theta)$. 
+The sign-rank is also called \emph{support rank}~\cite{cohn2013fast}, \emph{minimal rank}~\cite{alon2016sign}, and \emph{nondeterministic rank}~\cite{de2003nondeterministic} in the filed of combinatorics and information theory. Earlier work defines sign-rank for binary tensors/matrices only; we extend the notion to real-valued tensors. Note that the sign-rank concerns only the sign pattern but discards the magnitudes information of $\Theta$. In particular, $\srank(\Theta)=\srank(\sign \Theta)$. 
 
-Determining the sign rank is NP hard, just as the determining tensor rank is NP hard. Fortunately, many tensors arising in practice have low sign rank. We show here the family of low rank sign tensors is strictly larger than usual low rank tensors. By definition, the sign rank is upper bounded by the usual rank. More generally, 
-\begin{cor}[Upper bounds of sign rank]~\label{cor:monotonic} For any monotonic function $g\colon \mathbb{R}\to \mathbb{R}$ with $g(0)=0$, 
+Like most tensor problems~\cite{hillar2013most}, determining the sign-rank for a general tensor is NP hard~\cite{alon2016sign}. Fortunately, tensors arisen in application often possess special structures that facilitate analysis. We show that the family of low sign-rank tensors is strictly broader than usual low-rank tensors. This is because sign-rank is upper bounded by the usual rank. More generally, 
+\begin{cor}[Upper bounds of sign-rank]~\label{cor:monotonic} For any monotonic function $g\colon \mathbb{R}\to \mathbb{R}$ with $g(0)=0$, 
 \[
 \textup{srank}(\Theta)\leq\rank(g(\Theta)).
 \]
 \end{cor}
-Conversely, we show that the sign rank can be dramatically smaller than tensor rank. 
-\begin{prop}[Strictness]\label{prop:extention}For every order $K$ and tensor dimension $d$, there exists a tensor whose usual rank is $d$ but the sign rank is 2. 
+Conversely, the sign-rank can be dramatically smaller than the usual rank, as we have shown in Section~\ref{sec:example}.
+\begin{prop}[Broadness]\label{prop:extention}For every order $K\geq 2$ and dimension $d$, there exist order-$K$ $(d,\ldots,d)$-dimensional tensors $\Theta$ such that $\rank(\Theta)=d$ and $\srank(\Theta)=2$.
 \end{prop}
-The Proposition~\ref{prop:extention} is shown by construction, and we provide the proof in Appendix. Corollary~\ref{cor:monotonic} and Proposition~\ref{prop:extention} demonstrates that low sign rank tensors constitute a strictly broader family than the usual low rank tensors. Some examples include identity tensors, banded tensor, ... etc. ...
+We provide several additional examples in Appendix where the tensor rank grows with dimension $d$ but the sign-rank remains a constant. The results highlight the advantages of using sign-rank in the high-dimensional tensor analysis. Corollary~\ref{cor:monotonic} and Proposition~\ref{prop:extention} together demonstrate the strict broadness of low sign-rank tensor family over the usual low-rank tensor family. 
 
-
-We now introduce the family of tensor model~\eqref{eq:model} of our interest, which we coin as ``sign representable tensors''.
-%Note that $\caliP$ concerns only the sign, but not the magnitude, information of entries in $\Theta$. 
-%and $\caliP(r)=\cap_{\pi\in[-1,1]} \caliP(r,\pi)$
+We are now ready to introduce a family of tensors, which we coin as ``sign representable tensors'', as the signal tensors in model~\eqref{eq:model}. 
+Without loss of generality, assume tensor entries are bounded by $L=1$. 
 \begin{defn}[Sign representable tensors] 
-Fix a level $\pi\in[-1,1]$. A tensor $\Theta$ is called $(r,\pi)$-sign representable, if the tensor $(\Theta-\pi)$ has sign rank bounded by $r$. %The tensor model~\eqref{eq:model} is called locally low sign rank at $\pi$ if the affine tensor $(\Theta-\pi)$ has low sign rank, i.e.,
-%\[
-%\Theta-\pi \in \caliP(r).
-%\]
-The binary tensor $\sign(\Theta-\pi)$ is called the $\pi$-level sign tensor.
-If a tensor $\Theta$ is $(r,\pi)$-sign representable for all $\pi\in[-1,1]$ except for a finite number of points, then we say that $\Theta$  is $r$-globally sign representable, denoted $\Theta \in \caliP(r)=\{\Theta\colon \srank(\Theta-\pi)\leq r \text{ for all }\pi\in[-1,1]\}$.
+Fix a level $\pi\in[-1,1]$. A tensor $\Theta$ is called $(r,\pi)$-sign representable, if the tensor $(\Theta-\pi)$ has sign-rank bounded by $r$. A tensor $\Theta$ is called $r$-globally sign representable, if $\Theta$ is $(r,\pi)$-sign representable for all $\pi\in[-1,1]$. The collection $\{\sign(\Theta-\pi)\colon \pi \in[-1,1]\}$ is called the sign tensor series. 
+We use $\caliP(r)=\{\Theta\colon \srank(\Theta-\pi)\leq r \text{ for all }\pi\in[-1,1]\}$ to denote the $r$-globally sign representable tensor family.
 \end{defn}
-%\begin{assumption}[Structural assumption] Assume $\Theta$ in model~\ref{eq:model} belongs to $\caliP(r)$.  
-%\end{assumption}
+We show that the $r$-globally sign representable tensor family is a general model that incorporates most existing tensor models, including low-rank tensors, single index models, GLM models, and certain hypergraphon models. 
 
- We show that the $r$-globally sign representable tensor is very broad family that incorporates many usual common tensor models, such as single index model, GLM models, and certain hypergraphon models. 
-
-{\color{red}emphasize the original tensor may be high rank....Give a toy example.}
-
-\begin{example}[CP/Tucker low-rank tensor model] Let $\Theta$ be a tensor with CP rank bounded by $r$. Then the usual signal + noise model is a special cases of low sign rank tensor assemble model. 
+\begin{example}[CP/Tucker low-rank models] The CP and Tucker low-rank models are the two most popular tensor models~\cite{anandkumar2014tensor,montanari2018spectral,kadmon2018statistical,cai2019nonconvex}. Let $\Theta$ be a low-rank tensor with CP rank $r$. Then $\Theta$ belongs to the $r$-sign representable family, i.e., $\Theta\in\caliP(r)$. Similarly, Tucker low-rank tensors $\Theta\in\caliP(r)$, where $r=\prod_kr_k$ with $r_k$ being the $k$-th mode Tucker rank of $\Theta$.  
 \end{example} 
 
-\begin{example}[Generalized linear model (GLM) for tensors] Let $\tY$ be a binary tensor. Then the GLM low rank model is a special case of low sign rank tensor assemble model. 
+\begin{example}[Generalized linear models (GLMs)] Let $\tY$ be a binary tensor from a tensor logistic model~\cite{wang2018learning} with mean $\Theta=\mathbb{E}(\tY)=\text{logit}(\tZ)$, where $\tZ$ is a latent low-rank tensor. Then, $\Theta$ is a special (parametric) case of sign representable tensors. Same conclusion holds for general exponential-family tensors with (known) distribution-specific link functions~\cite{hong2020generalized}.
 \end{example}
 
-\begin{example}[Single index model]
-Suppose there exists a (unknown) monotonic function $g\colon \mathbb{R}\to \mathbb{R}$ such that $g(\Theta)$ has rank bounded by $r$. Then, $\Theta$ belongs to the a low sign rank assemble tensor; i.e.,  $\Theta\in \caliP(r+1)$.
+\begin{example}[Single index models (SIMs)] Single index model is a flexible semiparametric model initially proposed in economics~\cite{robinson1988root} and has recently been popular in high-dimensional statistics~\cite{balabdaoui2019least,ganti2017learning,alquier2013sparse}. We here extend the model to high-dimensional tensors $\Theta$. The SIM assumes the existence of a (unknown) monotonic function $g\colon \mathbb{R}\to \mathbb{R}$ such that $g(\Theta)$ has rank $r$. We see that $\Theta$ belongs to the sign representable family; i.e., $\Theta\in \caliP(r+1)$. 
 \end{example}
 
-\begin{example}[Tensor block model]
-Finite possible $\pi$. Suppose $\Theta$ has at most $r$ multiway blocks. Then $\Theta \in \caliP(r)$. 
+\begin{example}[Tensor block models (TBMs)] Tensor block model~\cite{wang2019multiway,chi2020provable} assumes a checkerbord structure among tensor entries under marginal index permutation. The signal tensor $\Theta$ takes at most $r$ distinct values, where $r$ is the total number of multiway blocks. Our model incorporates TBM because $\Theta \in \caliP(r)$. 
 \end{example}
 
-\begin{example}[Min/Max hypergraphon]
-Suppose the matrix $\Theta=\entry{\Theta(i,j,k)}$ are generated from the graphon model,
-\[
-\Theta(i,j,k)=\exp(1+0.5\max(x_i,y_j,z_k)), 
-\]
-where $x_i, y_i,z_k \sim \text{Uniform}[0,1]$ i.i.d.\ for all $(i,j,k)\in[d_1]\times[d_2]\times[d_3]$. Then the affine matrix $(\Theta-\pi)$ has sign rank bounded by 2; i.e., $\Theta \in \caliP(2)$ for every tensor dimension. In contrast, the regular matrix rank of $\Theta$ has full rank almost surely for every matrix dimension $d$. This example highlights the benefit of our assemble model. 
+\begin{example}[Min/Max hypergraphon] Graphon is a popular nonparametric model for networks~\cite{chan2014consistent,xu2018rates}, and we have extended the model for tensors in Section~\ref{sec:example}. Here we revisit the model for generality. Let $\Theta$ be an order-$K$ tensor generated from the hypergraphon $\Theta(i_1,\ldots,i_K)=\log(1+\max_kx^{(k)}_{i_k})$, where $x^{(k)}_{i_k}\sim \text{Unif}[0,1]$ i.i.d.\ for all $i_k\in[d_k]$ and $k\in[K]$. Every sign tensor $\sign(\Theta-\pi)$ in the series of $\pi\in[0,\ \log 2]$ is a block tensor with at most two blocks, so $\Theta \in \caliP(2)$. 
 
-%More generally, for functions $\Theta_{ijk}=g(x_i,y_j,z_k)$ that is monotonic in each variable, the affine matrix $(\Theta-\pi)$ has low sign rank. Equivalently, there exists permission such that $\Theta_{ijk}\geq \max(\Theta_{ij'k'},\Theta_{i'jk'},\Theta_{i'j'k})$ for all $i',j',k'$. 
-More generally, if $\Theta(i,j,k)=g(\max(x_i,y_i,z_i))$ where $g(\cdot)$ is a continuous function with at most $r$ real roots in the equation $g(z)=\pi$ (for example, this holds for all $\pi\in[-1,1]$ when $g$ is an $r$th polynomial.) Then $\Theta \in \caliP(r+1)$. Same properties hold if the maximum is replaced by minimum. 
+More generally, let $g(\cdot)$ be a continuous univariate function with at most $r$ real-valued roots in the equation $g(z)=\pi$; this property holds, e.g., when $g(z)$ is a polynomial of degree $r$. Then, the tensor $\Theta$ generated from $\Theta(i_1,\ldots,i_K)=g(\max_kx^{(k)}_{i_k})$ belongs to $\caliP(r+1)$. Same conclusion applies if the maximum is replaced by minimum.
 \end{example}
 
-%\begin{prop} Suppose $\Theta$ is tensor with $\mnormSize{}{\Theta}\leq1$, and $\Pi$ is a sequence of $(2H+1)$ evenly spaced points in $[-1,1]$. Then
-%\[
-%\textup{Loss}(\Theta,\ {1\over 2H+1}\sum_{\pi \in\Pi} \sign(\Theta-\pi)) \leq {1\over H}.
-%\]
-%\end{prop}
+\subsection{Statistical characterization of sign tensors via weighted classification}
 
-\subsection{Characterization of sign tensors via weighted classification}
-
-Accurate estimation of sign representable tensors crucially depends on the behavior of sign tensors, $\sign(\Theta-\pi)$. In this section, we show that weighted classification completely characterizes the sign tensors. The results bridge the algebraic and statistical properties of sign representable tensors, and provide a building block for our nonparametric algorithm (see Figure~\ref{fig:demo}).
+Accurate estimation of a sign representable tensor crucially depends on the behavior of sign tensor series $\sign(\Theta-\pi)$. In this section, we show that weighted classification completely characterizes the sign tensors. The results bridge the algebraic and statistical properties of sign representable tensors, thereby providing the theoretical guarantee for our nonparametric algorithm (Figure~\ref{fig:demo}).
  
- For a given $\pi \in [-1,1]$, define a new data tensor $\bar \tY = (\tY-\pi)$. We introduce a weighted classification loss function
-\[
-L(\tZ, \bar \tY)= \sum_{\omega \in \Omega}\KeepStyleUnderBrace{|\bar \tY(\omega)|}_{\text{entry-specific weight}} \times \KeepStyleUnderBrace{| \sign \tZ(\omega)-\sign \bar \tY(\omega|)}_{\text{classification loss}},
-\]
-where $\tZ\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is the decision variable to be estimated. In the case of binary tensor, taking $\pi=1/2$ gives unweighted usual classification risk.
+ For a given $\pi \in [-1,1]$, define a $\pi$-shifted data tensor $\bar \tY = (\tY-\pi)$. We introduce a weighted classification objective function
+\begin{equation}
+L(\tZ, \bar \tY)= {1\over |\Omega|}\sum_{\omega \in \Omega}\KeepStyleUnderBrace{|\bar \tY(\omega)|}_{\text{entry-specific weight}} \times \KeepStyleUnderBrace{| \sign \tZ(\omega)-\sign \bar \tY(\omega)|}_{\text{classification loss}},
+\end{equation}
+where $\tZ\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is the decision variable to be optimized, $|\bar \tY(\omega)|$ is the entry-specific weight equal to the distance from the tensor entry to the target level $\pi$. In the special case when the data tensor entries are binary in $\{-1,1\}$ and the target level $\pi=0$, the objective reduces to the usual unweighted classification loss.
 
-
-Denote the weighted classification risk 
+The specification of entry-specific weight is important in characterizing $\sign(\Theta-\pi)$, as we show now. Define the weighted classification risk 
 \begin{equation}\label{eq:population}
 \textup{Risk}(\tZ)=\mathbb{E}_{\tY,\Omega}L(\tZ,\bar\tY),
 \end{equation}
-where the expectation is taken with respect to both $\tY$ under the sign assemble model, and $\Omega$ under the sampling distribution. The form of $\textup{Risk}(\cdot)$ implicitly depends on $\pi$. 
-\begin{prop}[Global optimum of weighted risk] Suppose the data $\tY$ is generated from model~\ref{eq:model} with $\Theta \in \caliP(r)$. Then, for all $\bar \Theta$ that are sign equivalent to $\sign(\Theta-\pi)$, 
+where the expectation is taken with respect to both $\tY$ under model~\eqref{eq:model} and $\Omega$ under the sampling distribution $\omega\sim\Pi$. Note that the form of $\textup{Risk}(\cdot)$ implicitly depends on $\pi$; we suppress $\pi$ when no confusion arises. 
+\begin{prop}[Global optimum of weighted risk]\label{prop:global}
+Suppose the data $\tY_\Omega$ is generated from model~\eqref{eq:model} with $\Theta \in \caliP(r)$. Then, for all $\bar \Theta$ that are sign equivalent to $\sign(\Theta-\pi)$, 
 \begin{align}
-\textup{Risk}(\bar \Theta )&=\min\{\textup{Risk}(\tZ)\colon \tZ\in\mathbb{R}^{d_1\times \cdots \times d_K}\},\\
-&=\min\{\textup{Risk}(\tZ)\colon \textup{rank} \tZ\leq r\}.
+\textup{Risk}(\bar \Theta )&=\inf\{\textup{Risk}(\tZ)\colon \tZ\in\mathbb{R}^{d_1\times \cdots \times d_K}\},\\
+&=\inf\{\textup{Risk}(\tZ)\colon \textup{rank} \tZ\leq r\}.
 \end{align}
 \end{prop}
-The support sign tensor $\sign(\Theta-\pi)$ serves the bridge between the target parameter $\Theta$ and statistical properties of $\textup{Risk}(\cdot)$. 
-{\color{red} Highlight the importance of weight!}
+The results show that the sign tensor $\sign(\Theta-\pi)$ is (one of) the optimizer for the weighted classification risk. The weight allows .... 
 
-The above property shows that the $\sign(\Theta-\pi)$ is one of the optimum of $\risk(\cdot)$. However, the converse may not true. We establish the uniqueness; that is, is the tensor $\sign(\Theta-\pi)$ the unique (up to sign equivalence) optimizer of $\risk(\cdot)$? The following assumption quantifies the identifiability of $\bar \Theta$ from $\risk(\cdot)$. 
+
+This fact suggests $\sign(\Theta-\pi)$ by optimizing $L(\tZ,\bar \tY)$. 
+
+%The sign tensor $\sign(\Theta-\pi)$ serves the bridge between the target parameter $\Theta$ and statistical properties of $\textup{Risk}(\cdot)$. 
+%The above property shows that the $\sign(\Theta-\pi)$ is one of the optimum of $\risk(\cdot)$. 
+In general, the converse may not true. To establish the accuracy, we also need to establish the uniqueness; that is, is the tensor $\sign(\Theta-\pi)$ the unique (up to sign equivalence) optimizer of $\risk(\cdot)$? The following assumption quantifies the identifiability of $\bar \Theta$ from $\risk(\cdot)$. 
 
 
 %Suppose the entries in the index set $\Omega$ are i.i.d.\ sampled with replacement from the entire index set using a probability $\Pi$ over $[d_1]\times\cdots\times[d_K]$. We use $\omega\sim \Pi$ for $\omega\in[d_1]\times\cdots\times[d_K]$ to denote this observation model. 
@@ -357,9 +326,12 @@ where $C(\pi)>0$ is a constant.
 \end{thm}
 The result immediately suggests uniqueness of the optimizer of $\text{Risk}(\cdot)$ up to a zero-measure set under $\Pi$. Furthermore, it establish the stability of recovering $\sign \Theta$ from the optimization~\eqref{eq:population}.  
 %Second, the empirical optimizers is still non-unique, because any tensor $\hat \tZ'$ that share the same sign pattern as $\hat \tZ$ are the solution. To make the optimization well posed, we propose the following minimal-norm optimization
+
+
+
 \section{Nonparametric tensor completion via sign series}
 
-Now, we are ready to state the assemble algorithm. We use the sample formulation ... , and propose the estimate
+Now, we summarize the completion algorithm and accuracy guarantees. We use the sample formulation ... , and propose the estimate
 \begin{equation}\label{eq:estimate}
 \hat \tZ_\pi = \argmin_{\tZ\colon \text{rank}(\tZ)\leq r, \ \FnormSize{}{\tZ}\leq 1} L(\tZ,\bar \tY_\pi),
 \end{equation}
@@ -441,7 +413,7 @@ $\tO(1/3)$???
 %when $\alpha=1$. 
 %\end{thm}
 
-\section{Algorithm}
+%\section{Algorithm}
 The optimization~\eqref{eq:estimate} is a non-convex problem because of the nonconvexity in $L$ and the rank constraints. We present an efficient ADMM algorithm with a good empirical performance. 
 
 \begin{align}
@@ -461,6 +433,54 @@ Two changes: 1. make convex relaxation; 2. alternatively... Gradually increasing
 \begingroup
 \let\clearpage\relax 
 \onecolumn 
+%\begin{prop}
+%Let $\Theta=\sum_{r=1}^d\me_r^{\otimes 3}$ be the identity tensor, where $\me_r=(0,\ldots,0,1,0,\ldots,0)^T$ is the $r$-th canonical basis in $\mathbb{R}^d$. Then $\rank(\Theta)=d$ and $\srank(\Theta)=2$. 
+%\end{prop}
+\begin{proof}[Proof of Proposition~\ref{prop:extention}]
+We define $\Theta=\sum_{r=1}^d \me^{\otimes 2}_r\otimes \mathbf{1}^{\otimes (K-2)}_d$, where $\me_r=(0,\ldots,0,1,0,\ldots,0)^T$ is the $r$-th canonical basis in $\mathbb{R}^d$, and $\mathbf{1}_d\in\mathbb{R}^d$ is a vector with all entries 1. Based on the definition of $\Theta$, we have
+\[
+\rank(\Theta)=\rank(\mI),\quad \srank(\Theta)=\srank(\mI),
+\]
+where $\mI\in\mathbb{R}^{d\times d}$ is the identity matrix. Therefore, it suffices to show that $\srank(\mI)=3$. We now construct a rank-2 matrix $\mA$ such that $\sign(\mA-1/2)=\sign(\mI)$. Define
+\[
+\mA=\begin{bmatrix}
+1 & -{1\over 2}\times 1\\
+2^{-1}& -{1\over 2}\times 4^{-1}\\
+\vdots&\vdots\\
+2^{-d+1}& -{1\over 2}\times 4^{-d+1}
+\end{bmatrix}
+\begin{bmatrix}
+1&2&\cdots&2^{d-1}\\
+1&4&\cdots& 4^{d-1}
+\end{bmatrix}.
+\]
+It is easy to verify that $\mA(i,j)={1\over 2}$ if $i=j$, and $\mA(i,j)<{1\over 2}$ otherwise. Therefore, $\sign(\mA-1/2)=\mI$. 
+\end{proof}
+\begin{proof}[Proof of Proposition~\ref{prop:global}]
+Based on the definition, the function $\risk(\cdot)$ relies only on the sign pattern of the tensor. Therefore, without loss of generality, we assume both tensors $\bar \Theta, \tZ \in\{-1,1\}^{d_1\times \cdots \times d_K}$ are binary tensors. 
+We evaluate the excess risk 
+\begin{equation}\label{eq:risk}
+\risk(\tZ)- \risk(\bar \Theta) = \mathbb{E}_{\omega\sim \Pi}\KeepStyleUnderBrace{\mathbb{E}_{\tY(\omega)}\left\{|\tY(\omega)-\pi|\left[\left|\tZ(\omega)-\sign(\bar \tY(\omega)) \right|-\left|\bar\Theta(\omega)-\sign(\bar \tY(\omega))\right|\right]\right\}}_{=:I(\omega)}.
+\end{equation}
+Denote $y=\tY(\omega)$, $z=\tZ(\omega)$, $\bar \theta=\bar\Theta(\omega)$, and $\theta=\Theta(\omega)$. It follows from the expression of $I(\omega)$ that
+\begin{align}\label{eq:I}
+I(\omega)&= \mathbb{E}_{y}\left[ (y-\pi)(\bar \theta-z)\mathds{1}(y\geq \pi)+(\pi-y)(z-\bar \theta)\mathds{1}(y< \pi)\right]\\
+&= \mathbb{E}_{y}\left[(\bar \theta-z) (y-\pi)\right]\\
+&=  \left[\sign(\theta-\pi)-z\right]\left(\theta-\pi\right)\\
+&= |\sign(\theta-\pi)-z||\theta-\pi|\geq 0
+\end{align}
+where the third line uses the fact $\mathbb{E}y=\theta$ and $\bar \theta=\sign(\theta-\pi)$, and the last line uses the assumption $z \in\{-1,1\}$. In particular, the equality is attained when $z=\sign(\theta-\pi)$ or $\theta=\pi$. Combining~\eqref{eq:I} with~\eqref{eq:risk}, we conclude 
+\[
+\risk(\tZ)- \risk(\bar \Theta) = \mathbb{E}_{\omega\sim \Pi} |\sign(\Theta(\omega)-\pi)-\tZ(\omega)||\Theta(\omega)-\pi|\geq 0,
+\]
+for all $\tZ\in\{-1,1\}^{d_1\times \cdots \times d_K}$. Therefore,
+\[
+\risk(\bar \Theta)=\min\{\risk(\tZ)\colon \tZ\in \mathbb{R}^{d_1\times \cdots \times d_K}\} \leq \min\{\risk(\tZ)\colon \rank(\tZ)\leq r\}.
+\]
+Because $\srank(\bar \Theta)\leq r$ by assumption, the last inequality becomes equality. The proof is complete. 
+\end{proof}
+
+
 \begin{proof}
 We verify two conditions. 
 \begin{enumerate}
@@ -509,9 +529,8 @@ Therefore
 \[
 \tH_{[\ ]}(2\varepsilon, \tF, \vnormSize{}{\cdot})\leq \tH(\varepsilon, \tF, \FnormSize{}{\cdot}) \leq C{(1+Kdr)\log {d\over \varepsilon}},
 \]
-where the covering number for low rank tensor is based on~\citep{mu2014square,9119759}.
+where the covering number for low rank tensor is based on~\citet{mu2014square,9119759}.
 \end{lem}
-
 \endgroup
 
 
