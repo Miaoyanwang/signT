@@ -1,7 +1,7 @@
 source("signT.R")
 ## test
 set.seed(1)
-d=50
+d=10
 a=randortho(d)[,1]
 b=randortho(d)[,1]
 c=randortho(d)[,1]
@@ -10,7 +10,7 @@ c=randortho(d)[,1]
 a=seq(from=0,to=1,length=d)
 b=seq(from=0,to=1,length=d)
 #c=seq(from=0,to=1,length=d)
-signal=graphon_to_tensor(a,b,0,type=10)
+signal=graphon_to_tensor(a,b,c,type=10)
 signal=signal[,,1]
 #plot(svd(signal)$d)
 #signal=sigmoid(a%o%b,a=1)
