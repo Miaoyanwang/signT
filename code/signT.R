@@ -5,15 +5,24 @@ library(Matrix)
 min.thresh=10^(-3)
 max.thresh=10^10
 
-
+binaryloss=function(Ybar,W,Yfit){
+    return(mean(W*abs(Ybar-sign(Yfit))))
+}
 
 #################### main function for nonparametric tensor completion  ####################
-SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3)){
+SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3),option){
+
     B_fitted=result=list();
     pi_seq=seq(from=Lmin,to=Lmax,length=2*H+1)
     for(h in 2:(2*H)){
         pi=pi_seq[h]
-        res=ADMM(sign(Y-pi),abs(Y-pi),r = truer,rho=rho,lambda=lambda)
+        if(option==1){
+            res=ADMM(sign(Y-pi),abs(Y-pi),r=truer,rho=rho,lambda=lambda)}
+        else if(option==2){
+            res=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="logistic") ## recommend
+        }else if(option==3){
+            res=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="hinge") ## recommend
+        }
         result[[h]]=res
         B_fitted[[h]]=res$fitted
     }
@@ -21,8 +30,94 @@ SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3)){
     res=list();
     res$result=result;
     res$fitted=B_fitted
-    res$est=1/2*(apply(sign(B_fitted),1:length(dim(Y)),mean)+1+2/H)*(Lmax-Lmin)+Lmin
+    res$est=1/2*(apply(sign(B_fitted),1:length(dim(Y)),mean)+1+1/(2*H))*(Lmax-Lmin)+Lmin
     return(res)
+}
+### Alternating optimization for classification
+Alt=function(Ybar,W,r,type=c("logistic","hinge")){
+    result=list()
+    d=dim(Ybar)
+    ini=cp(as.tensor(fit_continuous(Ybar,r)),r);
+    A1 = ini$U[[1]];
+    A2 = ini$U[[2]];
+    A3 = ini$U[[3]]%*%diag(ini$lambda);
+    
+    #A1 = randortho(d[1])[,1:r];
+    #A2 = randortho(d[2])[,1:r];
+    #A3 = randortho(d[3])[,1:r];
+    obj=cost(A1,A2,A3,Ybar,W,type);
+    binary_obj=binaryloss(Ybar,W,tensorize(A1,A2,A3))
+    
+    error=1;iter=1;
+ 
+ while((error>0.1)|(iter<10)){
+     
+     
+optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
+
+#l=lapply(1:nrow(A3),function(i){optim(c(A3[1,]),function(x)cost(A1,A2,matrix(x,ncol=r),array(Ybar[,,1],dim=c(d[1],d[2],1)),array(W[,,1],dim=c(d[1],d[2],1)),type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,array(Ybar[,,1],dim=c(d[1],d[2],1)),array(W[,,1],dim=c(d[1],d[2],1)),type),method="BFGS")$par})
+#temp=matrix(unlist(l),nrow=nrow(A3),byrow=T)
+
+        A3=matrix(optimization$par,ncol=r)
+        optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A2,2,Ybar,W,type),method="BFGS")
+        A2=matrix(optimization$par,ncol=r)
+        
+        optimization=optim(c(A1),function(x)cost(matrix(x,ncol=r),A2,A3,Ybar,W,type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,Ybar,W,type),method="BFGS")
+        A1=matrix(optimization$par,ncol=r)
+        
+        norm_list=normalize_tensor(A1,A2,A3)
+        A1=norm_list[[1]]
+        A2=norm_list[[2]]
+        A3=norm_list[[3]]
+        obj=c(obj,cost(A1,A2,A3,Ybar,W,type))
+        binary_obj=c(binary_obj,binaryloss(Ybar,W,tensorize(A1,A2,A3)))
+        iter=iter+1
+error=(obj[iter-1]-obj[iter])
+ }
+ result$binary_obj=binary_obj;
+ result$obj=obj;
+ result$iter=iter;
+ result$error=error;
+ result$fitted=tensorize(A1,A2,A3); ## exact low-rank
+ return(result)
+}
+
+gradient=function(A1,A2,A3,mode,Ybar,W,type=c("logistic","hinge")){
+    d=dim(Ybar)
+    margin=Ybar*tensorize(A1,A2,A3)
+    R=dim(A3)[2]
+    
+    if(type=="logistic"){
+        tem=-W*Ybar*exp(-margin)/(1+exp(-margin))
+    }else if(type=="hinge"){
+        tem=-W*Ybar*(margin<1)
+    }
+    
+    if(mode==3){
+    
+    Grad=matrix(0,nrow=d[3],ncol=R)
+    for(r in 1:R){
+        Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A2[,r]))),ms=c(1,2))@data
+    }}else if(mode==2){
+    Grad=matrix(0,nrow=d[2],ncol=R)
+    for(r in 1:R){
+   Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A3[,r]))),ms=c(1,3))@data
+    }}else if(mode==1){
+    Grad=matrix(0,nrow=d[1],ncol=R)
+    for(r in 1:R){
+Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A2[,r])),as.matrix(t(A3[,r]))),ms=c(2,3))@data
+            }}
+     return(Grad)
+}
+
+cost=function(A1,A2,A3,Ybar,W,type=c("logistic","hinge")){
+    
+    return(sum(W*loss(tensorize(A1,A2,A3)*Ybar,type)))
+}
+
+loss=function(y,type=c("logistic","hinge")){
+    if(type=="hinge") return(ifelse(1-y>0,1-y,0))
+    if(type=="logistic") return(log(1+exp(-y)))
 }
 
 ### ADMM for classification
@@ -123,6 +218,23 @@ likelihood = function(data,theta){
 }
 
 ################################### normalize each column of X to be unit-1 ###################################
+normalize_tensor=function(A,B,C){
+    scale_A=apply(A,2,function(x) sqrt(sum(x^2)))
+    scale_B=apply(B,2,function(x) sqrt(sum(x^2)))
+    scale_C=apply(C,2,function(x) sqrt(sum(x^2)))
+    scale=scale_A*scale_B*scale_C
+    
+    
+    ind=sort(scale,decreasing=T,index=T)$ix
+    A=normalize(A)[,ind]
+    B=normalize(B)[,ind]
+    C=normalize(C)[,ind]%*%diag(scale[ind])
+    parameter=tensorize(A,B,C)
+    Fnorm=sqrt(sum(parameter^2))
+    return(list(A,B,C,Fnorm))
+}
+
+################################### normalize each column of X to be unit-one. ###################################
 normalize=function(X){
     d=dim(X)[2]
     for(i in 1:d){
