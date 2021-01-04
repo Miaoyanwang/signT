@@ -12,7 +12,7 @@ binaryloss=function(Ybar,W,Yfit){
 #################### main function for nonparametric tensor completion  ####################
 SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3),option){
 
-    B_fitted=result=list();
+    B_fitted=result=list()
     pi_seq=seq(from=Lmin,to=Lmax,length=2*H+1)
     for(h in 2:(2*H)){
         pi=pi_seq[h]
@@ -50,29 +50,31 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge")){
     
     error=1;iter=1;
  
- while((error>0.1)|(iter<10)){
+ while((error>0.01)&(binary_obj[iter]<0.01)&(iter<20)){
      
-     
-optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
+ 
+ #tic()
+ #optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
+ #A3=matrix(optimization$par,ncol=r)
+ #optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A2,2,Ybar,W,type),method="BFGS")
+ #A2=matrix(optimization$par,ncol=r)
+ #optimization=optim(c(A1),function(x)cost(matrix(x,ncol=r),A2,A3,Ybar,W,type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,Ybar,W,type),method="BFGS")
+ #A1=matrix(optimization$par,ncol=r)
+ #toc()
 
-#l=lapply(1:nrow(A3),function(i){optim(c(A3[1,]),function(x)cost(A1,A2,matrix(x,ncol=r),array(Ybar[,,1],dim=c(d[1],d[2],1)),array(W[,,1],dim=c(d[1],d[2],1)),type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,array(Ybar[,,1],dim=c(d[1],d[2],1)),array(W[,,1],dim=c(d[1],d[2],1)),type),method="BFGS")$par})
-#temp=matrix(unlist(l),nrow=nrow(A3),byrow=T)
-
-        A3=matrix(optimization$par,ncol=r)
-        optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A2,2,Ybar,W,type),method="BFGS")
-        A2=matrix(optimization$par,ncol=r)
-        
-        optimization=optim(c(A1),function(x)cost(matrix(x,ncol=r),A2,A3,Ybar,W,type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,Ybar,W,type),method="BFGS")
-        A1=matrix(optimization$par,ncol=r)
-        
-        norm_list=normalize_tensor(A1,A2,A3)
-        A1=norm_list[[1]]
-        A2=norm_list[[2]]
-        A3=norm_list[[3]]
+tic()
+l=lapply(1:nrow(A3),function(i){optim(c(A3[i,]),function(x)cost(A1,A2,matrix(x,ncol=r),array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),method="BFGS")$par}) ## perhaps faster than the other approach?
+A3=matrix(unlist(l),nrow=nrow(A3),byrow=T)
+l=lapply(1:nrow(A2),function(i){optim(c(A2[i,]),function(x)cost(A1,matrix(x,ncol=r),A3,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),method="BFGS")$par}) ## perhaps faster than the other approach?
+A2=matrix(unlist(l),nrow=nrow(A2),byrow=T)
+l=lapply(1:nrow(A1),function(i){optim(c(A1[i,]),function(x)cost(matrix(x,ncol=r),A2,A3,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),method="BFGS")$par}) ### perhaps faster than the other approach?
+A1=matrix(unlist(l),nrow=nrow(A1),byrow=T)
+toc()
         obj=c(obj,cost(A1,A2,A3,Ybar,W,type))
         binary_obj=c(binary_obj,binaryloss(Ybar,W,tensorize(A1,A2,A3)))
         iter=iter+1
 error=(obj[iter-1]-obj[iter])
+
  }
  result$binary_obj=binary_obj;
  result$obj=obj;
@@ -94,16 +96,15 @@ gradient=function(A1,A2,A3,mode,Ybar,W,type=c("logistic","hinge")){
     }
     
     if(mode==3){
-    
-    Grad=matrix(0,nrow=d[3],ncol=R)
+    Grad=matrix(0,nrow=dim(A3)[1],ncol=R)
     for(r in 1:R){
-        Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A2[,r]))),ms=c(1,2))@data
+Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A2[,r]))),ms=c(1,2))@data
     }}else if(mode==2){
-    Grad=matrix(0,nrow=d[2],ncol=R)
+    Grad=matrix(0,nrow=dim(A2)[1],ncol=R)
     for(r in 1:R){
-   Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A3[,r]))),ms=c(1,3))@data
+Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A3[,r]))),ms=c(1,3))@data
     }}else if(mode==1){
-    Grad=matrix(0,nrow=d[1],ncol=R)
+    Grad=matrix(0,nrow=dim(A1)[1],ncol=R)
     for(r in 1:R){
 Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A2[,r])),as.matrix(t(A3[,r]))),ms=c(2,3))@data
             }}
@@ -111,10 +112,8 @@ Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A2[,r])),as.matrix(t(A3[,r]))),ms=c
 }
 
 cost=function(A1,A2,A3,Ybar,W,type=c("logistic","hinge")){
-    
     return(sum(W*loss(tensorize(A1,A2,A3)*Ybar,type)))
 }
-
 loss=function(y,type=c("logistic","hinge")){
     if(type=="hinge") return(ifelse(1-y>0,1-y,0))
     if(type=="logistic") return(log(1+exp(-y)))
@@ -304,7 +303,7 @@ fit_continuous=function(data,r){
 }
 }
 
-#################### Our method ####################
+#################### simulation model ####################
 graphon_to_tensor=function(a,b,c,type){
     d1=length(a);d2=length(b);d3=length(c)
     M=array(0,dim=c(d1,d2,d3))

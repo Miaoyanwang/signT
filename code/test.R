@@ -1,7 +1,7 @@
 source("signT.R")
 ## test
 set.seed(1)
-d=40
+d=20
 a=randortho(d)[,1]
 b=randortho(d)[,1]
 c=randortho(d)[,1]
@@ -9,7 +9,7 @@ c=randortho(d)[,1]
 ##### simulate graphon models
 a=seq(from=0,to=1,length=d)
 b=seq(from=0,to=1,length=d)
-#c=seq(from=0,to=1,length=d)
+c=seq(from=0,to=1,length=d)
 signal=graphon_to_tensor(a,b,c,type=10)
 #signal=signal[,,1]
 #plot(svd(signal)$d)
@@ -24,8 +24,8 @@ Lmin=min(Y,na.rm=T)
 Lmax=max(Y,na.rm=T)
 
 set.seed(1)
-res=SignT(Y,truer,Lmin=min(signal),Lmax=max(signal),H=5,option=2)
-## recommend option = 2 or 3. 
+res=SignT(Y,truer,Lmin=min(signal),Lmax=max(signal),H=5,option=3)
+## recommend option = 2 or 3.
 plot(res$est,signal)
 abline(0,1)
 plot(res$est[missing==0],signal[missing==0])
@@ -34,7 +34,7 @@ mean(abs(res$est[missing==0]-signal[missing==0])^2)
 abline(0,1)
 
 
-### matrix
+### continuous
 est2=fit_continuous(Y,truer)
 plot(est2,signal)
 plot(est2[missing==0],signal[missing==0])
