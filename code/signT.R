@@ -44,15 +44,15 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge")){
     diag(scale)=ini$lambda
     A3 = ini$U[[3]]%*%scale;
     
-    #A1 = randortho(d[1])[,1:r];
-    #A2 = randortho(d[2])[,1:r];
-    #A3 = randortho(d[3])[,1:r];
+    #A1 = cbind(randortho(d[1])[,1:r]);
+    #A2 = cbind(randortho(d[2])[,1:r]);
+    #A3 = cbind(randortho(d[3])[,1:r]);
     obj=cost(A1,A2,A3,Ybar,W,type);
     binary_obj=binaryloss(Ybar,W,tensorize(A1,A2,A3))
     
     error=1;iter=1;
  
- while((error>0.01)&(binary_obj[iter]<0.01)&(iter<20)){
+ while((error>0.01)&(binary_obj[iter]>0.01)&(iter<20)|(iter<5)){
      
  
  #tic()
@@ -96,6 +96,7 @@ gradient=function(A1,A2,A3,mode,Ybar,W,type=c("logistic","hinge")){
     }else if(type=="hinge"){
         tem=-W*Ybar*(margin<1)
     }
+    tem[is.na(tem)]=0
     
     if(mode==3){
     Grad=matrix(0,nrow=dim(A3)[1],ncol=R)

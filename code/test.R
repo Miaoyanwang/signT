@@ -40,7 +40,7 @@ mean(abs(est2[missing==0]-signal[missing==0])^2)
 abline(0,1)
 
 data=readMat("../data/dnations.mat")
-data=readMat("../data/alyawarradata.mat")
+#data=readMat("../data/alyawarradata.mat")
 tensor=data$R
 
 none=sum(tensor==1,na.rm=T)
@@ -51,13 +51,17 @@ nzero_test=sample(nzero,0.2*nzero,replace=T) ## test
 training=tensor
 training[c(none_test,nzero_test)]=NA
 
+
+truer=1
+
 set.seed(1)
-res=SignT(training,truer=2,0,1,H=10)
-res2=fit_continuous(training,2)
+res=SignT(training,truer=1,0,1,H=6,option=2)
+res2=fit_continuous(training,1)
 
 mean((res$est[c(none_test,nzero_test)]-tensor[c(none_test,nzero_test)])^2,na.rm=T)
 mean((res2[c(none_test,nzero_test)]-tensor[c(none_test,nzero_test)])^2,na.rm=T)
 
+#res$result[[4]]$obj
 
 auc(tensor[c(none_test,nzero_test)],res$est[c(none_test,nzero_test)])
 auc(tensor[c(none_test,nzero_test)],res2[c(none_test,nzero_test)])
