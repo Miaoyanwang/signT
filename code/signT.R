@@ -6,7 +6,7 @@ min.thresh=10^(-3)
 max.thresh=10^10
 
 binaryloss=function(Ybar,W,Yfit){
-    return(mean(W*abs(Ybar-sign(Yfit))))
+    return(mean(W*abs(Ybar-sign(Yfit)),na.rm=T))
 }
 
 #################### main function for nonparametric tensor completion  ####################
@@ -54,22 +54,22 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge")){
      
  
  #tic()
- #optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
- #A3=matrix(optimization$par,ncol=r)
- #optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A2,2,Ybar,W,type),method="BFGS")
- #A2=matrix(optimization$par,ncol=r)
- #optimization=optim(c(A1),function(x)cost(matrix(x,ncol=r),A2,A3,Ybar,W,type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,Ybar,W,type),method="BFGS")
- #A1=matrix(optimization$par,ncol=r)
+ optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
+ A3=matrix(optimization$par,ncol=r)
+ optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A2,2,Ybar,W,type),method="BFGS")
+ A2=matrix(optimization$par,ncol=r)
+ optimization=optim(c(A1),function(x)cost(matrix(x,ncol=r),A2,A3,Ybar,W,type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,Ybar,W,type),method="BFGS")
+ A1=matrix(optimization$par,ncol=r)
  #toc()
 
-tic()
-l=lapply(1:nrow(A3),function(i){optim(c(A3[i,]),function(x)cost(A1,A2,matrix(x,ncol=r),array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),method="BFGS")$par}) ## perhaps faster than the other approach?
-A3=matrix(unlist(l),nrow=nrow(A3),byrow=T)
-l=lapply(1:nrow(A2),function(i){optim(c(A2[i,]),function(x)cost(A1,matrix(x,ncol=r),A3,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),method="BFGS")$par}) ## perhaps faster than the other approach?
-A2=matrix(unlist(l),nrow=nrow(A2),byrow=T)
-l=lapply(1:nrow(A1),function(i){optim(c(A1[i,]),function(x)cost(matrix(x,ncol=r),A2,A3,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),method="BFGS")$par}) ### perhaps faster than the other approach?
-A1=matrix(unlist(l),nrow=nrow(A1),byrow=T)
-toc()
+ #tic()
+ #l=lapply(1:nrow(A3),function(i){optim(c(A3[i,]),function(x)cost(A1,A2,matrix(x,ncol=r),array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),method="BFGS")$par}) ## perhaps faster than the other approach?
+ #A3=matrix(unlist(l),nrow=nrow(A3),byrow=T)
+ #l=lapply(1:nrow(A2),function(i){optim(c(A2[i,]),function(x)cost(A1,matrix(x,ncol=r),A3,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),method="BFGS")$par}) ## perhaps faster than the other approach?
+ #A2=matrix(unlist(l),nrow=nrow(A2),byrow=T)
+ #l=lapply(1:nrow(A1),function(i){optim(c(A1[i,]),function(x)cost(matrix(x,ncol=r),A2,A3,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),method="BFGS")$par}) ### perhaps faster than the other approach?
+ #A1=matrix(unlist(l),nrow=nrow(A1),byrow=T)
+ #toc()
         obj=c(obj,cost(A1,A2,A3,Ybar,W,type))
         binary_obj=c(binary_obj,binaryloss(Ybar,W,tensorize(A1,A2,A3)))
         iter=iter+1
@@ -112,7 +112,7 @@ Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A2[,r])),as.matrix(t(A3[,r]))),ms=c
 }
 
 cost=function(A1,A2,A3,Ybar,W,type=c("logistic","hinge")){
-    return(sum(W*loss(tensorize(A1,A2,A3)*Ybar,type)))
+    return(sum(W*loss(tensorize(A1,A2,A3)*Ybar,type),na.rm=T))
 }
 loss=function(y,type=c("logistic","hinge")){
     if(type=="hinge") return(ifelse(1-y>0,1-y,0))

@@ -1,7 +1,7 @@
 source("signT.R")
 ## test
 set.seed(1)
-d=20
+d=10
 a=randortho(d)[,1]
 b=randortho(d)[,1]
 c=randortho(d)[,1]
@@ -15,16 +15,16 @@ signal=graphon_to_tensor(a,b,c,type=10)
 #plot(svd(signal)$d)
 #signal=sigmoid(a%o%b,a=1)
 #signal=sigmoid(a%o%b%o%c,a=50)
-Y=signal+array(rnorm(length(signal),0,0*max(abs(signal))),dim=dim(signal))
+Y=signal+array(rnorm(length(signal),0,0.01*max(abs(signal))),dim=dim(signal))
 truer=2
 hist(Y)
-missing=array(rbinom(length(signal),1,0),dim=dim(signal))
+missing=array(rbinom(length(signal),1,0.5),dim=dim(signal))
 Y[missing==1]=NA
 Lmin=min(Y,na.rm=T)
 Lmax=max(Y,na.rm=T)
 
 set.seed(1)
-res=SignT(Y,truer,Lmin=min(signal),Lmax=max(signal),H=5,option=3)
+res=SignT(Y,truer,Lmin=min(signal),Lmax=max(signal),H=10,option=2)
 ## recommend option = 2 or 3.
 plot(res$est,signal)
 abline(0,1)
