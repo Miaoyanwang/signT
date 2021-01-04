@@ -14,7 +14,7 @@ par(mfrow=c(1,3))
 data=z+rnorm(length(z),0,0.013)
 persp3D(z = z,col= marker,zlim=c(0,max(data)+0.02),border="gray",phi = 30,theta=10)
 
-res=nonMAR(data,2,Lmin=min(z),Lmax=max(z),H=5,rho=.001)
+res=signT(data,2,Lmin=min(z),Lmax=max(z),H=5,option=2)
 
 image3D(z = 0, colvar = sign(res$fitted[,,2]),zlim=c(-3,20),col=c("gray","white"), border="black",alpha=0.7,theta=10)
 image3D(z = 5, colvar = sign(res$fitted[,,4]),add=TRUE,col=c("gray","white"),border="black")

@@ -10,7 +10,7 @@ binaryloss=function(Ybar,W,Yfit){
 }
 
 #################### main function for nonparametric tensor completion  ####################
-SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3),option){
+SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3),option=2){
 
     B_fitted=result=list()
     pi_seq=seq(from=Lmin,to=Lmax,length=2*H+1)
@@ -56,7 +56,7 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge")){
  #tic()
  optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
  A3=matrix(optimization$par,ncol=r)
- optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A2,2,Ybar,W,type),method="BFGS")
+ optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,Ybar,W,type),method="BFGS")
  A2=matrix(optimization$par,ncol=r)
  optimization=optim(c(A1),function(x)cost(matrix(x,ncol=r),A2,A3,Ybar,W,type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,Ybar,W,type),method="BFGS")
  A1=matrix(optimization$par,ncol=r)

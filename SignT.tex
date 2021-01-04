@@ -144,7 +144,7 @@ Advantages:
 (3) achieves computational efficiency by leveraging classification and divide-and-conquer algorithms.
 
 \section{Preliminaries}
-We use the shorthand $[n]$ to denote the $n$-set $\{1,\ldots,n\}$ for $n\in\mathbb{N}_{+}$. We use $\otimes$ to denote the outer product of vectors, $\vnormSize{}{\mx}$ to denote the vector $2$-norm, and $\mathbf{S}^{d-1}=\{\mx\in\mathbb{R}\colon \vnormSize{}{\mx}=1\}$ to denote the $(d-1)$-dimensional unit sphere. Let $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_k)$-dimensional tensor, and $\tY(\omega)\in\mathbb{R}$ denote the tensor entry indexed by $\omega \in[d_1]\times \cdots \times [d_K]$. The Frobenius norm of $\tY$ is defined as $\FnormSize{}{\tY}=\sqrt{\sum_{\omega}\tY^2(\omega)}$. Unlike matrices, various notions of decomposition have been developed for tensors of order $K\geq 3$. The Canonical Polyadic (CP) tensor decomposition~\cite{hitchcock1927expression} for a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
+We use the shorthand $[n]$ to denote the $n$-set $\{1,\ldots,n\}$ for $n\in\mathbb{N}_{+}$. We use $\otimes$ to denote the outer product of vectors, $\vnormSize{}{\mx}$ to denote the vector $2$-norm, and $\mathbf{S}^{d-1}=\{\mx\in\mathbb{R}^d\colon \vnormSize{}{\mx}=1\}$ to denote the $(d-1)$-dimensional unit sphere. Let $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_k)$-dimensional tensor, and $\tY(\omega)\in\mathbb{R}$ denote the tensor entry indexed by $\omega \in[d_1]\times \cdots \times [d_K]$. The Frobenius norm of $\tY$ is defined as $\FnormSize{}{\tY}=\sqrt{\sum_{\omega}\tY^2(\omega)}$. Unlike matrices, various notions of decomposition have been developed for tensors of order $K\geq 3$. The Canonical Polyadic (CP) tensor decomposition~\cite{hitchcock1927expression} for a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
 \begin{equation}\label{eq:CP}
 \Theta=\sum_{s=1}^r\lambda_s \ma^{(1)}_s\otimes\cdots\otimes \ma^{(K)}_s,
 \end{equation}
@@ -326,9 +326,9 @@ We cast the tensor completion problem into a series of weighted classifications,
 \end{equation}
 where $\hat \tZ_\pi\in\mathbb{R}^{d_1\times \dots\times d_K}$ is the estimated classifier at a series of levels $\pi \in \tH=\{-1,\ldots,-{1\over H}, 0, {1\over H},\ldots,1\}$,
 \begin{equation}\label{eq:estimate}
-\hat \tZ_\pi = \argmin_{\tZ\colon \text{rank}(\tZ)\leq r, \ \FnormSize{}{\tZ}\leq 1} L(\tZ, \sign(\tY_\Omega-\pi)).
+\hat \tZ_\pi = \argmin_{\tZ\colon \text{rank}(\tZ)\leq r, \ \FnormSize{}{\tZ}\leq c} L(\tZ, \sign(\tY_\Omega-\pi)),
 \end{equation}
-Here $L(\cdot,\cdot)$ denotes the weighted classification objective~\eqref{eq:sample}, and we have plugged in the $\pi$-shifted data tensor in the expression. The rank constraint on $\tZ$ is based on Proposition~\ref{prop:global}, and the Frobenius-norm constraint is a technical condition to simplify the analysis; the constraint does not alter the solution because $L(\tZ,\cdot)=L(\sign \tZ,\cdot)$ 
+Here $L(\cdot,\cdot)$ denotes the weighted classification objective~\eqref{eq:sample}, where we have plugged in the $\pi$-shifted data tensor in the expression, and $c>0$ is a prespecified constant independent of dimension. The rank constraint on $\tZ$ is based on Proposition~\ref{prop:global}, and the Frobenius-norm constraint is a technical condition to simplify the analysis; the constraint does not alter the solution because $L(\tZ,\cdot)=L(\sign \tZ,\cdot)$ 
 
 The next theorem establish the statistical convergence for the estimated sign tensor series~\eqref{eq:estimate}. For simplicity, we assume $d_1=\ldots=d_K=d$.
 
@@ -378,11 +378,11 @@ $\tO(d^{-(K-1)/3})$. Slightly worst than~\citet{ganti2015matrix}.
 \end{example}
 
 \subsection{Numerical implementation}
-In practice, the optimization~\eqref{eq:estimate} can be impelmented using an efficient divide-and-conquer fashion. The estimation of sign tensors is parallelable for the series $\pi \in \tH$ through parallel implementation. 
+In practice, we solve the optimization~\eqref{eq:estimate} using an efficient divide-and-conquer fashion. The estimation of sign tensors is parallelable for the series $\pi \in \tH$ through parallel implementation. 
 
 For each $\pi\in\tH$, an alternating optimization algorithm is developed to solve~\eqref{eq:estimate}. Following the common practice in classification, we replace the binary loss $\ell(z,y)=|\sign z - \sign y|$ with a more manageable surrogate loss $F(m)$ as a function of margin $m\stackrel{\text{def}}{=}z\sign(y)$. Examples of large-margin loss are hinge loss $F(m) = (1-m)_+$ for support vector machines, logistic loss $F(m) =\log(1+e^{-m})$ for important vector machines, and nonconvex $\psi$-loss $F(m)=2\min(1,(1-m)_+)$ with $m_{+}=\max(m,0)$. We implement the hinge loss and logistic loss for illustration, although our framework is applicable to general large-margin losses~\citep{bartlett2006convexity}. 
 
-The rank constraint is implemented by using the rank decomposition as in~\eqref{eq:CP} and optimizing one factor of $\tZ$ at a time while holding others fixed. Each suboptimization reduces to a classical weighted classification with a $(rd_k)$-dimensional decision variable. As common in tensor optimization, we run the algorithm from multiple initializations for locate a final estimate with the lowest objective value. The full procedure is described in Algorithm 1.
+The rank constraint is implemented by using the rank decomposition as in~\eqref{eq:CP} and optimizing one factor of $\tZ$ at a time while holding others fixed. Each suboptimization reduces to a convex optimization with a $(rd_k)$-dimensional decision variable. As common in tensor optimization, we run the algorithm from multiple initializations for locate a final estimate with the lowest objective value. The full procedure is described in Algorithm 1.
 
 \begin{figure*}[h]
 \includegraphics[width=\textwidth]{algorithm.pdf}
