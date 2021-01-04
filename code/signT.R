@@ -40,7 +40,9 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge")){
     ini=cp(as.tensor(fit_continuous(Ybar,r)),r);
     A1 = ini$U[[1]];
     A2 = ini$U[[2]];
-    A3 = ini$U[[3]]%*%diag(ini$lambda);
+    scale=matrix(0,nrow=r,ncol=r)
+    diag(scale)=ini$lambda
+    A3 = ini$U[[3]]%*%ini$lambda;
     
     #A1 = randortho(d[1])[,1:r];
     #A2 = randortho(d[2])[,1:r];

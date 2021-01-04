@@ -14,7 +14,7 @@ b=seq(from=0,to=1,length=d)
 c=seq(from=0,to=1,length=d)
 signal=graphon_to_tensor(a,b,c,type=10)
 Y=signal+array(rnorm(length(signal),0,0.1*max(abs(signal))),dim=dim(signal))
-truer=2
+truer=1
 hist(Y)
 #missing=array(rbinom(length(signal),1,0),dim=dim(signal))
 #Y[missing==1]=NA
@@ -52,7 +52,7 @@ training=tensor
 training[c(none_test,nzero_test)]=NA
 
 set.seed(1)
-res=SignT(training,5,0,1,H=10)
+res=SignT(training,1,0,1,H=10)
 res2=fit_continuous(training,5)
 
 mean((res$est[c(none_test,nzero_test)]-tensor[c(none_test,nzero_test)])^2,na.rm=T)
@@ -60,3 +60,5 @@ mean((res2[c(none_test,nzero_test)]-tensor[c(none_test,nzero_test)])^2,na.rm=T)
 
 
 auc(tensor[c(none_test,nzero_test)],res$est[c(none_test,nzero_test)])
+auc(tensor[c(none_test,nzero_test)],res2[c(none_test,nzero_test)])
+
