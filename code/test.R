@@ -24,7 +24,7 @@ Lmin=min(Y,na.rm=T)
 Lmax=max(Y,na.rm=T)
 
 set.seed(1)
-res=SignT(Y,truer,Lmin=min(signal),Lmax=max(signal),H=10,option=2)
+res=SignT(Y,truer,Lmin=Lmin,Lmax=Lmax,H=10,option=2)
 ## recommend option = 2 or 3.
 plot(res$est,signal)
 abline(0,1)
