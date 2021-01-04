@@ -52,8 +52,8 @@ training=tensor
 training[c(none_test,nzero_test)]=NA
 
 set.seed(1)
-res=SignT(training,1,0,1,H=10)
-res2=fit_continuous(training,5)
+res=SignT(training,truer=2,0,1,H=10)
+res2=fit_continuous(training,2)
 
 mean((res$est[c(none_test,nzero_test)]-tensor[c(none_test,nzero_test)])^2,na.rm=T)
 mean((res2[c(none_test,nzero_test)]-tensor[c(none_test,nzero_test)])^2,na.rm=T)
