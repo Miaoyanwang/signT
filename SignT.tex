@@ -187,6 +187,7 @@ The second example shows that the classical low-rankness may exclude important s
 \includegraphics[width=.47\textwidth]{example_comb.pdf}
 \caption{(a) Numerical rank of $\Theta=f(\tZ)$ versus $c$ in Example 1. Here, the numerical rank is computed as the minimal rank for which the relative least-squares error is below 0.1, and $\tZ$ is a rank-3 tensor with i.i.d.\ $N(0,1)$ entries in the (unnormalized) singular vectors. Reported ranks are averaged across 10 replicates of $\tZ$, with standard errors given in error bars. (b) Top $d=30$ tensor singular values in Example 2. Numerical values in both figures are obtained by running CP decomposition with random initialization.}\label{fig:example}
 \end{figure}
+
 In the above and many other examples, the signal tensors $\Theta$ exhibit high rank in spite of the special structures they admit. These structures are hardly detectable using classical low-rank models. New methods that allow flexible tensor modeling have yet to be developed. 
 
 \subsection{Overview of our proposal}
@@ -236,7 +237,7 @@ We use $\caliP(r)=\{\Theta\colon \srank(\Theta-\pi)\leq r \text{ for all }\pi\in
 \end{defn}
 We show that the $r$-sign representable tensor family is a general model that incorporates most existing tensor models, including low-rank tensors, single index models, GLM models, and certain hypergraphon models. 
 
-\begin{example}[CP/Tucker low-rank models] The CP and Tucker low-rank models are the two most popular tensor models~\cite{anandkumar2014tensor,montanari2018spectral,kadmon2018statistical,cai2019nonconvex}. Let $\Theta$ be a low-rank tensor with CP rank $r$. Then $\Theta$ belongs to the $r$-sign representable family, i.e., $\Theta\in\caliP(r)$. Similarly, Tucker low-rank tensors $\Theta\in\caliP(r)$, where $r=\prod_kr_k$ with $r_k$ being the $k$-th mode Tucker rank of $\Theta$.  
+\begin{example}[CP/Tucker low-rank models] The CP and Tucker low-rank models are the two most popular tensor models~\cite{anandkumar2014tensor,montanari2018spectral,kadmon2018statistical,cai2019nonconvex}. Let $\Theta$ be a low-rank tensor with CP rank $r$. We see that $\Theta$ belongs to the sign representable family, i.e., $\Theta\in\caliP(r+1)$ (the constant $1$ is due to $\rank(\Theta-\pi)\leq r+1$). Similarly, Tucker low-rank tensors $\Theta\in\caliP(r+1)$, where $r=\prod_kr_k$ with $r_k$ being the $k$-th mode Tucker rank of $\Theta$.  
 \end{example} 
 
 \begin{example}[Generalized linear models (GLMs)] Let $\tY$ be a binary tensor from a tensor logistic model~\cite{wang2018learning} with mean $\Theta=\mathbb{E}(\tY)=\text{logit}(\tZ)$, where $\tZ$ is a latent low-rank tensor. Then, $\Theta$ is a special (parametric) case of sign representable tensors. Same conclusion holds for general exponential-family tensors with (known) distribution-specific link functions~\cite{hong2020generalized}.
@@ -275,9 +276,9 @@ Suppose the data $\tY_\Omega$ is generated from model~\eqref{eq:model} with $\Th
 &=\inf\{\textup{Risk}(\tZ)\colon \textup{rank} \tZ\leq r\}.
 \end{align}
 \end{prop}
-The results shows that the sign tensor $\sign(\Theta-\pi)$ optimizes the weighted classification risk. This fact suggests a practical procedure to estimate $\sign(\Theta-\pi)$ via optimizing the empirical risk $L(\tZ,\bar \tY_\Omega)$. The entry-specific weight incorporates the magnitude information in the classification, where entries far away from the target level are penalized more heavily in the objective. 
+The results show that the sign tensor $\sign(\Theta-\pi)$ optimizes the weighted classification risk. This fact suggests a practical procedure to estimate $\sign(\Theta-\pi)$ via optimizing the empirical risk $L(\tZ,\bar \tY_\Omega)$. The entry-specific weight incorporates the magnitude information in the classification, where entries far away from the target level are penalized more heavily in the objective. 
 
-In order to establish the recovery guarantee, we address the uniqueness of the optimizer (up to sign equivalence) for $\risk(\cdot)$. Essentially, this is a converse problem of Proposition~\ref{prop:global} asking whether optimizing $\risk(\cdot)$ is sufficient for recovering $\sign(\Theta-\pi)$. The local behavior of $\Theta$ around $\pi$ turn out to play a key role in the accuracy guarantee. 
+In order to establish the recovery guarantee, we address the uniqueness (up to sign equivalence) of the optimizer for $\risk(\cdot)$. Essentially, this is a converse problem of Proposition~\ref{prop:global} asking whether optimizing $\risk(\cdot)$ is sufficient for recovering $\sign(\Theta-\pi)$. The local behavior of $\Theta$ around $\pi$ turn out to play a key role in the accuracy guarantee. 
 
 Some additional notation is needed. %Recall that $\omega\sim \Pi$ denotes the sampling distribution over tensor indices. 
 We use $\tN=\{\pi\colon$  $\mathbb{P}_{\omega\sim \Pi}(\Theta(\omega)=\pi)\neq 0\}$ to denote the set of mass points of $\Theta$ under $\Pi$. Assume there exists a constant $C>0$, independent of tensor dimension, such that $|\tN|\leq C$. Note that both $\Pi$ and $\Theta$ implicitly depend on the tensor dimension. Our assumptions are imposed to $\Pi=\Pi(d)$ and $\Theta=\Theta(d)$ in the high-dimensional regime uniformly as $d:=\min_kd_k\to\infty$. 
@@ -294,7 +295,7 @@ where $\rho(\pi,\tN):=\min_{\pi'\in \tN}|\pi-\pi'|$ denotes the distance from $\
 
 The smoothness index $\alpha$ quantifies the intrinsic hardness of recovering $\sign(\Theta-\pi)$ from $\risk(\cdot)$. The recovery is more difficult at levels where the point mass concentrates (small $\alpha$). The value of $\alpha$ is determined by the marginal density of $\Theta(\omega)$ and the sampling distribution $\omega\sim \Pi$. A higher value of $\alpha>1$ corresponds a plateau-type zero density of $\Theta(\omega)$ around $\pi$, whereas a lower value of $\alpha<1$ indicates the nonexistence (infinite) density at level $\pi$. A typical case is $\alpha=1$ when $\Theta(\omega)$ has positive density bounded away from zero in the vicinity of $\pi$. 
 
-{\color{red}Conjecture: If the global smoothness index $\alpha<1$, then $\tN\geq 1$. }
+%{\color{red}Conjecture: If the global smoothness index $\alpha<1$, then $\tN\geq 1$. }
 
 
 We now reach the main theorem in this section. For two tensors $\Theta_1,\Theta_2$, define the mean absolute error (MAE)
