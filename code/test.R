@@ -10,7 +10,7 @@ c=randortho(d)[,1]
 a=seq(from=0,to=1,length=d)
 b=seq(from=0,to=1,length=d)
 #c=seq(from=0,to=1,length=d)
-signal=graphon_to_tensor(a,b,c,type=10)
+signal=graphon_to_tensor(a,b,0,type=10)
 signal=signal[,,1]
 #plot(svd(signal)$d)
 #signal=sigmoid(a%o%b,a=1)
@@ -25,12 +25,12 @@ Lmin=min(Y,na.rm=T)
 Lmax=max(Y,na.rm=T)
 
 set.seed(1)
-res=nonMAR(Y,truer,Lmin=min(signal),Lmax=max(signal),H=10,rho=.001)
+res=SignT(Y,truer,Lmin=min(signal),Lmax=max(signal),H=30,rho=.001,option=1)
 plot(res$est,signal)
 abline(0,1)
 plot(res$est[missing==0],signal[missing==0])
 plot(res$est[missing==1],signal[missing==1])
-mean(abs(res$est[missing==1]-signal[missing==1]))
+mean(abs(res$est[missing==0]-signal[missing==0])^2)
 abline(0,1)
 
 
@@ -39,6 +39,6 @@ est2=fit_continuous(Y,truer)
 plot(est2,signal)
 plot(est2[missing==0],signal[missing==0])
 plot(est2[missing==1],signal[missing==1])
-mean(abs(est2[missing==1]-signal[missing==1]))
+mean(abs(est2[missing==0]-signal[missing==0])^2)
 abline(0,1)
 
