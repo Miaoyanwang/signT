@@ -30,7 +30,7 @@ SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3),option=2){
     res=list();
     res$result=result;
     res$fitted=B_fitted
-    res$est=1/2*(apply(sign(B_fitted),1:length(dim(Y)),mean)+1+1/(2*H))*(Lmax-Lmin)+Lmin
+    res$est=1/2*(apply(sign(B_fitted),1:length(dim(Y)),mean)+1)*(Lmax-Lmin)+Lmin
     return(res)
 }
 ### Alternating optimization for classification
@@ -52,7 +52,7 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge")){
     
     error=1;iter=1;
  
- while((error>0.01)&(binary_obj[iter]>0.01)&(iter<20)|(iter<5)){
+ while((error>0.01)&(binary_obj[iter]>0.01)&(iter<20)){
      
  
  #tic()
