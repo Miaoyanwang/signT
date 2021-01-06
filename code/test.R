@@ -47,13 +47,14 @@ hold=sample(sum(is.na(tensor)==F),0.2*sum(is.na(tensor)==F),replace=TRUE) ## tes
 training=tensor
 training[hold]=NA
 
-truer=2
-res=SignT(training,truer,min(training,na.rm=T),max(training,na.rm=T),H=10,option=2)
+truer=3
+res=SignT(training,truer,min(training,na.rm=T),max(training,na.rm=T),H=20,option=2)
 res2=fit_continuous(training,truer)
 
 mean(abs(res$est[hold]-tensor[hold]),na.rm=T) ## ours
 mean(abs(res2[hold]-tensor[hold]),na.rm=T)
 
+library("pROC")
 auc(tensor[hold],res$est[hold]) ## ours
 auc(tensor[hold],res2[hold])
 

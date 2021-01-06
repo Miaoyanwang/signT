@@ -12,41 +12,54 @@ binaryloss=function(Ybar,W,Yfit){
 #################### main function for nonparametric tensor completion  ####################
 SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3),option=2){
 
+    set.seed(1)
     B_fitted=result=list()
     pi_seq=seq(from=Lmin,to=Lmax,length=2*H+1)
+    #B_fitted[[1]]=array(1,dim=dim(Y))
+    #B_fitted[[2*H+1]]=array(-1,dim=dim(Y))
     for(h in 2:(2*H)){
         pi=pi_seq[h]
         if(option==1){
             res=ADMM(sign(Y-pi),abs(Y-pi),r=truer,rho=rho,lambda=lambda)}
         else if(option==2){
-            res=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="logistic") ## recommend
+            res=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="logistic",start="linear")
+
+            #for(nrep in 1:1){
+            #res2=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="logistic",start="random") ## recommend
+            #if(rev(res2$obj)[1]<rev(res$obj)[1]) res=res2
+           #}
         }else if(option==3){
             res=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="hinge") ## recommend
         }
         result[[h]]=res
         B_fitted[[h]]=res$fitted
+        print(paste("----",h,"-th level completes!",sep=""))
     }
     B_fitted=array(unlist(B_fitted),dim=c(dim(Y),2*H-1));
     res=list();
     res$result=result;
     res$fitted=B_fitted
-    res$est=1/2*(apply(sign(B_fitted),1:length(dim(Y)),mean)+1)*(Lmax-Lmin)+Lmin
+    res$est=1/2*(apply(sign(B_fitted),1:3,sum)/(2*H)+1)*(Lmax-Lmin)+Lmin
     return(res)
 }
 ### Alternating optimization for classification
-Alt=function(Ybar,W,r,type=c("logistic","hinge")){
+Alt=function(Ybar,W,r,type=c("logistic","hinge"),start="random"){
     result=list()
     d=dim(Ybar)
+    if(start=="linear"){
+    sink("NULL")
     ini=cp(as.tensor(fit_continuous(Ybar,r)),r);
+    sink()
     A1 = ini$U[[1]];
     A2 = ini$U[[2]];
     scale=matrix(0,nrow=r,ncol=r)
     diag(scale)=ini$lambda
     A3 = ini$U[[3]]%*%scale;
-    
-    #A1 = cbind(randortho(d[1])[,1:r]);
-    #A2 = cbind(randortho(d[2])[,1:r]);
-    #A3 = cbind(randortho(d[3])[,1:r]);
+    }else{
+    A1 = cbind(randortho(d[1])[,1:r]);
+    A2 = cbind(randortho(d[2])[,1:r]);
+    A3 = cbind(randortho(d[3])[,1:r]);
+    }
     obj=cost(A1,A2,A3,Ybar,W,type);
     binary_obj=binaryloss(Ybar,W,tensorize(A1,A2,A3))
     
@@ -147,7 +160,9 @@ ADMM=function(Ybar,W,r,rho=0.1,lambda=10^(-3)){
     if(rho==0){PQ=B}
     else{
     if(length(dim(Ybar))>2){
+   sink("NULL")
     PQ=cp(as.tensor(B+1/(2*rho)*Lambda),r)
+    sink()
         PQ=PQ$est@data
     }else if(length(dim(Ybar))==2){
         PQ=svd(B+1/(2*rho)*Lambda)
@@ -265,7 +280,9 @@ fit_continuous=function(data,r){
     index=which(is.na(data)==T)
     data[index]=mean(data,na.rm=T)
     if(length(dim(data))>=3){
+    sink("NULL")
     decomp=cp(as.tensor(data),r)
+    sink()
     res0=1
     res=0
     thresh=10^(-3)
@@ -273,7 +290,9 @@ fit_continuous=function(data,r){
     
     while((res0-res)>thresh){
     res0=likelihood(original_data,decomp$est@data)
+    sink("NULL")
     decomp=cp(as.tensor(data),r)
+    sink()
     res=likelihood(original_data,decomp$est@data)
     data[index]=decomp$est@data[index]
     error=c(error,res)
@@ -314,7 +333,7 @@ graphon_to_tensor=function(a,b,c,type){
         for(i in 1:d1){
             for(j in 1:d2){
                 for(k in 1:d3){
-                    M[i,j,k]=log(1+0.5*max(a[i],b[j],c[k]))
+                    M[i,j,k]=log(1+max(a[i],b[j],c[k]))
                 }
             }
         }
@@ -355,6 +374,13 @@ graphon_to_tensor=function(a,b,c,type){
             }
         }
     }
+    if(type==5){ ## stochastic block model
+        r1=sort(sample(1:3,length(a),replace=TRUE))
+        r2=sort(sample(1:3,length(b),replace=TRUE))
+        r3=sort(sample(1:3,length(c),replace=TRUE))
+        value=array(rnorm(3^3,0,1),dim=rep(3,3))
+        M=value[r1,r2,r3]
+    }
     return(M)
 }
 appx_rank=function(tensor,thresh=95,step=5){
@@ -365,7 +391,9 @@ appx_rank=function(tensor,thresh=95,step=5){
     r=min
     while(r<=(size[1]*size[2])){
         r=r+step;
+        sink("NULL");
         rank=c(r,cp(tensor,r)$norm_percent)
+        sink();
         res=rbind(res,rank)
         if(rank[2]>thresh) break
     }
