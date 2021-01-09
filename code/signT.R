@@ -206,7 +206,7 @@ ADMM=function(Ybar,W,r,rho=0.1,lambda=10^(-3)){
 
 SVM_offset=function(Ybar,W,OffsetC,cost=1){
   n=length(Ybar)
-  missing=which(is.na(Ybar))
+  missing=which(is.na(Ybar)==T)
   nonmissing=setdiff(1:n,missing)
   
   m=length(Ybar[nonmissing])
