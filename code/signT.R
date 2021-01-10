@@ -1,4 +1,3 @@
-library(pracma)
 library(rTensor)
 library(quadprog)
 library(Matrix)
@@ -6,34 +5,27 @@ min.thresh=10^(-3)
 max.thresh=10^10
 
 binaryloss=function(Ybar,W,Yfit){
-    return(mean(W*abs(Ybar-sign(Yfit)),na.rm=T))
+    return(mean(W*abs(Ybar-sign(Yfit)),na.rm=TRUE))
 }
 
 #################### main function for nonparametric tensor completion  ####################
 SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3),option=2){
-
-    set.seed(1)
     B_fitted=result=list()
     pi_seq=seq(from=Lmin,to=Lmax,length=2*H+1)
-    #B_fitted[[1]]=array(1,dim=dim(Y))
-    #B_fitted[[2*H+1]]=array(-1,dim=dim(Y))
+    
     for(h in 2:(2*H)){
         pi=pi_seq[h]
         if(option==1){
             res=ADMM(sign(Y-pi),abs(Y-pi),r=truer,rho=rho,lambda=lambda)}
         else if(option==2){
-            res=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="logistic",start="linear")
-
-            #for(nrep in 1:1){
-            #res2=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="logistic",start="random") ## recommend
-            #if(rev(res2$obj)[1]<rev(res$obj)[1]) res=res2
-           #}
+            res=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="logistic",start="linear")## recommend
+            
         }else if(option==3){
-            res=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="hinge") ## recommend
+            res=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="hinge",start="linear")## recommend
         }
         result[[h]]=res
         B_fitted[[h]]=res$fitted
-        print(paste("----",h,"-th level completes!",sep=""))
+        print(paste("----",h,"-th level finished --- ",sep=""))
     }
     B_fitted=array(unlist(B_fitted),dim=c(dim(Y),2*H-1));
     res=list();
@@ -42,13 +34,21 @@ SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3),option=2){
     res$est=1/2*(apply(sign(B_fitted),1:3,sum)/(2*H)+1)*(Lmax-Lmin)+Lmin
     return(res)
 }
+
 ### Alternating optimization for classification
 Alt=function(Ybar,W,r,type=c("logistic","hinge"),start="random"){
     result=list()
     d=dim(Ybar)
     if(start=="linear"){
     sink("NULL")
-    ini=cp(as.tensor(fit_continuous(Ybar,r)),r);
+    ini=fit_continuous(Ybar,r)
+    
+    #ini=fit_continuous(tensorize(a,b,c)-quantile(tensorize(a,b,c),mean((Ybar*W<0))),r);
+    #diag(scale)=ini$lambda
+    #A1=cbind(a,rep(1,d[1]))
+    #A2=cbind(b,rep(1,d[2]))
+    #A3=cbind(c,-quantile(tensorize(a,b,c),mean((Ybar*W<0)))*rep(1,d[3]))
+    
     sink()
     A1 = ini$U[[1]];
     A2 = ini$U[[2]];
@@ -128,7 +128,7 @@ Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A2[,r])),as.matrix(t(A3[,r]))),ms=c
 }
 
 cost=function(A1,A2,A3,Ybar,W,type=c("logistic","hinge")){
-    return(sum(W*loss(tensorize(A1,A2,A3)*Ybar,type),na.rm=T))
+    return(mean(W*loss(tensorize(A1,A2,A3)*Ybar,type),na.rm=TRUE))
 }
 loss=function(y,type=c("logistic","hinge")){
     if(type=="hinge") return(ifelse(1-y>0,1-y,0))
@@ -191,7 +191,7 @@ ADMM=function(Ybar,W,r,rho=0.1,lambda=10^(-3)){
     iter=iter+1;
 
     error=abs(-residual[iter+1]+residual[iter])
-    if(iter>=200) break
+    if(iter>=50) break
   }
   
   result$obj=obj[-1];
@@ -200,13 +200,33 @@ ADMM=function(Ybar,W,r,rho=0.1,lambda=10^(-3)){
   result$fitted=PQ; ## exact low-rank
   result$B=B; ## approximate low-rank from SVM
   result$residual=residual[-1];result$rho=rho_list;
-  result$alpha=res$res$solution
   return(result)
 }
 
-SVM_offset=function(Ybar,W,OffsetC,cost=1){
+cost_svm=function(x,Ybar,W,OffsetC,cost){
+   x=array(x,dim=dim(Ybar))
+   return(mean(W*loss((x+OffsetC)*Ybar,"hinge"),na.rm=TRUE)+1/(2*cost)*mean(x^2,na.rm=TRUE))
+}
+#grad_svm=function(x,Ybar,W,OffsetC,cost){
+#   x=array(x,dim=dim(Ybar))
+#   margin=Ybar*(x+OffsetC)
+#   tem=-W*Ybar*(margin<1)
+#   return(tem+1/cost*x)
+#}
+
+SVM_offset=function(Ybar,W,OffsetC,cost=1,option=2){
+    ### option 1
+    if(option==1){## memory-saving option. did not check carefully
+    coef=array(0,dim=dim(Ybar))
+    opt=optim(coef,function(x)cost_svm(x,Ybar,W,OffsetC,cost))
+#opt=optim(coef,function(x)cost_svm(x,Ybar,W,OffsetC,cost),function(x)grad_svm(x,Ybar,W,OffsetC,cost),method="BFGS")
+coef=array(opt$par,dim=dim(Ybar))+OffsetC
+
+return(list("res"=opt$value,"coef"=coef,"hinge"=objective(coef[nonmissing],Ybar[nonmissing],W[nonmissing])))
+    }else{
+### option 2
   n=length(Ybar)
-  missing=which(is.na(Ybar)==T)
+  missing=which(is.na(Ybar)==TRUE)
   nonmissing=setdiff(1:n,missing)
   
   m=length(Ybar[nonmissing])
@@ -220,44 +240,19 @@ SVM_offset=function(Ybar,W,OffsetC,cost=1){
   coef=OffsetC
   coef[nonmissing]=coef[nonmissing]+res$solution*Ybar[nonmissing]
 
-  return(list("res"=res,"coef"=coef,"hinge"=objective(coef[nonmissing],Y[nonmissing],W[nonmissing])))
+  return(list("res"=res$value,"coef"=coef,"hinge"=objective(coef[nonmissing],Ybar[nonmissing],W[nonmissing])))
+    }
 }
 
 hinge = function(y) ifelse(1-y>0,1-y,0)
 
-objective=function(yfit,Y,W){
-    return(sum(hinge(Y*yfit)*W))
+objective=function(yfit,Ybar,W){
+    return(sum(hinge(Ybar*yfit)*W))
 }
 
 likelihood = function(data,theta){
     index=which(is.na(data)==F & is.na(theta)==F)
    return(sqrt(sum((data[index]-theta[index])^2)))
-}
-
-################################### normalize each column of X to be unit-1 ###################################
-normalize_tensor=function(A,B,C){
-    scale_A=apply(A,2,function(x) sqrt(sum(x^2)))
-    scale_B=apply(B,2,function(x) sqrt(sum(x^2)))
-    scale_C=apply(C,2,function(x) sqrt(sum(x^2)))
-    scale=scale_A*scale_B*scale_C
-    
-    
-    ind=sort(scale,decreasing=T,index=T)$ix
-    A=normalize(A)[,ind]
-    B=normalize(B)[,ind]
-    C=normalize(C)[,ind]%*%diag(scale[ind])
-    parameter=tensorize(A,B,C)
-    Fnorm=sqrt(sum(parameter^2))
-    return(list(A,B,C,Fnorm))
-}
-
-################################### normalize each column of X to be unit-one. ###################################
-normalize=function(X){
-    d=dim(X)[2]
-    for(i in 1:d){
-        X[,i]=X[,i]/sqrt(sum(X[,i]^2))
-    }
-    return(X)
 }
 
 ##################### construct CP tensor using factor matrices X, Y, Z ###################################
@@ -276,13 +271,21 @@ tensorize=function(X,Y,Z){
 }
 
 fit_continuous=function(data,r){
-    original_data=data
-    index=which(is.na(data)==T)
-    data[index]=mean(data,na.rm=T)
+    index=which(is.na(data)==TRUE)
+    data[index]=mean(data,na.rm=TRUE)
+   original_data=data
+   
     if(length(dim(data))>=3){
-    sink("NULL")
-    decomp=cp(as.tensor(data),r)
-    sink()
+sink("NULL")
+decomp=tryCatch(cp(as.tensor(original_data),r),error=function(c)"degeneracy")
+suppressWarnings(sink())
+if(inherits(decomp,"character")==TRUE){
+    U=list();
+    U[[1]]=matrix(0,ncol=r,nrow=dim(data)[1])
+    U[[2]]=matrix(0,ncol=r,nrow=dim(data)[2])
+    U[[3]]=matrix(0,ncol=r,nrow=dim(data)[3])
+return(list("est"=array(NA,dim=dim(data)),"U"=U,"lambda"=rep(0,r),"info"="degeneracy"))
+}
     res0=1
     res=0
     thresh=10^(-3)
@@ -297,7 +300,8 @@ fit_continuous=function(data,r){
     data[index]=decomp$est@data[index]
     error=c(error,res)
     }
-    return(decomp$est@data)
+
+    return(list("est"=decomp$est@data,"U"=decomp$U,"lambda"=decomp$lambda,"info"=decomp))
     }else if(length(dim(data))==2){
         PQ=svd(data)
         if(r==1){
@@ -333,7 +337,7 @@ graphon_to_tensor=function(a,b,c,type){
         for(i in 1:d1){
             for(j in 1:d2){
                 for(k in 1:d3){
-                    M[i,j,k]=log(1+max(a[i],b[j],c[k]))
+                    M[i,j,k]=log(0.5+(max(a[i],b[j],c[k])^2))
                 }
             }
         }
@@ -342,7 +346,7 @@ graphon_to_tensor=function(a,b,c,type){
         for(i in 1:d1){
             for(j in 1:d2){
                 for(k in 1:d3){
-                    M[i,j,k]=exp(-0.5*(min(a[i],b[j],c[k]))) ##
+                    M[i,j,k]=1-exp(0.5*(min(a[i],b[j],c[k]))) ##
                 }
             }
         }
@@ -360,7 +364,7 @@ graphon_to_tensor=function(a,b,c,type){
         for(i in 1:d1){
             for(j in 1:d2){
                 for(k in 1:d3){
-                    M[i,j,k]=1/(1+exp(-max(a[i],b[j],c[k])^2-min(a[i],b[j],c[k])^4))
+                    M[i,j,k]=1/(1+exp(max(a[i],b[j],c[k])+min(a[i],b[j],c[k])))
                 }
             }
         }
@@ -375,11 +379,23 @@ graphon_to_tensor=function(a,b,c,type){
         }
     }
     if(type==5){ ## stochastic block model
-        r1=sort(sample(1:3,length(a),replace=TRUE))
-        r2=sort(sample(1:3,length(b),replace=TRUE))
-        r3=sort(sample(1:3,length(c),replace=TRUE))
+        r1=(1:length(a))%%3+1
+        r2=(1:length(b))%%3+1
+        r3=(1:length(c))%%3+1
+        set.seed(1)
         value=array(rnorm(3^3,0,1),dim=rep(3,3))
+        value=(value-min(value))/(max(value)-min(value))
         M=value[r1,r2,r3]
+    }
+    if(type==1){
+        T=tensorize(a,b,c)
+        M=1/(1+exp(-100*T)) ## single index
+    }
+    if(type==2){
+
+    M=tensorize(a,b,c)
+    #M=M*M*M
+        ## low rank model
     }
     return(M)
 }
