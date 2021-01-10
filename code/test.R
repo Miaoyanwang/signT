@@ -2,7 +2,7 @@ source("signT.R")
 library(R.matlab)
 ## test
 set.seed(1)
-d=10
+d=5
 a=randortho(d)[,1]
 b=randortho(d)[,1]
 c=randortho(d)[,1]
@@ -21,7 +21,7 @@ Lmin=min(Y,na.rm=T)
 Lmax=max(Y,na.rm=T)
 
 set.seed(1)
-res=SignT(Y,truer,Lmin=Lmin,Lmax=Lmax,H=10,option=2) ## recommend option = 2 or 3.
+res=SignT(Y,truer,Lmin=Lmin,Lmax=Lmax,H=10,option=2) ## recommend option = 2 or 3
 plot(res$est,signal)
 abline(0,1)
 plot(res$est[missing==0],signal[missing==0])
@@ -52,7 +52,7 @@ res=SignT(training,truer,min(training,na.rm=T),max(training,na.rm=T),H=20,option
 res2=fit_continuous(training,truer)
 
 mean(abs(res$est[hold]-tensor[hold]),na.rm=T) ## ours
-mean(abs(res2[hold]-tensor[hold]),na.rm=T)
+mean(abs(res2$est[hold]-tensor[hold]),na.rm=T)
 
 library("pROC")
 auc(tensor[hold],res$est[hold]) ## ours
