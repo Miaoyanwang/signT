@@ -53,5 +53,5 @@ mean(abs(res2$est[hold]-tensor[hold]),na.rm=T)
 
 library("pROC")
 auc(tensor[hold],res$est[hold]) ## ours
-auc(tensor[hold],res2[hold])
+auc(tensor[hold],res2$est[hold])
 
