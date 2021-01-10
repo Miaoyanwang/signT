@@ -3,9 +3,6 @@ library(R.matlab)
 ## test
 set.seed(1)
 d=5
-a=randortho(d)[,1]
-b=randortho(d)[,1]
-c=randortho(d)[,1]
 
 ##### simulate graphon models
 a=seq(from=0,to=1,length=d)
