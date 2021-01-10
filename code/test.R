@@ -28,11 +28,11 @@ abline(0,1)
 
 
 ### continuous
-est2=fit_continuous(Y,truer)
-plot(est2,signal)
-plot(est2[missing==0],signal[missing==0])
-plot(est2[missing==1],signal[missing==1])
-mean(abs(est2[missing==0]-signal[missing==0]))
+res2=fit_continuous(Y,truer)
+plot(res2$est,signal)
+plot(res2$est[missing==0],signal[missing==0])
+plot(res2$est[missing==1],signal[missing==1])
+mean(abs(res2$est[missing==0]-signal[missing==0]))
 abline(0,1)
 
 data=readMat("../data/dnations.mat")
