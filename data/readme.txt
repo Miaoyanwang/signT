@@ -20,7 +20,7 @@ one continuous + one binary;
 modern data (>2015); 
 one on medical science (e.g. brain MFI) + one on social science (e.g. social networks)
 avoid time-series data
-
+Roughly balanced in three modes. Not sure whether we can handle tensors up to d=1K
 
 
 
