@@ -8,6 +8,16 @@ bbnet68_spatial_orientation.RData (neutral): brain connectivity data (no respons
 
 brain_binary_IQ.RData (preferred): brain connectivity data (no response). Not used yet. 
 
+Preferable: 
+one continuous + one binary; 
+modern data (>2015); 
+one on medical science (e.g. brain MFI) + one on social science (e.g. social networks)
+avoid time-series data
+
+
+
+
+
 
 
 
