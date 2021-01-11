@@ -337,7 +337,7 @@ graphon_to_tensor=function(a,b,c,type){
         for(i in 1:d1){
             for(j in 1:d2){
                 for(k in 1:d3){
-                    M[i,j,k]=log(0.5+(max(a[i],b[j],c[k])^2))
+                    M[i,j,k]=log(0.5+max(a[i],b[j],c[k]))
                 }
             }
         }
@@ -346,7 +346,7 @@ graphon_to_tensor=function(a,b,c,type){
         for(i in 1:d1){
             for(j in 1:d2){
                 for(k in 1:d3){
-                    M[i,j,k]=1-exp(0.5*(min(a[i],b[j],c[k]))) ##
+                    M[i,j,k]=2-exp(min(a[i],b[j],c[k])^(1/3)) ##
                 }
             }
         }

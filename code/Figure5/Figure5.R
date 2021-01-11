@@ -41,7 +41,7 @@ rho_list=seq(from=0.3,to=1,length=8)
 con=ours=NULL
 load("Figure5-dimension0.3.RData")
 ours=error; con=error_con
-for(i in 2:8){
+for(i in 2:7){
     load(sprintf("Figure5-dimension%.1f.RData",rho_list[i]))
     ours=rbind(ours,error)
     con=rbind(con,error_con)
@@ -53,6 +53,7 @@ save(error,error_con,file="Model5.RData")
 #######################
 
 ##### plot
+rho_list=seq(from=0.3,to=1,length=8)
 load("Model5.RData")
 library(ggplot2)
 error_cont=cbind(rho_list,apply(error_con,1,mean),apply(error_con,1,sd))
@@ -63,19 +64,9 @@ colnames(data)=c("dim","mean","se","method")
 
 
 pdf("Model5.pdf",width=4,height=3)
-figure=ggplot(data,aes(x=dim,y=mean))+geom_point(aes(x=dim,y=mean,col=method,shape=method),size=2)+geom_line(aes(x=dim,y=mean,col=method))+geom_errorbar(aes(ymin=mean-se/sqrt(30), ymax=mean+se/sqrt(30),col=method), width=.01,position=position_dodge(0))+labs(x = "dimension")+labs(y = "MAE")
+figure=ggplot(data,aes(x=dim,y=mean))+geom_point(aes(x=dim,y=mean,col=method,shape=method),size=2)+geom_line(aes(x=dim,y=mean,col=method))+geom_errorbar(aes(ymin=mean-se/sqrt(30), ymax=mean+se/sqrt(30),col=method), width=.01,position=position_dodge(0))+labs(x = "Observation fraction")+labs(y = "MAE")
 #+coord_cartesian(ylim = c(0.02, 0.16))
 
 figure
-dev.off()
-
-library(Hmisc)
-a=seq(from=0,to=1,length=100)
-source("../signT.R")
-signal=graphon_to_tensor(a,a,a,type=10)
-pdf("cdf_model3.pdf",height=5,width=13)
-Ecdf(c(signal),xlim=c(-1,1.5))
-abline(h=0,lty=2)
-abline(h=1,lty=2)
 dev.off()
 

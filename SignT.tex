@@ -199,7 +199,7 @@ The above observation suggests a general framework to analyze both low- and high
 \]
 Here, $L(\cdot,\cdot)$ denotes a carefully-designed classification objective function which will be described in later sections. The final proposed tensor estimate is 
 \[
-\hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH} \sign(\hat \tZ_\pi).
+\hat \Theta = {1\over 2H}\sum_{\pi \in \tH} \sign(\hat \tZ_\pi).
 \]
 Our approach is built on the nonparametric sign representation of signal tensors, and the estimate $\hat \Theta$ is essentially estimated from dichotomized tensor series $\{\sign(\tY_\Omega-\pi)\colon \pi \in \tH\}$. Surprisingly, we show that proper analysis based on dichotomized data not only preserves all information in the original signals, but also brings benefits of accuracy and flexibility over classical low-rank models. The method enjoys both statistical effectiveness and computational efficiency. 
 
@@ -322,7 +322,7 @@ In this section, we establish the statistical error bound for our nonparametric 
 \subsection{Estimation error and sample complexity}
 We cast the tensor completion problem into a series of weighted classifications, and propose the estimator
 \begin{equation}\label{eq:est}
-\hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH}\sign{\hat \tZ_\pi},
+\hat \Theta = {1\over 2H}\sum_{\pi \in \tH}\sign{\hat \tZ_\pi},
 \end{equation}
 where $\hat \tZ_\pi\in\mathbb{R}^{d_1\times \dots\times d_K}$ is the estimated classifier at a series of levels $\pi \in \tH=\{-1,\ldots,-{1\over H}, 0, {1\over H},\ldots,1\}$,
 \begin{equation}\label{eq:estimate}
@@ -339,7 +339,13 @@ The next theorem establish the statistical convergence for the estimated sign te
 \end{thm}
 Theorem~\ref{thm:classification} provides the error bound for the estimated sign tensor series. The results shows that our sign estimator achieves consistent recovery using as few as $\tilde O(dr)$ noisy observations. Furthermore, our sign tensor estimation reaches a fast rate $d^{-(K-1)}$ when $\alpha=\infty$. The convergence rate becomes favorable as the order of data tensor increases. 
 
-Using the connection between sign representable tensors and sign series, we obtain the main results on our nonparametric tensor estimation. 
+\begin{figure*}[h]
+\centering
+\includegraphics[width=1\textwidth]{simulation.pdf}
+\end{figure*}
+
+
+We obtain the main results on our nonparametric tensor estimation by the connection between sign representable tensors and sign series,
 \begin{thm}[Tensor estimation error]\label{thm:estimation} Consider the same condition of Theorem~\ref{thm:classification} and the nonparametric estimate $\hat \Theta$ in~\eqref{eq:est}. With very high probability over $\tY_\Omega$,
 \[
 \textup{MAE}(\hat \Theta, \Theta)\lesssim \left({d r \over |\Omega|}\right)^{\alpha/(\alpha+2)}+{1\over H}+H{d r \over |\Omega|}.
@@ -350,6 +356,7 @@ Setting $H\asymp \left( |\Omega|\over rd\right)^{1/2}$ gives the estimation erro
 \]
 \end{thm}
 Theorem~\ref{thm:estimation} demonstrates the fast convergence rate of our nonparamatric tensor estimation. Our results reveal three sources of errors: the estimation error inherited from sign estimation, the bias and the variance from sign series representations. The resolution parameter $H$ controls the bias-variance tradeoff.
+
 
 
 Take-away: consistent is achieved whenever $|\Omega|/dr\to\infty$. Furthermore, with full observation $|\Omega|=d^K$, 
@@ -378,17 +385,48 @@ $\tO(d^{-(K-1)/3})$. Slightly worst than~\citet{ganti2015matrix}.
 \end{example}
 
 \subsection{Numerical implementation}
-In practice, we solve the optimization~\eqref{eq:estimate} using an efficient divide-and-conquer fashion. The estimation of sign tensors is parallelable for the series $\pi \in \tH$ through parallel implementation. 
+The optimization~\eqref{eq:estimate} using an efficient divide-and-conquer fashion. The estimation of sign tensors is parallelable for the series $\pi \in \tH$ through parallel implementation. The computational cost is the same as performing a binary tensor decomposition for one. 
 
-For each $\pi\in\tH$, an alternating optimization algorithm is developed to solve~\eqref{eq:estimate}. Following the common practice in classification, we replace the binary loss $\ell(z,y)=|\sign z - \sign y|$ with a more manageable surrogate loss $F(m)$ as a function of margin $m\stackrel{\text{def}}{=}z\sign(y)$. Examples of large-margin loss are hinge loss $F(m) = (1-m)_+$ for support vector machines, logistic loss $F(m) =\log(1+e^{-m})$ for important vector machines, and nonconvex $\psi$-loss $F(m)=2\min(1,(1-m)_+)$ with $m_{+}=\max(m,0)$. We implement the hinge loss and logistic loss for illustration, although our framework is applicable to general large-margin losses~\citep{bartlett2006convexity}. 
-
-The rank constraint is implemented by using the rank decomposition as in~\eqref{eq:CP} and optimizing one factor of $\tZ$ at a time while holding others fixed. Each suboptimization reduces to a convex optimization with a $(rd_k)$-dimensional decision variable. As common in tensor optimization, we run the algorithm from multiple initializations for locate a final estimate with the lowest objective value. The full procedure is described in Algorithm 1.
+There have been multiple methods with binary tensor decomposition. cite JMLR. We here adopt the common practice.. For each $\pi\in\tH$, an alternating optimization algorithm is developed to solve~\eqref{eq:estimate}. Following the common practice in classification, we replace the binary loss $\ell(z,y)=|\sign z - \sign y|$ with a more manageable surrogate loss $F(m)$ as a function of margin $m\stackrel{\text{def}}{=}z\sign(y)$. Examples of large-margin loss are hinge loss $F(m) = (1-m)_+$ for support vector machines, logistic loss $F(m) =\log(1+e^{-m})$ for important vector machines, and nonconvex $\psi$-loss $F(m)=2\min(1,(1-m)_+)$ with $m_{+}=\max(m,0)$. We implement the hinge loss and logistic loss for illustration, although our framework is applicable to general large-margin losses~\citep{bartlett2006convexity}. 
 
 \begin{figure*}[h]
 \includegraphics[width=\textwidth]{algorithm.pdf}
 \end{figure*}
 
 
+The optimization with .. tensor have been developed elsewhere. The rank constraint is implemented by using the rank decomposition as in~\eqref{eq:CP} and optimizing one factor of $\tZ$ at a time while holding others fixed. Each suboptimization reduces to a convex optimization with a $(rd_k)$-dimensional decision variable. 
+We use the CP decomposition of $\tZ$, and write 
+\begin{align}
+\min_{\mA_k\colon k\in[K]}&\sum_{\omega\in \Omega}|\tY-\pi|F(\tZ(\omega)\sign(\tY(\omega)-\pi)),\\
+\text{subject to }\tZ&=\tZ(\mA_1,\ldots,\mA_K)=\sum_{s=1}^r\ma^{(1)}_s\otimes \cdots \otimes \ma^{(K)}_s.
+\end{align}
+For fixed $k$, the optimization with respect to the $i$-th row $\mA_k(i,\colon)\in\mathbb{R}^{r}$ is an optimization with $\text{vec}(\tY(\colon,i,\colon))\in\mathbb{R}^{d_{-k}}$ as response, $\mA_{-k}:=\mA_1\odot \cdots \odot \mA_{k-1}\odot \mA_{k+1}\odot \cdots \odot \mA_K \in\mathbb{R}^{d_{-k}\times r}$ as predictors. 
+As common in tensor optimization, we run the algorithm from multiple initializations for locate a final estimate with the lowest objective value. The full procedure is described in Algorithm 1.
+
+The rank $r$ is selected via cross validation based on 80-20 split of $\Omega$, and then use average MAE as the performance measure. 
+
+\section{Simulation}
+
+%\begin{table}
+%\begin{tabular}{ccccc}
+%ID &signal tensor $\Theta$ & $\rank(\Theta)$ &  $\srank(\Theta)$ \\
+%\hline
+%1& $\ma^{\otimes 3}+\mb^{\otimes 3}$ &2&  Bernoulli\\
+%1(done)& $\tC\times\mM_1\times\mM_2\times\mM_3$ &$3^3$&2\\
+%2 & $|\ma\otimes \mathbf{1}\otimes\mathbf{1}-\mathbf{1}\otimes\mb\otimes \mathbf{1}|$& $\geq d$&unknown\\
+%3 (done)& $\log(0.5+\tZ^2_{\max})$&$\geq d$& 2\\
+%4 (done)& $1-\exp(-0.5\tZ_{\min})$& $\geq d$ & 2 \\
+%5 &$(1+\exp(\tZ_{\max}-\tZ_{\min}))^{-1}$&$\geq d$&unknown\\
+%\end{tabular}
+%\end{table}
+
+\begin{figure}[H]
+\includegraphics[width=.5\textwidth]{fig1-4.pdf}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=.5\textwidth]{fig5-8.pdf}
+\end{figure}
 
 \clearpage
 \begingroup
