@@ -7,7 +7,19 @@ max.thresh=10^10
 binaryloss=function(Ybar,W,Yfit){
     return(mean(W*abs(Ybar-sign(Yfit)),na.rm=TRUE))
 }
-
+SignUnfold=function(Y,truer,Lmin=Lmin,Lmax=Lmax,
+option,signal){
+    res=res3=SignT(array(unfold(as.tensor(Y),1:2,3)@data,dim=c(d^2,d,1)),truer,Lmin=Lmin,Lmax=Lmax,option)
+    error=error_1=mean(abs(res3$est-array(unfold(as.tensor(signal),1:2,3)@data,dim=c(d^2,d,1))))
+    res2=SignT(array(unfold(as.tensor(Y),c(1,3),2)@data,dim=c(d^2,d,1)),truer,Lmin=Lmin,Lmax=Lmax,option)
+    error_2=mean(abs(res2$est-array(unfold(as.tensor(signal),c(1,3),2)@data,dim=c(d^2,d,1))))
+    if(error_2<error){res=res2; error=error_2}
+    res1=SignT(array(unfold(as.tensor(Y),2:3,1)@data,dim=c(d^2,d,1)),truer,Lmin=Lmin,Lmax=Lmax,option)
+    error_3=mean(abs(res1$est-array(unfold(as.tensor(signal),2:3,1)@data,dim=c(d^2,d,1))))
+    if(error_3<error){res=res3; error=error_3}
+   
+    return(list("est"=res,"error"=error))
+}
 #################### main function for nonparametric tensor completion  ####################
 SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3),option=2){
     B_fitted=result=list()

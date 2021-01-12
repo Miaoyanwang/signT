@@ -10,6 +10,8 @@ modern data (>2015);
 
 brain_binary_IQ.RData (preferred): brain connectivity data (no response). Not used yet. 
 
+airline_select_data.RData: used in my collaborative paper with Anru. Details in https://arxiv.org/abs/2012.09996
+
 bbnet68_spatial_orientation.RData (neutral): brain connectivity data (no response). supervised version used in matrix regression paper. Unsupervised version has not been used yet. 
 
 alyawarradata.mat (not preferred): kinship data. same data used in my JMLR paper

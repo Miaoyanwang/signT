@@ -1,5 +1,5 @@
 \documentclass[10pt]{article}
-\usepackage[paperheight=0.95in,paperwidth=7in,margin=0.01in]{geometry}
+\usepackage[paperheight=0.95in,paperwidth=7.2in,margin=0.01in]{geometry}
 
 \usepackage{setspace}
 \usepackage{amsmath,amssymb}
@@ -38,24 +38,24 @@
 
 \begin{table}
 \begin{tabular}{c|ccccccc}
-ID &Signal Tensor $\Theta$ & Rank&  Sign Rank  & Marginal CDF of Tensor Entries & Noise  \\
+Simulation &Signal Tensor $\Theta$ & Rank&  Sign Rank  & Marginal CDF of Tensor Entries & Noise  \\
 \hline
 1&$\tC\times\mM_1\times\mM_2\times\mM_3$ &$3^3$&2 & \multirow{4}{*}{
- \begin{minipage}{.2\textwidth}
- \centering
-\includegraphics[width=30mm,height=17mm]{cdf_combine_2.pdf}
-  \end{minipage}
-  }
+% \begin{minipage}{.2\textwidth}
+% \centering
+%\includegraphics[width=30mm,height=17mm]{cdf_combine_2.pdf}
+%  \end{minipage}
+}
  &
 Uniform $[-0.3,0.3]$\\
   \rowcolor{lightgray}
 2& $|\ma\otimes \mathbf{1}\otimes\mathbf{1}-\mathbf{1}\otimes\mb\otimes \mathbf{1}|$& $\geq d$&unknown&&
-Normal $N(0,0.15)$\\
-3& $\Theta(i,j,k)=\log(0.5+tZ^{1/3}_{\max})$&$\geq d$& 2&&
+Gaussian $\tN(0,0.15)$\\
+3& $\log(0.5+Z_{\max})$&$\geq d$& 2&&
 Uniform $[-0.1,0.1]$\\
  \rowcolor{lightgray}
-4& $\Theta(i,j,k)=2.5-\exp(\tZ^{1/3}_{\min})$& $\geq d$ & 2 & &
-Normal $N(0,0.15)$
+4& $2.5-\exp(\tZ^{1/3}_{\min})$& $\geq d$ & 2 & &
+Gaussian $\tN(0,0.15)$
  % \\
 %5 &$(1+\exp(\tZ_{\max}+\tZ_{\min}))^{-1}$&$\geq d$&unknown&
 %\begin{minipage}{.4\textwidth}
