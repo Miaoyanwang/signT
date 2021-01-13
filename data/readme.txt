@@ -1,3 +1,8 @@
+Continuous tensor: 
+
+NIPS.RData, rNIPS.RData : NIPS words count data. It shows information about papers published in NIPS from 1987 to 2003, collected by Globerson et al.
+
+
 Binary tensor:
 
 Preferable: 
