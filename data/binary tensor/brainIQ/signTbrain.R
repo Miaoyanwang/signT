@@ -168,43 +168,89 @@ load(file = "CV/signT_brain_2.RData")
 
 Est = res$est
 
-numH = length(FSIQ[FSIQ>quantile(FSIQ,0.75)])
-Hbrain = Est[,,which(FSIQ>quantile(FSIQ,0.75))]
+# numH = length(FSIQ[FSIQ>quantile(FSIQ,0.75)])
+# Hbrain = Est[,,which(FSIQ>quantile(FSIQ,0.75))]
+# 
+# AvgHbrain = 0
+# for(i in 1:numH){
+#   AvgHbrain = AvgHbrain + Hbrain[,,i]
+# }
+# AvgHbrain = (AvgHbrain+t(AvgHbrain))/(2*numH)
+# 
+# image(AvgHbrain)
+# 
+# 
+# numL = length(FSIQ[FSIQ<quantile(FSIQ,0.25)])
+# Lbrain = Est[,,which(FSIQ<quantile(FSIQ,0.25))]
+# AvgLbrain = 0
+# for(i in 1:numL){
+#   AvgLbrain = AvgLbrain + Lbrain[,,i]
+# }
+# AvgLbrain = (AvgLbrain+t(AvgLbrain))/(2*numL)
+# image(AvgLbrain)
+# max(AvgHbrain-AvgLbrain)
+# 
+# diffbrain = AvgHbrain-AvgLbrain
+# 
+# image(diffbrain)
+# index = which(diffbrain>0.11,arr.ind = T)
+# 
+# diffedge = matrix(0,nrow = 68,ncol = 68)
+# for(i in 1:20){
+#   diffedge[index[i,][1],index[i,][2]]=1
+# }
+# 
+# write(diffedge,file = "diff.edge")
 
-AvgHbrain = 0
-for(i in 1:numH){
-  AvgHbrain = AvgHbrain + Hbrain[,,i]
+
+######update for unsupervised tensor denoising
+par(mfrow = c(1,1))
+Est = res$est
+edge=apply(Est,1:2,mean) ## marginal connection
+image(edge)
+edge = (t(edge)+edge)/2
+
+top = unique(sort(edge,decreasing = T))[1:10]
+length(which(edge==top[1])) #930 => 0.9875000, 465 edges G1
+length(which(edge==top[2])) # 40 => 0.9873904, 20 edges G2
+length(which(edge==top[3])) # 14 => 0.9872807, 7 edges G3
+length(which(edge==top[4])) #  8 => 0.9872807, 4 edges G3
+length(which(edge==top[5])) # 22 => 0.9871711, 11 edges G3
+length(which(edge==top[6])) #  4
+length(which(edge==top[7])) # 20
+length(which(edge==top[8])) # 12
+length(which(edge==top[9])) # 14
+
+
+unsup_edge = matrix(0,nrow = 68,ncol = 68)
+length(which(edge<=top[3]&edge>=top[5],arr.ind = T))
+
+unsup_edge[which(edge<=top[3]&edge>=top[5],arr.ind = T)]=edge[which(edge<=top[3]&edge>=top[5],arr.ind = T)]  
+
+write(unsup_edge,file = "unsup3.edge")
+
+
+#####update for supervised tensor with FSIQ
+
+FSIQ
+edge[]
+
+
+coefmat = matrix(0, nrow =68,ncol = 68)
+for( i in 1:67){
+  for( j in (i+1):68){
+    md = lm(Est[i,j,]~FSIQ)
+    coefmat[i,j] =  md$coefficients[2]
+    coefmat[j,i] =  md$coefficients[2]
+  }
 }
-AvgHbrain = (AvgHbrain+t(AvgHbrain))/(2*numH)
 
-image(AvgHbrain)
+top10 = unique(sort(coefmat,decreasing = T))[1:10]
 
+IQedge = ifelse(coefmat>=top10[10],coefmat,0)
+length(which(IQedge>0))
 
-numL = length(FSIQ[FSIQ<quantile(FSIQ,0.25)])
-Lbrain = Est[,,which(FSIQ<quantile(FSIQ,0.25))]
-AvgLbrain = 0
-for(i in 1:numL){
-  AvgLbrain = AvgLbrain + Lbrain[,,i]
-}
-AvgLbrain = (AvgLbrain+t(AvgLbrain))/(2*numL)
-image(AvgLbrain)
-max(AvgHbrain-AvgLbrain)
-
-diffbrain = AvgHbrain-AvgLbrain
-
-image(diffbrain)
-index = which(diffbrain>0.11,arr.ind = T)
-
-diffedge = matrix(0,nrow = 68,ncol = 68)
-for(i in 1:20){
-  diffedge[index[i,][1],index[i,][2]]=1
-}
-
-write(diffedge,file = "diff.edge")
-node = read.table("/Users/chanwoolee/Desktop/Study/Research/BrainNetViewer_20171031/Data/miaoyan/Desikan_miaoyan.node")
-node2 = read.table("/Users/chanwoolee/Desktop/Study/Research/BrainNetViewer_20171031/Data/miaoyan/ROI_68_lobe_degree.node")
-node[,6]
+write(IQedge,file = "IQ.edge")
 
 
-head(node)
-head(node2)
+
