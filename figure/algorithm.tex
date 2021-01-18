@@ -1,5 +1,5 @@
 \documentclass[10pt]{article}
-\usepackage[paperheight=3.4in,paperwidth=7.1in,margin=0.05in]{geometry}
+\usepackage[paperheight=2.4in,paperwidth=7.1in,margin=0.05in]{geometry}
 
 \usepackage{setspace}
 \usepackage{amsmath,amssymb}
@@ -48,25 +48,32 @@
 \begin{algorithm}
   \caption{Nonparametric tensor completion}\label{alg:tensorT}
  \begin{algorithmic}[1] 
-\INPUT  Noisy and incomplete data tensor $\tY_\Omega$, rank $r$.
-\OUTPUT Estimated signal tensor $\hat \Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$.
+\INPUT  Noisy and incomplete data tensor $\tY_\Omega$, rank $r$, resolution parameter $H$
+%\OUTPUT Estimated signal tensor $\hat \Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$.
 \For {$\pi \in \tH=\{ -1, \ldots, -{1\over H}, 0, {1\over H},\ldots, 1\}$}
-\State Estimate sign tensor $\sign(\tZ_\pi)$ by performing weighted classification using sub-algorithm.
-\EndFor
-\State Return estimated tensor $\hat \Theta={1\over 2H+1}\sum_{\pi \in \tH}\sign(\tZ_\pi)$.
-\vspace{.1cm}
-\Algphase{Sub-algorithm: Sign tensor estimation using weighted classification}
-\INPUT  Noisy and incomplete data tensor $\tY_\Omega$, rank $r$, target level $\pi$.
-\OUTPUT Sign tensor $\sign(\tZ) \in\{-1,1\}^{d_1\times \cdots \times d_K}$ as the estimation of $\sign(\Theta-\pi)$. 
 \State Random initialization of tensor factors $\mA_k=[\ma^{(k)}_1,\ldots,\ma^{(k)}_r]\in\mathbb{R}^{d_k\times r}$ for all $k\in[K]$. 
-\State Normalize columns of $\mA_k$ to have unit-norm for $k\in[K-1]$, and absorb the scales into the columns of $\mA_K$. 
+%\State Normalize columns of $\mA_k$ to have unit-norm for $k\in[K-1]$, and absorb the scales into the columns of $\mA_K$. 
 \While{not convergence}
 \For {$k=1,\ldots,K$}
-\State Update $\mA_k$ while holding others fixed: $\mA_k\leftarrow \argmin_{\mA_k\in\mathbb{R}^{d_k\times r}}\sum_{\omega\in \Omega} |\tY(\omega)-\pi|F(\tZ(\omega)\sign(\tY(\omega)-\pi))$, where $F(\cdot)$ is the large-margin loss, and $\tZ=\sum_{s\in[r]} \ma^{(1)}_s\otimes \cdots\otimes \ma^{(K)}_s$. 
+\State Update $\mA_k$ while holding others fixed: $\mA_k\leftarrow \argmin_{\mA_k\in\mathbb{R}^{d_k\times r}}\sum_{\omega\in \Omega} |\tY(\omega)-\pi|F(\tZ(\omega)\sign(\tY(\omega)-\pi))$, where $F(\cdot)$ is the large-margin loss, and $\tZ=\sum_{s\in[r]} \ma^{(1)}_s\otimes \cdots\otimes \ma^{(K)}_s$ is a rank-$r$ tensor. 
 \EndFor
+\EndWhile
+\State Return $\tZ_\pi\leftarrow \sum_{s\in[r]} \ma^{(1)}_s\otimes \cdots\otimes \ma^{(K)}_s$.
+\EndFor
+\OUTPUT Estimated signal tensor $\hat \Theta={1\over 2H+1}\sum_{\pi \in \tH}\sign(\tZ_\pi)$.
+%\vspace{.1cm}
+%\Algphase{Sub-algorithm: Sign tensor estimation using weighted classification}
+%\INPUT  Noisy and incomplete data tensor $\tY_\Omega$, rank $r$, target level $\pi$.
+%\OUTPUT Sign tensor $\sign(\tZ) \in\{-1,1\}^{d_1\times \cdots \times d_K}$ as the estimation of $\sign(\Theta-\pi)$. 
+%\State Random initialization of tensor factors $\mA_k=[\ma^{(k)}_1,\ldots,\ma^{(k)}_r]\in\mathbb{R}^{d_k\times r}$ for all $k\in[K]$. 
+%\State Normalize columns of $\mA_k$ to have unit-norm for $k\in[K-1]$, and absorb the scales into the columns of $\mA_K$. 
+%\While{not convergence}
+%\For {$k=1,\ldots,K$}
+%\State Update $\mA_k$ while holding others fixed: $\mA_k\leftarrow \argmin_{\mA_k\in\mathbb{R}^{d_k\times r}}\sum_{\omega\in \Omega} |\tY(\omega)-\pi|F(\tZ(\omega)\sign(\tY(\omega)-\pi))$, where $F(\cdot)$ is the large-margin loss, and $\tZ=\sum_{s\in[r]} \ma^{(1)}_s\otimes \cdots\otimes \ma^{(K)}_s$. 
+%\EndFor
 %\State Normalize columns of $\mA_k$ to have unit-norm for $k\in[K-1]$, and absorb the scales into the columns of $\mA_K$. 
 %\State Update $\tZ\leftarrow \sum_{s\in[r]} \ma^{(1)}_s\otimes \cdots\otimes \ma^{(K)}_s$, and $\mA_K\leftarrow \mA_K/\FnormSize{}{\tZ}$.
-\EndWhile
+%\EndWhile
     \end{algorithmic}
 \end{algorithm}
 

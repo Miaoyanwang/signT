@@ -37,10 +37,10 @@
 \renewcommand{\arraystretch}{1}
 
 \begin{table}
-\begin{tabular}{c|ccccccc}
-Simulation &Signal Tensor $\Theta$ & Rank&  Sign Rank  & Marginal CDF of Tensor Entries & Noise  \\
+\begin{tabular}{c|cccccccc}
+Simulation &Signal Tensor $\Theta$ & Rank&  Sign Rank  & Global $\alpha $&CDF of Tensor Entries & Noise  \\
 \hline
-1&$\tC\times\mM_1\times\mM_2\times\mM_3$ &$3^3$&2 & \multirow{4}{*}{
+1&$\tC\times\mM_1\times\mM_2\times\mM_3$ &$3^3$&2& $\infty$& \multirow{4}{*}{
 % \begin{minipage}{.2\textwidth}
 % \centering
 %\includegraphics[width=30mm,height=17mm]{cdf_combine_2.pdf}
@@ -49,13 +49,13 @@ Simulation &Signal Tensor $\Theta$ & Rank&  Sign Rank  & Marginal CDF of Tensor 
  &
 Uniform $[-0.3,0.3]$\\
   \rowcolor{lightgray}
-2& $|\ma\otimes \mathbf{1}\otimes\mathbf{1}-\mathbf{1}\otimes\mb\otimes \mathbf{1}|$& $\geq d$&unknown&&
-Gaussian $\tN(0,0.15)$\\
-3& $\log(0.5+Z_{\max})$&$\geq d$& 2&&
+2& $|\ma\otimes \mathbf{1}\otimes\mathbf{1}-\mathbf{1}\otimes\ma\otimes \mathbf{1}|$& $d$&unknown&$1$&&
+Normal $\tN(0,0.15)$\\
+3& $\log(0.5+Z_{\max})$&$\geq d$& 2& 1&&
 Uniform $[-0.1,0.1]$\\
  \rowcolor{lightgray}
-4& $2.5-\exp(\tZ^{1/3}_{\min})$& $\geq d$ & 2 & &
-Gaussian $\tN(0,0.15)$
+4& $2.5-\exp(\tZ^{1/3}_{\min})$& $\geq d$ & 2 & 1 & &
+Normal $\tN(0,0.15)$
  % \\
 %5 &$(1+\exp(\tZ_{\max}+\tZ_{\min}))^{-1}$&$\geq d$&unknown&
 %\begin{minipage}{.4\textwidth}
