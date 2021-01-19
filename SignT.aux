@@ -16,92 +16,140 @@
 \gdef\HyperFirstAtBeginDocument#1{#1}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
-\citation{hitchcock1927expression}
-\newlabel{Intro}{{1}{1}{}{section.1}{}}
-\newlabel{eq:CP}{{1}{1}{}{equation.2.1}{}}
-\MT@newlabel{eq:CP}
-\newlabel{eq:model}{{2}{1}{}{equation.3.2}{}}
-\citation{anandkumar2014tensor,montanari2018spectral,kadmon2018statistical,cai2019nonconvex}
+\citation{anandkumar2014tensor}
+\citation{wang2017bayesian}
+\citation{wang2019three}
+\citation{montanari2018spectral,cai2019nonconvex}
+\citation{anandkumar2014tensor}
+\citation{de2000multilinear}
+\citation{wang2019multiway}
+\citation{karbasi2012robust}
+\citation{wang2019three}
 \citation{chan2014consistent}
-\newlabel{fig:demo}{{1}{2}{Illustration of our proposed method. For visualization purpose, we plot an order-2 tensor (a.k.a. matrix) in the figure; similar procedure applies to higher-order tensors. (a): input tensor $\tY _\Omega $ with noisy and incomplete entries. (b) and (c): our method uses weighted classification to estimate sign tensors $\sign (\Theta -\pi )$ for a sequence of levels $\pi \in \{-1,\ldots ,-{1\over H},0,{1\over H},\ldots ,1\}$. (d) output tensor $\hat \Theta $ with denoised and imputed entries. The depicted example is based on Example 5, where the true signal matrix has full rank}{figure.1}{}}
+\newlabel{sec:intro}{{1}{1}{}{section.1}{}}
+\newlabel{eq:modelintro}{{1}{1}{}{equation.1.1}{}}
 \MT@newlabel{eq:model}
-\newlabel{sec:example}{{3.1}{2}{}{subsection.3.1}{}}
-\MT@newlabel{eq:model}
-\MT@newlabel{eq:model}
-\newlabel{fig:example}{{2}{2}{(a) Numerical rank of $\Theta =f(\tZ )$ versus $c$ in Example 1. Here, the numerical rank is computed as the minimal rank for which the relative least-squares error is below 0.1, and $\tZ $ is a rank-3 tensor with i.i.d.\ $N(0,1)$ entries in the (unnormalized) singular vectors. Reported ranks are averaged across 10 replicates of $\tZ $, with standard errors given in error bars. (b) Top $d=30$ tensor singular values in Example 2. Numerical values in both figures are obtained by running CP decomposition with random initialization}{figure.2}{}}
+\newlabel{fig:example}{{1}{1}{(a) Numerical rank of $\Theta $ versus $c$ in the first example. (b) Top $d=30$ tensor singular values in the second example}{figure.1}{}}
+\MT@newlabel{eq:modelintro}
+\citation{montanari2018spectral,cai2019nonconvex,ghadermarzy2019near}
+\citation{ghadermarzy2018learning,wang2018learning,han2020optimal}
+\citation{ganti2015matrix}
+\citation{pmlr-v70-ongie17a,fan2019online}
+\citation{anandkumar2017analyzing}
+\citation{hitchcock1927expression}
+\newlabel{fig:demo}{{2}{2}{Illustration of our method. For visualization purpose, we plot an order-2 tensor (a.k.a.\ matrix); similar procedure applies to higher-order tensors. (a): noisy and incomplete tensor input. (b) and (c): main steps of estimating sign tensor series $\sign (\Theta -\pi )$ for all $\pi \in {\scriptstyle \{-1,\ldots ,-{1\over H},0,{1\over H},\ldots ,1\}}$. (d) estimated signal $\hat \Theta $. The depicted example is a full-rank signal matrix based on Example 5 in Section~\ref {sec:representation}}{figure.2}{}}
+\newlabel{eq:CP}{{2}{2}{}{equation.1.2}{}}
+\MT@newlabel{eq:CP}
+\newlabel{sec:overview}{{2}{2}{}{section.2}{}}
+\newlabel{eq:model}{{3}{2}{}{equation.2.3}{}}
 \citation{cohn2013fast}
 \citation{alon2016sign}
 \citation{de2003nondeterministic}
 \citation{hillar2013most}
 \citation{alon2016sign}
-\citation{anandkumar2014tensor,montanari2018spectral,kadmon2018statistical,cai2019nonconvex}
-\newlabel{sec:representation}{{4}{3}{}{section.4}{}}
-\newlabel{sec:sign-rank}{{4.1}{3}{}{subsection.4.1}{}}
-\newlabel{cor:monotonic}{{1}{3}{Upper bounds of sign-rank}{cor.1}{}}
-\newlabel{prop:extention}{{1}{3}{Broadness}{prop.1}{}}
 \MT@newlabel{eq:model}
+\newlabel{sec:representation}{{3}{3}{}{section.3}{}}
+\MT@newlabel{eq:model}
+\newlabel{sec:sign-rank}{{3.1}{3}{}{subsection.3.1}{}}
+\newlabel{cor:monotonic}{{1}{3}{Upper bounds of sign-rank}{prop.1}{}}
+\newlabel{prop:extention}{{2}{3}{Broadness}{prop.2}{}}
+\MT@newlabel{eq:model}
+\citation{kolda2009tensor}
+\citation{wang2019multiway,chi2020provable}
 \citation{wang2018learning}
 \citation{hong2020generalized}
 \citation{robinson1988root}
-\citation{balabdaoui2019least,ganti2017learning,alquier2013sparse}
-\citation{wang2019multiway,chi2020provable}
+\citation{balabdaoui2019least,ganti2017learning}
 \citation{chan2014consistent,xu2018rates}
-\newlabel{eq:sample}{{3}{4}{}{equation.4.3}{}}
-\newlabel{eq:population}{{4}{4}{}{equation.4.4}{}}
+\newlabel{sec:identifiability}{{3.2}{4}{}{subsection.3.2}{}}
+\newlabel{eq:sample}{{4}{4}{}{equation.3.4}{}}
+\newlabel{eq:population}{{5}{4}{}{equation.3.5}{}}
 \MT@newlabel{eq:model}
-\newlabel{prop:global}{{2}{4}{Global optimum of weighted risk}{prop.2}{}}
+\newlabel{prop:global}{{3}{4}{Global optimum of weighted risk}{prop.3}{}}
 \MT@newlabel{eq:model}
-\newlabel{eq:optimal}{{2}{4}{Global optimum of weighted risk}{prop.2}{}}
+\newlabel{eq:optimal}{{3}{4}{Global optimum of weighted risk}{prop.3}{}}
+\citation{hastie2009elements}
 \newlabel{ass:margin}{{1}{5}{$\alpha $-smoothness}{assumption.1}{}}
-\newlabel{eq:smooth}{{5}{5}{$\alpha $-smoothness}{equation.4.5}{}}
+\newlabel{eq:smooth}{{6}{5}{$\alpha $-smoothness}{equation.3.6}{}}
 \MT@newlabel{eq:smooth}
+\newlabel{thm:population}{{1}{5}{Identifiability}{thm.1}{}}
 \MT@newlabel{eq:population}
 \MT@newlabel{eq:sample}
 \MT@newlabel{eq:smooth}
-\newlabel{sec:estimation}{{5}{5}{}{section.5}{}}
-\newlabel{eq:est}{{6}{5}{}{equation.5.6}{}}
-\newlabel{eq:estimate}{{7}{5}{}{equation.5.7}{}}
+\newlabel{sec:estimation}{{4}{5}{}{section.4}{}}
+\MT@newlabel{eq:model}
+\newlabel{eq:est}{{7}{5}{}{equation.4.7}{}}
+\newlabel{eq:estimate}{{8}{5}{}{equation.4.8}{}}
 \MT@newlabel{eq:sample}
 \MT@newlabel{eq:estimate}
-\newlabel{thm:classification}{{5.1}{5}{Estimation of sign series}{thm.5.1}{}}
-\citation{ganti2015matrix}
-\citation{bartlett2006convexity}
-\newlabel{thm:estimation}{{5.2}{6}{Tensor estimation error}{thm.5.2}{}}
 \MT@newlabel{eq:est}
+\newlabel{thm:classification}{{2}{5}{Sign tensor errors}{thm.2}{}}
 \MT@newlabel{eq:estimate}
+\newlabel{eq:bound}{{9}{5}{Sign tensor errors}{equation.4.9}{}}
+\citation{wang2019multiway}
+\citation{zhang2018tensor,wang2018learning}
+\citation{ghadermarzy2019near}
+\MT@newlabel{eq:bound}
+\newlabel{thm:estimation}{{3}{6}{Tensor estimation error}{thm.3}{}}
+\MT@newlabel{eq:est}
+\newlabel{eq:bound}{{10}{6}{Tensor estimation error}{equation.4.10}{}}
+\newlabel{eq:real}{{11}{6}{Tensor estimation error}{equation.4.11}{}}
+\MT@newlabel{eq:bound}
+\MT@newlabel{eq:real}
+\MT@newlabel{eq:bound}
+\MT@newlabel{eq:est}
+\citation{ghadermarzy2018learning,wang2018learning,hong2020generalized}
+\citation{bartlett2006convexity}
+\citation{ghadermarzy2018learning}
+\citation{wang2018learning,han2020optimal}
+\citation{anandkumar2014tensor,hong2020generalized}
+\newlabel{tab:simulation}{{3}{7}{Simulation models used for comparison. We use $\mM _k\in \{0,1\}^{d\times 3}$ to denote membership matrices, $\tC \in \mathbb {R}^{3\times 3\times 3}$ the block means, $\ma ={1\over d}(1,2,\ldots ,d)^T \in \mathbb {R}^d$, $\tZ _{\max }$ and $\tZ _{\min }$ are order-3 tensors with entries ${1\over d}\max (i,j,k)$ and ${1\over d}\min (i,j,k)$ respectively}{figure.3}{}}
 \MT@newlabel{eq:estimate}
+\MT@newlabel{eq:est}
 \MT@newlabel{eq:CP}
-\newlabel{fig:compare1}{{4}{7}{Estimation performance under full completion}{figure.4}{}}
-\newlabel{fig:compare2}{{5}{8}{Completion performance with observation}{figure.5}{}}
-\newlabel{eq:risk}{{8}{9}{}{equation.6.8}{}}
-\newlabel{eq:I}{{9}{9}{}{equation.6.9}{}}
-\MT@newlabel{eq:I}
-\MT@newlabel{eq:risk}
-\citation{mu2014square,9119759}
+\MT@newlabel{eq:est}
+\newlabel{sec:simulation}{{5}{7}{}{section.5}{}}
+\newlabel{fig:compare1}{{4}{7}{Estimation performance against tensor dimension. Panels (a)-(d) correspond to simulation models 1-4 in Table~\ref {tab:simulation}}{figure.4}{}}
+\citation{wang2017bayesian}
+\citation{globerson2007euclidean}
+\citation{li2009brain,wang2017bayesian}
 \bibstyle{chicago}
 \bibdata{tensor_wang}
 \bibcite{alon2016sign}{{1}{2016}{{Alon et~al.}}{{Alon, Moran, and Yehudayoff}}}
+\newlabel{fig:compare2}{{5}{8}{Completion performance against observation fraction. Panels (a)-(d) correspond to simulation models 1-4 in Table~\ref {tab:simulation}}{figure.5}{}}
+\newlabel{tab:data}{{1}{8}{Comparison of prediction error in the MRN-114 and NIPS data analysis. For low-rank CPT, we use R function {\tt rTensor} with default hyperparameters, and for our method, we set $H = 20$}{table.1}{}}
+\newlabel{fig:signal}{{6}{8}{Estimated signal tensor from brain connectivity data (a) and NIPS data (b)}{figure.6}{}}
 \bibcite{alquier2013sparse}{{2}{2013}{{Alquier and Biau}}{{Alquier and Biau}}}
 \bibcite{anandkumar2014tensor}{{3}{2014}{{Anandkumar et~al.}}{{Anandkumar, Ge, Hsu, Kakade, and Telgarsky}}}
-\bibcite{balabdaoui2019least}{{4}{2019}{{Balabdaoui et~al.}}{{Balabdaoui, Durot, Jankowski, et~al.}}}
-\bibcite{bartlett2006convexity}{{5}{2006}{{Bartlett et~al.}}{{Bartlett, Jordan, and McAuliffe}}}
-\bibcite{cai2019nonconvex}{{6}{2019}{{Cai et~al.}}{{Cai, Li, Poor, and Chen}}}
-\bibcite{chan2014consistent}{{7}{2014}{{Chan and Airoldi}}{{Chan and Airoldi}}}
-\bibcite{chi2020provable}{{8}{2020}{{Chi et~al.}}{{Chi, Gaines, Sun, Zhou, and Yang}}}
-\bibcite{cohn2013fast}{{9}{2013}{{Cohn and Umans}}{{Cohn and Umans}}}
-\bibcite{de2003nondeterministic}{{10}{2003}{{De~Wolf}}{{De~Wolf}}}
-\bibcite{ganti2017learning}{{11}{2017}{{Ganti et~al.}}{{Ganti, Rao, Balzano, Willett, and Nowak}}}
-\newlabel{lem:tensor}{{1}{10}{}{lem.1}{}}
-\newlabel{lem:bracketing}{{2}{10}{Bracketing number for bounded low rank tensor}{lem.2}{}}
-\bibcite{ganti2015matrix}{{12}{2015}{{Ganti et~al.}}{{Ganti, Balzano, and Willett}}}
-\bibcite{hillar2013most}{{13}{2013}{{Hillar and Lim}}{{Hillar and Lim}}}
-\bibcite{hitchcock1927expression}{{14}{1927}{{Hitchcock}}{{Hitchcock}}}
-\bibcite{hong2020generalized}{{15}{2020}{{Hong et~al.}}{{Hong, Kolda, and Duersch}}}
-\bibcite{9119759}{{16}{2020}{{{Ibrahim} et~al.}}{{{Ibrahim}, {Fu}, and {Li}}}}
-\bibcite{kadmon2018statistical}{{17}{2018}{{Kadmon and Ganguli}}{{Kadmon and Ganguli}}}
-\bibcite{montanari2018spectral}{{18}{2018}{{Montanari and Sun}}{{Montanari and Sun}}}
-\bibcite{mu2014square}{{19}{2014}{{Mu et~al.}}{{Mu, Huang, Wright, and Goldfarb}}}
-\bibcite{robinson1988root}{{20}{1988}{{Robinson}}{{Robinson}}}
-\bibcite{wang2018learning}{{21}{2020}{{Wang and Li}}{{Wang and Li}}}
-\bibcite{wang2019multiway}{{22}{2019}{{Wang and Zeng}}{{Wang and Zeng}}}
-\bibcite{xu2018rates}{{23}{2018}{{Xu}}{{Xu}}}
+\bibcite{anandkumar2017analyzing}{{4}{2017}{{Anandkumar et~al.}}{{Anandkumar, Ge, and Janzamin}}}
+\bibcite{balabdaoui2019least}{{5}{2019}{{Balabdaoui et~al.}}{{Balabdaoui, Durot, Jankowski, et~al.}}}
+\bibcite{bartlett2006convexity}{{6}{2006}{{Bartlett et~al.}}{{Bartlett, Jordan, and McAuliffe}}}
+\bibcite{cai2019nonconvex}{{7}{2019}{{Cai et~al.}}{{Cai, Li, Poor, and Chen}}}
+\bibcite{chan2014consistent}{{8}{2014}{{Chan and Airoldi}}{{Chan and Airoldi}}}
+\bibcite{chi2020provable}{{9}{2020}{{Chi et~al.}}{{Chi, Gaines, Sun, Zhou, and Yang}}}
+\bibcite{cohn2013fast}{{10}{2013}{{Cohn and Umans}}{{Cohn and Umans}}}
+\bibcite{de2000multilinear}{{11}{2000}{{De~Lathauwer et~al.}}{{De~Lathauwer, De~Moor, and Vandewalle}}}
+\bibcite{de2003nondeterministic}{{12}{2003}{{De~Wolf}}{{De~Wolf}}}
+\bibcite{fan2019online}{{13}{2019}{{Fan and Udell}}{{Fan and Udell}}}
+\bibcite{ganti2017learning}{{14}{2017}{{Ganti et~al.}}{{Ganti, Rao, Balzano, Willett, and Nowak}}}
+\bibcite{ganti2015matrix}{{15}{2015}{{Ganti et~al.}}{{Ganti, Balzano, and Willett}}}
+\bibcite{ghadermarzy2018learning}{{16}{2018}{{Ghadermarzy et~al.}}{{Ghadermarzy, Plan, and Yilmaz}}}
+\bibcite{ghadermarzy2019near}{{17}{2019}{{Ghadermarzy et~al.}}{{Ghadermarzy, Plan, and Yilmaz}}}
+\bibcite{globerson2007euclidean}{{18}{2007}{{Globerson et~al.}}{{Globerson, Chechik, Pereira, and Tishby}}}
+\bibcite{han2020optimal}{{19}{2020}{{Han et~al.}}{{Han, Willett, and Zhang}}}
+\bibcite{hastie2009elements}{{20}{2009}{{Hastie et~al.}}{{Hastie, Tibshirani, and Friedman}}}
+\bibcite{hillar2013most}{{21}{2013}{{Hillar and Lim}}{{Hillar and Lim}}}
+\bibcite{hitchcock1927expression}{{22}{1927}{{Hitchcock}}{{Hitchcock}}}
+\bibcite{hong2020generalized}{{23}{2020}{{Hong et~al.}}{{Hong, Kolda, and Duersch}}}
+\bibcite{karbasi2012robust}{{24}{2012}{{Karbasi and Oh}}{{Karbasi and Oh}}}
+\bibcite{kolda2009tensor}{{25}{2009}{{Kolda and Bader}}{{Kolda and Bader}}}
+\bibcite{li2009brain}{{26}{2009}{{Li et~al.}}{{Li, Liu, Li, Qin, Li, Yu, and Jiang}}}
+\bibcite{montanari2018spectral}{{27}{2018}{{Montanari and Sun}}{{Montanari and Sun}}}
+\bibcite{pmlr-v70-ongie17a}{{28}{2017}{{Ongie et~al.}}{{Ongie, Willett, Nowak, and Balzano}}}
+\bibcite{robinson1988root}{{29}{1988}{{Robinson}}{{Robinson}}}
+\bibcite{wang2017bayesian}{{30}{2017}{{Wang et~al.}}{{Wang, Durante, Jung, and Dunson}}}
+\bibcite{wang2019three}{{31}{2019}{{Wang et~al.}}{{Wang, Fischer, and Song}}}
+\bibcite{wang2018learning}{{32}{2020}{{Wang and Li}}{{Wang and Li}}}
+\bibcite{wang2019multiway}{{33}{2019}{{Wang and Zeng}}{{Wang and Zeng}}}
+\bibcite{xu2018rates}{{34}{2018}{{Xu}}{{Xu}}}
+\bibcite{zhang2018tensor}{{35}{2018}{{Zhang and Xia}}{{Zhang and Xia}}}

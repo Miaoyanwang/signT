@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: SignT.aux
+The style file: chicago.bst
+Database file #1: tensor_wang.bib
+Warning--no number and no volume in han2020optimal
+Warning--page numbers missing in han2020optimal
+Warning--no number and no volume in robinson1988root
+Warning--no number and no volume in zhang2018tensor
+Warning--page numbers missing in zhang2018tensor
+You've used 35 entries,
+            2861 wiz_defined-function locations,
+            857 strings with 11191 characters,
+and the built_in function-call counts, 28104 in all, are:
+= -- 2392
+> -- 2159
+< -- 10
++ -- 662
+- -- 712
+* -- 2636
+:= -- 4926
+add.period$ -- 109
+call.type$ -- 35
+change.case$ -- 274
+chr.to.int$ -- 35
+cite$ -- 40
+duplicate$ -- 761
+empty$ -- 1651
+format.name$ -- 836
+if$ -- 5374
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 36
+newline$ -- 178
+num.names$ -- 352
+pop$ -- 222
+preamble$ -- 1
+purify$ -- 485
+quote$ -- 0
+skip$ -- 786
+stack$ -- 0
+substring$ -- 1623
+swap$ -- 289
+text.length$ -- 10
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 690
+warning$ -- 5
+while$ -- 342
+width$ -- 0
+write$ -- 472
+(There were 5 warnings)

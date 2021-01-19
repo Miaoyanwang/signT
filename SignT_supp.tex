@@ -111,7 +111,16 @@
 \subsection{Details of simulation}
 Here, the numerical rank is computed as the minimal rank for which the relative least-squares error is below 0.1, and $\tZ$ is a rank-3 tensor with i.i.d.\ $N(0,1)$ entries in the (unnormalized) singular vectors. Reported ranks are averaged across 10 replicates of $\tZ$, with standard errors given in error bars. Numerical values in both figures are obtained by running CP decomposition with random initialization.
 
-
+\begin{example}[Banded matrix] Let $\ma=(2^{-1},2^{-2},\ldots,2^{-d})^T\in\mathbb{R}^d$ and $\text{rev}(\ma)=(2^{-d},\ldots,2^{-1})^T\in\mathbb{R}^d$. We consider the following matrix
+\[
+\mM=\ma\otimes\ma+\text{rev}(\ma)\otimes \text{rev}(\ma).
+\]
+It is easy to see that the $\mM$ is both symmetric and skew symmetric,
+\[
+\mM(i,j)=\mM(j,i)=\mM(d-i,d-j)=\mM(d-j,d-i)=2^{-d-1}\left(2^{j-i}+2^{i-j}\right),\ \text{for all }(i,j)\in[d]^2.
+\] 
+Furthermore, $\rank(\mM)=2$, and $\sign(\mM-\pi)$ is a banded matrix. 
+\end{example}
 \begin{example}[Addition examples that satisfying Proposition~\ref{prop:extention}]
 We provide a tensor example with $\rank(\Theta)=d$ but $\srank(\Theta)=3$. Define $\Theta=\sum_{r=1}^d \me^{\otimes 2}_r\otimes \mathbf{1}^{\otimes (K-2)}_d$, where $\me_r=(0,\ldots,0,1,0,\ldots,0)^T$ is the $r$-th canonical basis in $\mathbb{R}^d$, and $\mathbf{1}_d\in\mathbb{R}^d$ is a vector with all entries 1. Based on the definition of $\Theta$, we have
 \[
