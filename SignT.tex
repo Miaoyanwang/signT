@@ -193,9 +193,9 @@ In the above and many other examples, the signal tensors $\Theta$ of interest ha
 We develop a new model called sign representable tensors to address the aforementioned challenges. 
 Figure~\ref{fig:demo} illustrates our main idea. Our approach is built on the nonparametric sign representation of signal tensors, and we propose to estimate the sign tensors through a series of weighted classifications. In contrast to existing methods, our method is guaranteed to recover a wide range of low- and high-rank signals. We highlight two main contributions that set our work apart from earlier literature. 
 
-Statistically, the problem of high-rank estimation is fundamentally challenging. Existing estimation theory~\cite{montanari2018spectral,cai2019nonconvex,ghadermarzy2019near} exclusively focuses on the regime of fixed $r$ growing $d$. However, such premise fails in high-rank tensors, where the rank may grow with, or even exceed, the dimension. A proper notion of nonparametric complexity is crucial. We show that, somewhat surprisingly, the sign tensor series not only preserves all information in the original signals, but also brings the benefits of flexibility and accuracy over classical low-rank models. The results fill the gap between parametric (low-rank) and nonparametric (high-rank) tensors, thereby greatly enriching the tensor literature. 
+Statistically, the problem of high-rank tensor estimation is challenging. Existing estimation theory~\cite{montanari2018spectral,cai2019nonconvex,ghadermarzy2019near} exclusively focuses on the regime of fixed $r$ growing $d$. However, such premise fails in high-rank tensors, where the rank may grow with, or even exceed, the dimension. A proper notion of nonparametric complexity is crucial. We show that, somewhat surprisingly, the sign tensor series not only preserves all information in the original signals, but also brings the benefits of flexibility and accuracy over classical low-rank models. The results fill the gap between parametric (low-rank) and nonparametric (high-rank) tensors, thereby greatly enriching the tensor model literature. 
 
-From computational perspective, optimizations regarding tensors are in general NP-hard. Fortunately, tensors sought in application are often specially-structured, for which a number of efficient algorithms are available~\cite{ghadermarzy2018learning,wang2018learning, han2020optimal}. Our high-rank tensor estimate is provably reductable to a series of classifications, and it enjoys the divide-and-conquer nature that facilitates computation. The ability to import and adapt existing tensor algorithms is one advantage of our method. 
+From computational perspective, optimizations regarding tensors are in general NP-hard. Fortunately, tensors sought in applications are often specially-structured, for which a number of efficient algorithms are available~\cite{ghadermarzy2018learning,wang2018learning, han2020optimal}. Our high-rank tensor estimate is provably reductable to a series of classifications, and its divide-and-conquer nature facilitates efficient computation. The ability to import and adapt existing tensor algorithms is one advantage of our method. 
 
 We also highlight the challenges associated with tensors compared to matrices. High-rank matrix estimation is recently studied under nonlinear models~\cite{ganti2015matrix} and subspace clustering~\cite{pmlr-v70-ongie17a,fan2019online}. However, the problem for high-rank tensors is more prevalent, because the tensor rank often exceeds the dimension when order $K\geq 3$~\cite{anandkumar2017analyzing}. This is in sharp contrast to matrices. We show that, applying matrix methods to higher-order tensors results in suboptimal estimates. A full exploitation of the higher-order structure is needed; this is another challenge we address in this paper.
 
@@ -232,7 +232,7 @@ Here, $L(\cdot,\cdot)$ denotes a carefully-designed classification objective fun
 \[
 \hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH} \sign(\hat \tZ_\pi).
 \]
-Our approach is built on the nonparametric sign representation of signal tensors, and the estimate $\hat \Theta$ is essentially learned from dichotomized tensor series $\{\sign(\tY_\Omega-\pi)\colon \pi \in \tH\}$ with certain weights. Interestingly, we show that a proper analysis of dichotomized data not only preserves all information in the original signals, but also brings benefits of accuracy and flexibility over classical low-rank models. 
+Our approach is built on the nonparametric sign representation of signal tensors. The estimate $\hat \Theta$ is essentially learned from dichotomized tensor series $\{\sign(\tY_\Omega-\pi)\colon \pi \in \tH\}$ with certain weights. Notably, we show that a careful analysis of dichotomized data not only preserves all information in the original signals, but also brings benefits of accuracy and flexibility over classical low-rank models. 
 %The method enjoys both statistical effectiveness and computational efficiency. 
 
 
@@ -443,8 +443,9 @@ In this section, we compare our nonparametric tensor method ({\bf NonParaT}) wit
 
 
 \begin{figure}[h!]
+\vspace{-.2cm}
 \includegraphics[width=.45\textwidth]{figure/fig1-4.pdf}
-\vspace{-.4cm}
+\vspace{-.3cm}
 \caption{Estimation performance against tensor dimension. Panels (a)-(d) correspond to simulation models 1-4 in Table~\ref{tab:simulation}.}\label{fig:compare1}
 \vspace{-.2cm}
 \end{figure}

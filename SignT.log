@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  19 JAN 2021 02:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  19 JAN 2021 02:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -711,7 +711,7 @@ Overfull \hbox (4.28725pt too wide) detected at line 341
 T1/cmr/m/n/10 ) [][] \OML/cmm/m/it/10 ;
  []
 
-<figure/algorithm.pdf, id=372, 513.11702pt x 173.448pt>
+<figure/algorithm.pdf, id=371, 513.11702pt x 173.448pt>
 File: figure/algorithm.pdf Graphic file (type pdf)
 <use figure/algorithm.pdf>
 Package pdftex.def Info: figure/algorithm.pdf  used on input line 368.
@@ -720,7 +720,7 @@ Package pdftex.def Info: figure/algorithm.pdf  used on input line 368.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [5]
-<figure/simulation_new.pdf, id=412, 519.62099pt x 68.29494pt>
+<figure/simulation_new.pdf, id=411, 519.62099pt x 68.29494pt>
 File: figure/simulation_new.pdf Graphic file (type pdf)
 <use figure/simulation_new.pdf>
 Package pdftex.def Info: figure/simulation_new.pdf  used on input line 419.
@@ -732,34 +732,34 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [6 <./figure/algorithm.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-<figure/fig1-4.pdf, id=528, 493.64394pt x 432.44792pt>
+<figure/fig1-4.pdf, id=527, 493.64394pt x 432.44792pt>
 File: figure/fig1-4.pdf Graphic file (type pdf)
 <use figure/fig1-4.pdf>
-Package pdftex.def Info: figure/fig1-4.pdf  used on input line 446.
+Package pdftex.def Info: figure/fig1-4.pdf  used on input line 447.
 (pdftex.def)             Requested size: 219.51863pt x 192.30345pt.
  [7pdfTeX warning (ext4): destination with the same identifier (name{figure.3})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.462 
+l.463 
       pdfTeX warning (ext4): destination with the same identifier (name{figure.
 4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.462 
+l.463 
        <./figure/simulation_new.pdf> <./figure/fig1-4.pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figure/fig1-4.pdf): PDF in
 clusion: multiple pdfs with page group included in a single page
 >]
-<figure/fig5-8.pdf, id=829, 510.8253pt x 435.8455pt>
+<figure/fig5-8.pdf, id=828, 510.8253pt x 435.8455pt>
 File: figure/fig5-8.pdf Graphic file (type pdf)
 <use figure/fig5-8.pdf>
-Package pdftex.def Info: figure/fig5-8.pdf  used on input line 465.
+Package pdftex.def Info: figure/fig5-8.pdf  used on input line 466.
 (pdftex.def)             Requested size: 219.51863pt x 187.29684pt.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 496.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 497.
 
  (/usr/local/texlive/2018/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
@@ -768,15 +768,15 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<figure/brainIQ.pdf, id=837, 614.89201pt x 627.8104pt>
+<figure/brainIQ.pdf, id=836, 614.89201pt x 627.8104pt>
 File: figure/brainIQ.pdf Graphic file (type pdf)
 <use figure/brainIQ.pdf>
-Package pdftex.def Info: figure/brainIQ.pdf  used on input line 506.
+Package pdftex.def Info: figure/brainIQ.pdf  used on input line 507.
 (pdftex.def)             Requested size: 97.563pt x 99.6087pt.
-<figure/signal.pdf, id=838, 743.24998pt x 665.00876pt>
+<figure/signal.pdf, id=837, 743.24998pt x 665.00876pt>
 File: figure/signal.pdf Graphic file (type pdf)
 <use figure/signal.pdf>
-Package pdftex.def Info: figure/signal.pdf  used on input line 507.
+Package pdftex.def Info: figure/signal.pdf  used on input line 508.
 (pdftex.def)             Requested size: 131.71416pt x 117.84961pt.
  (./SignT.bbl [8pdfTeX warning (ext4): destination with the same identifier (na
 me{figure.5}) has been already used, duplicate ignored
@@ -805,21 +805,21 @@ nclusion: multiple pdfs with page group included in a single page
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figure/signal.pdf): PDF in
 clusion: multiple pdfs with page group included in a single page
 >] [9])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 526.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 527.
  [10
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 526.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 527.
  (./SignT.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 526.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 526.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 527.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 527.
 Package rerunfilecheck Info: File `SignT.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 526.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 527.
  ) 
 Here is how much of TeX's memory you used:
  11085 strings out of 492649
@@ -859,10 +859,10 @@ ts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1
 /urw/times/utmb8a.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/urw/times
 /utmr8a.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/urw/times/utmr8a.pf
 b></usr/local/texlive/2018/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on SignT.pdf (10 pages, 2387556 bytes).
+Output written on SignT.pdf (10 pages, 2387586 bytes).
 PDF statistics:
- 1196 PDF objects out of 1200 (max. 8388607)
- 911 compressed objects within 10 object streams
+ 1195 PDF objects out of 1200 (max. 8388607)
+ 910 compressed objects within 10 object streams
  93 named destinations out of 1000 (max. 500000)
  29737 words of extra memory for PDF output out of 29859 (max. 10000000)
 
