@@ -512,8 +512,10 @@ Table~\ref{tab:data} compares the prediction accuracy of our method and low-rank
 
 We next examine the estimated signal tensor $\hat \Theta$ form our method. Figure~\ref{fig:signal}a shows the top 10 edges in MSN-144 dataset based on regression analysis of denoised edge connection with IQ scores. We find that top edges are mostly inter-hemisphere, which are consistent with recent research in brain connectivity pattern with intelligence~\cite{li2009brain,wang2017bayesian}. Figure~\ref{fig:signal}b illustrates the result from NIPS data, where we plot the top entries in $\hat \Theta$ corresponding to top authors and words (after excluding generic words such as \emph{figure}, \emph{current}, etc). The detected patten is consistent with the active topics in the NIPS publication. Among the top words are \emph{temporal} (marginal mean = 0.76), \emph{neural} (0.75), and \emph{generalization} (0.70), whereas top authors are \emph{Richard Sutton} (0.71), \emph{Pouget\_A}(0.70), \emph{Kawato\_M} (0.70), and \emph{Bartlett Peter} (0.64). We also find strong heterogeneity among word occurrence across authors and years. For example, \emph{neural} and \emph{weights} are popular words for \emph{Tomas Griffiths} in 1998-1999, whereas \emph{temproal} occurs more often in \emph{Richard Sutton et al} in 1996. The achieved denoising accuracy and pattern detection demonstrates the applicability of our method.
 
+
 \section{Conclusion}
-We have develop a new framework for high-rank tensor estimation based on sign tensor representation. The new method improves the predictive power and enhances interpretability by nonparametric estimation of signal tensors. The application to brain connection dataset and author-topic mining shows the practical utility of the proposed method.
+We have developed high-rank tensor estimation based on sign series representation. Our work offers a new paradigm for structure learning, and we obtain results that were previously hard to establish. Tensor learning is a great challenge for further research. We hope the work opens up new inquiry that allow more researchers to contribute to this field.
+
 
 \bibliographystyle{chicago}
 
