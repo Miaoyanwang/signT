@@ -6,26 +6,18 @@ Alon, N., S.~Moran, and A.~Yehudayoff (2016).
 \newblock Sign rank versus vc dimension.
 \newblock In {\em Conference on Learning Theory}, pp.\  47--80.
 
-\bibitem[\protect\citeauthoryear{Alquier and Biau}{Alquier and
-  Biau}{2013}]{alquier2013sparse}
-Alquier, P. and G.~Biau (2013).
-\newblock Sparse single-index model.
-\newblock {\em Journal of Machine Learning Research\/}~{\em 14\/}(Jan),
-  243--280.
-
 \bibitem[\protect\citeauthoryear{Anandkumar, Ge, Hsu, Kakade, and
   Telgarsky}{Anandkumar et~al.}{2014}]{anandkumar2014tensor}
 Anandkumar, A., R.~Ge, D.~Hsu, S.~M. Kakade, and M.~Telgarsky (2014).
 \newblock Tensor decompositions for learning latent variable models.
-\newblock {\em The Journal of Machine Learning Research\/}~{\em 15\/}(1),
+\newblock {\em Journal of Machine Learning Research\/}~{\em 15\/}(1),
   2773--2832.
 
 \bibitem[\protect\citeauthoryear{Anandkumar, Ge, and Janzamin}{Anandkumar
   et~al.}{2017}]{anandkumar2017analyzing}
 Anandkumar, A., R.~Ge, and M.~Janzamin (2017).
 \newblock Analyzing tensor power method dynamics in overcomplete regime.
-\newblock {\em The Journal of Machine Learning Research\/}~{\em 18\/}(1),
-  752--791.
+\newblock {\em Journal of Machine Learning Research\/}~{\em 18\/}(1), 752--791.
 
 \bibitem[\protect\citeauthoryear{Balabdaoui, Durot, Jankowski,
   et~al.}{Balabdaoui et~al.}{2019}]{balabdaoui2019least}
@@ -91,14 +83,14 @@ Fan, J. and M.~Udell (2019).
 Ganti, R., N.~Rao, L.~Balzano, R.~Willett, and R.~Nowak (2017).
 \newblock On learning high dimensional structured single index models.
 \newblock In {\em Proceedings of the Thirty-First AAAI Conference on Artificial
-  Intelligence}, pp.\  1898--1904. AAAI Press.
+  Intelligence}, pp.\  1898--1904.
 
 \bibitem[\protect\citeauthoryear{Ganti, Balzano, and Willett}{Ganti
   et~al.}{2015}]{ganti2015matrix}
 Ganti, R.~S., L.~Balzano, and R.~Willett (2015).
 \newblock Matrix completion under monotonic single index models.
-\newblock {\em Advances in Neural Information Processing Systems\/}~{\em 28},
-  1873--1881.
+\newblock In {\em Advances in Neural Information Processing Systems},
+  Volume~28, pp.\  1873--1881.
 
 \bibitem[\protect\citeauthoryear{Ghadermarzy, Plan, and Yilmaz}{Ghadermarzy
   et~al.}{2018}]{ghadermarzy2018learning}
@@ -117,8 +109,7 @@ Ghadermarzy, N., Y.~Plan, and {\"O}.~Yilmaz (2019).
   Tishby}{Globerson et~al.}{2007}]{globerson2007euclidean}
 Globerson, A., G.~Chechik, F.~Pereira, and N.~Tishby (2007).
 \newblock Euclidean embedding of co-occurrence data.
-\newblock {\em Journal of Machine Learning Research\/}~{\em 8\/}(Oct),
-  2265--2295.
+\newblock {\em Journal of Machine Learning Research\/}~{\em 8}, 2265--2295.
 
 \bibitem[\protect\citeauthoryear{Han, Willett, and Zhang}{Han
   et~al.}{2020}]{han2020optimal}
@@ -151,18 +142,32 @@ Hong, D., T.~G. Kolda, and J.~A. Duersch (2020).
 \newblock Generalized canonical polyadic tensor decomposition.
 \newblock {\em SIAM Review\/}~{\em 62\/}(1), 133--163.
 
-\bibitem[\protect\citeauthoryear{Karbasi and Oh}{Karbasi and
-  Oh}{2012}]{karbasi2012robust}
-Karbasi, A. and S.~Oh (2012).
-\newblock Robust localization from incomplete local information.
-\newblock {\em IEEE/ACM Transactions on Networking\/}~{\em 21\/}(4),
-  1131--1144.
+\bibitem[\protect\citeauthoryear{Hore, Vi{\~n}uela, Buil, Knight, McCarthy,
+  Small, and Marchini}{Hore et~al.}{2016}]{hore2016tensor}
+Hore, V., A.~Vi{\~n}uela, A.~Buil, J.~Knight, M.~I. McCarthy, K.~Small, and
+  J.~Marchini (2016).
+\newblock Tensor decomposition for multiple-tissue gene expression experiments.
+\newblock {\em Nature genetics\/}~{\em 48\/}(9), 1094.
+
+\bibitem[\protect\citeauthoryear{Jain and Oh}{Jain and
+  Oh}{2014}]{jain2014provable}
+Jain, P. and S.~Oh (2014).
+\newblock Provable tensor factorization with missing data.
+\newblock In {\em Advances in Neural Information Processing Systems},
+  Volume~27, pp.\  1431--1439.
 
 \bibitem[\protect\citeauthoryear{Kolda and Bader}{Kolda and
   Bader}{2009}]{kolda2009tensor}
 Kolda, T.~G. and B.~W. Bader (2009).
 \newblock Tensor decompositions and applications.
 \newblock {\em SIAM Review\/}~{\em 51\/}(3), 455--500.
+
+\bibitem[\protect\citeauthoryear{Lee and Wang}{Lee and
+  Wang}{2020}]{pmlr-v119-lee20i}
+Lee, C. and M.~Wang (2020).
+\newblock Tensor denoising and completion based on ordinal observations.
+\newblock In {\em International Conference on Machine Learning}, pp.\
+  5778--5788.
 
 \bibitem[\protect\citeauthoryear{Li, Liu, Li, Qin, Li, Yu, and Jiang}{Li
   et~al.}{2009}]{li2009brain}
@@ -179,12 +184,10 @@ Montanari, A. and N.~Sun (2018).
 
 \bibitem[\protect\citeauthoryear{Ongie, Willett, Nowak, and Balzano}{Ongie
   et~al.}{2017}]{pmlr-v70-ongie17a}
-Ongie, G., R.~Willett, R.~D. Nowak, and L.~Balzano (2017, 06--11 Aug).
+Ongie, G., R.~Willett, R.~D. Nowak, and L.~Balzano (2017).
 \newblock Algebraic variety models for high-rank matrix completion.
-\newblock In D.~Precup and Y.~W. Teh (Eds.), {\em Proceedings of the 34th
-  International Conference on Machine Learning}, Volume~70 of {\em Proceedings
-  of Machine Learning Research}, International Convention Centre, Sydney,
-  Australia, pp.\  2691--2700. PMLR.
+\newblock In {\em International Conference on Machine Learning}, Volume~70,
+  pp.\  2691--2700.
 
 \bibitem[\protect\citeauthoryear{Robinson}{Robinson}{1988}]{robinson1988root}
 Robinson, P.~M. (1988).
@@ -196,13 +199,6 @@ Robinson, P.~M. (1988).
 Wang, L., D.~Durante, R.~E. Jung, and D.~B. Dunson (2017).
 \newblock Bayesian network--response regression.
 \newblock {\em Bioinformatics\/}~{\em 33\/}(12), 1859--1866.
-
-\bibitem[\protect\citeauthoryear{Wang, Fischer, and Song}{Wang
-  et~al.}{2019}]{wang2019three}
-Wang, M., J.~Fischer, and Y.~S. Song (2019).
-\newblock Three-way clustering of multi-tissue multi-individual gene expression
-  data using semi-nonnegative tensor decomposition.
-\newblock {\em The Annals of Applied Statistics\/}~{\em 13\/}(2), 1103--1127.
 
 \bibitem[\protect\citeauthoryear{Wang and Li}{Wang and
   Li}{2020}]{wang2018learning}
@@ -223,6 +219,13 @@ Xu, J. (2018).
 \newblock Rates of convergence of spectral methods for graphon estimation.
 \newblock In {\em International Conference on Machine Learning}, pp.\
   5433--5442. PMLR.
+
+\bibitem[\protect\citeauthoryear{Yuan and Zhang}{Yuan and
+  Zhang}{2016}]{yuan2016tensor}
+Yuan, M. and C.-H. Zhang (2016).
+\newblock On tensor completion via nuclear norm minimization.
+\newblock {\em Foundations of Computational Mathematics\/}~{\em 16\/}(4),
+  1031--1068.
 
 \bibitem[\protect\citeauthoryear{Zhang and Xia}{Zhang and
   Xia}{2018}]{zhang2018tensor}
