@@ -16,7 +16,7 @@
    width="655.73291"
    height="574.44305"
    viewBox="0 0 655.73293 574.44306"
-   sodipodi:docname="fig1-4new.svg"
+   sodipodi:docname="fig1-4.svg"
    inkscape:version="0.92.2 5c3e80d, 2017-08-06"><metadata
      id="metadata8"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
@@ -4424,7 +4424,7 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="0.58368371"
-     inkscape:cx="466.83195"
+     inkscape:cx="101.90828"
      inkscape:cy="399.26203"
      inkscape:window-x="572"
      inkscape:window-y="1"
@@ -8636,4 +8636,14 @@
          x="572.75385"
          y="88.058098"
          style="font-size:16px;stroke-width:1">NonparaT</tspan></text>
+<text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:17.33333397px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="574.65778"
+       y="108.04369"
+       id="text3267"><tspan
+         sodipodi:role="line"
+         id="tspan3265"
+         x="574.65778"
+         y="108.04369">(ours)</tspan></text>
 </g></svg>
