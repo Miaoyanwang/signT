@@ -21,8 +21,10 @@
 
 \input macros.tex
 \def\sign{\textup{sgn}}
-\usepackage{algpseudocode,algorithm}
 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
 
 
 %\input macros.tex
@@ -40,15 +42,13 @@
 \algnewcommand\OUTPUT{\item[\algorithmicoutput]}
 %\usepackage{icml2020}
 
-\usepackage{algorithm}
-\usepackage{algpseudocode}
 
 \begin{document}
 
 \begin{algorithm}
   \caption{Nonparametric tensor completion}\label{alg:tensorT}
  \begin{algorithmic}[1] 
-\INPUT  Noisy and incomplete data tensor $\tY_\Omega$, rank $r$, resolution parameter $H$
+\INPUT  Noisy and incomplete data tensor $\tY_\Omega$, rank $r$, resolution parameter $H$.
 %\OUTPUT Estimated signal tensor $\hat \Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$.
 \For {$\pi \in \tH=\{ -1, \ldots, -{1\over H}, 0, {1\over H},\ldots, 1\}$}
 \State Random initialization of tensor factors $\mA_k=[\ma^{(k)}_1,\ldots,\ma^{(k)}_r]\in\mathbb{R}^{d_k\times r}$ for all $k\in[K]$. 
