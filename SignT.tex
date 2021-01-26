@@ -236,7 +236,7 @@ The sign-rank of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is
 The sign-rank is also called \emph{support rank}~\cite{cohn2013fast}, \emph{minimal rank}~\cite{alon2016sign}, and \emph{nondeterministic rank}~\cite{de2003nondeterministic}. Earlier work defines sign-rank for binary-valued tensors; we extend the notion to continuous-valued tensors. Note that the sign-rank concerns only the sign pattern but discards the magnitude information of $\Theta$. In particular, $\srank(\Theta)=\srank(\sign \Theta)$. 
 
 Like most tensor problems~\cite{hillar2013most}, determining the sign-rank for a general tensor is NP hard~\cite{alon2016sign}. Fortunately, tensors arisen in applications often possess special structures that facilitate analysis. %We show that the low-sign-rank tensor family is strictly broader than usual low-rank family. 
-By definition, the sign-rank is upper bounded by the tensor rank, and it enjoys invariance under every monotonic transformation. 
+By definition, the sign-rank is upper bounded by the tensor rank, and it enjoys invariance under monotonic transformation. 
 \begin{prop}[Upper bounds of the sign-rank]~\label{cor:monotonic} For any strictly monotonic function $g\colon \mathbb{R}\to \mathbb{R}$ with $g(0)=0$,
 \[
 \textup{srank}(\Theta)\leq\rank(g(\Theta)).
