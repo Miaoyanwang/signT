@@ -13,7 +13,7 @@
    viewBox="0 0 508.91688 434.21719"
    version="1.2"
    id="svg1708"
-   sodipodi:docname="fig5-8new.svg"
+   sodipodi:docname="fig5-8.svg"
    inkscape:version="0.92.2 5c3e80d, 2017-08-06">
   <metadata
      id="metadata1712">
@@ -45,12 +45,12 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="0.8033764"
-     inkscape:cx="211.00606"
+     inkscape:cx="544.59813"
      inkscape:cy="265.32686"
      inkscape:window-x="453"
      inkscape:window-y="11"
      inkscape:window-maximized="0"
-     inkscape:current-layer="surface679"
+     inkscape:current-layer="surface153347"
      showguides="false" />
   <defs
      id="defs257">
@@ -11279,41 +11279,41 @@
          inkscape:connector-curvature="0" />
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:10px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75"
+         style="font-style:normal;font-weight:normal;font-size:11.89929008px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.89244676"
          x="778.91309"
-         y="-179.6028"
+         y="-179.6297"
          id="text9977"><tspan
            sodipodi:role="line"
            id="tspan9975"
            x="778.91309"
-           y="-179.6028"
-           style="font-size:10px;stroke-width:0.75">  CPT</tspan></text>
+           y="-179.6297"
+           style="font-size:11.89929008px;stroke-width:0.89244676">  CPT</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:10px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75"
+         style="font-style:normal;font-weight:normal;font-size:12.11038113px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.90827858"
          x="780.18262"
-         y="-161.96219"
+         y="-163.49207"
          id="text9981"><tspan
            sodipodi:role="line"
            id="tspan9979"
            x="780.18262"
-           y="-161.96219"
-           style="font-size:10px;stroke-width:0.75">  NonParaM</tspan></text>
+           y="-163.49207"
+           style="font-size:12.11038113px;stroke-width:0.90827858">  NonParaM</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:10px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75"
-         x="787.78815"
-         y="-145.00793"
+         style="font-style:normal;font-weight:normal;font-size:12.43580818px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.93268561"
+         x="787.5788"
+         y="-146.87383"
          id="text9985"><tspan
            sodipodi:role="line"
            id="tspan9983"
-           x="787.78815"
-           y="-145.00793"
-           style="font-size:10px;stroke-width:0.75">NonParaT</tspan><tspan
+           x="787.5788"
+           y="-146.87383"
+           style="font-size:12.43580818px;stroke-width:0.93268561">NonParaT</tspan><tspan
            sodipodi:role="line"
-           x="787.78815"
-           y="-132.50793"
-           style="font-size:10px;stroke-width:0.75"
+           x="787.5788"
+           y="-131.32907"
+           style="font-size:12.43580818px;stroke-width:0.93268561"
            id="tspan9987">(ours)</tspan></text>
     </g>
     <g
