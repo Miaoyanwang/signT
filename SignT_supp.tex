@@ -233,7 +233,7 @@ We provide several additional examples such that $\rank(\Theta)\geq d$ whereas $
 \] 
 where $\mathbf{1}_{d_k}\in\mathbb{R}^{d_k}$ denotes an all-one vector, for $3\leq k\leq K$. Then we have
 \[
-\rank(\Theta)=\rank(\mM),\quad \text{and}\quad \srank(\Theta-\pi)\leq\srank(\mM-\pi) \ \text{for all $\pi\in\mathbb{R}$}.
+\rank(\Theta)=\rank(\mM),\quad \text{and}\quad \srank(\Theta-\pi)=\srank(\mM-\pi) \ \text{for all $\pi\in\mathbb{R}$}.
 \] 
 \end{prop}
 \begin{proof}
@@ -313,7 +313,7 @@ Therefore, $\sign\left(2^{-d}+2^{-d-3}-\mA\right)=2\mI-\mathbf{1}_d\otimes \math
 \section{Additional data analysis}~\label{sec:data}
 \subsection{Brain connectivity analysis}
 \begin{figure}[h]\label{fig:braincv}
-\includegraphics[width = 17cm]{figure/brain_sim.pdf}
+\includegraphics[width = \textwidth]{figure/brain_sim.pdf}
 \caption{Estimation errors versus ranks on cross-validation. Four different missing rates are used: 20\%,33\%,50\%, and 67\%. }
 \end{figure}
 Figure~\ref{fig:braincv} shows the MAE based on cross-validation with $r = 3,6,9,12,15$ and $H = 20$. We find that our method outperforms substantially in all combinations of ranks and missing rates.   The figure shows that the performance gap between two methods increases as the proportion of  missing data gets higher.  This  trend  implies  that increased missingness gives more advantages to our method.
