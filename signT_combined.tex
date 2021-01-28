@@ -404,7 +404,7 @@ We apply our method to two tensor datasets, the MRN-114 human brain connectivity
 The brain dataset records the structural connectivity among 68 brain regions for 114 individuals along with their Intelligence Quotient (IQ) scores. We organize the connectivity data into an order-3 tensor, where entries encode the presence or absence of fiber connections between brain regions across individuals. 
 
 \begin{figure}[h]
-\includegraphics[width = 17cm]{figure/brain_sim.pdf}
+\includegraphics[width =\textwidth]{figure/brain_sim.pdf}
 \caption{Estimation errors versus ranks on cross-validation. Four different missing rates are used: 20\%,33\%,50\%, and 67\%. }
 \label{fig:braincv}
 \end{figure}
@@ -415,15 +415,15 @@ We find that our method outperforms substantially in all combinations of ranks a
 
 \begin{table}[h!]
 \centering
-\resizebox{0.6\textwidth}{!}{
-\begin{tabular}{c|c|c|c}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{c|c|c|c|c|c}
 \Xhline{2\arrayrulewidth}
-\multicolumn{4}{c|}{MRN-114 brain connectivity dataset}\\
+\multicolumn{6}{c}{MRN-114 brain connectivity dataset}\\
 \Xhline{2\arrayrulewidth}
-Method                    & $r=6$ &  $r=9$&$r=12$\\
+Method             &$r =3$        & $r=6$ &  $r=9$&$r=12$&$r = 15$\\
 \hline
-NonparaT (Ours)  & {\bf 0.14}(0.003) &  {\bf 0.12}(0.004)&{\bf 0.12}(0.007)\\
-CPT  & 0.23(0.006)&0.22(0.004)&0.21(0.004)\\
+NonparaT (Ours)& {\bf 0.18}(0.000) & {\bf 0.14}(0.000) &  {\bf 0.12}(0.000)&{\bf 0.12}(0.000)&{\bf 0.11}(0.000)\\
+CPT &0.26(0.006) & 0.23(0.006)&0.22(0.004)&0.21(0.006)&0.20(0.008)\\
  \Xhline{2\arrayrulewidth}
 \end{tabular}
 }
