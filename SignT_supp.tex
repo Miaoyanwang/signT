@@ -454,8 +454,8 @@ We expand the variance by
 &\leq \mathbb{E}|L(\tZ,\bar \tY_\Omega)-L(\bar \Theta, \bar \tY_\Omega)|\notag \\
 &\leq \mathbb{E}|\sign\tZ-\sign \bar \Theta| = \textup{MAE}(\sign\tZ, \sign \bar \Theta),
 \end{align}
-where the second line comes from the boundedness of classification loss $L(\cdot ,\cdot)$, and the last line comes from the inequality $||\sign\tZ(\omega)-\sign\bar\tY_\Omega(\omega)|-|\sign\bar\Theta(\omega)-\sign \tY_\Omega(\omega)||\leq |\sign\tZ(\omega)-\sign\bar\Theta(\omega)|$ and the fact that the classification weight $|\bar\tY(\omega)|$ is bounded for $\omega\in\Omega$.
-Here we ignore constant multiplication in $\leq$ because the constants will be suppressed in the asymptotical order relationship $\lesssim$ in the end.  The conclusion~\eqref{eq:variance} then directly follows by applying remark~\ref{eq:rmk} to~\eqref{eq:mae}.
+where the second line comes from the boundedness of classification loss $L(\cdot ,\cdot)$, and the last line comes from the inequality $||\sign\tZ(\omega)-\sign\bar\tY_\Omega(\omega)|-|\sign\bar\Theta(\omega)-\sign \tY_\Omega(\omega)||\leq |\sign\tZ(\omega)-\sign\bar\Theta(\omega)|$ and the boundedness of  classification weight $|\bar\tY(\omega)|$  for $\omega\in\Omega$.
+Here we ignore constant multiplication in $\leq$ because  constants will be suppressed in the asymptotical order relationship $\lesssim$ in the end.  The conclusion~\eqref{eq:variance} then directly follows by applying remark~\ref{eq:rmk} to~\eqref{eq:mae}.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:classification}]
@@ -465,7 +465,7 @@ Because the classification loss $L(\cdot, \cdot)$ is scale-free, i.e., $L(\tZ,\c
 \[
 \hat \tZ=\argmin_{\tZ\colon \textup{rank}(\tZ)\leq r, \FnormSize{}{\tZ}\leq 1}L(\tZ, \bar \tY_{\Omega}).
 \]
-We view $\tY_\Omega=\{\bar \tY(\omega)\colon \omega\in \Omega\}$ as a collection of $n$ independent random variables where the randomness is induced form both $\bar \tY$ and $\omega\sim\Pi$.  The tensor $\tZ$  induces a function $f_{\tZ}\colon \Omega\mapsto \mathbb{R	}$ such that $f_{\tZ}(\omega) = \tZ(\omega)$ for all $\omega\in\Omega$.  Then
+We view $\tY_\Omega=\{\bar \tY(\omega)\colon \omega\in \Omega\}$ as a collection of $n$ independent random variables where the randomness is induced form both $\bar \tY$ and $\omega\sim\Pi$.  Notice that the tensor $\tZ$  induces a function $f_{\tZ}\colon \Omega\mapsto \mathbb{R	}$ such that $f_{\tZ}(\omega) = \tZ(\omega)$ for all $\omega\in\Omega$.  Then
 \[
 \Delta_n(f_{\tZ}, f_{\tY})
 %={1\over n}\sum_{\omega\in \Omega} \KeepStyleUnderBrace{|\bar y_i||\sign z_i-\sign \bar y_i|}_{=:f(y_i)} 
@@ -504,9 +504,9 @@ Inserting the above bound into~\eqref{eq:remark} gives
 \begin{align}
 \textup{MAE}(\sign \hat \tZ, \sign \bar \Theta) &\lesssim [\risk(\hat \tZ)-\risk(\bar \Theta)]^{\alpha/(\alpha+1)}+{1\over \rho}[\risk(\hat \tZ)-\risk(\bar \Theta)]\\
 &\lesssim t_n^{\alpha/(\alpha+2)}+{1\over \rho^{\alpha/\alpha+1}}t_n^{\alpha/(\alpha+1)}+{1\over \rho}t_n^{(\alpha+1)/(\alpha+2)}+{1\over \rho^2}t_n\\
-&\leq 4t_n^{\alpha/(\alpha+2)}+{4\over \rho^2}t_n.
+&\leq 4t_n^{\alpha/(\alpha+2)}+{4\over \rho^2}t_n,
 \end{align}
-where the last line follows from the fact that $a(b^2+b^{(\alpha+2)/(\alpha+1)}+b+1) \leq 4 a (b^2+1)$ with $a:={t_n \over \rho^2}$ and $b:=\rho t_n^{-1/(\alpha+2)}$. Plugging the form of $t_n$ in~\eqref{eq:tn} completes the proof. 
+where the last line follows from the fact that $a(b^2+b^{(\alpha+2)/(\alpha+1)}+b+1) \leq 4 a (b^2+1)$ with $a:={t_n \over \rho^2}$ and $b:=\rho t_n^{-1/(\alpha+2)}$. Plugging the form of $t_n$ in~\eqref{eq:tn} completes the proof.  Since we assume mode of tensor $K$ is fixed, we suppress $K\log K$ term in the theorems of the main paper for notatational simplicity.
 \end{proof}
 
 \begin{defn}[Bracketing number]\label{pro:inftynorm}
@@ -563,26 +563,25 @@ g(L_n)&\leq \sqrt{d_{\max}rK\log K}\left( {1\over L_n^{(\alpha+2)/(2\alpha+2)}}+
 \\&\leq \sqrt{d_{\max}rK\log K}\left(\left[\left(d_{\max}rK\log K\over n\right)^{\alpha+1\over \alpha+2}\right]^{-{\alpha+2\over2\alpha+2}}+\left[\rho \left(d_{\max}rK\log K\over \rho n\right)\right]^{-{1\over2}} \right)
 \\&\leq C'n^{1/2},
 \end{align}
-where $C'>0$ is a constant independent of $r,K$  and $d_{\text{max}}$. The proof is therefore complete. 
+where $C'>0$ is a constant independent of $r,K$  and $d_{\text{max}}$. The proof is therefore complete.  
 \end{proof}
 
 \subsection{Proof of Theorem~\ref{thm:estimation}}
 \begin{proof}[Proof of Theorem~\ref{thm:estimation}]
 From definition of $\hat\Theta$, we have
-\begin{align}\label{eq:pfmain3}
-\text{MAE}(\hat\Theta,\Theta) &= \mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\sign\hat Z_\pi-\Theta\right|\\
+\begin{align}\label{eq:pfmain3}\nonumber
+\text{MAE}(\hat\Theta,\Theta) &= \mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\sign\hat Z_\pi-\Theta\right|\\\nonumber
 &\leq \mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\left(\sign\hat Z_\pi-\sign(\Theta-\pi)\right)\right|+\mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\sign(\Theta-\pi)-\Theta\right|\\&
-\leq \frac{1}{2H+1}\sum_{\pi\in\Pi}\text{MAE}(\sign\hat Z_\pi,\sign(\Theta-\pi))+\frac{1}{H}.
+\leq \frac{1}{2H+1}\sum_{\pi\in\Pi}\text{MAE}(\sign\hat Z_\pi,\sign(\Theta-\pi))+\frac{1}{H},
 \end{align}
-
-
-
-
-Write $n=|\Omega|$. We prove that 
+where the last line comes  from the triangle inequality and the inequality
+\begin{equation}
+\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\sign(\Theta(\omega)-\pi)-\Theta(\omega)\right|\leq \frac{1}{H}.
+\end{equation}
+Write $n=|\Omega|$. Now it suffices to bound  the first term in \eqref{eq:pfmain3}.  We prove that 
 \begin{equation}\label{eq:total}
 {1\over 2H+1}\sum_{\pi \in \Pi} \textup{MAE}(\sign \hat Z_\pi, \sign (\Theta-\pi)) \lesssim  t_n^{\alpha/(\alpha+2)}+{1\over H}+ H t_n, \quad \text{with } t_n={d_{\max}rK\log K\over n}.
 \end{equation}
-
 Theorem~\ref{thm:classification} implies that the  sign estimation accuracy depends on the closeness of $\pi\in \tH$ to the mass points in $\tH$. Therefore, we partition the level set $\pi \in \tH$ based on their closeness to $\tH$. Specifically, let $\tN_H \stackrel{\text{def}}{=}\bigcup_{\pi'\in\tN}\left(\pi'-\frac{1}{H},\pi'+\frac{1}{H}\right)$ denote the set of levels close to the mass points. We expand~\eqref{eq:total} by
 \begin{align}\label{eq:twobounds}
 &{1\over 2H+1}\sum_{\pi \in \Pi} \textup{MAE}(\sign \hat Z_\pi, \sign (\Theta-\pi))\notag \\
@@ -600,6 +599,7 @@ Therefore, plugging \eqref{eq:total} into \eqref{eq:pfmain3} yields,
 \begin{align}
 \text{MAE}(\hat\Theta,\Theta)\lesssim \left(d_{\max}rK\log K\over |\Omega|\right)^{\alpha/(\alpha+2)}+\frac{1}{H}+H{d_{\max}rK\log K\over |\Omega|}.
  \end{align}
+ By the same reason, we suppress $K\log K$ term in the main paper.
 %Setting $H\approx \sqrt{|\Omega|\over r d_{\text{max}}\log d_{\text{max}}}$,we 
 %\begin{equation}\label{eq:real}
 %\textup{MAE}(\hat \Theta, \Theta)\lesssim \left(d_{\max}r \over|\Omega|\right)^{{\alpha \over \alpha+2} \vee {1\over 2}}.
