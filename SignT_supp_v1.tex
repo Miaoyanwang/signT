@@ -80,7 +80,7 @@
   }\limits
 }
 \usepackage{xr}
-\externaldocument{signT}
+\externaldocument{signT_v1}
 \input macros.tex
 
 
@@ -89,8 +89,7 @@
 \def\rank{\textup{rank}}
 \def\caliP{\mathscr{P}_{\textup{sgn}}}
 \def\risk{\textup{Risk}}
-
-
+\usepackage{microtype}
 
 \title{Supplements for ``Beyond the Signs: Nonparametric Tensor Completion via Sign Series''}
 
@@ -107,21 +106,21 @@
 The appendix consists of additional theoretical results (Section~\ref{sec:additional}), numerical experiments (Section~\ref{sec:data}), and proofs (Section~\ref{sec:proof}). 
 
 \section{Additional results}\label{sec:additional}
-\subsection{Sensitivity of tensor rank to monotonic transformation}
+\subsection{Sensitivity of tensor rank to monotonic transformations}
 In Section~\ref{sec:intro} of the main paper, we have provided a motivating example to show the sensitivity of tensor rank to monotonic transformations. Here, we describe the details of the example set-up. 
 
 The step 1 is to generate a rank-3 tensor $\tZ$ based on the CP representation
 \[
 \tZ=\ma^{\otimes 3}+\mb^{\otimes 3}+\mc^{\otimes 3},
 \]
-where $\ma,\mb,\mc\in\mathbb{R}^{30}$ are vectors consisting of $N(0,1)$ entries.  Here we denote power of Kronecker product as 
-\[\ma^{\otimes n} = \KeepStyleUnderBrace{\ma\otimes \ma \otimes \cdots \otimes \ma}_{n \text{ times } }.\] Then we apply $f(z)=(1+\exp(-cz))^{-1}$ to $\tZ$ entrywise, and obtain a transformed tensor $\Theta=f(\tZ)$. 
-The step 2 is to determine the rank of $\Theta$. Unlike matrices, the exact rank determination for tensors is NP hard. Therefore, we choose to compute the numerical rank of $\Theta$ as an approximation.  The numerical rank of $\Theta$ is determined as the minimal rank for which the relative approximation error is below $0.1$, i.e.,
+where $\ma,\mb,\mc\in\mathbb{R}^{30}$ are vectors consisting of $N(0,1)$ entries, and the shorthand $\ma^{\otimes 3}=\ma\otimes \ma\otimes \ma$ denotes the Kronecker power. We then apply $f(z)=(1+\exp(-cz))^{-1}$ to $\tZ$ entrywise, and obtain a transformed tensor $\Theta=f(\tZ)$. 
+
+The step 2 is to determine the rank of $\Theta$. Unlike matrices, the exact rank determination for tensors is NP hard. Therefore, we choose to compute the numerical rank of $\Theta$ as an approximation.  The numerical rank is determined as the minimal rank for which the relative approximation error is below $0.1$, i.e.,
 \begin{equation}\label{eq:numeric}
  \hat r(\Theta)=\min\left\{s\in\mathbb{N}_{+}\colon \min_{\hat \Theta\colon \rank(\hat \Theta)\leq s}{\FnormSize{}{\Theta-\hat \Theta}\over \FnormSize{}{\Theta}} \leq 0.1\right\}.
 \end{equation}
 We compute $\hat r(\Theta)$ by searching over $s\in\{1,\ldots,30^2\}$, where for each $s$, we (approximately) solve the least-square minimization using CP function in R package {\tt rTensor}. 
-We repeat steps 1-2 ten times, and report the averaged numerical rank of $\Theta$ along with transformation level $c$ in Figure~\ref{fig:example}a.  
+We repeat steps 1-2 ten times, and plot the averaged numerical rank of $\Theta$ versus transformation level $c$ in Figure~\ref{fig:example}a.  
 
 \subsection{Tensor rank and sign-rank}\label{sec:high-rank}
 In the main paper, we have provided several tensor examples with high tensor rank but low sign-rank. This section provides more examples and their proofs. 
@@ -136,8 +135,7 @@ Unless otherwise specified, let $\Theta$ be an order-$K$ $(d,\ldots,d)$-dimensio
  \]
 \end{example}
 \begin{proof}
-We first prove the results for $K=2$. 
-We can check  that $\Theta$ has a full rank i.e. $\rank(\Theta)=d$ for $K = 2$ from elementary row operations as follows.
+We first prove the results for $K=2$. The full-rankness of $\Theta$ is verified from elementary row operations as follows
 \begin{align}
 \begin{pmatrix}
 (\Theta_2-\Theta_1)/(\log(1+\frac{2}{d})-\log(1+\frac{1}{d}))\\(\Theta_3-\Theta_2)/(\log(1+\frac{3}{d})-\log(1+\frac{2}{d}))\\\vdots\\ (\Theta_d-\Theta_{d-1})/(\log(1+\frac{d}{d})-\log(1+\frac{d-1}{d}))\\\Theta_d/\log(1+\frac{d}{d})
@@ -149,8 +147,8 @@ We can check  that $\Theta$ has a full rank i.e. $\rank(\Theta)=d$ for $K = 2$ f
  1 & 1 &1 & 1 &1
 \end{pmatrix},
 \end{align}
-where $\Theta_i$ denotes $i$-th row of $\Theta$. 
-Now it suffices to show $\srank(\Theta-\pi)\leq 2$ for $\pi$ in the feasible range $(\log(1+{1\over d}),\ \log 2)$. When $\pi$ is in this range, there exists an index $i^*\in\{2,\ldots,d\}$, such that $\log(1+{i^*-1\over d})< \pi\leq \log(1+{i^*\over d})$. By definition, the sign matrix $\sign (\Theta-\pi)$ takes the form
+where $\Theta_i$ denotes the $i$-th row of $\Theta$. 
+Now it suffices to show $\srank(\Theta-\pi)\leq 2$ for $\pi$ in the feasible range $(\log(1+{1\over d}),\ \log 2)$. In this case, there exists an index $i^*\in\{2,\ldots,d\}$, such that $\log(1+{i^*-1\over d})< \pi\leq \log(1+{i^*\over d})$. By definition, the sign matrix $\sign (\Theta-\pi)$ takes the form
 \begin{equation}\label{eq:matrix}
 \sign (\Theta(i,j)-\pi)=
 \begin{cases}
@@ -159,6 +157,7 @@ Now it suffices to show $\srank(\Theta-\pi)\leq 2$ for $\pi$ in the feasible ran
 \end{cases}
 \end{equation}
 Therefore, the matrix $\sign (\Theta-\pi)$ is a rank-2 block matrix, which implies $\srank(\Theta-\pi)=2$. 
+
 We now extend the results to $K\geq 3$. By definition of the tensor rank, the rank of a tensor is lower bounded by the rank of its matrix slice.  So we have $\rank(\Theta)\geq \rank(\Theta(\colon,\colon,1,\ldots,1))=d$. For the sign rank with feasible $\pi$, notice that the sign tensor $\sign(\Theta-\pi)$ takes the similar form as in~\eqref{eq:matrix},
 \begin{equation}\label{eq:entrywise}
 \sign (\Theta(i_1,\ldots,i_K)-\pi)=
@@ -167,32 +166,34 @@ We now extend the results to $K\geq 3$. By definition of the tensor rank, the ra
 1, & \text{otherwise},
 \end{cases}
 \end{equation}
-where $i^*$ denotes an index that satisfies $\log(1+\frac{i^*-1}{d})<\pi\leq \log(1+\frac{i^*}{d})$.
-The identity~\eqref{eq:entrywise} implies that $\sign(\Theta-\pi)=-2\ma^{\otimes K}+1$, where $\ma=(1,\ldots,1,0,\ldots,0)^T$ takes 1 on $i$-th entry if $i<i^*$ and 0 otherwise. Henceforth $\srank(\Theta-\pi)=2$. 
+where $i^*$ denotes the index that satisfies $\log(1+\frac{i^*-1}{d})<\pi\leq \log(1+\frac{i^*}{d})$.
+The equation~\eqref{eq:entrywise} implies that $\sign(\Theta-\pi)=-2\ma^{\otimes K}+1$, where $\ma=(1,\ldots,1,0,\ldots,0)^T$ takes 1 on the $i$-th entry if $i<i^*$ and 0 otherwise. Henceforth $\srank(\Theta-\pi)=2$. 
 \end{proof}
 
-In fact, the example~\ref{example:max} is a special case of the following Proposition. 
+In fact, Example~\ref{example:max} is a special case of the following Proposition. 
 
 \begin{prop}[Min/Max hypergraphon] Let $\tZ_{\max}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote a tensor with entries 
 \begin{equation}\label{eq:max}
 \tZ_{\max}(i_1,\ldots,i_K)=\max(x^{(1)}_{i_1},\ldots,x^{(K)}_{i_K}),
 \end{equation}
-where $x^{(1)}_{i_1}, \ldots, x^{(K)}_{i_K} \in[0,1]$ are pre-specified numbers for all $i_k\in[d_k]$ and $k\in[K]$. Let $g\colon \mathbb{R}\to \mathbb{R}$ be a continuous function and $\Theta:=g(\tZ_{\max})$ be the transformed tensor.  Suppose the function $g(z)=\pi$ for a fixed $\pi\in\mathbb{R}$ has at most $r\geq 1$ distinct real roots, then sign rank of $(\Theta-\pi)$ satisfies
+where $x^{(k)}_{i_k}\in[0,1]$ are given numbers for all $i_k\in[d_k]$. Let $g\colon \mathbb{R}\to \mathbb{R}$ be a continuous function and $\Theta:=g(\tZ_{\max})$ be the transformed tensor. For a given $\pi\in[-1,1]$, suppose the function $g(z)=\pi$ has at most $r\geq 1$ distinct real roots. Then, the sign rank of $(\Theta-\pi)$ satisfies
 \[
 \srank(\Theta-\pi)\leq 2r.
 \]
 The same conclusion holds if we use $\min$ in place of $\max$ in~\eqref{eq:max}. 
 \end{prop}
 \begin{proof} 
-We reorder the tensor index along each mode such that $x^{(k)}_{1}\leq \cdots \leq x^{(k)}_{d_k}$ for all $k\in[K]$. Based on the construction of $\tZ_{\max}$, the reordering does not change the rank of $\tZ_{\max}$ or $(\Theta-\pi)$. Let $z_1<\cdots<z_r$ be the $r$ distinct real roots for the equation $g(z)=\pi$. We separate the proof for two cases, $r=1$ and $r\geq 2$. 
+We reorder the tensor indices along each mode such that $x^{(k)}_{1}\leq \cdots \leq x^{(k)}_{d_k}$ for all $k\in[K]$. Based on the construction of $\tZ_{\max}$, the reordering does not change the rank of $\tZ_{\max}$ or $(\Theta-\pi)$. Let $z_1<\cdots<z_r$ be the $r$ distinct real roots for the equation $g(z)=\pi$. We separate the proof for two cases, $r=1$ and $r\geq 2$. 
 
 \begin{itemize}[leftmargin=*,topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
 \item When $r=1$. The continuity of $g(\cdot)$ implies that the function $(g(z)-\pi)$ has at most one sign change point. Using similar proof as in Example~\ref{example:max}, we have
 \begin{align}
 &\sign(\Theta-\pi)=1-2\ma^{(1)}\otimes\cdots\otimes \ma^{(K)}\quad \text{ or } \quad \sign(\Theta-\pi) = 2\ma^{(1)}\otimes\cdots\otimes \ma^{(K)} -1,
 \end{align}
-where we have denoted the binary vectors 
-\[\ma^{(k)}=(\KeepStyleUnderBrace{1,\ldots,1,}_{\text{positions for which $x_{i_k}^{k}<z_1$}}0,\ldots,0)^T \text{ for $k\in[K].$}\]
+where $\ma^{(k)}$ are binary vectors defined by
+\[
+\ma^{(k)}=(\KeepStyleUnderBrace{1,\ldots,1,}_{\text{positions for which $x_{i_k}^{k}<z_1$}}0,\ldots,0)^T, \quad \text{for }k\in[K].
+\]
 Therefore, $\srank(\Theta-\pi)\leq \rank(\sign(\Theta-\pi)) = 2$. 
 
 \item When $r\geq 2$.   By continuity, the function $(g(z)-\pi)$ is non-zero and remains an unchanged sign in each of the intervals $(z_s, z_{s+1})$ for $1\leq s\leq r-1$. Define the index set $\tI=\{s\in\mathbb{N}_{+}\colon \text{the interval $(z_s, z_{s+1})$ in which $g(z)<\pi$}\}$. 
@@ -200,14 +201,12 @@ We now prove that the sign tensor $\sign(\Theta-\pi)$ has rank bounded by $2r-1$
 \begin{align}\label{eq:support}
 \{\omega\colon \Theta(\omega)-\pi <0 \} & = \{\omega \colon g(\tZ_{\max}(\omega))<\pi\} \notag \\
 &=\cup_{s\in \tI} \{\omega\colon \tZ_{\max}(\omega)\in(z_s,z_{s+1})\}\notag\\
-&=\cup_{s\in \tI} \{\omega\colon \text{$x^{(k)}_{i_k}< z_{s+1}$ for all $k\in[K]$}\}\cap \{\omega\colon \text{$x^{(k)}_{i_k}\leq z_{s}$ for all $k\in[K]$}\}^c.
+&=\cup_{s\in \tI}\Big( \{\omega\colon \text{$x^{(k)}_{i_k}< z_{s+1}$ for all $k\in[K]$}\}\cap \{\omega\colon \text{$x^{(k)}_{i_k}\leq z_{s}$ for all $k\in[K]$}\}^c\Big).
 \end{align}
-The identity~\eqref{eq:support} is equivalent to 
+The equation~\eqref{eq:support} is equivalent to 
 \begin{align}\label{eq:indicator}
 \mathds{1}(\Theta(i_1,\ldots,i_K)< \pi)&
-=\sum_{s\in \tI}\left( \prod_k \mathds{1}(x^{(k)}_{i_k}< z_{s+1}) - \prod_k \mathds{1}(x^{(k)}_{i_k}\leq z_{s})\right),\ 
-%=\sum_{s\in \tI}\gamma_s \left[1-\mathds{1}(x_{i_1}\notin(z_s,z_{s+1}))\times \cdots \times \mathds{1}(x_{i_K}\notin(z_s,z_{s+1}))\right]
-%&=\sum_{s\leq r-1}\gamma_s\ma^{(1)}_s\otimes\cdots\otimes \ma^{(K)}_s
+=\sum_{s\in \tI}\left( \prod_k \mathds{1}(x^{(k)}_{i_k}< z_{s+1}) - \prod_k \mathds{1}(x^{(k)}_{i_k}\leq z_{s})\right),
 \end{align}
 for all $(i_1,\ldots,i_K)\in[d_1]\times \cdots\times[d_K]$, where $\mathds{1}(\cdot)\in\{0,1\}$ denotes the indicator function. The equation~\eqref{eq:indicator} implies the low-rank representation of $\sign(\Theta-\pi)$,
 \begin{equation}\label{eq:sum}
@@ -218,15 +217,15 @@ where we have denoted the two binary vectors
 \ma^{(k)}_{s+1}=(\KeepStyleUnderBrace{1,\ldots,1,}_{\text{positions for which $x_{i_k}^{(k)}<z_{s+1}$}}0,\ldots 0)^T,\quad \text{and}\quad
 \bar \ma^{(k)}_s=(\KeepStyleUnderBrace{1,\ldots,1,}_{\text{positions for which $x_{i_k}^{(k)}\leq z_{s}$}}0,\ldots 0)^T.
 \]
-Note that $|\tI|\leq r-1$. Therefore we conclude that 
+Therefore, by~\eqref{eq:sum} and the assumption $|\tI|\leq r-1$, we conclude that 
 \[
 \srank(\Theta-\pi)\leq 1+2(r-1)=2r-1.
 \]
 \end{itemize}
-Combining two cases yield that $\srank(\Theta-\pi)\leq 2r$ for any $r\geq 1$.
+Combining two cases yields that $\srank(\Theta-\pi)\leq 2r$ for any $r\geq 1$.
 \end{proof}
 
-We provide several additional examples such that $\rank(\Theta)\geq d$ whereas $\srank(\Theta)\leq c$ for a constant $c$ independent of $d$. We state the examples in the matrix case, i.e, $K=2$. Similar conclusion extends to $K\geq 3$, by the following Proposition. 
+We next provide several additional examples such that $\rank(\Theta)\geq d$ whereas $\srank(\Theta)\leq c$ for a constant $c$ independent of $d$. We state the examples in the matrix case, i.e, $K=2$. Similar conclusion extends to $K\geq 3$, by the following Proposition. 
 \begin{prop} Let $\mM\in\mathbb{R}^{d_1\times d_2}$ be a matrix. For any given $K\geq 3$, define an order-$K$ tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ by
 \[
 \Theta=\mM\otimes \mathbf{1}_{d_3}\otimes \cdots \otimes \mathbf{1}_{d_K},
@@ -250,7 +249,7 @@ Note that $\mM$ is a banded matrix with entries
 \[
 \mM(i,j)={|i-j|}, \quad \text{for all }(i,j)\in[d]^2.
 \]
-Elementary row operation directly shows that $\mM$ is full rank as follows.  
+Elementary row operation directly shows that $\mM$ is full rank as follows,
 \begin{align}
 \begin{pmatrix}
 (\mM_1+\mM_d)/(d-1)\\
@@ -272,11 +271,11 @@ We now show $\srank(\mM-\pi)\leq 3$ by construction. Define two vectors $\mb=(2^
 \begin{equation}\label{eq:A}
 \mA=\mb\otimes\text{rev}(\mb)+\text{rev}(\mb)\otimes\mb.
 \end{equation}
-It is easy to see that $\mA\in\mathbb{R}^{d\times d}$ is a banded matrix with entries
+The matrix $\mA\in\mathbb{R}^{d\times d}$ is banded with entries
 \[
 \mA(i,j)=\mA(j,i)=\mA(d-i,d-j)=\mA(d-j,d-i)=2^{-d-1}\left(2^{j-i}+2^{i-j}\right),\ \text{for all }(i,j)\in[d]^2.
 \] 
-Furthermore, the entry value $\mA(i,j)$ decreases with respect to $|i-j|$, i.e., 
+Furthermore, the entry value $\mA(i,j)$ decreases with respect to $|i-j|$; i.e., 
 \begin{equation}\label{eq:decrease}
 \mA(i,j) \geq \mA(i',j'), \quad \text{for all }|i-j|\geq |i'-j'|.
 \end{equation}
@@ -293,7 +292,7 @@ Let $\mI$ be a $d$-by-$d$ identity matrix. Then
 \]
 \end{example}
 \begin{proof}
-Depending on the value of $\pi$, the sign matrix $\sign(\mI-\pi)$ fall into one of the three cases: 1) $\sign(\mI-\pi)$ is a matrix of all 1; 2) $\sign(\mI-\pi)$ is a matrix of all -1; 3) $\sign(\mI-\pi)=2\mI-\mathbf{1}_d\otimes \mathbf{1}_d$. The former two cases are trivial, so it suffices to show $\srank(\mI-\pi)\leq 3$ in the third case.   
+Depending on the value of $\pi$, the sign matrix $\sign(\mI-\pi)$ falls into one of the three cases: 1) $\sign(\mI-\pi)$ is a matrix of all $1$; 2) $\sign(\mI-\pi)$ is a matrix of all $-1$; 3) $\sign(\mI-\pi)=2\mI-\mathbf{1}_d\otimes \mathbf{1}_d$. The former two cases are trivial, so it suffices to show $\srank(\mI-\pi)\leq 3$ in the third case.   
 
 
 Based on Example~\ref{example:banded}, the rank-2 matrix $\mA$ in~\eqref{eq:A} satisfies 
@@ -305,25 +304,24 @@ Based on Example~\ref{example:banded}, the rank-2 matrix $\mA$ in~\eqref{eq:A} s
 \end{cases}
 \]
 Therefore, $\sign\left(2^{-d}+2^{-d-3}-\mA\right)=2\mI-\mathbf{1}_d\otimes \mathbf{1}_d$. We conclude that $\srank(\mI-\pi)\leq \rank(2^{-d}+2^{-d-3}-\mA)=3$. 
-
-
 \end{proof}
 
 
 \section{Additional data analysis}~\label{sec:data}
+\vspace{-1cm}
 \subsection{Brain connectivity analysis}
-\begin{figure}[h]\label{fig:braincv}
-\includegraphics[width = \textwidth]{figure/brain_sim.pdf}
-\caption{Estimation errors versus ranks on cross-validation. Four different missing rates are used: 20\%,33\%,50\%, and 67\%. }
-\end{figure}
-Figure~\ref{fig:braincv} shows the MAE based on cross-validation with $r = 3,6,9,12,15$ and $H = 20$. We find that our method outperforms substantially in all combinations of ranks and missing rates.   The figure shows that the performance gap between two methods increases as the proportion of  missing data gets higher.  This  trend  implies  that increased missingness gives more advantages to our method.
-In addition, we find that  small standard errors of MAE of our method from five repeated cross-validation shows the more stable performance over CPT (see Table 2 in the main paper).  One advantage of our method is that our estimation is always bounded in $[0,1]$ whereas CPT estimation may fall outside the valid range $[0,1]$. 
+Figure~\ref{fig:braincv} shows the MAE based on 5-fold cross-validations with $r = 3,6,\ldots, 15$ and $H = 20$. We find that our method outperforms CPT in all combinations of ranks and missing rates. The achieved error reduction appears to be more profound as the missing rate increases. This trend highlights the applicability of our method in tensor completion tasks. In addition, our method exhibits a smaller standard error in cross-validation experiments as shown in Figure~\ref{fig:braincv} and Table~\ref{tab:data} (in the main paper), demonstrating the stability over CPT.  One possible reason is that that our estimate is guaranteed to be in $[0,1]$ (for binary tensor problem) whereas CPT estimation may fall outside the valid range $[0,1]$. 
 
-We estimate the signal tensor $\Theta$ from the observed binary tensor $\tY$, $r = 10$, and $H =20$.  We regress  the denoised connection strength of brain edge $(i,j)$ across 114 individuals ($\hat\Theta(i,j,)$) to IQ scores.  We repeated the regression for every brain edge and Top 10 significant edges for the  normalized IQ scores have been plotted in the main paper.
+\begin{figure}[h!]
+\includegraphics[width = \textwidth]{figure/brain_sim.pdf}
+\caption{Estimation error versus rank under different missing rate. Panels (a)-(d) correspond to missing rate 20\%, 33\%, 50\%, and 67\%, respectively. Error bar represents the standard error over 5-fold cross-validations.}\label{fig:braincv}
+\end{figure}
+
+We next investigate the pattern in the estimated signal tensor. Figure~\ref{fig:signal} of the main paper shows the identified top edges associated with IQ scores. Specifically, we first obtain a denoised tensor $\hat \Theta\in\mathbb{R}^{68\times 68\times 114}$ using our method with $r=10$ and $H=20$. Then, we perform a regression analysis of $\hat \Theta(i,j,\colon)\in\mathbb{R}^{144}$ against the normalized IQ score across the 144 individuals. The regression model is repeated for each edge $(i,j)\in[68]\times[68]$. We find that top edges represent the interhemispheric connections in the frontal and parietal lobes. The result is consistent with the role of interhemispheric connectivity in human intelligence. 
 
 \subsection{NIPS data analysis}
-In the main paper we have summarized the MAE from cross validation for $r=6, 9,12$. Here we provide additional results for a wider range $r= 3, 6, 9,12,15$. Table~\ref{tab:NIPS} suggests that further increment of rank appears to have little effect on the performance. In addition, we also perform naive imputation where the missing values are predicted using the observed sample average. The two tensor methods outperform the naive imputation, implying the necessity of incorporating tensor structure in the analysis.
-\begin{table}[H]
+In the main paper we have summarized the MAE in cross-validation experiments for $r=6, 9,12$. Here we provide additional results for a wider range $r= 3, 6, \ldots,15$. Table~\ref{tab:NIPS} suggests that further increment of rank appears to have little effect on the performance. In addition, we also perform naive imputation where the missing values are predicted using the sample average. The two tensor methods outperform the naive imputation, implying the necessity of incorporating tensor structure in the analysis.
+\begin{table}[h!]
 \centering
 \begin{tabular}{c|ccccc}
 Method & $r = 3$ & $r = 6$ & $r=9$ & $r=12$&$r=15$ \\
@@ -332,11 +330,10 @@ NonparaT (Ours) & {\bf 0.18}(0.002) & {\bf 0.16}(0.002) & {\bf 0.15}(0.001)& {\b
  \hline
 Low-rank CPT &0.22(0.004) & 0.20(0.007) & 0.19(0.007)&0.17(0.007)&0.17(0.007)\\
   \hline
-Naive imputation (Baseline)& \multicolumn{5}{c}{0.32(.001)}\\
+Naive imputation& \multicolumn{5}{c}{0.32(.001)}\\
 \end{tabular}
 \caption{Prediction accuracy measured in MAE in the NIPS data analysis. The reported MAEs are averaged over five runs of cross-validation, with standard errors in parentheses. Bold numbers indicate the minimal MAE among three methods. For low-rank CPT, we use R function {\tt rTensor} with default hyperparameters, and for our method, we set $H=20$. }\label{tab:NIPS}
 \end{table}
-
 
 \section{Proofs}\label{sec:proof}
 \subsection{Proofs of Propositions~\ref{cor:monotonic}-\ref{prop:global}}
@@ -353,10 +350,10 @@ See Section~\ref{sec:high-rank} for constructive examples.
 \end{proof}
 
 \begin{proof}[Proof of Proposition~\ref{prop:global}]
-Based on the definition of the weighted classification objective function,   the function $\risk(\cdot)$ relies only on the sign pattern of the tensor. Therefore, without loss of generality, we assume both tensors $\bar \Theta, \tZ \in\{-1,1\}^{d_1\times \cdots \times d_K}$ are binary tensors. 
+Fix $\pi\in[-1,1]$. Based on the definition of classification loss $L(\cdot,\cdot)$, the function $\risk(\cdot)$ relies only on the sign pattern of the tensor. Therefore, without loss of generality, we assume both $\bar \Theta, \tZ \in\{-1,1\}^{d_1\times \cdots \times d_K}$ are binary tensors. 
 We evaluate the excess risk 
 \begin{equation}\label{eq:risk}
-\risk(\tZ)- \risk(\bar \Theta) = \mathbb{E}_{\omega\sim \Pi}\KeepStyleUnderBrace{\mathbb{E}_{\tY(\omega)}\left\{|\tY(\omega)-\pi|\left[\left|\tZ(\omega)-\sign(\bar \tY(\omega)) \right|-\left|\bar\Theta(\omega)-\sign(\bar \tY(\omega))\right|\right]\right\}}_{=:I(\omega)}.
+\risk(\tZ)- \risk(\bar \Theta) = \mathbb{E}_{\omega\sim \Pi}\KeepStyleUnderBrace{\mathbb{E}_{\tY(\omega)}\left\{|\tY(\omega)-\pi|\left[\left|\tZ(\omega)-\sign(\bar \tY(\omega)) \right|-\left|\bar\Theta(\omega)-\sign(\bar \tY(\omega))\right|\right]\right\}}_{\stackrel{\text{def}}{=}I(\omega)}.
 \end{equation}
 Denote $y=\tY(\omega)$, $z=\tZ(\omega)$, $\bar \theta=\bar\Theta(\omega)$, and $\theta=\Theta(\omega)$. The expression of $I(\omega)$ is simplified as
 \begin{align}\label{eq:I}
@@ -373,12 +370,12 @@ In particular, setting $\tZ=\bar \Theta=\sign(\Theta-\pi)$ in~\eqref{eq:minimum}
 \[
 \risk(\bar \Theta)=\min\{\risk(\tZ)\colon \tZ\in \mathbb{R}^{d_1\times \cdots \times d_K}\} \leq \min\{\risk(\tZ)\colon \rank(\tZ)\leq r\}.
 \]
-Because $\srank(\Theta-\pi)\leq r$ by assumption, the last inequality becomes equality. The proof is complete. 
+Since $\srank(\Theta-\pi)\leq r$ by assumption, the last inequality becomes equality. The proof is complete. 
 \end{proof}
 
 \subsection{Proof of Theorem~\ref{thm:population}}
 \begin{proof}[Proof of Theorem~\ref{thm:population}]
-Based on~\eqref{eq:minimum} in Proposition~\ref{prop:global} we have
+Fix $\pi\in[-1,1]$. Based on~\eqref{eq:minimum} in Proposition~\ref{prop:global} we have
 \begin{equation}\label{eq:population2}
 \risk(\tZ)- \risk(\bar \Theta) = \mathbb{E}\left[|\sign \tZ-\sign\bar \Theta||\bar \Theta|\right].
 \end{equation}
@@ -395,7 +392,8 @@ We divide the proof into two cases: $\alpha >0$ and $\alpha = \infty$.
 By~\eqref{eq:population2}, for all $0\leq t< \rho(\pi, \tN)$,
 \begin{align}\label{eq:1}
 \risk(\tZ)- \risk(\bar \Theta) &\geq t\mathbb{E}\left(|\sign \tZ- \sign \hat\Theta|\mathds{1}\{|\hat\Theta|>t\}\right)
-\\&\geq 2t\mathbb{P}\left(\sign\tZ \neq \sign \bar \Theta\text{ and }|\bar \Theta|>t   \right)\notag \\
+\notag \\
+&\geq 2t\mathbb{P}\left(\sign\tZ \neq \sign \bar \Theta\text{ and }|\bar \Theta|>t   \right)\notag \\
 & \geq 2t\Big\{\mathbb{P}\left(\sign\tZ \neq \sign \bar \Theta \right) - \mathbb{P}\left(|\bar \Theta|\leq t\right)\Big\}\notag\\
 &\geq t\Big\{\textup{MAE}(\sign \tZ, \sign \bar \Theta) - 2ct^\alpha \Big\},
 \end{align}
@@ -403,7 +401,7 @@ where the last line follows from the definition of MAE and~\eqref{eq:ass}. We ma
 \[
 t_{\text{opt}}=\begin{cases}
 \rho(\pi, \tN), & \text{if } \textup{MAE}(\sign \tZ,\sign \bar\Theta) > 2c(1+\alpha) \rho^{\alpha}(\pi, \tN),\\
-\left[ {1\over 2c(1+\alpha)} \textup{MAE} (\sign \tZ,\sign \bar\Theta)  \right]^{1/\alpha}, &  \text{if }\textup{MAE}( \sign \tZ,\sign \bar\Theta) \leq 2c(1+\alpha) \rho^{\alpha}(\pi, \tN),
+\left[ {1\over 2c(1+\alpha)} \textup{MAE} (\sign \tZ,\sign \bar\Theta)  \right]^{1/\alpha}, &  \text{if }\textup{MAE}( \sign \tZ,\sign \bar\Theta) \leq 2c(1+\alpha) \rho^{\alpha}(\pi, \tN).
  \end{cases}
 \]
 The corresponding lower bound of the inequality~\eqref{eq:1} becomes
@@ -435,62 +433,61 @@ for all $\tZ\in\mathbb{R}^{d_1\times \cdots \times d_R}$. For fixed $\pi$, the s
 \end{rmk}
 
 \subsection{Proof of Theorem~\ref{thm:classification}}
-The following lemma shows variance-to-mean relationship implied by the $\alpha$-smoothness of $\Theta$. The relationship plays a key role in determining the convergence rate based on empirical process theory~\citep{shen1994convergence}. 
+The following lemma provides the variance-to-mean relationship implied by the $\alpha$-smoothness of $\Theta$. The relationship plays a key role in determining the convergence rate based on empirical process theory~\citep{shen1994convergence}. 
 \begin{lem}[Variance-to-mean relationship]\label{lem:variance}
-Consider the same setup as in Theorem~\ref{thm:classification}. Fix $\pi\in[-1,1]$. Denote the $\pi$-shifted signal $\bar \Theta=\Theta-\pi$, the $\pi$-shifted data $\bar \tY=\tY-\pi$, the $\pi$-weighted classification objective function
-\begin{equation}\label{eq:sample}
-L(\tZ, \bar \tY_\Omega)= {1\over |\Omega|}\sum_{\omega \in \Omega}\ \KeepStyleUnderBrace{|\bar \tY(\omega)|}_{\text{weight}}\  \times \ \KeepStyleUnderBrace{| \sign \tZ(\omega)-\sign \bar \tY(\omega)|}_{\text{classification loss}},
-\end{equation}
-and $\risk(\tZ)=\mathbb{E}L(\tZ,\bar \tY_\Omega)$.  Under Assumption~\ref{ass:margin} of the $(\alpha,\pi)$-smoothness of $\Theta$, we have
+Consider the same setup as in Theorem~\ref{thm:classification}. Fix $\pi\in[-1,1]$. Let $L(\tZ, \bar Y_\Omega)$ be the $\pi$-weighted classification loss
+\begin{align}\label{eq:sample2}
+L(\tZ, \bar \tY_\Omega)&= {1\over |\Omega|}\sum_{\omega \in \Omega}\ \KeepStyleUnderBrace{|\bar \tY(\omega)|}_{\text{weight}}\  \times \ \KeepStyleUnderBrace{| \sign \tZ(\omega)-\sign \bar \tY(\omega)|}_{\text{classification loss}}\notag \\
+&={1\over |\Omega|}\sum_{\omega \in \Omega}\ell_\omega(\tZ, \bar \tY),
+\end{align}
+where we have denoted the function $\ell_\omega(\tZ,\bar \tY)\stackrel{\text{def}}{=}|\bar \tY(\omega)||\sign\tZ(\omega)-\sign \bar \tY(\omega)|$. Under Assumption~\ref{ass:margin} of the $(\alpha,\pi)$-smoothness of $\Theta$, we have
 \begin{equation}\label{eq:variance}
-\textup{Var}[L(\tZ,\bar \tY_\Omega)-L(\bar \Theta, \bar \tY_\Omega)]\lesssim [\textup{Risk}(\tZ)-\textup{Risk}(\bar \Theta)]^{\alpha \over 1+\alpha}+{1\over \rho(\pi, \tN)}[\textup{Risk}(\tZ)-\textup{Risk}(\bar \Theta)],
+\textup{Var}[\ell_\omega(\tZ,\bar \tY)-\ell_\omega(\bar \Theta, \bar \tY_\Omega)]\lesssim [\textup{Risk}(\tZ)-\textup{Risk}(\bar \Theta)]^{\alpha \over 1+\alpha}+{1\over \rho(\pi, \tN)}[\textup{Risk}(\tZ)-\textup{Risk}(\bar \Theta)],
 \end{equation}
 for all tensors $\tZ\in\mathbb{R}^{d_1\times \cdots \times d_K}$. Here the expectation and variance are taken with respect to both $\tY$ and $\omega\sim \Pi$. 
 \end{lem}
-\begin{proof}
+\begin{proof}[Proof of Lemma~\ref{lem:variance}]
 We expand the variance by
 \begin{align}\label{eq:mae}
-\text{Var}[L(\tZ,\bar \tY_\Omega)-L(\bar \Theta, \bar \tY_\Omega)] &\leq \mathbb{E}|L(\tZ,\bar \tY_\Omega)-L(\bar \Theta, \bar \tY_\Omega)|^2\notag \\
-&\leq \mathbb{E}|L(\tZ,\bar \tY_\Omega)-L(\bar \Theta, \bar \tY_\Omega)|\notag \\
+\text{Var}[\ell_\omega(\tZ,\bar \tY_\Omega)-\ell_\omega(\bar \Theta, \bar \tY_\Omega)] &\lesssim \mathbb{E}|\ell_\omega(\tZ,\bar \tY_\Omega)-\ell_\omega(\bar \Theta, \bar \tY_\Omega)|^2\notag \\
+&\lesssim \mathbb{E}|\ell_\omega(\tZ,\bar \tY_\Omega)-\ell_\omega(\bar \Theta, \bar \tY_\Omega)|\notag \\
 &\leq \mathbb{E}|\sign\tZ-\sign \bar \Theta| = \textup{MAE}(\sign\tZ, \sign \bar \Theta),
 \end{align}
-where the second line comes from the boundedness of classification loss $L(\cdot ,\cdot)$, and the last line comes from the inequality $||\sign\tZ(\omega)-\sign\bar\tY_\Omega(\omega)|-|\sign\bar\Theta(\omega)-\sign \tY_\Omega(\omega)||\leq |\sign\tZ(\omega)-\sign\bar\Theta(\omega)|$ and the boundedness of  classification weight $|\bar\tY(\omega)|$  for $\omega\in\Omega$.
-Here we ignore constant multiplication in $\leq$ because  constants will be suppressed in the asymptotical order relationship $\lesssim$ in the end.  The conclusion~\eqref{eq:variance} then directly follows by applying remark~\ref{eq:rmk} to~\eqref{eq:mae}.
+where the second line comes from the boundedness of classification loss $L(\cdot ,\cdot)$, and the third line comes from the inequality $||a-b|-|c-b||\leq |a-b|$ for $a,b,c\in\{-1,1\}$, together with the boundedness of classification weight $|\bar\tY(\omega)|$. Here we have absorbed the constant multipliers in $\lesssim$. The conclusion~\eqref{eq:variance} then directly follows by applying Remark~\ref{eq:rmk} to~\eqref{eq:mae}.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:classification}]
-Fix $\pi\in[-1,1]$. For notational simplicity, we suppress all subscripts related to $\pi$, and write $\hat \tZ$ in place of $\hat \tZ_\pi$. Denote $n=|\Omega|$ and $\rho=\rho(\pi, \tN)$. 
+Fix $\pi\in[-1,1]$. For notational simplicity, we suppress the subscript $\pi$ and write $\hat \tZ$ in place of $\hat \tZ_\pi$. Denote $n=|\Omega|$ and $\rho=\rho(\pi, \tN)$. 
 
-Because the classification loss $L(\cdot, \cdot)$ is scale-free, i.e., $L(\tZ,\cdot)=L(c\tZ, \cdot)$ for every $c>0$, we consider the estimation subject to $\FnormSize{}{\tZ}\leq 1$ without loss of generality. Specifically, 
+Because the classification loss $L(\cdot, \cdot)$ is scale-free, i.e., $L(\tZ,\cdot)=L(c\tZ, \cdot)$ for every $c>0$, we consider the estimation subject to $\FnormSize{}{\tZ}\leq 1$ without loss of generality. Specifically, let
 \[
 \hat \tZ=\argmin_{\tZ\colon \textup{rank}(\tZ)\leq r, \FnormSize{}{\tZ}\leq 1}L(\tZ, \bar \tY_{\Omega}).
 \]
-We view $\tY_\Omega=\{\bar \tY(\omega)\colon \omega\in \Omega\}$ as a collection of $n$ independent random variables where the randomness is induced form both $\bar \tY$ and $\omega\sim\Pi$.  Notice that the tensor $\tZ$  induces a function $f_{\tZ}\colon \Omega\mapsto \mathbb{R	}$ such that $f_{\tZ}(\omega) = \tZ(\omega)$ for all $\omega\in\Omega$.  Then
-\[
-\Delta_n(f_{\tZ}, f_{\tY})
-%={1\over n}\sum_{\omega\in \Omega} \KeepStyleUnderBrace{|\bar y_i||\sign z_i-\sign \bar y_i|}_{=:f(y_i)} 
-:=L(\tZ, \bar \tY_{\Omega})-L(\bar \Theta, \bar \tY_{\Omega}),\quad \text{where }n=|\Omega|,\\ 
-\]
-is an empirical process induced by function $f_{\tZ}\in \tF_{\tT}: = \{f_{\tZ}\colon \tZ\in\tT\}$ where $\tT=\{\tZ\colon \rank(\tZ)\leq r, \ \FnormSize{}{\tZ}\leq 1\}. $
 
-Our remaining proof adopts the techniques of~\citet[Theorem 3]{wang2008probability} to the contexts of function family $f_{\tZ}\in \tF_{\tT}$. We summarize only the key difference here but refer to~\cite{wang2008probability} for complete proof. 
-Based on Lemma~\ref{lem:variance}, the $(\alpha,\pi)$-smoothness of $\Theta$ implies 
-%\[
-%\textup{Var}[L(\tZ,\bar \tY_\Omega)-L(\bar \Theta, \bar \tY_\Omega)]\leq [\textup{Risk}(\tZ)-\textup{Risk}(\bar \Theta)]^{\alpha \over 1+\alpha}+{1\over \rho(\pi, \tN)}[\textup{Risk}(\tZ)-\textup{Risk}(\bar \Theta)].
-%\]
+We next apply the empirical process theory to bound $\hat \tZ$. To facilitate the analysis, we view the data $\tY_\Omega=\{\bar \tY(\omega)\colon \omega\in \Omega\}$ as a collection of $n$ independent random variables where the randomness is from both $\bar \tY$ and $\omega\sim\Pi$. Write the index set $\Omega=\{1,\ldots,n\}$, so the loss function~\eqref{eq:sample2} becomes
 \[
-\textup{Var}\Delta_n(f_{\tZ},f_{\tY}) \lesssim \left[\mathbb{E}\Delta_n(f_{\tZ},f_{\tY})\right]^{\alpha \over 1+\alpha}+{1\over \rho}\mathbb{E}\Delta_n(f_{\tZ},f_{\tY}),\quad \text{for all $\tZ\in \tT$}.
+L(\tZ,\bar \tY_\Omega)={1\over n}\sum_{i=1}^n\ell_{i}(\tZ, \bar \tY).
 \]
-Applying the second order condition to Theorem 3 of \cite{wang2008probability} gives that
+We use $f_\tZ \colon [d_1]\times\cdots\times[d_n] \to \mathbb{R}$ to denote the function induced by tensor $\tZ$ such that $f_\tZ(\omega)=\tZ(\omega)$ for $\omega\in[d_1]\times \cdots \times [d_K]$. Under this set-up, the quantity of interest
+\begin{align}\label{eq:empirical}
+ L(\tZ,\bar \tY_\Omega)-L(\bar \Theta,\bar \tY_\Omega)={1\over n}\sum_{i=1}^n \KeepStyleUnderBrace{\left[\ell_{i}(\tZ, \bar \tY)-\ell_{i}(\bar \Theta, \bar \tY)\right]}_{\stackrel{\text{def}}{=}\Delta_i(f_\tZ,\bar \tY)},
+\end{align}
+is an empirical process induced by function $f_{\tZ}\in \tF_{\tT}$ where $\tT=\{\tZ\colon \rank(\tZ)\leq r, \ \FnormSize{}{\tZ}\leq 1\}$. Note that there is an one-to-one correspondence between sets $\tF_{\tT}$ and $\tT$. 
+
+Our remaining proof adopts the techniques of~\citet[Theorem 3]{wang2008probability} to bound~\eqref{eq:empirical} over the function family $f_{\tZ}\in \tT$. We summarize only the key difference here but refer to~\cite{wang2008probability} for complete proof. 
+Based on Lemma~\ref{lem:variance}, the $(\alpha,\pi)$-smoothness of $\Theta$ implies 
+\begin{equation}\label{eq:second}
+\textup{Var}\Delta_i(f_\tZ,\bar \tY) \lesssim \left[\mathbb{E}\Delta_i(f_\tZ,\bar \tY)\right]^{\alpha \over 1+\alpha}+{1\over \rho}\mathbb{E}\Delta_i(f_\tZ,\bar \tY),\quad \text{for all $f_\tZ\in \tF_\tT$}.
+\end{equation}
+Applying local iterative techniques in~\citet[Theorem 3]{wang2008probability} to the empirical process~\eqref{eq:empirical} with the variance-to-mean relationship~\eqref{eq:second} gives that
 \begin{equation}\label{eq:rate}
-\mathbb{P}\left(\risk(\hat \tZ)-\risk(\bar \Theta )\geq L_n\right)\leq C\exp(-nL^2_n),
+\mathbb{P}\left(\risk(\hat \tZ)-\risk(\bar \Theta )\geq L_n\right)\lesssim \exp(-nL_n),
 \end{equation}
-where $C>0$ is constant and the convergence rate $L_n>0$ is determined by the solution to the following inequality,
+where the convergence rate $L_n>0$ is determined by the solution to the following inequality,
 \begin{equation}\label{eq:equation}
-{1\over L_n}\int_{L_n}^{\sqrt{L_n^{\alpha/(\alpha+1)}+{L_n\over \rho}}}\sqrt{\tH_{[\ ]}(\varepsilon,\tF_{\tT}, \vnormSize{}{\cdot}) }d\varepsilon \leq C'\sqrt{n},
+{1\over L_n}\int_{L_n}^{\sqrt{L_n^{\alpha/(\alpha+1)}+{L_n\over \rho}}}\sqrt{\tH_{[\ ]}(\varepsilon,\tF_{\tT}, \vnormSize{}{\cdot}) }d\varepsilon \leq C\sqrt{n},
 \end{equation}
-for some constant $C'>0$.
-In particular, the smallest $L_n$ satisfying~\eqref{eq:equation} yields the best upper bound of the error rate. Here $\tH_{[\ ]}(\varepsilon, \tF_{\tT},\vnormSize{}{\cdot})$ denotes the $L_2$-metric, $\varepsilon$-bracketing number (c.f. Definition~\ref{pro:inftynorm}) of family $\tF_{\tT}$. 
+for some constant $C>0$. In particular, the smallest $L_n$ satisfying~\eqref{eq:equation} yields the best upper bound of the error rate. Here $\tH_{[\ ]}(\varepsilon, \tF_{\tT},\vnormSize{}{\cdot})$ denotes the $L_2$-metric, $\varepsilon$-bracketing number (c.f. Definition~\ref{pro:inftynorm}) of family $\tF_{\tT}$. 
 
 It remains to solve for the smallest possible $L_n$ in~\eqref{eq:equation}. Based on Lemma~\ref{lem:metric}, the inequality~\eqref{eq:equation} is satisfied with 
 \begin{equation}\label{eq:tn}
@@ -501,16 +498,16 @@ Therefore, by~\eqref{eq:rate}, with very high probability.
 \risk(\hat \tZ)-\risk(\bar \Theta )\leq t_n^{(\alpha+1)/(\alpha+2)} +{1\over \rho} t_n.
 \]
 Inserting the above bound into~\eqref{eq:remark} gives
-\begin{align}
-\textup{MAE}(\sign \hat \tZ, \sign \bar \Theta) &\lesssim [\risk(\hat \tZ)-\risk(\bar \Theta)]^{\alpha/(\alpha+1)}+{1\over \rho}[\risk(\hat \tZ)-\risk(\bar \Theta)]\\
-&\lesssim t_n^{\alpha/(\alpha+2)}+{1\over \rho^{\alpha/\alpha+1}}t_n^{\alpha/(\alpha+1)}+{1\over \rho}t_n^{(\alpha+1)/(\alpha+2)}+{1\over \rho^2}t_n\\
+\begin{align}\label{eq:final}
+\textup{MAE}(\sign \hat \tZ, \sign \bar \Theta) &\lesssim [\risk(\hat \tZ)-\risk(\bar \Theta)]^{\alpha/(\alpha+1)}+{1\over \rho}[\risk(\hat \tZ)-\risk(\bar \Theta)]\notag \\
+&\lesssim t_n^{\alpha/(\alpha+2)}+{1\over \rho^{\alpha/\alpha+1}}t_n^{\alpha/(\alpha+1)}+{1\over \rho}t_n^{(\alpha+1)/(\alpha+2)}+{1\over \rho^2}t_n\notag \\
 &\leq 4t_n^{\alpha/(\alpha+2)}+{4\over \rho^2}t_n,
 \end{align}
-where the last line follows from the fact that $a(b^2+b^{(\alpha+2)/(\alpha+1)}+b+1) \leq 4 a (b^2+1)$ with $a:={t_n \over \rho^2}$ and $b:=\rho t_n^{-1/(\alpha+2)}$. Plugging the form of $t_n$ in~\eqref{eq:tn} completes the proof.  Since we assume mode of tensor $K$ is fixed, we suppress $K\log K$ term in the theorems of the main paper for notatational simplicity.
+where the last line follows from the fact that $a(b^2+b^{(\alpha+2)/(\alpha+1)}+b+1) \leq 4 a (b^2+1)$ with $a={t_n \over \rho^2}$ and $b=\rho t_n^{-1/(\alpha+2)}$. We plug $t_n$ into~\eqref{eq:final} and absorb the term $K\log K$ into the constant. The conclusion is then proved. 
 \end{proof}
 
 \begin{defn}[Bracketing number]\label{pro:inftynorm}
-Consider a set of functions $\tF$, and let $\varepsilon>0$. Let $\tX $ denote the domain space equipped with measure $\Pi$. We call $\{(f^l_m,f^u_m)\}_{m=1}^M$ an $L_2$-metric, $\varepsilon$-bracketing function set of $\tF$, if for every $f\in \tF$, there exists an $m\in[M]$ such that 
+Consider a family of functions $\tF$, and let $\varepsilon>0$. Let $\tX $ denote the domain space equipped with measure $\Pi$. We call $\{(f^l_m,f^u_m)\}_{m=1}^M$ an $L_2$-metric, $\varepsilon$-bracketing function set of $\tF$, if for every $f\in \tF$, there exists an $m\in[M]$ such that 
 \[
 f^l_m(x)\leq f(x)\leq f^u_m(x),\quad \text{for all }x\in\tX,
 \]
@@ -518,33 +515,33 @@ and
 \[
 \vnormSize{}{f^l_m-f^u_m}\stackrel{\text{def}}{=}\sqrt{\mathbb{E}_{x\sim \Pi}|f^l_m(x)-f^u_m(x)|^2} \leq \varepsilon, \ \text{for all } m=1,\ldots,M. 
 \]
-The bracketing number with $L_2$-metric, $\tH_{[\ ]}(\varepsilon, \tF, \vnormSize{}{\cdot})$, is defined as the logarithm of the smallest cardinality of the $\varepsilon$-bracketing function set of $\tF$.  
+The bracketing number with $L_2$-metric, denoted $\tH_{[\ ]}(\varepsilon, \tF, \vnormSize{}{\cdot})$, is the logarithm of the smallest cardinality of the $\varepsilon$-bracketing function set of $\tF$.  
 \end{defn}
 
 
 
 \begin{lem}[Bracketing complexity of low-rank tensors] \label{lem:metric}
-Define the family of rank-$r$ bounded tensors $\tT=\{\tZ\in\mathbb{R}^{d_1\times \cdots \times d_K}\colon \rank(\tZ)\leq r, \ \FnormSize{}{\tZ}\leq 1\}$ and induced  function family $\tF_{\tT} = \{f_\tZ\colon \tZ\in\tT\}$.  Set 
+Define the family of rank-$r$ bounded tensors $\tT=\{\tZ\in\mathbb{R}^{d_1\times \cdots \times d_K}\colon \rank(\tZ)\leq r, \ \FnormSize{}{\tZ}\leq 1\}$ and the induced function family $\tF_{\tT} = \{f_\tZ\colon \tZ\in\tT\}$.  Set 
 \begin{equation}\label{eq:specification}
 L_n\asymp \left({d_{\max}rK\log K \over n } \right)^{(\alpha+1)/(\alpha+2)} + {1\over \rho (\pi, \tN)}\left({d_{\max}rK\log K \over n } \right).
 \end{equation}
 Then, the following inequality is satisfied.
 \begin{equation}\label{eq:L}
-{1\over L_n}\int^{\sqrt{L_n^{\alpha/(\alpha+1)}+{L_n\over \rho (\pi, \tN)}}}_{L_n} \sqrt{\tH_{[\ ]}(\varepsilon, \tF_{\tT} ,\vnormSize{}{\cdot}) }d\varepsilon \leq C'n^{1/2},
+{1\over L_n}\int^{\sqrt{L_n^{\alpha/(\alpha+1)}+{L_n\over \rho (\pi, \tN)}}}_{L_n} \sqrt{\tH_{[\ ]}(\varepsilon, \tF_{\tT} ,\vnormSize{}{\cdot}) }d\varepsilon \leq Cn^{1/2},
 \end{equation}
-where $C'>0$ is a constant independent of $r,K$  and $d_{\text{max}}$.
+where $C>0$ is a constant independent of $r,K$  and $d_{\text{max}}$.
 \end{lem}
-\begin{proof}
+\begin{proof}[Proof of Lemma~\ref{lem:metric}]
 To simplify the notation, we denote $\rho=\rho(\pi, \tN)$. 
 Notice that 
 \begin{align}
 	\vnormSize{}{f_{\tZ_1}-f_{\tZ_1}}\leq\|f_{\tZ_1}-f_{\tZ_1}\|_\infty\leq \FnormSize{}{\tZ_1-\tZ_1}\quad\text{ for all } \tZ_1,\tZ_2\in\tT.
 \end{align}
-Based on~\citet[Theorem 9.22]{kosorok2007introduction},  the $L_2$-metric, $(2\epsilon)$-bracketing number in $\tF_{\tT}$ is bounded by 
+It follows from~\citet[Theorem 9.22]{kosorok2007introduction} that the $L_2$-metric, $(2\epsilon)$-bracketing number of $\tF_{\tT}$ is bounded by 
 \[
 \tH_{[\ ]}(2\varepsilon, \tF_{\tT}, \vnormSize{}{\cdot})\leq \tH(\varepsilon, \tT, \FnormSize{}{\cdot}) \leq Cd_{\max}rK\log {K\over \varepsilon}.
 \]
-The last inequlity is from the upper bound of the covering number for rank-$r$ tensor ~\citep{mu2014square,9119759}.
+The last inequality is from the covering number bounds for rank-$r$ bounded tensors; see \citet[Lemma 3]{mu2014square}.
 
 Inserting the bracketing number into~\eqref{eq:L} gives
 \begin{equation}\label{eq:complexity}
@@ -552,7 +549,7 @@ g(L)={1\over L}\int^{\sqrt{L^{\alpha/(\alpha+1)}+{\rho^{-1}L}}}_{L}  \sqrt{d_{\m
 \end{equation}
 By the monotonicity of the integrand in~\eqref{eq:complexity}, we bound $g(L)$ by 
 \begin{align}\label{eq:g}
-g(L)&\leq {\sqrt{d_{\max}rK}\over L}\int_{L}^{\sqrt{L^{\alpha/\alpha+1}+\rho^{-1}L}}\sqrt{\log \left(K \over L \right)}d\varepsilon\notag \\
+g(L)&\leq {\sqrt{d_{\max}rK}\over L}\int_{L}^{\sqrt{L^{\alpha/(\alpha+1)}+\rho^{-1}L}}\sqrt{\log \left(K \over L \right)}d\varepsilon\notag \\
 &\leq \sqrt{d_{\max}rK(\log K - \log L)}\left({L^{\alpha/(2\alpha+2)}+\sqrt{\rho^{-1}L} \over L }-1\right)\notag \\
 &\leq  \sqrt{d_{\max}rK\log K}\left( {1\over L^{(\alpha+2)/(2\alpha+2)}}+{1\over \sqrt{\rho L}}\right),
 \end{align}
@@ -561,14 +558,14 @@ It remains to verify that $g(L_n) \leq C'n^{1/2}$ for $L_n$ specified in~\eqref{
 \begin{align}
 g(L_n)&\leq \sqrt{d_{\max}rK\log K}\left( {1\over L_n^{(\alpha+2)/(2\alpha+2)}}+{1\over \sqrt{\rho L_n}}\right)
 \\&\leq \sqrt{d_{\max}rK\log K}\left(\left[\left(d_{\max}rK\log K\over n\right)^{\alpha+1\over \alpha+2}\right]^{-{\alpha+2\over2\alpha+2}}+\left[\rho \left(d_{\max}rK\log K\over \rho n\right)\right]^{-{1\over2}} \right)
-\\&\leq C'n^{1/2},
+\\&\leq Cn^{1/2},
 \end{align}
-where $C'>0$ is a constant independent of $r,K$  and $d_{\text{max}}$. The proof is therefore complete.  
+where $C>0$ is a constant independent of $r,K$  and $d_{\text{max}}$. The proof is therefore complete.  
 \end{proof}
 
 \subsection{Proof of Theorem~\ref{thm:estimation}}
 \begin{proof}[Proof of Theorem~\ref{thm:estimation}]
-From definition of $\hat\Theta$, we have
+By definition of $\hat\Theta$, we have
 \begin{align}\label{eq:pfmain3}\nonumber
 \text{MAE}(\hat\Theta,\Theta) &= \mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\sign\hat Z_\pi-\Theta\right|\\\nonumber
 &\leq \mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\left(\sign\hat Z_\pi-\sign(\Theta-\pi)\right)\right|+\mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\sign(\Theta-\pi)-\Theta\right|\\&
@@ -582,7 +579,7 @@ Write $n=|\Omega|$. Now it suffices to bound  the first term in \eqref{eq:pfmain
 \begin{equation}\label{eq:total}
 {1\over 2H+1}\sum_{\pi \in \Pi} \textup{MAE}(\sign \hat Z_\pi, \sign (\Theta-\pi)) \lesssim  t_n^{\alpha/(\alpha+2)}+{1\over H}+ H t_n, \quad \text{with } t_n={d_{\max}rK\log K\over n}.
 \end{equation}
-Theorem~\ref{thm:classification} implies that the  sign estimation accuracy depends on the closeness of $\pi\in \tH$ to the mass points in $\tH$. Therefore, we partition the level set $\pi \in \tH$ based on their closeness to $\tH$. Specifically, let $\tN_H \stackrel{\text{def}}{=}\bigcup_{\pi'\in\tN}\left(\pi'-\frac{1}{H},\pi'+\frac{1}{H}\right)$ denote the set of levels close to the mass points. We expand~\eqref{eq:total} by
+Theorem~\ref{thm:classification} implies that the  sign estimation accuracy depends on the closeness of $\pi\in \tH$ to the mass points in $\tH$. Therefore, we partition the level set $\pi \in \tH$ based on their closeness to $\tH$. Specifically, let $\tN_H \stackrel{\text{def}}{=}\bigcup_{\pi'\in\tN}\left(\pi'-\frac{1}{H},\pi'+\frac{1}{H}\right)$ denote the set of levels at least $1\over H$-close to the mass points. We expand~\eqref{eq:total} by
 \begin{align}\label{eq:twobounds}
 &{1\over 2H+1}\sum_{\pi \in \Pi} \textup{MAE}(\sign \hat Z_\pi, \sign (\Theta-\pi))\notag \\
 =&{1\over 2H+1}\sum_{\pi \in \Pi\cap \tN_H} \textup{MAE}(\sign \hat Z_\pi, \sign (\Theta-\pi))+{1\over 2H+1}\sum_{\pi \in \Pi\cap \tN_H^c} \textup{MAE}(\sign \hat Z_\pi, \sign (\Theta-\pi)).
@@ -594,38 +591,22 @@ By assumption, the first term involves only finite number of summands and thus c
 &\leq  t_n^{\alpha/(\alpha+2)}+{t_n\over 2H+1} \sum_{\pi'\in \tN} \sum_{\pi \in \Pi\cap \tN_H^c}{1\over |\pi-\pi'|^2}\\
 &\leq t_n^{\alpha/(\alpha+2)}+ 2CHt_n,
 \end{align}
-where the last inequality follows from the Lemma~\ref{lem:H}.  Combining the bounds for the two terms in \eqref{eq:twobounds} completes the proof for conclusion~\eqref{eq:total}. 
-Therefore, plugging \eqref{eq:total} into \eqref{eq:pfmain3} yields,
+where the last inequality follows from the Lemma~\ref{lem:H}.  Combining the bounds for the two terms in \eqref{eq:twobounds} completes the proof for conclusion~\eqref{eq:total}. Finally, plugging \eqref{eq:total} into \eqref{eq:pfmain3} yields
 \begin{align}
 \text{MAE}(\hat\Theta,\Theta)\lesssim \left(d_{\max}rK\log K\over |\Omega|\right)^{\alpha/(\alpha+2)}+\frac{1}{H}+H{d_{\max}rK\log K\over |\Omega|}.
  \end{align}
- By the same reason, we suppress $K\log K$ term in the main paper.
-%Setting $H\approx \sqrt{|\Omega|\over r d_{\text{max}}\log d_{\text{max}}}$,we 
-%\begin{equation}\label{eq:real}
-%\textup{MAE}(\hat \Theta, \Theta)\lesssim \left(d_{\max}r \over|\Omega|\right)^{{\alpha \over \alpha+2} \vee {1\over 2}}.
-%\end{equation}
-%It follows from the definition of $\hat \Theta$ that, for every $\omega\in[d_1]\times\cdots\times[d_K]$,
-%\begin{align}
-%|\hat \Theta(\omega)- \Theta(\omega)|&\leq\frac{1}{H}\sum_{\pi\in\Pi\setminus\tN}|\sign \hat \tZ_\pi(\omega)\neq \sign(\Theta(\omega)-\pi)|+ {1+2c\over 2H}
-%\end{align}
-%where we have used the assumption that $|\tN|\leq c$. Taking expectation with respect to $\omega\sim \Pi$ on both sides gives
-%\begin{align}
-%\textup{MAE}(\Theta, \hat \Theta)&\lesssim \frac{1}{H}\sum_{\pi\in\Pi\setminus\tN}\textup{MAE}(\sign \hat \tZ_\pi, \sign(\Theta-\pi))+{1\over H}\\
-%&\lesssim \left({Kd_{\max} r \over |\Omega|}\right)^{\alpha/(\alpha+2)}+{1\over H}+{HKd_{\max} r \over |\Omega|},
-%\end{align}
-%where the last line comes from~\eqref{eq:total}. 
+The conclusion follows by absorbing $K\log K$ into the constant term in the statement. 
 \end{proof}
 
 
 \begin{lem}\label{lem:H}
-Fix a $\pi'\in\tN$ and a sequence $\Pi=\{-1,\ldots,-1/H,0,1/H,\ldots,1\}$ with $H\geq 2$. Then, 
+Fix $\pi'\in\tN$ and a sequence $\Pi=\{-1,\ldots,-1/H,0,1/H,\ldots,1\}$ with $H\geq 2$. Then, 
 \[
 \sum_{\pi \in \Pi\cap \tN_H^c}{1\over 
 |\pi-\pi'|^2}\leq 4H^2. 
 \]
-\begin{proof}
-Notice that  all points $\pi\in\Pi\cap\tN_H^c$ satisfy 
-$|\pi-\pi'|>{1\over H}$ for all $\pi'\in\tN$.
+\begin{proof}[Proof of Lemma~\ref{lem:H}]
+Notice that all points $\pi\in\Pi\cap\tN_H^c$ satisfy $|\pi-\pi'|>{1\over H}$ for all $\pi'\in\tN$. We use this fact to compute the sun
 \begin{align}
    \sum_{\pi \in \Pi\cap \tN_H^c}{1\over |\pi-\pi'|^2}&= \sum_{\frac{h}{H}\in\Pi\cap \tN_H^c } {1\over |\frac{h}{H}-\pi'|^2}\\
    &\leq 2H^2\sum_{h=1}^{H}{1 \over h^2}\\
@@ -641,7 +622,5 @@ $|\pi-\pi'|>{1\over H}$ for all $\pi'\in\tN$.
 \bibliographystyle{chicago}
 
 \bibliography{tensor_wang}
-
-\appendix
 
 \end{document}

@@ -2,7 +2,7 @@
 
 \bibitem[Alon et~al., 2016]{alon2016sign}
 Alon, N., Moran, S., and Yehudayoff, A. (2016).
-\newblock Sign rank versus vc dimension.
+\newblock Sign rank versus {VC} dimension.
 \newblock In {\em Conference on Learning Theory}, pages 47--80.
 
 \bibitem[Anandkumar et~al., 2014]{anandkumar2014tensor}
@@ -16,7 +16,7 @@ Anandkumar, A., Ge, R., and Janzamin, M. (2017).
 \newblock {\em Journal of Machine Learning Research}, 18(1):752--791.
 
 \bibitem[Balabdaoui et~al., 2019]{balabdaoui2019least}
-Balabdaoui, F., Durot, C., Jankowski, H., et~al. (2019).
+Balabdaoui, F., Durot, C., and Jankowski, H. (2019).
 \newblock Least squares estimation in the monotone single index model.
 \newblock {\em Bernoulli}, 25(4B):3276--3310.
 
@@ -47,7 +47,7 @@ Chi, E.~C., Gaines, B.~J., Sun, W.~W., Zhou, H., and Yang, J. (2020).
 Cohn, H. and Umans, C. (2013).
 \newblock Fast matrix multiplication using coherent configurations.
 \newblock In {\em Proceedings of the twenty-fourth annual ACM-SIAM symposium on
-  Discrete algorithms}, pages 1074--1087. SIAM.
+  Discrete algorithms}, pages 1074--1087.
 
 \bibitem[De~Lathauwer et~al., 2000]{de2000multilinear}
 De~Lathauwer, L., De~Moor, B., and Vandewalle, J. (2000).
@@ -75,8 +75,8 @@ Ganti, R., Rao, N., Balzano, L., Willett, R., and Nowak, R. (2017).
 \bibitem[Ganti et~al., 2015]{ganti2015matrix}
 Ganti, R.~S., Balzano, L., and Willett, R. (2015).
 \newblock Matrix completion under monotonic single index models.
-\newblock In {\em Advances in Neural Information Processing Systems},
-  volume~28, pages 1873--1881.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  1873--1881.
 
 \bibitem[Ghadermarzy et~al., 2018]{ghadermarzy2018learning}
 Ghadermarzy, N., Plan, Y., and Yilmaz, O. (2018).
@@ -126,11 +126,6 @@ Hore, V., Vi{\~n}uela, A., Buil, A., Knight, J., McCarthy, M.~I., Small, K.,
 \newblock Tensor decomposition for multiple-tissue gene expression experiments.
 \newblock {\em Nature genetics}, 48(9):1094.
 
-\bibitem[{Ibrahim} et~al., 2020]{9119759}
-{Ibrahim}, S., {Fu}, X., and {Li}, X. (2020).
-\newblock On recoverability of randomly compressed tensors with low cp rank.
-\newblock {\em IEEE Signal Processing Letters}, 27:1125--1129.
-
 \bibitem[Jain and Oh, 2014]{jain2014provable}
 Jain, P. and Oh, S. (2014).
 \newblock Provable tensor factorization with missing data.
@@ -174,19 +169,19 @@ Mu, C., Huang, B., Wright, J., and Goldfarb, D. (2014).
 \bibitem[Ongie et~al., 2017]{pmlr-v70-ongie17a}
 Ongie, G., Willett, R., Nowak, R.~D., and Balzano, L. (2017).
 \newblock Algebraic variety models for high-rank matrix completion.
-\newblock In {\em International Conference on Machine Learning}, volume~70,
-  pages 2691--2700.
+\newblock In {\em International Conference on Machine Learning}, pages
+  2691--2700.
 
 \bibitem[Robinson, 1988]{robinson1988root}
 Robinson, P.~M. (1988).
 \newblock Root-n-consistent semiparametric regression.
-\newblock {\em Econometrica: Journal of the Econometric Society}, pages
-  931--954.
+\newblock {\em Econometrica: Journal of the Econometric Society},
+  56(4):931--954.
 
 \bibitem[Shen and Wong, 1994]{shen1994convergence}
 Shen, X. and Wong, W.~H. (1994).
 \newblock Convergence rate of sieve estimates.
-\newblock {\em The Annals of Statistics}, pages 580--615.
+\newblock {\em The Annals of Statistics}, 22:580--615.
 
 \bibitem[Wang et~al., 2008]{wang2008probability}
 Wang, J., Shen, X., and Liu, Y. (2008).
@@ -214,7 +209,7 @@ Wang, M. and Zeng, Y. (2019).
 Xu, J. (2018).
 \newblock Rates of convergence of spectral methods for graphon estimation.
 \newblock In {\em International Conference on Machine Learning}, pages
-  5433--5442. PMLR.
+  5433--5442.
 
 \bibitem[Yuan and Zhang, 2016]{yuan2016tensor}
 Yuan, M. and Zhang, C.-H. (2016).
@@ -224,6 +219,6 @@ Yuan, M. and Zhang, C.-H. (2016).
 \bibitem[Zhang and Xia, 2018]{zhang2018tensor}
 Zhang, A. and Xia, D. (2018).
 \newblock Tensor {SVD}: Statistical and computational limits.
-\newblock {\em IEEE Transactions on Information Theory}.
+\newblock {\em IEEE Transactions on Information Theory}, 64(11):7311 -- 7338.
 
 \end{thebibliography}
