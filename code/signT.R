@@ -7,21 +7,6 @@ max.thresh=10^10
 binaryloss=function(Ybar,W,Yfit){
     return(mean(W*abs(Ybar-sign(Yfit)),na.rm=TRUE))
 }
-SignUnfold=function(Y,truer,Lmin=Lmin,Lmax=Lmax,H=10,option,signal){
-    res=res1=SignT(array(unfold(as.tensor(Y),2:3,1)@data,dim=c(d^2,d,1)),truer,H=H,Lmin=Lmin,Lmax=Lmax,option)
-    error=error_1=mean(abs(res1$est-array(unfold(as.tensor(signal),2:3,1)@data,dim=c(d^2,d,1))))
-     return(list("est"=res,"error"=error))
-     
-    res2=SignT(array(unfold(as.tensor(Y),c(1,3),2)@data,dim=c(d^2,d,1)),truer,H=H,Lmin=Lmin,Lmax=Lmax,option)
-    error_2=mean(abs(res2$est-array(unfold(as.tensor(signal),c(1,3),2)@data,dim=c(d^2,d,1))))
-    if(error_2<error){res=res2; error=error_2}
-   
-   res3=SignT(array(unfold(as.tensor(Y),1:2,3)@data,dim=c(d^2,d,1)),truer,H=H,Lmin=Lmin,Lmax=Lmax,option)
-error_3=mean(abs(res3$est-array(unfold(as.tensor(signal),1:2,3)@data,dim=c(d^2,d,1))))
-     if(error_3<error){res=res3; error=error_3}
-   
-    return(list("est"=res,"error"=(error_1+error_2+error_3)/3))
-}
 #################### main function for nonparametric tensor completion  ####################
 SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3),option=2){
     B_fitted=result=list()
@@ -57,12 +42,6 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge"),start="random"){
     sink("NULL")
     ini=fit_continuous(Ybar,r)
     
-    #ini=fit_continuous(tensorize(a,b,c)-quantile(tensorize(a,b,c),mean((Ybar*W<0))),r);
-    #diag(scale)=ini$lambda
-    #A1=cbind(a,rep(1,d[1]))
-    #A2=cbind(b,rep(1,d[2]))
-    #A3=cbind(c,-quantile(tensorize(a,b,c),mean((Ybar*W<0)))*rep(1,d[3]))
-    
     sink()
     A1 = ini$U[[1]];
     A2 = ini$U[[2]];
@@ -81,24 +60,13 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge"),start="random"){
  
  while((error>0.01)&(binary_obj[iter]>0.01)&(iter<20)){
      
- 
- #tic()
  optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
  A3=matrix(optimization$par,ncol=r)
  optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,Ybar,W,type),method="BFGS")
  A2=matrix(optimization$par,ncol=r)
  optimization=optim(c(A1),function(x)cost(matrix(x,ncol=r),A2,A3,Ybar,W,type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,Ybar,W,type),method="BFGS")
  A1=matrix(optimization$par,ncol=r)
- #toc()
-
- #tic()
- #l=lapply(1:nrow(A3),function(i){optim(c(A3[i,]),function(x)cost(A1,A2,matrix(x,ncol=r),array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),method="BFGS")$par}) ## perhaps faster than the other approach?
- #A3=matrix(unlist(l),nrow=nrow(A3),byrow=T)
- #l=lapply(1:nrow(A2),function(i){optim(c(A2[i,]),function(x)cost(A1,matrix(x,ncol=r),A3,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),method="BFGS")$par}) ## perhaps faster than the other approach?
- #A2=matrix(unlist(l),nrow=nrow(A2),byrow=T)
- #l=lapply(1:nrow(A1),function(i){optim(c(A1[i,]),function(x)cost(matrix(x,ncol=r),A2,A3,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),method="BFGS")$par}) ### perhaps faster than the other approach?
- #A1=matrix(unlist(l),nrow=nrow(A1),byrow=T)
- #toc()
+ 
         obj=c(obj,cost(A1,A2,A3,Ybar,W,type))
         binary_obj=c(binary_obj,binaryloss(Ybar,W,tensorize(A1,A2,A3)))
         iter=iter+1
@@ -342,8 +310,12 @@ return(list("est"=array(NA,dim=dim(data)),"U"=U,"lambda"=rep(0,r),"info"="degene
         return(decomp)
 }
 }
-
-#################### simulation model ####################
+##################### end of main code ##########################################
+##############################################
+############# following code is for simulation experiment ####################
+###################### do not put in the R package ###########
+############# save them as a sperate file, say, simulation_help.R, for our own refereces.
+#################################
 graphon_to_tensor=function(a,b,c,type){
     d1=length(a);d2=length(b);d3=length(c)
     M=array(0,dim=c(d1,d2,d3))
@@ -407,9 +379,7 @@ graphon_to_tensor=function(a,b,c,type){
     }
     if(type==2){
 
-    M=tensorize(a,b,c)
-    #M=M*M*M
-        ## low rank model
+        M=tensorize(a,b,c) ### low rank model
     }
     return(M)
 }
@@ -428,4 +398,19 @@ appx_rank=function(tensor,thresh=95,step=5){
         if(rank[2]>thresh) break
     }
     return(res)
+}
+SignUnfold=function(Y,truer,Lmin=Lmin,Lmax=Lmax,H=10,option,signal){
+    res=res1=SignT(array(unfold(as.tensor(Y),2:3,1)@data,dim=c(d^2,d,1)),truer,H=H,Lmin=Lmin,Lmax=Lmax,option)
+    error=error_1=mean(abs(res1$est-array(unfold(as.tensor(signal),2:3,1)@data,dim=c(d^2,d,1))))
+    return(list("est"=res,"error"=error))
+    
+    res2=SignT(array(unfold(as.tensor(Y),c(1,3),2)@data,dim=c(d^2,d,1)),truer,H=H,Lmin=Lmin,Lmax=Lmax,option)
+    error_2=mean(abs(res2$est-array(unfold(as.tensor(signal),c(1,3),2)@data,dim=c(d^2,d,1))))
+    if(error_2<error){res=res2; error=error_2}
+    
+    res3=SignT(array(unfold(as.tensor(Y),1:2,3)@data,dim=c(d^2,d,1)),truer,H=H,Lmin=Lmin,Lmax=Lmax,option)
+    error_3=mean(abs(res3$est-array(unfold(as.tensor(signal),1:2,3)@data,dim=c(d^2,d,1))))
+    if(error_3<error){res=res3; error=error_3}
+    
+    return(list("est"=res,"error"=(error_1+error_2+error_3)/3))
 }
