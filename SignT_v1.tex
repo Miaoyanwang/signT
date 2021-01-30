@@ -138,7 +138,7 @@
 
 
 \begin{abstract}
-We consider the problem of tensor estimation from noisy observations with possibly missing entries. A nonparametric approach to tensor completion is developed based on a new model which we coin as sign representable tensors. The model represents the signal tensor of interest using a series of structured sign tensors. Unlike earlier methods, the sign series representation effectively addresses both low- and high-rank signals, while encompassing many existing tensor models---including CP models, Tucker models, single index models, certain hypergraphon models---as special cases. We show that the sign tensor series is theoretically characterized, and computationally estimable, via classification tasks with carefully-specified weights. Excess risk bounds, estimation error rates, and sample complexities are established. We demonstrate the outperformance of our approach over previous methods on two datasets, one on human brain connectivity networks and the other on topic data mining. 
+We consider the problem of tensor estimation from noisy observations with possibly missing entries. A nonparametric approach to tensor completion is developed based on a new model which we coin as sign representable tensors. The model represents the signal tensor of interest using a series of structured sign tensors. Unlike earlier methods, the sign series representation effectively addresses both low- and high-rank signals, while encompassing many existing tensor models---including CP models, Tucker models, single index models, several hypergraphon models---as special cases. We show that the sign tensor series is theoretically characterized, and computationally estimable, via classification tasks with carefully-specified weights. Excess risk bounds, estimation error rates, and sample complexities are established. We demonstrate the outperformance of our approach over previous methods on two datasets, one on human brain connectivity networks and the other on topic data mining. 
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
@@ -250,7 +250,7 @@ Fix a level $\pi\in[-1,1]$. A tensor $\Theta$ is called $(r,\pi)$-sign represent
 We use $\caliP(r)=\{\Theta\colon \srank(\Theta-\pi)\leq r \text{ for all }\pi\in[-1,1]\}$ to denote the $r$-sign representable tensor family.
 \end{defn}
 
-We show that the $r$-sign representable tensor family is a general model that incorporates most existing tensor models, including low-rank tensors, single index models, GLM models, and certain hypergraphon models. 
+We show that the $r$-sign representable tensor family is a general model that incorporates most existing tensor models, including low-rank tensors, single index models, GLM models, and several hypergraphon models. 
 
 \begin{example}[CP/Tucker low-rank models] The CP and Tucker low-rank tensors are the two most popular tensor models~\cite{kolda2009tensor}. Let $\Theta$ be a low-rank tensor with CP rank $r$. We see that $\Theta$ belongs to the sign representable family; i.e., $\Theta\in\caliP(r+1)$ (the constant $1$ is due to $\rank(\Theta-\pi)\leq r+1$). Similar results hold for Tucker low-rank tensors $\Theta\in\caliP(r+1)$, where $r=\prod_kr_k$ with $r_k$ being the $k$-th mode Tucker rank of $\Theta$.  
 \end{example} 
@@ -318,7 +318,7 @@ We now reach the main theorem in this section. For two tensors $\Theta_1,\Theta_
 \]
 where $C(\pi)>0$ is independent of $\tZ$. 
 \end{thm}
-The result establishes the recovery stability of sign tensors $\sign (\Theta-\pi)$ using optimization with population risk~\eqref{eq:population}. The bound immediately shows the uniqueness of the optimizer  for $\text{Risk}(\cdot)$ up to a zero-measure set under $\Pi$, as long as $\alpha\neq 0$. We find that a higher value of $\alpha$ implies more stable recovery, as intuition would suggest. Similar results hold for optimization with sample risk~\eqref{eq:sample} (see Section~\ref{sec:estimation}). 
+The result establishes the recovery stability of sign tensors $\sign (\Theta-\pi)$ using optimization with population risk~\eqref{eq:population}. The bound immediately shows the uniqueness of the optimizer  for $\text{Risk}(\cdot)$ up to a zero-measure set under $\Pi$. We find that a higher value of $\alpha$ implies more stable recovery, as intuition would suggest. Similar results hold for optimization with sample risk~\eqref{eq:sample} (see Section~\ref{sec:estimation}). 
 
 We conclude this section by applying Assumption~\ref{ass:margin} to the examples described in Section~\ref{sec:sign-rank}. For simplicity, suppose $\Pi$ is the uniform sampling for now. The tensor block model is $\infty$-globally smooth. This is because the set $\tN$, which consists of distinct block means in $\Theta$, has finitely many elements. Furthermore, we have $\alpha= \infty$ for all $\pi \notin \tN$, since the numerator in~\eqref{eq:smooth} is zero for all such $\pi$. The min/max hypergaphon model with a $r$-degree polynomial function is $1$-globally smooth because $\alpha=1$ for all $\pi$ in the function range except at most $(r-1)$ many stationary points.
 
@@ -346,7 +346,7 @@ The next theorem establishes the statistical convergence for the sign tensor est
 \vspace{-.8cm}
 \end{figure*}
 
- \begin{thm}[Sign tensor estimation]\label{thm:classification} Suppose $\Theta\in\caliP(r)$ and $\Theta(\omega)$ is $\alpha$-globally smooth under $\omega\sim \Pi$. Let $\hat \tZ_\pi$ be the estimate in~\eqref{eq:estimate}, $d_{\max}=\max_{k\in[K]} d_k$, and $|\Omega|\geq d_{\max}r$ Then, for all $\pi\in[-1,1]$ except for a finite number of levels, with very high probability over $\tY_\Omega$, 
+ \begin{thm}[Sign tensor estimation]\label{thm:classification} Suppose $\Theta\in\caliP(r)$ and $\Theta(\omega)$ is $\alpha$-globally smooth under $\omega\sim \Pi$. Let $\hat \tZ_\pi$ be the estimate in~\eqref{eq:estimate}, $d_{\max}=\max_{k\in[K]} d_k$, and $d_{\max}r\lesssim |\Omega|$. Then, for all $\pi\in[-1,1]$ except for a finite number of levels, with very high probability over $\tY_\Omega$, 
 \begin{align}\label{eq:bound}
 \textup{MAE}(\sign \hat \tZ_\pi, \sign(\Theta-\pi)) \lesssim  &\left({d_{\max} r\over |\Omega|}\right)^{\alpha\over \alpha+2}\\
 &+{1 \over \rho^2(\pi, \tN)} {d_{\max}r \over |\Omega|}.
@@ -370,7 +370,7 @@ Theorem~\ref{thm:estimation} demonstrates the convergence rate of our tensor est
 
 In the special case of full observation with equal dimension $d_k=d, k\in[K]$, our signal estimate achieves convergence
 \begin{equation}
-\textup{MAE}(\hat \Theta, \Theta)\leq \left(r\over d^{K-1}\right)^{{\alpha \over \alpha+2} \vee {1\over 2}}.
+\textup{MAE}(\hat \Theta, \Theta)\lesssim \left(r\over d^{K-1}\right)^{{\alpha \over \alpha+2} \vee {1\over 2}}.
 \end{equation}
 Compared to earlier methods, our estimation accuracy applies to both low- and high-rank signal tensors. The rate depends on the sign complexity $\Theta\in\caliP(r)$, and this $r$ is often much smaller than the usual tensor rank (see Section~\ref{sec:sign-rank}). Our result also reveals that the convergence becomes favorable as the order of data tensor increases. 
 
@@ -473,9 +473,9 @@ Table~\ref{tab:data} compares the prediction accuracy of different methods. Repo
 \begin{figure}[h!]
 \vspace{-.15cm}
 \centering
-\includegraphics[width=.205\textwidth]{figure/brainIQ.pdf}
+\includegraphics[width=.21\textwidth]{figure/brainIQ.pdf}
 \includegraphics[width=.265\textwidth]{figure/signal.pdf}
-\vspace{-.2cm}
+\vspace{-.6cm}
 \caption{Estimated signal tensors in the data analysis. (a) top edges associated with IQ scores in the brain connectivity data. (b) top authors and words for years 1996-1999 in the NIPS data. 
 }\label{fig:signal}
 \vspace{-.2cm}
@@ -484,7 +484,7 @@ Table~\ref{tab:data} compares the prediction accuracy of different methods. Repo
 We next examine the estimated signal tensor $\hat \Theta$ from our method. Figure~\ref{fig:signal}a shows the results from brain connectivity dataset. We plot the top 10 brain edges based on regression analysis of denoised connection strengths against normalized IQ scores. We find that top connections are mostly inter-hemisphere edges, consistent with recent research on brain connectivity with intelligence~\cite{li2009brain,wang2017bayesian}. Figure~\ref{fig:signal}b illustrates the results from NIPS data, where we plot the entries in $\hat \Theta$ corresponding to top authors and most-frequent words (after excluding generic words such as \emph{figure}, \emph{results}, etc). The identified pattern is consistent with the active topics in the NIPS publication. Among the top words are \emph{neural} (marginal mean = 1.95), \emph{learning} (1.48), and \emph{network} (1.21), whereas top authors are \emph{T.\ Sejnowski} (1.18), \emph{B.~Scholkopf} (1.17), \emph{M.\ Jordan} (1.11), and \emph{G.\ Hinton} (1.06). We also find strong heterogeneity among word occurrences across authors and years. For example, \emph{training} and \emph{algorithm} are popular words for \emph{B.\ Scholkopf} and \emph{A.\ Smola} in 1998-1999, whereas \emph{model} occurs more often in \emph{M.\ Jordan} and in 1996. The detected pattern and achieved accuracy demonstrate the applicability of our method.
 
 \section{Conclusion}
-We have developed a tensor completion method that addresses both low- and high-rankness based on sign series representation. Our work provide a nonparametric framework for tensor estimation, and we obtain results  previously impossible.  We hope the work opens up new inquiry that allows more researchers to contribute to this field.
+We have developed a tensor completion method that addresses both low- and high-rankness based on sign series representation. Our work provides a nonparametric framework for tensor estimation, and we obtain results  previously impossible.  We hope the work opens up new inquiry that allows more researchers to contribute to this field.
 
 
 \bibliographystyle{chicago}

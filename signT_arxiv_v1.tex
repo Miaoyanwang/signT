@@ -107,7 +107,7 @@ University of Wisconsin -- Madison\\
 \maketitle
 
 \begin{abstract}
-We consider the problem of tensor estimation from noisy observations with possibly missing entries. A nonparametric approach to tensor completion is developed based on a new model which we coin as sign representable tensors. The model represents the signal tensor of interest using a series of structured sign tensors. Unlike earlier methods, the sign series representation effectively addresses both low- and high-rank signals, while encompassing many existing tensor models---including CP models, Tucker models, single index models, certain hypergraphon models---as special cases. We show that the sign tensor series is theoretically characterized, and computationally estimable, via classification tasks with carefully-specified weights. Excess risk bounds, estimation error rates, and sample complexities are established. We demonstrate the outperformance of our approach over previous methods on two datasets, one on human brain connectivity networks and the other on topic data mining. 
+We consider the problem of tensor estimation from noisy observations with possibly missing entries. A nonparametric approach to tensor completion is developed based on a new model which we coin as sign representable tensors. The model represents the signal tensor of interest using a series of structured sign tensors. Unlike earlier methods, the sign series representation effectively addresses both low- and high-rank signals, while encompassing many existing tensor models---including CP models, Tucker models, single index models, several hypergraphon models---as special cases. We show that the sign tensor series is theoretically characterized, and computationally estimable, via classification tasks with carefully-specified weights. Excess risk bounds, estimation error rates, and sample complexities are established. We demonstrate the outperformance of our approach over previous methods on two datasets, one on human brain connectivity networks and the other on topic data mining. 
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
@@ -219,7 +219,7 @@ Fix a level $\pi\in[-1,1]$. A tensor $\Theta$ is called $(r,\pi)$-sign represent
 We use $\caliP(r)=\{\Theta\colon \srank(\Theta-\pi)\leq r \text{ for all }\pi\in[-1,1]\}$ to denote the $r$-sign representable tensor family.
 \end{defn}
 
-We show that the $r$-sign representable tensor family is a general model that incorporates most existing tensor models, including low-rank tensors, single index models, GLM models, and certain hypergraphon models. \\
+We show that the $r$-sign representable tensor family is a general model that incorporates most existing tensor models, including low-rank tensors, single index models, GLM models, and several hypergraphon models. \\
 
 \begin{example}[CP/Tucker low-rank models] The CP and Tucker low-rank tensors are the two most popular tensor models~\citep{kolda2009tensor}. Let $\Theta$ be a low-rank tensor with CP rank $r$. We see that $\Theta$ belongs to the sign representable family; i.e., $\Theta\in\caliP(r+1)$ (the constant $1$ is due to $\rank(\Theta-\pi)\leq r+1$). Similar results hold for Tucker low-rank tensors $\Theta\in\caliP(r+1)$, where $r=\prod_kr_k$ with $r_k$ being the $k$-th mode Tucker rank of $\Theta$.  \\
 \end{example} 
@@ -288,7 +288,7 @@ We now reach the main theorem in this section. For two tensors $\Theta_1,\Theta_
 \]
 where $C(\pi)>0$ is independent of $\tZ$. 
 \end{thm}
-The result establishes the recovery stability of sign tensors $\sign (\Theta-\pi)$ using optimization with population risk~\eqref{eq:population}. The bound immediately shows the uniqueness of the optimizer  for $\text{Risk}(\cdot)$ up to a zero-measure set under $\Pi$, as long as $\alpha\neq 0$. We find that a higher value of $\alpha$ implies more stable recovery, as intuition would suggest. Similar results hold for optimization with sample risk~\eqref{eq:sample} (see Section~\ref{sec:estimation}). 
+The result establishes the recovery stability of sign tensors $\sign (\Theta-\pi)$ using optimization with population risk~\eqref{eq:population}. The bound immediately shows the uniqueness of the optimizer  for $\text{Risk}(\cdot)$ up to a zero-measure set under $\Pi$. We find that a higher value of $\alpha$ implies more stable recovery, as intuition would suggest. Similar results hold for optimization with sample risk~\eqref{eq:sample} (see Section~\ref{sec:estimation}). 
 
 We conclude this section by applying Assumption~\ref{ass:margin} to the examples described in Section~\ref{sec:sign-rank}. For simplicity, suppose $\Pi$ is the uniform sampling for now. The tensor block model is $\infty$-globally smooth. This is because the set $\tN$, which consists of distinct block means in $\Theta$, has finitely many elements. Furthermore, we have $\alpha= \infty$ for all $\pi \notin \tN$, since the numerator in~\eqref{eq:smooth} is zero for all such $\pi$. The min/max hypergaphon model with a $r$-degree polynomial function is $1$-globally smooth because $\alpha=1$ for all $\pi$ in the function range except at most $(r-1)$ many stationary points.
 
@@ -311,7 +311,7 @@ Here $L(\cdot,\cdot)$ denotes the weighted classification objective defined in~\
 
 The next theorem establishes the statistical convergence for the sign tensor estimate~\eqref{eq:estimate}, which is an important ingredient for the final signal tensor estimate $\hat \Theta$ in~\eqref{eq:est}. \\
 
- \begin{thm}[Sign tensor estimation]\label{thm:classification} Suppose $\Theta\in\caliP(r)$ and $\Theta(\omega)$ is $\alpha$-globally smooth under $\omega\sim \Pi$. Let $\hat \tZ_\pi$ be the estimate in~\eqref{eq:estimate}, $d_{\max}=\max_{k\in[K]} d_k$, and $|\Omega|\geq d_{\max}r$ Then, for all $\pi\in[-1,1]$ except for a finite number of levels, with very high probability over $\tY_\Omega$, 
+ \begin{thm}[Sign tensor estimation]\label{thm:classification} Suppose $\Theta\in\caliP(r)$ and $\Theta(\omega)$ is $\alpha$-globally smooth under $\omega\sim \Pi$. Let $\hat \tZ_\pi$ be the estimate in~\eqref{eq:estimate}, $d_{\max}=\max_{k\in[K]} d_k$, and $d_{\max}r\lesssim \Omega|$. Then, for all $\pi\in[-1,1]$ except for a finite number of levels, with very high probability over $\tY_\Omega$, 
 \begin{align}\label{eq:bound}
 \textup{MAE}(\sign \hat \tZ_\pi, \sign(\Theta-\pi)) \lesssim  \left({d_{\max} r\over |\Omega|}\right)^{\alpha\over \alpha+2}+{1 \over \rho^2(\pi, \tN)} {d_{\max}r \over |\Omega|}.
 \end{align}
@@ -334,7 +334,7 @@ Theorem~\ref{thm:estimation} demonstrates the convergence rate of our tensor est
 
 In the special case of full observation with equal dimension $d_k=d, k\in[K]$, our signal estimate achieves convergence
 \begin{equation}
-\textup{MAE}(\hat \Theta, \Theta)\leq \left(r\over d^{K-1}\right)^{{\alpha \over \alpha+2} \vee {1\over 2}}.
+\textup{MAE}(\hat \Theta, \Theta)\lesssim \left(r\over d^{K-1}\right)^{{\alpha \over \alpha+2} \vee {1\over 2}}.
 \end{equation}
 Compared to earlier methods, our estimation accuracy applies to both low- and high-rank signal tensors. The rate depends on the sign complexity $\Theta\in\caliP(r)$, and this $r$ is often much smaller than the usual tensor rank (see Section~\ref{sec:sign-rank}). Our result also reveals that the convergence becomes favorable as the order of data tensor increases. 
 
@@ -447,10 +447,10 @@ Low-rank CPT &$0.22(0.004)$ & $0.20(0.007)$ & $0.19(0.007)$&$0.17(0.007)$&$0.17(
 Naive imputation (Baseline)& \multicolumn{5}{c}{$0.32(.001)$}
 \end{tabular}
 }
-\caption{MAE comparison in the brain data and NIPS data analysis. The reported MAEs are averaged over five runs of cross-validation, with standard errors in parentheses. Bold numbers indicate the minimal MAE among three methods. For low-rank CPT, we use R function {\tt rTensor} with default hyperparameters, and for our method, we set $H=20$.}\label{tab:data}
+\caption{MAE comparison in the brain data and NIPS data analysis. Reported MAEs are averaged over five runs of cross-validation, with 20\% entries for testing and 80\% for training, with standard errors in parentheses. Bold numbers indicate the minimal MAE among three methods. For low-rank CPT, we use R function {\tt rTensor} with default hyperparameters, and for our method, we set $H=20$.}\label{tab:data}
 \end{table}
 
-We next investigate the pattern in the estimated signal tensor. Figure~\ref{fig:signal}a shows the identified top edges associated with IQ scores. Specifically, we first obtain a denoised tensor $\hat \Theta\in\mathbb{R}^{68\times 68\times 114}$ using our method with $r=10$ and $H=20$. Then, we perform a regression analysis of $\hat \Theta(i,j,\colon)\in\mathbb{R}^{144}$ against the normalized IQ score across the 144 individuals. The regression model is repeated for each edge $(i,j)\in[68]\times[68]$. We find that top edges represent the interhemispheric connections in the frontal and parietal lobes.  The result is consistent with recent research on brain connectivity with intelligence~\citep{li2009brain,wang2017bayesian}.
+We next investigate the pattern in the estimated signal tensor. Figure~\ref{fig:signal}a shows the identified top edges associated with IQ scores. Specifically, we first obtain a denoised tensor $\hat \Theta\in\mathbb{R}^{68\times 68\times 114}$ using our method with $r=10$ and $H=20$. Then, we perform a regression analysis of $\hat \Theta(i,j,\colon)\in\mathbb{R}^{144}$ against the normalized IQ score across the 144 individuals. The regression model is repeated for each edge $(i,j)\in[68]\times[68]$. We find that top edges represent the interhemispheric connections in the frontal lobes.  The result is consistent with recent research on brain connectivity with intelligence~\citep{li2009brain,wang2017bayesian}.
 
 
 
@@ -459,15 +459,15 @@ We next investigate the pattern in the estimated signal tensor. Figure~\ref{fig:
 The NIPS dataset consists of word occurrence counts in papers published from 1987 to 2003. We focus on the top 100 authors, 200 most frequent words, and normalize each word count by log transformation with pseudo-count 1. The resulting dataset is an order-3 tensor with entry representing the log counts of words by authors across years. 
 
 
-Table~\ref{tab:data} compares the prediction accuracy of different methods. Reported MAEs are averaged over five runs of cross-validation, with 20\% entries for testing and 80\% for training. We find that our method substantially outperforms the low-rank CP method for every configuration under consideration. Further increment of rank appears to have little effect on the performance. 
+Table~\ref{tab:data} compares the prediction accuracy of different methods. We find that our method substantially outperforms the low-rank CP method for every configuration under consideration. Further increment of rank appears to have little effect on the performance. 
 The comparison highlights the advantage of our method in achieving accuracy while maintaining low complexity. In addition, we also perform naive imputation where the missing values are predicted using the sample average. Both our method and CPT outperform the naive imputation, implying the necessity of incorporating tensor structure in the analysis.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=.37\textwidth]{figure/brainIQ.pdf}
+\includegraphics[width=.39\textwidth]{figure/brainIQ.pdf}
 \hspace{1cm}
 \includegraphics[width=.495\textwidth]{figure/signal.pdf}
-\caption{Estimated signal tensors in the data analysis. (a) top edges associated with IQ scores in the brain connectivity data. The color indicates the estimated IQ effect size. (b) top authors and words for years 1996-1999 in the NIPS data. The color indicates the estimated tensor value. 
+\caption{Estimated signal tensors in the data analysis. (a) top edges associated with IQ scores in the brain connectivity data. The color indicates the estimated IQ effect size. (b) top authors and words for years 1996-1999 in the NIPS data. Authors and words are ranked by marginal averages based on $\hat \Theta$, where the marginal average is denoted in the parentheses.
 }\label{fig:signal}
 \end{figure}
 
@@ -479,7 +479,7 @@ We next examine the estimated signal tensor $\hat \Theta$ from our method.  Figu
 
 
 \section{Additional results and proofs}
-In this section, we provide additional results not covered in previous sections. Section~\ref{sec:additional} gives detailed explanation to the examples mentioned in Section~\ref{sec:intro}. Section~\ref{sec:high-rank} supplements Section~\ref{sec:sign-rank} by providing more theoretical results on sign rank and its relationship to tensor rank. Section~\ref{sec:proofs} collects the proofs for theorems in the main texts. 
+In this section, we provides additional results not covered in previous sections. Section~\ref{sec:additional} gives detailed explanation to the examples mentioned in Section~\ref{sec:intro}. Section~\ref{sec:high-rank} supplements Section~\ref{sec:sign-rank} by providing more theoretical results on sign rank and its relationship to tensor rank. Section~\ref{sec:proofs} collects the proofs for theorems in the main texts. 
 
 
 \subsection{Sensitivity of tensor rank to monotonic transformations}\label{sec:additional}
@@ -813,7 +813,7 @@ Because the classification loss $L(\cdot, \cdot)$ is scale-free, i.e., $L(\tZ,\c
 \hat \tZ=\argmin_{\tZ\colon \textup{rank}(\tZ)\leq r, \FnormSize{}{\tZ}\leq 1}L(\tZ, \bar \tY_{\Omega}).
 \]
 
-We next apply the empirical process theory to bound $\hat \tZ$. To facilitate the analysis, we view the data $\tY_\Omega=\{\bar \tY(\omega)\colon \omega\in \Omega\}$ as a collection of $n$ independent random variables where the randomness is from both $\bar \tY$ and $\omega\sim\Pi$. Write the index set $\Omega=\{1,\ldots,n\}$, so the loss function~\eqref{eq:sample2} becomes
+We next apply the empirical process theory to bound $\hat \tZ$. To facilitate the analysis, we view the data $\bar \tY_\Omega=\{\bar \tY(\omega)\colon \omega\in \Omega\}$ as a collection of $n$ independent random variables where the randomness is from both $\bar \tY$ and $\omega\sim\Pi$. Write the index set $\Omega=\{1,\ldots,n\}$, so the loss function~\eqref{eq:sample2} becomes
 \[
 L(\tZ,\bar \tY_\Omega)={1\over n}\sum_{i=1}^n\ell_{i}(\tZ, \bar \tY).
 \]
