@@ -311,7 +311,7 @@ Here $L(\cdot,\cdot)$ denotes the weighted classification objective defined in~\
 
 The next theorem establishes the statistical convergence for the sign tensor estimate~\eqref{eq:estimate}, which is an important ingredient for the final signal tensor estimate $\hat \Theta$ in~\eqref{eq:est}. \\
 
- \begin{thm}[Sign tensor estimation]\label{thm:classification} Suppose $\Theta\in\caliP(r)$ and $\Theta(\omega)$ is $\alpha$-globally smooth under $\omega\sim \Pi$. Let $\hat \tZ_\pi$ be the estimate in~\eqref{eq:estimate}, $d_{\max}=\max_{k\in[K]} d_k$, and $d_{\max}r\lesssim \Omega|$. Then, for all $\pi\in[-1,1]$ except for a finite number of levels, with very high probability over $\tY_\Omega$, 
+ \begin{thm}[Sign tensor estimation]\label{thm:classification} Suppose $\Theta\in\caliP(r)$ and $\Theta(\omega)$ is $\alpha$-globally smooth under $\omega\sim \Pi$. Let $\hat \tZ_\pi$ be the estimate in~\eqref{eq:estimate}, $d_{\max}=\max_{k\in[K]} d_k$, and $d_{\max}r\lesssim |\Omega|$. Then, for all $\pi\in[-1,1]$ except for a finite number of levels, with very high probability over $\tY_\Omega$, 
 \begin{align}\label{eq:bound}
 \textup{MAE}(\sign \hat \tZ_\pi, \sign(\Theta-\pi)) \lesssim  \left({d_{\max} r\over |\Omega|}\right)^{\alpha\over \alpha+2}+{1 \over \rho^2(\pi, \tN)} {d_{\max}r \over |\Omega|}.
 \end{align}
