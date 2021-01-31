@@ -280,17 +280,16 @@
 
 \begin{frame}{Sign rank}
 \begin{itemize}
-    \item  Two tensors are sign equivalent denoted as $\Theta \simeq \Theta'$ if
-    \begin{align}
-        \text{sgn}(\Theta) = \text{sgn}(\Theta').
-    \end{align}
+    \item  Two tensors are sign equivalent denoted as $\Theta \simeq \Theta'$ if $\text{sgn}(\Theta) = \text{sgn}(\Theta')$.
+
     \item Sign rank is defined as
     \begin{align}
     \rlap{\textcolor{blue!10}{\rule[-\dp\strutbox]{235pt}{\baselineskip}}}\,\text{srank}(\Theta) = \min\{\text{rank}(\Theta')\colon \Theta'\simeq \Theta, \Theta'\in\mathbb{R}^{d_1\times\cdots\times d_K}\}.
     \end{align}
-    ex) $\Theta = \begin{pmatrix}-1&0&1\\0&0&1\\1&1&1\end{pmatrix}$, $\text{sgn}(\Theta) = \begin{pmatrix}-1&1&1\\1&1&1\\1&1&1\end{pmatrix}\Longrightarrow\begin{cases} \text{rank}(\Theta) = 3,\\ \text{srank}(\Theta) = 2.\end{cases}$\vspace*{.5cm}
-    \item In fact,
-for any strictly monotonic function $g\colon\mathbb{R}\rightarrow \mathbb{R}$ with $g(0) = 0$,
+ \begin{center}
+    \includegraphics[width =\textwidth]{signrank.pdf}
+    \end{center}
+\item In fact, for any strictly monotonic function $g\colon\mathbb{R}\rightarrow \mathbb{R}$ with $g(0) = 0$,
 \[\rlap{\textcolor{blue!10}{\rule[-\dp\strutbox]{105pt}{\baselineskip}}}\,\text{srank}(\Theta)\leq \text{rank}(g(\Theta)).\]
 \end{itemize}
 
@@ -335,7 +334,7 @@ for any strictly monotonic function $g\colon\mathbb{R}\rightarrow \mathbb{R}$ wi
     \includegraphics[width =\textwidth]{weightedclassification.pdf}
     \end{center}
     \begin{itemize}
-    \item We estimate $\text{sign}(\Theta-\pi)$ through $\text{sgn}(\tY_\Omega-\pi)$ via weighted classification.
+    \item We estimate $\text{sgn}(\Theta-\pi)$ through $\text{sgn}(\tY_\Omega-\pi)$ via weighted classification.
     \item Objective function of weighted classification is
     \begin{align}
     L(\tZ,\tY_\Omega-\pi) = \frac{1}{|\Omega|}\sum_{\pi\in\Omega}\underbrace{|\tY(\omega)-\pi|}_{\text{weight}}\times\underbrace{ |\text{sgn}(\tZ(\omega))-\text{sgn}(\tY(\omega)-\pi)|}_{\text{classification loss}}
@@ -353,8 +352,18 @@ For fixed $\pi$, we call $\Theta$ is $\alpha$ smooth if there exist $\alpha = \a
 where $\rho(\pi,\tN) = \min_{\pi'\in\tN}|\pi-\pi'|$ and $\tN = \{\pi\colon\mathbb{P}(\Theta(\omega) = \pi)\neq 0\}$.
 If constants $\alpha$ and $c$ are independent of $\pi$, we call $\Theta$ is $\alpha$-globally smooth.
 \end{block}
-    \begin{itemize}
-    \item If $\Theta$ is $\alpha$ smooth, we have {\color{red}an unique optimizer}  such that\\[.1cm]
+ \begin{center}
+ \includegraphics[width = \textwidth]{cdf.pdf}
+ \end{center}
+\end{frame}
+
+
+\begin{frame}{Our new approach: weighed classification}
+ \begin{center}
+ \includegraphics[width = \textwidth]{weightedclassification.pdf}
+ \end{center}
+   \begin{itemize}
+    \item If $\Theta$ is $\alpha$ smooth ($\alpha>0$), we have {\color{red}an unique optimizer}  such that\\[.1cm]
        $\hspace{2cm}\text{sgn}(\Theta-\pi) = \argmin\limits_{\tZ\colon \text{rank}(\tZ)\leq r} \mathbb{E}_{\tY_\Omega}L(\tZ,\tY_\Omega-\pi)$.\vspace*{.1cm}
 
     \item So we obtain a series of optimizers $\{\hat \tZ_\pi\}_{\pi\in\tH}$ as
@@ -363,7 +372,6 @@ If constants $\alpha$ and $c$ are independent of $\pi$, we call $\Theta$ is $\al
     \end{align}
     \end{itemize}
 \end{frame}
-
 
 \begin{frame}{Our new approach: aggregation}
     \begin{center}
@@ -433,7 +441,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
 
 \begin{frame}{Data application}
     \begin{center}
-    \includegraphics[width =\textwidth]{dataset.pdf}
+    \includegraphics[width =\textwidth]{ndataset.pdf}
     \end{center}
 \end{frame}
 
@@ -441,7 +449,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
 \begin{columns}
 \begin{column}{0.21\textwidth}
    \begin{center}
-     \includegraphics[width=\textwidth]{bdata.pdf}
+     \includegraphics[width=\textwidth]{braindata.pdf}
      \end{center}
 \end{column}
 \begin{column}{0.7\textwidth} 
@@ -474,7 +482,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
     \begin{columns}
 \begin{column}{0.21\textwidth}
    \begin{center}
-     \includegraphics[width=\textwidth]{ndata.pdf}
+     \includegraphics[width=\textwidth]{nipsdata.pdf}
      \end{center}
 \end{column}
 \begin{column}{0.7\textwidth} 
@@ -514,7 +522,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
  \begin{columns}
 \begin{column}{0.20\textwidth}
    \begin{center}
-     \includegraphics[width=\textwidth]{idata.pdf}
+     \includegraphics[width=\textwidth]{imgdata.pdf}
      \end{center}
 \end{column}
 \begin{column}{0.7\textwidth} 
@@ -535,7 +543,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
 \begin{frame}{Summary}
 \begin{itemize}
     \item We have developed a completion method that can address {\color{red} both low- and high-ranknesss}  based on {\color{red}sign series representation}.
-    \item {\color{red}Estimation error rates}and {\color{red}sample complexities} are established.
+    \item {\color{red}Estimation error rates }and {\color{red}sample complexities} are established.
     \item Our approach has good interpretation and prediction performance in both simulations and data applications.
     
 \end{itemize}
