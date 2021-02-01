@@ -204,11 +204,12 @@
      \begin{center}
     \includegraphics[width =\textwidth]{signalnoise.pdf}
     \end{center}
+    \onslide<2->{
     We focus on the two problems
     \begin{enumerate}
         \item {\color{red}Nonparametric tensor estimation}: How to estimate the signal tensor $\Theta$?
         \item {\color{red}Complexity of tensor completion}: How many observed tensor entries do we need?
-    \end{enumerate}
+    \end{enumerate}}
 \end{frame}
 
 \begin{frame}{Classical approach}
@@ -218,12 +219,12 @@
     \begin{center}
     \includegraphics[width =\textwidth]{classic.pdf}
     \end{center}
-
+\onslide<2->{
      \item There are two limitations of the model
      \begin{enumerate}
          \item The sensitivity to order-preserving transformation.
          \item Inadequacy for special structures.
-     \end{enumerate}
+     \end{enumerate}}
  \end{itemize}
 \end{frame}
 
@@ -242,7 +243,7 @@
 \end{column}
 \end{columns}
       
-      
+      \onslide<2->{
     \item Inadequacy for special structures.
       \begin{columns}
 \begin{column}{0.7\textwidth}
@@ -256,7 +257,7 @@
 \end{column}
 \end{columns}
     
-  
+  }
  \end{itemize}
 \end{frame}
 
@@ -265,15 +266,12 @@
     \includegraphics[width =\textwidth]{toyexample.pdf}
     \end{center}
 {\footnotesize where $\text{sgn}(x) = \begin{cases}1,&\text{ if } x\geq 0,\\-1 &\text{ otherwise.}\end{cases}$}
+\onslide<2->{
     \begin{itemize}
     \item We do not use magnitude of the signal tensor but {\color{red}sign representation}.
      \item With a series of sign tensors, we can successfully preserve all information in the original signals.
     \end{itemize}
-    %\item Why China?
-    %\begin{itemize}
-     %   \item Opposite side of ``China Shock''
-     %  \item Reached the peak of structural change
-    %\end{itemize}
+ }
 \end{frame}
 
 
@@ -286,11 +284,13 @@
     \begin{align}
     \rlap{\textcolor{blue!10}{\rule[-\dp\strutbox]{235pt}{\baselineskip}}}\,\text{srank}(\Theta) = \min\{\text{rank}(\Theta')\colon \Theta'\simeq \Theta, \Theta'\in\mathbb{R}^{d_1\times\cdots\times d_K}\}.
     \end{align}
+    \onslide<2->{
  \begin{center}
     \includegraphics[width =\textwidth]{signrank.pdf}
-    \end{center}
+    \end{center}}
+    \onslide<3->{
 \item In fact, for any strictly monotonic function $g\colon\mathbb{R}\rightarrow \mathbb{R}$ with $g(0) = 0$,
-\[\rlap{\textcolor{blue!10}{\rule[-\dp\strutbox]{105pt}{\baselineskip}}}\,\text{srank}(\Theta)\leq \text{rank}(g(\Theta)).\]
+\[\rlap{\textcolor{blue!10}{\rule[-\dp\strutbox]{105pt}{\baselineskip}}}\,\text{srank}(\Theta)\leq \text{rank}(g(\Theta)).\]}
 \end{itemize}
 
 
@@ -303,10 +303,11 @@
        \\[.1cm] ex2) $\Theta(i_1,\ldots,i_K) = \log(1+\max(i_1,\ldots,i_K))$ is 2-sign representable.
        \\[.1cm] ex3) $\Theta$ such that $\text{rank}(\Theta)\leq r$, is $(r+1)$-sign representable.
     \begin{itemize} 
+    \onslide<2->{
        \item Instead of the classical low rank assumption, we assume
        \begin{align}
          \rlap{\textcolor{blue!10}{\rule[-\dp\strutbox]{250pt}{\baselineskip}}}\,  \Theta\in\caliP(r):=\{\Theta\colon\text{srank}(\Theta-\pi)\leq r \text{ for all } \pi\in[-1,1]\}.
-       \end{align}
+       \end{align}}
       \end{itemize}
 \end{frame}
 
@@ -347,7 +348,7 @@
 \begin{block}{$\alpha$ smoothness}
 For fixed $\pi$, we call $\Theta$ is $\alpha$ smooth if there exist $\alpha = \alpha(\pi)>0,c = c(\pi)>0$, such that 
 \begin{align}
-    \sup_{0\leq t<\rho(\pi,\tN)}{\mathbb{P}_{\omega\sim\pi}[|\Theta(\omega)-\pi|\leq t]\over t}\leq c,
+    \sup_{0\leq t<\rho(\pi,\tN)}{\mathbb{P}_{\omega\sim\pi}[|\Theta(\omega)-\pi|\leq t]\over t^\alpha}\leq c,
 \end{align}
 where $\rho(\pi,\tN) = \min_{\pi'\in\tN}|\pi-\pi'|$ and $\tN = \{\pi\colon\mathbb{P}(\Theta(\omega) = \pi)\neq 0\}$.
 If constants $\alpha$ and $c$ are independent of $\pi$, we call $\Theta$ is $\alpha$-globally smooth.
@@ -409,10 +410,11 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
 \textup{MAE}(\hat \Theta, \Theta)\lesssim \left(d_{\max}r \over |\Omega|\right)^{{\alpha \over \alpha+2} \vee {1\over 2}}.
 \end{equation}
     \end{block}
+    \onslide<2->{
     \begin{itemize}
         \item Tensor estimation is generally no better than sign tensor estimation.
         \item Sample complexity: \[\text{MAE}(\hat\Theta,\Theta)\rightarrow 0, \text{ as } {|\Omega|\over d_{\max}r}\rightarrow\infty.\]
-    \end{itemize}
+    \end{itemize}}
 \end{frame}
 
 
@@ -459,7 +461,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
 \end{itemize}
 \end{column}
 \end{columns}
-
+\onslide<2->{
 \begin{columns}
 \begin{column}{0.6\textwidth}
  \begin{itemize}
@@ -473,7 +475,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
      \end{center}
 \end{column}
 \end{columns}
-
+}
 \end{frame}
 
 
@@ -493,6 +495,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
 \end{column}
 \end{columns}
 
+\onslide<2->{
 \begin{columns}
 \begin{column}{0.6\textwidth}
  \begin{itemize}
@@ -507,6 +510,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
      \end{center}
 \end{column}
 \end{columns}
+}
 \end{frame}
 
 \begin{frame}{Data application: Brain connectivity + NIPS}
@@ -533,11 +537,12 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
 \end{itemize}
 \end{column}
 \end{columns}
-
+\onslide<2->{
 
       \begin{center}
     \includegraphics[width =\textwidth]{imageresult.pdf}
     \end{center}
+    }
 \end{frame}
 
 \begin{frame}{Summary}
@@ -545,7 +550,8 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
     \item We have developed a completion method that can address {\color{red} both low- and high-ranknesss}  based on {\color{red}sign series representation}.
     \item {\color{red}Estimation error rates }and {\color{red}sample complexities} are established.
     \item Our approach has good interpretation and prediction performance in both simulations and data applications.
-    
+    \onslide<2->{
+    \item Thank you!}
 \end{itemize}
     
 \end{frame}
