@@ -260,7 +260,7 @@ Fortunately, the tensors sought in statistical and machine learning applications
      \begin{center}
     \includegraphics[width =\textwidth]{Figures/signalnoise.pdf}
     \end{center}
-    We focus on the two problems:
+    We focus on two problems:
     \begin{itemize}
         \item Nonparametric tensor estimation: How to estimate the signal tensor $\Theta$ under {\color{red}a wide range of structures}?
         \item Tensor completion: How many {\color{red}observed tensor entries} do we need in order for consistent recovery?
@@ -269,7 +269,7 @@ Fortunately, the tensors sought in statistical and machine learning applications
 
 \begin{frame}{Inadequacies of low-rank models}
  \begin{itemize}
- \item Classical low-rank models (Jain \& Oh' 14; Motanari \& Sun '18):
+ \item Classical low-rank models (Jain \& Oh '14; Motanari \& Sun '18):
  \\[.5cm]
 
    \begin{center}
@@ -286,7 +286,7 @@ Fortunately, the tensors sought in statistical and machine learning applications
 
 \begin{frame}{Inadequacies of  low-rank models}
  \begin{itemize}         
-  \item Tensor rank is sensible to order-preserving transformation.
+  \item Tensor rank is sensitive to order-preserving transformation.
 \begin{columns}
 \begin{column}{0.5\textwidth}
    \begin{center}
@@ -319,7 +319,7 @@ $\Rightarrow$ Both $\Theta$ and $\tZ$ are full rank.
 \end{column}
 \end{columns}
     
-{\tiny \hfill The matrix analogy of $\Theta$ was studied in the context of graphon analysis by Chan and Airoldi (2014).}
+{\tiny \hfill The matrix analogy of $\Theta$ was studied in the context of graphon analysis by Chan \& Airoldi '14.}
  \end{itemize}
 \end{frame}
 
@@ -328,15 +328,15 @@ $\Rightarrow$ Both $\Theta$ and $\tZ$ are full rank.
 
 
 \begin{itemize}
-\item {\bf Low-rank tensor estimation} (Anandkumar et al. 2014; Montanari and Sun 2018; Cai et al. 2019) focuses on the regime of fixed rank $r$ growing dimension $d$. $\Rightarrow$ {\color{red}low-rank assumption is often violated} in practice. 
-\item {\bf High-rank matrix estimation} was studied under nonlinear models (Ganti et al., 2015) and subspace clustering (Ongie et al., 2017; Fan and Udell, 2019). $\Rightarrow$ tensors are more challenging as {\color{red}rank may exceed dimension}. 
+\item {\bf Low-rank tensor estimation} (Anandkumar et al.\ '14; Montanari \& Sun '18; Cai et al.\ '19) focuses on the regime of fixed rank $r$ growing dimension $d$. $\Rightarrow$ {\color{red}low-rank assumption is often violated} in practice. 
+\item {\bf High-rank matrix estimation} was studied under nonlinear models (Ganti et al.\ '15) and subspace clustering (Ongie et al.\ '17; Fan \& Udell '19). $\Rightarrow$ tensors are more challenging because {\color{red}tensor rank may exceed dimension}. 
 \end{itemize}
 
 \pause
 \begin{block}{Our contributions}
 \begin{itemize}
 \item We develop a new model called {\color{red} sign representable tensors} to fill the gap between parametric (low-rank) and nonparametric (high-rank) tensors. 
-\item Our tensor estimate is {\color{red}provably reductable} to a series of classifications. $\Rightarrow$ a divide-and-conquer nature for efficient computation. 
+\item Our tensor estimate is {\color{red}provably reductable} to a series of classifications. $\Rightarrow$ computationally efficient via a divide-and-conquer algorithm. 
 \end{itemize}
 \end{block}
 \end{frame}
@@ -362,7 +362,7 @@ For any bounded tensor $\Theta\in[-1,1]^{d_1\times \cdots \times d_K}$,
 
 \begin{frame}{Sign rank}
 \begin{itemize}
-    \item Key ideas: we use {\color{red}a local (nonparametric) notion of ``low-rankness''} that allows a broader family of signal tensors. 
+    \item Key ideas: we use {\color{red}a local (nonparametric) notion of ``low-rankness''} to allow a broad family of signal tensors. 
         
     \item  Two tensors are sign equivalent, denoted $\Theta \simeq \Theta'$, if $\text{sgn}(\Theta) = \text{sgn}(\Theta')$.
 
@@ -388,7 +388,7 @@ A tensor $\Theta$ is called {\color{red}$r$-sign representable} if the tensor $(
     \begin{itemize}
       \item {\color{red}Low-rank} CP tensors, Tucker tensors, stochastic tensor block models.
        \item {\color{red}High-rank} tensors from GLM, single index models. 
-        \item Earlier example $\small \Theta(i_1,\ldots,i_K) = \log(1+\max(i_1,\ldots,i_K))$ is 2-sign representable $\Rightarrow$ conclusion extends to general max/min hypergraphon models. 
+        \item Earlier example $\small \Theta(i_1,\ldots,i_K) = \log(1+\max(i_1,\ldots,i_K))$ is 2-sign representable $\Rightarrow$ properties extends to general max/min hypergraphon models. 
     \end{itemize} 
     
        \item We propose the signal tensor family
@@ -503,7 +503,7 @@ Rate depends on the behavior of CDF function $G(\pi)=\mathbb{P}_{\omega\sim \Pi}
 \begin{frame}{From sign to signal estimation}
   
     \begin{itemize}
-    \item Aggregation of sign tensors from weighted classification yields the possibly high-rank signal tensor estimate:
+    \item Aggregation of sign tensors from weighted classification yields our signal tensor estimate:
     \begin{align}
         \hat\Theta = {1\over 2H+1}\sum_{\pi\in\tH}\text{sgn}\hat \tZ_\pi.
     \end{align}
@@ -552,7 +552,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
         \end{center}
 
 \pause
-    \item Our method ({\color{blue}NonparaT}) achieves the best performance, whereas the second best method is low-rank CP tensor ({\color{red} CPT}) for models 1-2, and matrix version of our method ({\color{darkgreen} NonParaM}) for models 3-4.
+    \item Our method ({\color{blue}NonparaT}) achieves the best performance, whereas the second best method is low-rank CP tensor ({\color{red} CPT}) for models 1-2, and matrix nonparametric method ({\color{darkgreen} NonParaM}) for models 3-4.
   \end{itemize}
     
           \begin{center}
@@ -583,9 +583,9 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
 
 We apply our method to three datasets:
 \begin{itemize}
-\item The human brain connectivity data~\citep{wang2017bayesian} consists of 68 brain regions for 114 individuals along with their IQ scores.
+\item The human brain connectivity data (Want et al '17) consists of 68 brain regions for 114 individuals along with their IQ scores.
 
-\item The NIPS dataset~\citep{globerson2007euclidean} consists of word occurrence counts in papers published from 1987 to 2003.
+\item The NIPS dataset (Globerson et al '07) consistis of word occurrence counts in papers published from 1987 to 2003.
 \item The 3-channel image data is from licensed google image file.
 
 
@@ -604,7 +604,7 @@ We apply our method to three datasets:
 \end{column}
 \begin{column}{0.7\textwidth} 
 \begin{itemize}
-    \item The MRN-114 human brain connectivity data consists of 68 brain regions for 114 individuals along with their IQ scores~.
+    \item The human brain connectivity data consists of 68 brain regions for 114 individuals along with their IQ scores.
     \item  Data tensor $\tY\in\{0,1\}^{68\times68\times114}.$
 \end{itemize}
 \end{column}
@@ -614,7 +614,7 @@ We apply our method to three datasets:
 \begin{column}{0.6\textwidth}
  \begin{itemize}
      \item We examine the estimated signal tensor $\hat\Theta.$
-     \item Top 10 brain edges based on regression analysis show inter-hemisphere connections.
+     \item Top 10 brain edges based on regression analysis identifies inter-hemisphere connections.
  \end{itemize}
 \end{column}
 \begin{column}{0.4\textwidth} 
@@ -647,7 +647,7 @@ We apply our method to three datasets:
 \begin{column}{0.6\textwidth}
  \begin{itemize}
      \item We examine the estimated signal tensor $\hat\Theta.$
-     \item Most frequent words are consistent with the active topics.
+     \item Most frequent words are consistent with active topics in NIPS conference. 
      \item Strong heterogeneity among word occurrences across authors and years.
  \end{itemize}
 \end{column}
@@ -690,7 +690,7 @@ We apply our method to three datasets:
 
 \begin{frame}{Data application: Brain connectivity + NIPS}
 \begin{itemize}
-\item Our method achieves lower test error than low-rank tensor methods. 
+\item Our method achieves better test performance than low-rank methods. 
 \end{itemize}
       \begin{center}
      \begin{table}
@@ -710,7 +710,7 @@ We apply our method to three datasets:
 \begin{column}{0.7\textwidth} 
 \begin{itemize}
     \item The original data is from licensed google image file.
-    \item data tensor $\tY\in[0,1]^{217\times217\times3}.$ 
+    \item Data tensor $\tY\in[0,1]^{217\times217\times3}.$ 
     \item We assess completion performance by sampling 50\% entries in the original image tensor.
 \end{itemize}
 \end{column}
