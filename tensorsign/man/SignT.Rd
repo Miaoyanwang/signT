@@ -2,29 +2,29 @@
 % Please edit documentation in R/signT.R
 \name{SignT}
 \alias{SignT}
-\title{Estimation of a signal tensor from a noisy and incomplete data tensor based on nonparametric tensor method via sign series.}
+\title{Signal tensor estimation from a noisy and incomplete data tensor based on nonparametric tensor method via sign series.}
 \usage{
 SignT(Y,truer,H,Lmin,Lmax,option = 1)
 }
 \arguments{
-\item{Y}{A given data tensor (possibly noisy and incomplete).}
+\item{Y}{A given (possibly noisy and incomplete) data tensor.}
 
-\item{truer}{A sign rank of the signal tensor.}
+\item{truer}{Sign rank of the signal tensor.}
 
-\item{H}{A resolution parameter.}
+\item{H}{Resolution parameter.}
 
-\item{Lmin}{A minimum value of the signal tensor (or a minimum value of the tensor Y).}
+\item{Lmin}{Minimum value of the signal tensor (or minimum value of the tensor Y).}
 
-\item{Lmax}{A maximum value of the signal tensor (or a maximum value of the tensor Y).}
+\item{Lmax}{Maximum value of the signal tensor (or maximum value of the tensor Y).}
 
-\item{option}{A large margin loss to be used. Use logistic loss if \code{option} = 1, hinge loss if \code{option} = 2.}
+\item{option}{A large margin loss to be used. Use logistic loss if \code{option} = 1, hinge loss if \code{option} = 2. Logistic loss is default.}
 }
 \value{
-The returned value is a list with components.
+The returned object is a list of components.
 
-\code{fitted} \verb{  }A series of optimizers that minimize the weighted classification loss at a given level pi.
+\code{fitted} - A series of optimizers that minimize the weighted classification loss at each pi.
 
-\code{est} \verb{     }An estimated signal tensor based on nonparametic tensor method via sign series.
+\code{est} - An estimated signal tensor based on nonparametic tensor method via sign series.
 }
 \description{
 Estimate a signal tensor from a noisy and incomplete data tensor using nonparametric tensor method via sign series.

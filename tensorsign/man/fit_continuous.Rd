@@ -2,23 +2,23 @@
 % Please edit documentation in R/signT.R
 \name{fit_continuous}
 \alias{fit_continuous}
-\title{Estimating a signal tensor from a noisy and incomplete data tensor based on CP low rank tensor method.}
+\title{Signal tensor estimation from a noisy and incomplete data tensor based on CP low rank tensor method.}
 \usage{
 fit_continuous(data,r)
 }
 \arguments{
-\item{data}{A given data tensor (possibly noisy and incomplete).}
+\item{data}{A given (possibly noisy and incomplete) data tensor.}
 
-\item{r}{A rank of the signal tensor.}
+\item{r}{Rank of the signal tensor.}
 }
 \value{
-The returned value is a list with components.
+The returned object is a list of components.
 
-\code{est}\verb{    } An estimated signal tensor based on CP low rank tensor method.
+\code{est} - An estimated signal tensor based on CP low rank tensor method.
 
-\code{U}\verb{      } A list of factor matrices.
+\code{U} - A list of factor matrices.
 
-\code{lambda}\verb{ } A vector of tensor singular values.
+\code{lambda} - A vector of tensor singular values.
 }
 \description{
 Estimate a signal tensor from a noisy and incomplete data tensor using CP low rank tensor method.

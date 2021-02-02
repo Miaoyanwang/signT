@@ -4,31 +4,31 @@
 \alias{Alt}
 \title{Alternating optimization of the weighted classification loss}
 \usage{
-Alt(Ybar,W,r,type = c("logistic","hinge"),start = "random")
+Alt(Ybar,W,r,type = c("logistic","hinge"),start = "linear")
 }
 \arguments{
-\item{Ybar}{A given data tensor (possibly noisy and incomplete).}
+\item{Ybar}{A given (possibly noisy and incomplete) data tensor.}
 
-\item{W}{A weight tensor of the weighted classification loss.}
+\item{W}{A weight tensor used in the weighted classification loss.}
 
-\item{r}{A rank to be fitted.}
+\item{r}{Tensor rank to be fitted.}
 
 \item{type}{A large margin loss to be used. Logistic or hinge loss is available.}
 
-\item{start}{Choice of initialization method. Use random initialization if \code{start} = "random", the initialization based on low rank approximation if \code{start} = "linear".}
+\item{start}{Choice of initialization method. Use random initialization if \code{start} = "random"; Use the initialization based on low rank approximation if \code{start} = "linear". Linear initialization is default.}
 }
 \value{
-The returned value is a list with components.
+The returned object is a list of components.
 
-\code{binary_obj} \verb{ }A series of binary loss values at each iteration.
+\code{binary_obj} - Trajectory of binary loss values over iterations.
 
-\code{obj} \verb{        }A series of the weighted classification loss values at each iteration.
+\code{obj} - Trajectory of weighted classification loss values over iterations.
 
-\code{iter} \verb{       }The number of iterations.
+\code{iter} - The number of iterations.
 
-\code{error} \verb{      }A series of errors at each iteration.
+\code{error} - Trajectory of errors over iterations.
 
-\code{fitted} \verb{     }A tensor that optimizes the weighted classification loss.
+\code{fitted} - A tensor that optimizes the weighted classification loss.
 }
 \description{
 Optimize the weighted classification loss given a weight tensor, an observed data tensor, and a large margin loss.
@@ -42,8 +42,8 @@ Theta = array(runif(prod(indices),min=-3,max = 3),indices)
 # The signal plus noise model
 Y = Theta + noise
 
-# Optimize the weighted classification for a given sign tensor sign(Y) and a weight tensor abs(Y)
-result = Alt(sign(Y),abs(Y),r = 2,type = "logistic",start = "random")
+# Optimize the weighted classification for given a sign tensor sign(Y) and a weight tensor abs(Y)
+result = Alt(sign(Y),abs(Y),r = 3,type = "logistic",start = "linear")
 signTheta = sign(result$fitted)
 
 }

@@ -80,18 +80,18 @@ tensorize=function(X,Y,Z){
 
 
 
-#' Estimation of a signal tensor from a noisy and incomplete data tensor based on nonparametric tensor method via sign series.
+#' Signal tensor estimation from a noisy and incomplete data tensor based on nonparametric tensor method via sign series.
 #'
 #' Estimate a signal tensor from a noisy and incomplete data tensor using nonparametric tensor method via sign series.
-#' @param Y A given data tensor (possibly noisy and incomplete).
-#' @param truer A sign rank of the signal tensor.
-#' @param H A resolution parameter.
-#' @param Lmin A minimum value of the signal tensor (or a minimum value of the tensor Y).
-#' @param Lmax A maximum value of the signal tensor (or a maximum value of the tensor Y).
-#' @param option A large margin loss to be used. Use logistic loss if \code{option} = 1, hinge loss if \code{option} = 2.
-#' @return The returned value is a list with components.
-#' @return \code{fitted} \verb{  }A series of optimizers that minimize the weighted classification loss at a given level pi.
-#' @return \code{est} \verb{     }An estimated signal tensor based on nonparametic tensor method via sign series.
+#' @param Y A given (possibly noisy and incomplete) data tensor.
+#' @param truer Sign rank of the signal tensor.
+#' @param H Resolution parameter.
+#' @param Lmin Minimum value of the signal tensor (or minimum value of the tensor Y).
+#' @param Lmax Maximum value of the signal tensor (or maximum value of the tensor Y).
+#' @param option A large margin loss to be used. Use logistic loss if \code{option} = 1, hinge loss if \code{option} = 2. Logistic loss is default.
+#' @return The returned object is a list of components.
+#' @return \code{fitted} - A series of optimizers that minimize the weighted classification loss at each pi.
+#' @return \code{est} - An estimated signal tensor based on nonparametic tensor method via sign series.
 #' @usage SignT(Y,truer,H,Lmin,Lmax,option = 1)
 #' @references Lee, C., & Wang, M. (2021). Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}.
 #' @examples
@@ -109,8 +109,7 @@ tensorize=function(X,Y,Z){
 #'
 #' @export
 #' @import rTensor
-#' @importFrom stats "optim"
-#' @importFrom pracma "randortho"
+#' @importFrom stats "optim" "runif"
 
 
 SignT=function(Y,truer,H=5,Lmin,Lmax,option=1){
@@ -138,18 +137,18 @@ SignT=function(Y,truer,H=5,Lmin,Lmax,option=1){
 #' Alternating optimization of the weighted classification loss
 #'
 #' Optimize the weighted classification loss given a weight tensor, an observed data tensor, and a large margin loss.
-#' @param Ybar A given data tensor (possibly noisy and incomplete).
-#' @param W A weight tensor of the weighted classification loss.
-#' @param r A rank to be fitted.
+#' @param Ybar A given (possibly noisy and incomplete) data tensor.
+#' @param W A weight tensor used in the weighted classification loss.
+#' @param r Tensor rank to be fitted.
 #' @param type A large margin loss to be used. Logistic or hinge loss is available.
-#' @param start Choice of initialization method. Use random initialization if \code{start} = "random", the initialization based on low rank approximation if \code{start} = "linear".
-#' @return The returned value is a list with components.
-#' @return \code{binary_obj} \verb{ }A series of binary loss values at each iteration.
-#' @return \code{obj} \verb{        }A series of the weighted classification loss values at each iteration.
-#' @return \code{iter} \verb{       }The number of iterations.
-#' @return \code{error} \verb{      }A series of errors at each iteration.
-#' @return \code{fitted} \verb{     }A tensor that optimizes the weighted classification loss.
-#' @usage Alt(Ybar,W,r,type = c("logistic","hinge"),start = "random")
+#' @param start Choice of initialization method. Use random initialization if \code{start} = "random"; Use the initialization based on low rank approximation if \code{start} = "linear". Linear initialization is default.
+#' @return The returned object is a list of components.
+#' @return \code{binary_obj} - Trajectory of binary loss values over iterations.
+#' @return \code{obj} - Trajectory of weighted classification loss values over iterations.
+#' @return \code{iter} - The number of iterations.
+#' @return \code{error} - Trajectory of errors over iterations.
+#' @return \code{fitted} - A tensor that optimizes the weighted classification loss.
+#' @usage Alt(Ybar,W,r,type = c("logistic","hinge"),start = "linear")
 #' @references Lee, C., & Wang, M. (2021). Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}.
 #' @examples
 #' library(rTensor)
@@ -160,18 +159,17 @@ SignT=function(Y,truer,H=5,Lmin,Lmax,option=1){
 #' # The signal plus noise model
 #' Y = Theta + noise
 #'
-#' # Optimize the weighted classification for a given sign tensor sign(Y) and a weight tensor abs(Y)
-#' result = Alt(sign(Y),abs(Y),r = 2,type = "logistic",start = "random")
+#' # Optimize the weighted classification for given a sign tensor sign(Y) and a weight tensor abs(Y)
+#' result = Alt(sign(Y),abs(Y),r = 3,type = "logistic",start = "linear")
 #' signTheta = sign(result$fitted)
 #'
 #' @export
 #' @import rTensor
-#' @importFrom stats "optim"
-#' @importFrom pracma "randortho"
+#' @importFrom stats "optim" "runif"
 
 
 
-Alt=function(Ybar,W,r,type=c("logistic","hinge"),start="random"){
+Alt=function(Ybar,W,r,type=c("logistic","hinge"),start="linear"){
     result=list()
     d=dim(Ybar)
     if(start=="linear"){
@@ -182,9 +180,9 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge"),start="random"){
     diag(scale)=ini$lambda
     A3 = ini$U[[3]]%*%scale;
     }else{
-    A1 = cbind(randortho(d[1])[,1:r]);
-    A2 = cbind(randortho(d[2])[,1:r]);
-    A3 = cbind(randortho(d[3])[,1:r]);
+    A1 = matrix(runif(d[1]*r,-1,1),nrow = d[1],ncol = r);
+    A2 = matrix(runif(d[2]*r,-1,1),nrow = d[2],ncol = r);
+    A3 = matrix(runif(d[3]*r,-1,1),nrow = d[3],ncol = r);
     }
     obj=cost(A1,A2,A3,Ybar,W,type);
     binary_obj=binaryloss(Ybar,W,tensorize(A1,A2,A3))
@@ -216,15 +214,15 @@ error=(obj[iter-1]-obj[iter])
 }
 
 
-#' Estimating a signal tensor from a noisy and incomplete data tensor based on CP low rank tensor method.
+#' Signal tensor estimation from a noisy and incomplete data tensor based on CP low rank tensor method.
 #'
 #' Estimate a signal tensor from a noisy and incomplete data tensor using CP low rank tensor method.
-#' @param data A given data tensor (possibly noisy and incomplete).
-#' @param r A rank of the signal tensor.
-#' @return The returned value is a list with components.
-#' @return \code{est}\verb{    } An estimated signal tensor based on CP low rank tensor method.
-#' @return \code{U}\verb{      } A list of factor matrices.
-#' @return \code{lambda}\verb{ } A vector of tensor singular values.
+#' @param data A given (possibly noisy and incomplete) data tensor.
+#' @param r Rank of the signal tensor.
+#' @return The returned object is a list of components.
+#' @return \code{est} - An estimated signal tensor based on CP low rank tensor method.
+#' @return \code{U} - A list of factor matrices.
+#' @return \code{lambda} - A vector of tensor singular values.
 #' @usage fit_continuous(data,r)
 #' @examples
 #' library(rTensor)
@@ -241,8 +239,9 @@ error=(obj[iter-1]-obj[iter])
 #'
 #' @export
 #' @import rTensor
-#' @importFrom stats "optim"
-#' @importFrom pracma "randortho"
+#' @importFrom stats "optim" "runif"
+
+
 fit_continuous=function(data,r){
     index=which(is.na(data)==TRUE)
     data[index]=mean(data,na.rm=TRUE)
