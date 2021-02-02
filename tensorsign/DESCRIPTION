@@ -1,0 +1,16 @@
+Package: tensorsign
+Type: Package
+Title: Nonparametric Tensor Completion Via Sign Series
+Version: 0.1.0
+Author: Chanwoo Lee <chanwoo.lee@wisc.edu>, Miaoyan Wang <miaoyan.wang@wisc.edu>
+Maintainer: Chanwoo Lee <chanwoo.lee@wisc.edu>
+Imports:
+    rTensor,
+    Matrix,
+    pracma
+Description: Efficient algorithm for nonparametric tensor completion method via sign series. The algorithm employs the alternating optimization approach to solve the weighted classification problem. The detailed algorithm description can be found in Lee and Wang (2021) <arXiv:2102.00384>.
+URL: https://arxiv.org/abs/2102.00384
+License: GPL(>=2)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
