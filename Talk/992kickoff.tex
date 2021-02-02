@@ -148,7 +148,7 @@
 
 \section{Introduction}
 \begin{frame}[label = slide1]
-    \frametitle{Introduction: what is a tensor?}
+    \frametitle{What is a tensor?}
     \begin{itemize}
         \item Tensors are generalizations of vectors and matrices:
         \begin{center}
@@ -164,7 +164,7 @@
 
 
 
-\begin{frame}{Introduction: Tucker decomposition}
+\begin{frame}{Tensor decomposition (Tucker decomposition)}
 \begin{itemize}
     \item Tucker decomposition~\citep{de2000multilinear}.
     \begin{itemize}
@@ -184,9 +184,9 @@
 \end{frame}
 
 
-\begin{frame}{Introduction:  Canonical Polyadic (CP) decomposition}
+\begin{frame}{Tensor decomposition (CP decomposition)}
 \begin{itemize}
-    \item CP decomposition~\citep{hitchcock1927expression}.
+    \item Canonical Polyadic (CP) decomposition~\citep{hitchcock1927expression}.
     \begin{itemize}
     \item $\mathcal{Y} = \sum_{s = 1}^r\lambda_s\ma_s^{(1)}\otimes \cdots\otimes \ma_s^{(K)}$.
     
@@ -212,9 +212,20 @@
     \end{enumerate}}
 \end{frame}
 
-\begin{frame}{Classical approach}
+\begin{frame}{Tensor based learning is challenging}
+	\begin{itemize}
+	\item Matrix based model \citep{cai2013max,davenport2014,ganti2015matrix,fan2019generalized}
+\\[.2cm] \onslide<2->{{\color{red}Applying matrix methods  to higher-order tensor destroys structural information.}}
+
+	\onslide<3->{\item Low rank tensor model~\citep{jain2014provable,montanari2018spectral,cai2019nonconvex}}
+	\\[.2cm] \onslide<4->{{\color{red} Low rank models are inadequate in many cases.}}
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Inadequacies of low rank models}
  \begin{itemize}
- \item Low rank models~\citep{jain2014provable,montanari2018spectral}.\\[.5cm]
+ \item Low rank models.\\[.5cm]
 
     \begin{center}
     \includegraphics[width =\textwidth]{classic.pdf}
@@ -223,12 +234,12 @@
      \item There are two limitations of the model
      \begin{enumerate}
          \item The sensitivity to order-preserving transformation.
-         \item Inadequacy for special structures.
+         \item The inadequacy for special structures.
      \end{enumerate}}
  \end{itemize}
 \end{frame}
 
-\begin{frame}{Classical approach}
+\begin{frame}{Inadequacies of low rank models}
  \begin{itemize}         
     \item The sensitivity to order-preserving transformation.
       \begin{columns}
@@ -244,7 +255,7 @@
 \end{columns}
       
       \onslide<2->{
-    \item Inadequacy for special structures.
+    \item The inadequacy for special structures.
       \begin{columns}
 \begin{column}{0.7\textwidth}
    \begin{center}
@@ -261,7 +272,7 @@
  \end{itemize}
 \end{frame}
 
-\begin{frame}{Motivational toy example}
+\begin{frame}{Motivating toy example in noiseless case}
     \begin{center}
     \includegraphics[width =\textwidth]{toyexample.pdf}
     \end{center}
@@ -320,20 +331,18 @@
  
 \end{frame}
 
-\begin{frame}{Our new approach: representation}
-  \begin{center}
-    \includegraphics[width =\textwidth]{representation.pdf}
-    \end{center}
+\begin{frame}{Representation}
 \begin{itemize}
     \item We are given the observed tensor $\tY_\Omega\in[-1,1]^{d_1\times \cdots\times d_K}$ with observed index set $\Omega\in[d_1]\times\cdots\times[d_K]$.
     \item We obtain sign tensor series \[\{\text{sgn}(\tY_\Omega-\pi)\}_{\pi\in\tH},\quad \text{ where } \tH= \{-1,\ldots,-1/H,0,1/H,\ldots,1\}.\]
 \end{itemize}
-    
-\end{frame}
-\begin{frame}{Our new approach: weighted classification}
-    \begin{center}
-    \includegraphics[width =\textwidth]{weightedclassification.pdf}
+      \begin{center}
+    \includegraphics[width =\textwidth]{representation.pdf}
     \end{center}
+\end{frame}
+
+
+\begin{frame}{Weighted classification}
     \begin{itemize}
     \item We estimate $\text{sgn}(\Theta-\pi)$ through $\text{sgn}(\tY_\Omega-\pi)$ via weighted classification.
     \item Objective function of weighted classification is
@@ -341,14 +350,17 @@
     L(\tZ,\tY_\Omega-\pi) = \frac{1}{|\Omega|}\sum_{\pi\in\Omega}\underbrace{|\tY(\omega)-\pi|}_{\text{weight}}\times\underbrace{ |\text{sgn}(\tZ(\omega))-\text{sgn}(\tY(\omega)-\pi)|}_{\text{classification loss}}
     \end{align}
     \end{itemize}
+       \begin{center}
+    \includegraphics[width =\textwidth]{weightedclassification.pdf}
+    \end{center}
 \end{frame}
 
 
-\begin{frame}{Our new approach: weighted classification}
+\begin{frame}{Weighted classification}
 \begin{block}{$\alpha$ smoothness}
 For fixed $\pi$, we call $\Theta$ is $\alpha$ smooth if there exist $\alpha = \alpha(\pi)>0,c = c(\pi)>0$, such that 
 \begin{align}
-    \sup_{0\leq t<\rho(\pi,\tN)}{\mathbb{P}_{\omega\sim\pi}[|\Theta(\omega)-\pi|\leq t]\over t^\alpha}\leq c,
+    \sup_{0\leq t<\rho(\pi,\tN)}{\mathbb{P}_{\omega\sim\pi}[|\Theta(\omega)-\pi|\leq{ \color{red}t}]\over{\color{red} t^\alpha}}\leq c,
 \end{align}
 where $\rho(\pi,\tN) = \min_{\pi'\in\tN}|\pi-\pi'|$ and $\tN = \{\pi\colon\mathbb{P}(\Theta(\omega) = \pi)\neq 0\}$.
 If constants $\alpha$ and $c$ are independent of $\pi$, we call $\Theta$ is $\alpha$-globally smooth.
@@ -359,10 +371,7 @@ If constants $\alpha$ and $c$ are independent of $\pi$, we call $\Theta$ is $\al
 \end{frame}
 
 
-\begin{frame}{Our new approach: weighed classification}
- \begin{center}
- \includegraphics[width = \textwidth]{weightedclassification.pdf}
- \end{center}
+\begin{frame}{Weighed classification}
    \begin{itemize}
     \item If $\Theta$ is $\alpha$ smooth ($\alpha>0$), we have {\color{red}an unique optimizer}  such that\\[.1cm]
        $\hspace{2cm}\text{sgn}(\Theta-\pi) = \argmin\limits_{\tZ\colon \text{rank}(\tZ)\leq r} \mathbb{E}_{\tY_\Omega}L(\tZ,\tY_\Omega-\pi)$.\vspace*{.1cm}
@@ -372,34 +381,37 @@ If constants $\alpha$ and $c$ are independent of $\pi$, we call $\Theta$ is $\al
         \hat \tZ_\pi = \argmin_{\tZ\colon \text{rank}(\tZ)\leq r}L(\tZ,\tY_\Omega-\pi).
     \end{align}
     \end{itemize}
+     \begin{center}
+ \includegraphics[width = \textwidth]{weightedclassification.pdf}
+ \end{center}
 \end{frame}
 
-\begin{frame}{Our new approach: aggregation}
-    \begin{center}
-    \includegraphics[width =\textwidth]{aggregation.pdf}
-    \end{center}
+\begin{frame}{Aggregation}
     \begin{itemize}
     \item From a series of optimizers $\{\hat\tZ_\pi\}_{\pi\in\tH}$ in the weighted classification, we propose the tensr estimate 
     \begin{align}
         \hat\Theta = {1\over 2H+1}\sum_{\pi\in\tH}\text{sgn}\hat \tZ_\pi.
     \end{align}
     \end{itemize}
+     \begin{center}
+    \includegraphics[width =\textwidth]{aggregation.pdf}
+    \end{center}
 \end{frame}
 
 
-\begin{frame}{Theoretical results: sign tensor estimation error}
+\begin{frame}{Sign tensor estimation error from weighted classification}
 \begin{itemize}
 \item For two tensor $\Theta_1,\Theta_2$, define $\textup{MAE}(\Theta_1,\Theta_2) = \mathbb{E}_{\omega\in\Pi}|\Theta_1(\omega)-\Theta_2(\omega)|.$
 \end{itemize}
     \begin{block}{Sign tensor estimation for fixed $\pi$ (L. and Wang, 2021)}
-    Suppose $\Theta\in\caliP(r)$ and  $\Theta(\omega)$ is $\alpha$ smooth for fixed $\pi$. $d_{\max}=\max_{k\in[K]} d_k$. Then, with very high probability over $\tY_\Omega$, 
+    Suppose $\Theta\in\caliP(r)$ and  $\Theta(\omega)$ is $\alpha$ smooth for fixed $\pi$.  Denote $d_{\max}=\max_{k\in[K]} d_k$. Then, with very high probability over $\tY_\Omega$, 
 \begin{align}
-\textup{MAE}(\text{sgn}\hat \tZ_\pi, \text{sgn}(\Theta-\pi)) \lesssim  \left({d_{\max} r\over |\Omega|}\right)^{\alpha\over \alpha+2}.
+\textup{MAE}(\text{sgn}\hat \tZ_\pi, \text{sgn}(\Theta-\pi)) \lesssim  \left({d_{\max} r\over |\Omega|}\right)^{\color{red}\alpha\over \alpha+2}.
 \end{align}
     \end{block}
 \end{frame}
 
-\begin{frame}{Theoretical results: tensor estimation error}
+\begin{frame}{Tensor estimation  error}
     \begin{block}{Tensor estimation error (L. and Wang 2021)}
     Suppose $\Theta\in\caliP(r)$ and  $\Theta(\omega)$ is $\alpha$-globally smooth. Then, with very high probability over $\tY_\Omega$, 
     \begin{equation}\label{eq:bound2}
@@ -407,7 +419,7 @@ If constants $\alpha$ and $c$ are independent of $\pi$, we call $\Theta$ is $\al
 \end{equation}
 In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\right)^{1/2}$ yields the error bound
 \begin{equation}\label{eq:real}
-\textup{MAE}(\hat \Theta, \Theta)\lesssim \left(d_{\max}r \over |\Omega|\right)^{{\alpha \over \alpha+2} \vee {1\over 2}}.
+\textup{MAE}(\hat \Theta, \Theta)\lesssim \left(d_{\max}r \over |\Omega|\right)^{\color{red}{\alpha \over \alpha+2} \vee {1\over 2}}.
 \end{equation}
     \end{block}
     \onslide<2->{
@@ -418,25 +430,23 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
 \end{frame}
 
 
-\begin{frame}{Simulations}
+\begin{frame}{Simulations for estimation error vs tensor dimension}
     \begin{center}
     \includegraphics[width = \textwidth]{simulation.pdf}
     \includegraphics[width =\textwidth]{fig1-4v2.pdf}
     \end{center}
     \begin{itemize}
     \item {\bf NonPraT}: Our nonparametric tensor method, {\bf CPT}: low rank tensor CP decomposition, {\bf NonPraraM}: the matrix version of our method.
-    \item Estimation versus tensor dimension.
     \item Our method (NonparaT) achives the best performance.
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Simulations}
+\begin{frame}{Simulations for estimation error vs the observation fraction}
     \begin{center}
     \includegraphics[width = \textwidth]{simulation.pdf}
     \includegraphics[width =\textwidth]{fig5-8v2.pdf}
     \end{center}
     \begin{itemize}
-        \item Estimation error versus the observation fraction.
         \item Our method (NonparaT) achives the best performance.
     \end{itemize}
 \end{frame}
@@ -506,7 +516,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
 \end{column}
 \begin{column}{0.4\textwidth} 
    \begin{center}
-     \includegraphics[width=\textwidth]{signal.pdf}
+     \includegraphics[width=\textwidth]{nipsresult.pdf}
      \end{center}
 \end{column}
 \end{columns}
@@ -547,7 +557,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
 
 \begin{frame}{Summary}
 \begin{itemize}
-    \item We have developed a completion method that can address {\color{red} both low- and high-ranknesss}  based on {\color{red}sign series representation}.
+    \item We have developed a completion method that address {\color{red} both low- and high-ranknesss}  based on {\color{red}sign series representation}.
     \item {\color{red}Estimation error rates }and {\color{red}sample complexities} are established.
     \item Our approach has good interpretation and prediction performance in both simulations and data applications.
     \onslide<2->{
