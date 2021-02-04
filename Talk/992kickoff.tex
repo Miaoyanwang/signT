@@ -215,10 +215,12 @@
 \begin{frame}{Tensor based learning is challenging}
 	\begin{itemize}
 	\item Matrix based model \citep{cai2013max,davenport2014,ganti2015matrix,fan2019generalized}
-\\[.2cm] \onslide<2->{{\color{red}Applying matrix methods  to higher-order tensor destroys structural information.}}
-
-	\onslide<3->{\item Low rank tensor model~\citep{jain2014provable,montanari2018spectral,cai2019nonconvex}}
-	\\[.2cm] \onslide<4->{{\color{red} Low rank models are inadequate in many cases.}}
+ \onslide<3->{\begin{itemize}{\item \color{red}Applying matrix methods  to higher-order tensor destroys structural information.\item Tensor is different from matrix and more challenging.}}
+\end{itemize}
+	\onslide<2->{\item Low rank tensor model~\citep{jain2014provable,montanari2018spectral,cai2019nonconvex}}
+	\begin{itemize}
+	\item\onslide<4->{{\color{red} Low rank models are inadequate in many cases.}}
+	\end{itemize}
 	\end{itemize}
 	
 \end{frame}
@@ -279,8 +281,9 @@
 {\footnotesize where $\text{sgn}(x) = \begin{cases}1,&\text{ if } x\geq 0,\\-1 &\text{ otherwise.}\end{cases}$}
 \onslide<2->{
     \begin{itemize}
-    \item We do not use magnitude of the signal tensor but {\color{red}sign representation}.
-     \item With a series of sign tensors, we can successfully preserve all information in the original signals.
+    \item Signed tensors is much {\color{red} simpler} in the sense of rank.
+     \item With {\color{red} a series of sign tensors}, we can successfully preserve all information in the original signals.
+     \item In noise case, we estimate {\color{red}$\text{sgn}(\Theta-\pi)$} from the tensor data {\color{red}$\text{sgn}(\tY-\pi).$}
     \end{itemize}
  }
 \end{frame}
@@ -300,7 +303,7 @@
     \includegraphics[width =\textwidth]{signrank.pdf}
     \end{center}}
     \onslide<3->{
-\item In fact, for any strictly monotonic function $g\colon\mathbb{R}\rightarrow \mathbb{R}$ with $g(0) = 0$,
+\item More generally,  for any strictly monotonic function $g\colon\mathbb{R}\rightarrow \mathbb{R}$ with $g(0) = 0$,
 \[\rlap{\textcolor{blue!10}{\rule[-\dp\strutbox]{105pt}{\baselineskip}}}\,\text{srank}(\Theta)\leq \text{rank}(g(\Theta)).\]}
 \end{itemize}
 
@@ -308,7 +311,7 @@
 \end{frame}
 
 \begin{frame}{Sign representable tensors}
-    \begin{block}{Sign representable tensors} A tensor $\Theta$ is called $r$-sign representable if the tensor $(\Theta-\pi)$ has sign rank bounded by $r$ for all $\pi\in[-1,1].$ The collection $\{\text{sgn}(\Theta-\pi)\colon \pi\in[-1,1]\}$ is called the sign tensor series.
+    \begin{block}{Sign representable tensors} A tensor $\Theta$ is called {\color{red}  $r$-sign representable }if the tensor $(\Theta-\pi)$ has sign rank bounded by $r$ for all $\pi\in[-1,1].$ The collection $\{\text{sgn}(\Theta-\pi)\colon \pi\in[-1,1]\}$ is called the sign tensor series.
     \end{block}
      ex1) $\Theta = \begin{pmatrix}-1&0&1\\0&0&1\\1&1&1\end{pmatrix}$ is 2-sign representable.
        \\[.1cm] ex2) $\Theta(i_1,\ldots,i_K) = \log(1+\max(i_1,\ldots,i_K))$ is 2-sign representable.
@@ -331,10 +334,10 @@
  
 \end{frame}
 
-\begin{frame}{Representation}
+\begin{frame}{Step 1: representation}
 \begin{itemize}
     \item We are given the observed tensor $\tY_\Omega\in[-1,1]^{d_1\times \cdots\times d_K}$ with observed index set $\Omega\in[d_1]\times\cdots\times[d_K]$.
-    \item We obtain sign tensor series \[\{\text{sgn}(\tY_\Omega-\pi)\}_{\pi\in\tH},\quad \text{ where } \tH= \{-1,\ldots,-1/H,0,1/H,\ldots,1\}.\]
+    \item We obtain sign tensor series \[\{\text{sgn}(\tY_\Omega-\pi)\}_{\pi\in\tH},\quad \text{ where } \tH= \left\{-1,\ldots,-{1\over H},0,{1\over H},\ldots,1\right\}.\]
 \end{itemize}
       \begin{center}
     \includegraphics[width =\textwidth]{representation.pdf}
@@ -342,13 +345,14 @@
 \end{frame}
 
 
-\begin{frame}{Weighted classification}
+\begin{frame}{Step 2: weighted classification}
     \begin{itemize}
     \item We estimate $\text{sgn}(\Theta-\pi)$ through $\text{sgn}(\tY_\Omega-\pi)$ via weighted classification.
     \item Objective function of weighted classification is
     \begin{align}
     L(\tZ,\tY_\Omega-\pi) = \frac{1}{|\Omega|}\sum_{\pi\in\Omega}\underbrace{|\tY(\omega)-\pi|}_{\text{weight}}\times\underbrace{ |\text{sgn}(\tZ(\omega))-\text{sgn}(\tY(\omega)-\pi)|}_{\text{classification loss}}
     \end{align}
+    \item Magnitude $|\Theta(\omega)-\pi|$ plays important role in estimation.
     \end{itemize}
        \begin{center}
     \includegraphics[width =\textwidth]{weightedclassification.pdf}
@@ -356,22 +360,24 @@
 \end{frame}
 
 
-\begin{frame}{Weighted classification}
+\begin{frame}{Step 2: weighted classification}
 \begin{block}{$\alpha$ smoothness}
 For fixed $\pi$, we call $\Theta$ is $\alpha$ smooth if there exist $\alpha = \alpha(\pi)>0,c = c(\pi)>0$, such that 
 \begin{align}
     \sup_{0\leq t<\rho(\pi,\tN)}{\mathbb{P}_{\omega\sim\pi}[|\Theta(\omega)-\pi|\leq{ \color{red}t}]\over{\color{red} t^\alpha}}\leq c,
 \end{align}
 where $\rho(\pi,\tN) = \min_{\pi'\in\tN}|\pi-\pi'|$ and $\tN = \{\pi\colon\mathbb{P}(\Theta(\omega) = \pi)\neq 0\}$.
-If constants $\alpha$ and $c$ are independent of $\pi$, we call $\Theta$ is $\alpha$-globally smooth.
-\end{block}
+If $\alpha$ and $c$ are global constants for all$^*$ $\pi$'s, we call $\Theta$ is $\alpha$-globally smooth.
+\end{block} \vspace{-.4cm}
+ {\hfill \tiny $^*$ except for a finite number of $\pi$'s. }\\
+ Rate depends on the behavior of CDF function $G(\pi) = \mathbb{P}_{\omega\in\Pi}[\Theta(\omega)\leq\pi].$
  \begin{center}
- \includegraphics[width = \textwidth]{cdf.pdf}
+ \includegraphics[width = \textwidth]{cdf_new.pdf}
  \end{center}
 \end{frame}
 
 
-\begin{frame}{Weighed classification}
+\begin{frame}{Step 2: weighed classification}
    \begin{itemize}
     \item If $\Theta$ is $\alpha$ smooth ($\alpha>0$), we have {\color{red}an unique optimizer}  such that\\[.1cm]
        $\hspace{2cm}\text{sgn}(\Theta-\pi) = \argmin\limits_{\tZ\colon \text{rank}(\tZ)\leq r} \mathbb{E}_{\tY_\Omega}L(\tZ,\tY_\Omega-\pi)$.\vspace*{.1cm}
@@ -386,7 +392,7 @@ If constants $\alpha$ and $c$ are independent of $\pi$, we call $\Theta$ is $\al
  \end{center}
 \end{frame}
 
-\begin{frame}{Aggregation}
+\begin{frame}{Step 3: aggregation}
     \begin{itemize}
     \item From a series of optimizers $\{\hat\tZ_\pi\}_{\pi\in\tH}$ in the weighted classification, we propose the tensr estimate 
     \begin{align}
@@ -409,6 +415,9 @@ If constants $\alpha$ and $c$ are independent of $\pi$, we call $\Theta$ is $\al
 \textup{MAE}(\text{sgn}\hat \tZ_\pi, \text{sgn}(\Theta-\pi)) \lesssim  \left({d_{\max} r\over |\Omega|}\right)^{\color{red}\alpha\over \alpha+2}.
 \end{align}
     \end{block}
+    \begin{itemize}
+    \item Sign estimation error shows a polynomial decay with the number of observed entries.
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Tensor estimation  error}
@@ -436,7 +445,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
     \includegraphics[width =\textwidth]{fig1-4v2.pdf}
     \end{center}
     \begin{itemize}
-    \item {\bf NonPraT}: Our nonparametric tensor method, {\bf CPT}: low rank tensor CP decomposition, {\bf NonPraraM}: the matrix version of our method.
+    \item {\color{blue}\bf NonPraT}: Our nonparametric tensor method, {\color{red}\bf CPT}: low rank tensor CP decomposition, {\color{green}\bf NonPraraM}: the matrix version of our method.
     \item Our method (NonparaT) achives the best performance.
     \end{itemize}
 \end{frame}
@@ -512,6 +521,7 @@ In particular, setting $\scriptstyle H\asymp \left( |\Omega|\over d_{\max}r\righ
      \item We examine the estimated signal tensor $\hat\Theta.$
      \item Most frequent words is consistent with the active topics
      \item There are strong heterogeneity among word occurrences across authors and years.
+     \item Similar word patterns (B. Schölkopf and A. Smola).
  \end{itemize}
 \end{column}
 \begin{column}{0.4\textwidth} 
