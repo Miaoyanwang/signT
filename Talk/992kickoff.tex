@@ -281,7 +281,7 @@
 {\footnotesize where $\text{sgn}(x) = \begin{cases}1,&\text{ if } x\geq 0,\\-1 &\text{ otherwise.}\end{cases}$}
 \onslide<2->{
     \begin{itemize}
-    \item Signed tensors is much {\color{red} simpler} in the sense of rank.
+    \item Signed tensors are much {\color{red} simpler} in the sense of rank.
      \item With {\color{red} a series of sign tensors}, we can successfully preserve all information in the original signals.
      \item In noise case, we estimate {\color{red}$\text{sgn}(\Theta-\pi)$} from the tensor data {\color{red}$\text{sgn}(\tY-\pi).$}
     \end{itemize}
@@ -336,7 +336,7 @@
 
 \begin{frame}{Step 1: representation}
 \begin{itemize}
-    \item We are given the observed tensor $\tY_\Omega\in[-1,1]^{d_1\times \cdots\times d_K}$ with observed index set $\Omega\in[d_1]\times\cdots\times[d_K]$.
+    \item We are given the observed tensor $\tY_\Omega\in[-1,1]^{d_1\times \cdots\times d_K}$ with observed index set $\Omega\subset[d_1]\times\cdots\times[d_K]$.
     \item We obtain sign tensor series \[\{\text{sgn}(\tY_\Omega-\pi)\}_{\pi\in\tH},\quad \text{ where } \tH= \left\{-1,\ldots,-{1\over H},0,{1\over H},\ldots,1\right\}.\]
 \end{itemize}
       \begin{center}
@@ -364,7 +364,7 @@
 \begin{block}{$\alpha$ smoothness}
 For fixed $\pi$, we call $\Theta$ is $\alpha$ smooth if there exist $\alpha = \alpha(\pi)>0,c = c(\pi)>0$, such that 
 \begin{align}
-    \sup_{0\leq t<\rho(\pi,\tN)}{\mathbb{P}_{\omega\sim\pi}[|\Theta(\omega)-\pi|\leq{ \color{red}t}]\over{\color{red} t^\alpha}}\leq c,
+    \sup_{0\leq t<\rho(\pi,\tN)}{\mathbb{P}_{\omega\sim\Pi}[|\Theta(\omega)-\pi|\leq{ \color{red}t}]\over{\color{red} t^\alpha}}\leq c,
 \end{align}
 where $\rho(\pi,\tN) = \min_{\pi'\in\tN}|\pi-\pi'|$ and $\tN = \{\pi\colon\mathbb{P}(\Theta(\omega) = \pi)\neq 0\}$.
 If $\alpha$ and $c$ are global constants for all$^*$ $\pi$'s, we call $\Theta$ is $\alpha$-globally smooth.
@@ -379,7 +379,7 @@ If $\alpha$ and $c$ are global constants for all$^*$ $\pi$'s, we call $\Theta$ i
 
 \begin{frame}{Step 2: weighed classification}
    \begin{itemize}
-    \item If $\Theta$ is $\alpha$ smooth ($\alpha>0$), we have {\color{red}an unique optimizer}  such that\\[.1cm]
+    \item If $\Theta$ is $\alpha$ smooth ($\alpha>0$), we have {\color{red}a unique optimizer}  such that\\[.1cm]
        $\hspace{2cm}\text{sgn}(\Theta-\pi) = \argmin\limits_{\tZ\colon \text{rank}(\tZ)\leq r} \mathbb{E}_{\tY_\Omega}L(\tZ,\tY_\Omega-\pi)$.\vspace*{.1cm}
 
     \item So we obtain a series of optimizers $\{\hat \tZ_\pi\}_{\pi\in\tH}$ as
