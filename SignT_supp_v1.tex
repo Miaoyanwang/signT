@@ -17,6 +17,8 @@
 \usepackage{comment}
 % Definitions of handy macros can go here
 \usepackage{amsmath,amssymb,amsthm,bm,mathtools}
+\usepackage{mathrsfs}
+
 \usepackage{multirow}
 \usepackage{natbib}
 %\usepackage{dsfont,multirow,hyperref,setspace,natbib,enumerate}
@@ -103,237 +105,8 @@
 \end{center}
 
 \appendix
-The appendix consists of additional theoretical results (Section~\ref{sec:additional}), numerical experiments (Section~\ref{sec:data}), and proofs (Section~\ref{sec:proof}). 
+The appendix consists of proofs (Section~\ref{sec:proof}), additional theoretical results (Section~\ref{sec:additional}),  and numerical experiments (Section~\ref{sec:data}).
 
-\section{Additional results}\label{sec:additional}
-\subsection{Sensitivity of tensor rank to monotonic transformations}
-In Section~\ref{sec:intro} of the main paper, we have provided a motivating example to show the sensitivity of tensor rank to monotonic transformations. Here, we describe the details of the example set-up. 
-
-The step 1 is to generate a rank-3 tensor $\tZ$ based on the CP representation
-\[
-\tZ=\ma^{\otimes 3}+\mb^{\otimes 3}+\mc^{\otimes 3},
-\]
-where $\ma,\mb,\mc\in\mathbb{R}^{30}$ are vectors consisting of $N(0,1)$ entries, and the shorthand $\ma^{\otimes 3}=\ma\otimes \ma\otimes \ma$ denotes the Kronecker power. We then apply $f(z)=(1+\exp(-cz))^{-1}$ to $\tZ$ entrywise, and obtain a transformed tensor $\Theta=f(\tZ)$. 
-
-The step 2 is to determine the rank of $\Theta$. Unlike matrices, the exact rank determination for tensors is NP hard. Therefore, we choose to compute the numerical rank of $\Theta$ as an approximation.  The numerical rank is determined as the minimal rank for which the relative approximation error is below $0.1$, i.e.,
-\begin{equation}\label{eq:numeric}
- \hat r(\Theta)=\min\left\{s\in\mathbb{N}_{+}\colon \min_{\hat \Theta\colon \rank(\hat \Theta)\leq s}{\FnormSize{}{\Theta-\hat \Theta}\over \FnormSize{}{\Theta}} \leq 0.1\right\}.
-\end{equation}
-We compute $\hat r(\Theta)$ by searching over $s\in\{1,\ldots,30^2\}$, where for each $s$, we (approximately) solve the least-square minimization using CP function in R package {\tt rTensor}. 
-We repeat steps 1-2 ten times, and plot the averaged numerical rank of $\Theta$ versus transformation level $c$ in Figure~\ref{fig:example}a.  
-
-\subsection{Tensor rank and sign-rank}\label{sec:high-rank}
-In the main paper, we have provided several tensor examples with high tensor rank but low sign-rank. This section provides more examples and their proofs. 
-Unless otherwise specified, let $\Theta$ be an order-$K$ $(d,\ldots,d)$-dimensional tensor. 
-\begin{example}[Max hypergraphon]\label{example:max} Suppose the tensor $\Theta$ takes the form 
-\[
-\Theta(i_1,\ldots,i_K)=\log\left(1+{1\over d}\max(i_1,\ldots,i_K)\right), \ \text{for all }(i_1,\ldots,i_K)\in[d]^K.
-\]
- Then 
- \[
- \rank(\Theta)\geq d, \quad \text{and}\quad \srank(\Theta-\pi)\leq 2\ \text{for all }\pi\in\mathbb{R}. 
- \]
-\end{example}
-\begin{proof}
-We first prove the results for $K=2$. The full-rankness of $\Theta$ is verified from elementary row operations as follows
-\begin{align}
-\begin{pmatrix}
-(\Theta_2-\Theta_1)/(\log(1+\frac{2}{d})-\log(1+\frac{1}{d}))\\(\Theta_3-\Theta_2)/(\log(1+\frac{3}{d})-\log(1+\frac{2}{d}))\\\vdots\\ (\Theta_d-\Theta_{d-1})/(\log(1+\frac{d}{d})-\log(1+\frac{d-1}{d}))\\\Theta_d/\log(1+\frac{d}{d})
-\end{pmatrix} = \begin{pmatrix}
- 1&          0  &        &              &          0 \\
-1& 1 & \ddots &              &            \\
-      \vdots &     \vdots & \ddots &       \ddots &            \\
- 1 & 1 &1 & 1 &0\\
- 1 & 1 &1 & 1 &1
-\end{pmatrix},
-\end{align}
-where $\Theta_i$ denotes the $i$-th row of $\Theta$. 
-Now it suffices to show $\srank(\Theta-\pi)\leq 2$ for $\pi$ in the feasible range $(\log(1+{1\over d}),\ \log 2)$. In this case, there exists an index $i^*\in\{2,\ldots,d\}$, such that $\log(1+{i^*-1\over d})< \pi\leq \log(1+{i^*\over d})$. By definition, the sign matrix $\sign (\Theta-\pi)$ takes the form
-\begin{equation}\label{eq:matrix}
-\sign (\Theta(i,j)-\pi)=
-\begin{cases}
--1, & \text{both $i$ and $j$ are smaller than $i^*$};\\
-1, & \text{otherwise}.
-\end{cases}
-\end{equation}
-Therefore, the matrix $\sign (\Theta-\pi)$ is a rank-2 block matrix, which implies $\srank(\Theta-\pi)=2$. 
-
-We now extend the results to $K\geq 3$. By definition of the tensor rank, the rank of a tensor is lower bounded by the rank of its matrix slice.  So we have $\rank(\Theta)\geq \rank(\Theta(\colon,\colon,1,\ldots,1))=d$. For the sign rank with feasible $\pi$, notice that the sign tensor $\sign(\Theta-\pi)$ takes the similar form as in~\eqref{eq:matrix},
-\begin{equation}\label{eq:entrywise}
-\sign (\Theta(i_1,\ldots,i_K)-\pi)=
-\begin{cases}
--1, & \text{$i_k<i^*$ for all $k\in[K]$};\\
-1, & \text{otherwise},
-\end{cases}
-\end{equation}
-where $i^*$ denotes the index that satisfies $\log(1+\frac{i^*-1}{d})<\pi\leq \log(1+\frac{i^*}{d})$.
-The equation~\eqref{eq:entrywise} implies that $\sign(\Theta-\pi)=-2\ma^{\otimes K}+1$, where $\ma=(1,\ldots,1,0,\ldots,0)^T$ takes 1 on the $i$-th entry if $i<i^*$ and 0 otherwise. Henceforth $\srank(\Theta-\pi)=2$. 
-\end{proof}
-
-In fact, Example~\ref{example:max} is a special case of the following proposition. 
-
-\begin{prop}[Min/Max hypergraphon] Let $\tZ_{\max}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote a tensor with entries 
-\begin{equation}\label{eq:max}
-\tZ_{\max}(i_1,\ldots,i_K)=\max(x^{(1)}_{i_1},\ldots,x^{(K)}_{i_K}),
-\end{equation}
-where $x^{(k)}_{i_k}\in[0,1]$ are given numbers for all $i_k\in[d_k]$. Let $g\colon \mathbb{R}\to \mathbb{R}$ be a continuous function and $\Theta:=g(\tZ_{\max})$ be the transformed tensor. For a given $\pi\in[-1,1]$, suppose the function $g(z)=\pi$ has at most $r\geq 1$ distinct real roots. Then, the sign rank of $(\Theta-\pi)$ satisfies
-\[
-\srank(\Theta-\pi)\leq 2r.
-\]
-The same conclusion holds if we use $\min$ in place of $\max$ in~\eqref{eq:max}. 
-\end{prop}
-\begin{proof} 
-We reorder the tensor indices along each mode such that $x^{(k)}_{1}\leq \cdots \leq x^{(k)}_{d_k}$ for all $k\in[K]$. Based on the construction of $\tZ_{\max}$, the reordering does not change the rank of $\tZ_{\max}$ or $(\Theta-\pi)$. Let $z_1<\cdots<z_r$ be the $r$ distinct real roots for the equation $g(z)=\pi$. We separate the proof for two cases, $r=1$ and $r\geq 2$. 
-
-\begin{itemize}[leftmargin=*,topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
-\item When $r=1$. The continuity of $g(\cdot)$ implies that the function $(g(z)-\pi)$ has at most one sign change point. Using similar proof as in Example~\ref{example:max}, we have
-\begin{align}
-&\sign(\Theta-\pi)=1-2\ma^{(1)}\otimes\cdots\otimes \ma^{(K)}\quad \text{ or } \quad \sign(\Theta-\pi) = 2\ma^{(1)}\otimes\cdots\otimes \ma^{(K)} -1,
-\end{align}
-where $\ma^{(k)}$ are binary vectors defined by
-\[
-\ma^{(k)}=(\KeepStyleUnderBrace{1,\ldots,1,}_{\text{positions for which $x_{i_k}^{k}<z_1$}}0,\ldots,0)^T, \quad \text{for }k\in[K].
-\]
-Therefore, $\srank(\Theta-\pi)\leq \rank(\sign(\Theta-\pi)) = 2$. 
-
-\item When $r\geq 2$.   By continuity, the function $(g(z)-\pi)$ is non-zero and remains an unchanged sign in each of the intervals $(z_s, z_{s+1})$ for $1\leq s\leq r-1$. Define the index set $\tI=\{s\in\mathbb{N}_{+}\colon \text{the interval $(z_s, z_{s+1})$ in which $g(z)<\pi$}\}$. 
-We now prove that the sign tensor $\sign(\Theta-\pi)$ has rank bounded by $2r-1$. To see this, consider the tensor indices for which $\sign(\Theta-\pi)=-1$,
-\begin{align}\label{eq:support}
-\{\omega\colon \Theta(\omega)-\pi <0 \} & = \{\omega \colon g(\tZ_{\max}(\omega))<\pi\} \notag \\
-&=\cup_{s\in \tI} \{\omega\colon \tZ_{\max}(\omega)\in(z_s,z_{s+1})\}\notag\\
-&=\cup_{s\in \tI}\Big( \{\omega\colon \text{$x^{(k)}_{i_k}< z_{s+1}$ for all $k\in[K]$}\}\cap \{\omega\colon \text{$x^{(k)}_{i_k}\leq z_{s}$ for all $k\in[K]$}\}^c\Big).
-\end{align}
-The equation~\eqref{eq:support} is equivalent to 
-\begin{align}\label{eq:indicator}
-\mathds{1}(\Theta(i_1,\ldots,i_K)< \pi)&
-=\sum_{s\in \tI}\left( \prod_k \mathds{1}(x^{(k)}_{i_k}< z_{s+1}) - \prod_k \mathds{1}(x^{(k)}_{i_k}\leq z_{s})\right),
-\end{align}
-for all $(i_1,\ldots,i_K)\in[d_1]\times \cdots\times[d_K]$, where $\mathds{1}(\cdot)\in\{0,1\}$ denotes the indicator function. The equation~\eqref{eq:indicator} implies the low-rank representation of $\sign(\Theta-\pi)$,
-\begin{equation}\label{eq:sum}
-\sign(\Theta-\pi)=1-2\sum_{s\in \tI } \left(\ma^{(1)}_{s+1}\otimes\cdots\otimes \ma^{(K)}_{s+1} - \bar \ma^{(1)}_s\otimes\cdots\otimes \bar \ma^{(K)}_s\right),
-\end{equation}
-where we have denoted the two binary vectors 
-\[
-\ma^{(k)}_{s+1}=(\KeepStyleUnderBrace{1,\ldots,1,}_{\text{positions for which $x_{i_k}^{(k)}<z_{s+1}$}}0,\ldots 0)^T,\quad \text{and}\quad
-\bar \ma^{(k)}_s=(\KeepStyleUnderBrace{1,\ldots,1,}_{\text{positions for which $x_{i_k}^{(k)}\leq z_{s}$}}0,\ldots 0)^T.
-\]
-Therefore, by~\eqref{eq:sum} and the assumption $|\tI|\leq r-1$, we conclude that 
-\[
-\srank(\Theta-\pi)\leq 1+2(r-1)=2r-1.
-\]
-\end{itemize}
-Combining two cases yields that $\srank(\Theta-\pi)\leq 2r$ for any $r\geq 1$.
-\end{proof}
-
-We next provide several additional examples such that $\rank(\Theta)\geq d$ whereas $\srank(\Theta)\leq c$ for a constant $c$ independent of $d$. We state the examples in the matrix case, i.e, $K=2$. Similar conclusion extends to $K\geq 3$, by the following proposition. 
-\begin{prop} Let $\mM\in\mathbb{R}^{d_1\times d_2}$ be a matrix. For any given $K\geq 3$, define an order-$K$ tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ by
-\[
-\Theta=\mM\otimes \mathbf{1}_{d_3}\otimes \cdots \otimes \mathbf{1}_{d_K},
-\] 
-where $\mathbf{1}_{d_k}\in\mathbb{R}^{d_k}$ denotes an all-one vector, for $3\leq k\leq K$. Then we have
-\[
-\rank(\Theta)=\rank(\mM),\quad \text{and}\quad \srank(\Theta-\pi)=\srank(\mM-\pi) \ \text{for all $\pi\in\mathbb{R}$}.
-\] 
-\end{prop}
-\begin{proof}
-The conclusion directly follows from the definition of tensor rank. 
-\end{proof}
-
-\begin{example}[Stacked banded matrices]\label{example:banded} Let $\ma=(1,2,\ldots,d)^T$ be a $d$-dimensional vector, and define a $d$-by-$d$ banded matrix $\mM=|\ma\otimes \mathbf{1}-\mathbf{1}\otimes \ma|$. Then
-\[
-\rank(\mM)=d,\quad \text{and}\quad \srank(\mM-\pi)\leq 3, \quad \text{for all }\pi\in \mathbb{R}.
-\]
-\end{example}
-\begin{proof}
-Note that $\mM$ is a banded matrix with entries
-\[
-\mM(i,j)={|i-j|}, \quad \text{for all }(i,j)\in[d]^2.
-\]
-Elementary row operation directly shows that $\mM$ is full rank as follows,
-\begin{align}
-\begin{pmatrix}
-(\mM_1+\mM_d)/(d-1)\\
-\mM_1-\mM_2\\
-\mM_2-\mM_3\\
-\vdots\\
-\mM_{d-1}-\mM_{d}
-\end{pmatrix} = 
-\begin{pmatrix}
-1&1&1&\ldots&1&1\\
--1&1&1&\ldots&1&1\\
--1&-1&1&\ldots&1&1\\
-\vdots\\
--1&-1&-1&\ldots&-1&1
-\end{pmatrix}.
-\end{align}
-
-We now show $\srank(\mM-\pi)\leq 3$ by construction. Define two vectors $\mb=(2^{-1},2^{-2},\ldots,2^{-d})^T\in\mathbb{R}^d$ and $\text{rev}(\mb)=(2^{-d},\ldots,2^{-1})^T\in\mathbb{R}^d$. We construct the following matrix
-\begin{equation}\label{eq:A}
-\mA=\mb\otimes\text{rev}(\mb)+\text{rev}(\mb)\otimes\mb.
-\end{equation}
-The matrix $\mA\in\mathbb{R}^{d\times d}$ is banded with entries
-\[
-\mA(i,j)=\mA(j,i)=\mA(d-i,d-j)=\mA(d-j,d-i)=2^{-d-1}\left(2^{j-i}+2^{i-j}\right),\ \text{for all }(i,j)\in[d]^2.
-\] 
-Furthermore, the entry value $\mA(i,j)$ decreases with respect to $|i-j|$; i.e., 
-\begin{equation}\label{eq:decrease}
-\mA(i,j) \geq \mA(i',j'), \quad \text{for all }|i-j|\geq |i'-j'|.
-\end{equation}
-Notice that for a given $\pi\in\mathbb{R}$, there exists $\pi'\in\mathbb{R}$ such that $\sign(\mA-\pi')=\sign(\mM-\pi)$. This is because both $\mA$ and $\mM$ are banded matrices satisfying monotonicity~\eqref{eq:decrease}. By definition~\eqref{eq:A}, $\mA$ is a rank-2 matrix. Henceforce, $\srank(\mM-\pi)=\srank(\mA-\pi')\leq 3.$
-\end{proof}
-
-\begin{rmk} The tensor analogy of banded matrices $\Theta=|\ma\otimes\mathbf{1}\otimes \mathbf{1}-\mathbf{1}\otimes\ma\otimes \mathbf{1}|$ is used as simulation model 3 in the main paper.  
-\end{rmk}
-
-\begin{example}[Stacked identity matrices]
-Let $\mI$ be a $d$-by-$d$ identity matrix. Then
-\[
-\rank(\mI)=d,\quad\text{and}\quad  \srank(\mI-\pi)\leq 3 \ \text{for all }\pi\in\mathbb{R}.
-\]
-\end{example}
-\begin{proof}
-Depending on the value of $\pi$, the sign matrix $\sign(\mI-\pi)$ falls into one of the three cases: 1) $\sign(\mI-\pi)$ is a matrix of all $1$; 2) $\sign(\mI-\pi)$ is a matrix of all $-1$; 3) $\sign(\mI-\pi)=2\mI-\mathbf{1}_d\otimes \mathbf{1}_d$. The former two cases are trivial, so it suffices to show $\srank(\mI-\pi)\leq 3$ in the third case.   
-
-
-Based on Example~\ref{example:banded}, the rank-2 matrix $\mA$ in~\eqref{eq:A} satisfies 
-\[
-\mA(i,j)
-\begin{cases}
-=2^{-d}, & i=j,\\
-\geq 2^{-d}+2^{-d-2}, & i\neq j.
-\end{cases}
-\]
-Therefore, $\sign\left(2^{-d}+2^{-d-3}-\mA\right)=2\mI-\mathbf{1}_d\otimes \mathbf{1}_d$. We conclude that $\srank(\mI-\pi)\leq \rank(2^{-d}+2^{-d-3}-\mA)=3$. 
-\end{proof}
-
-
-\section{Additional data analysis}~\label{sec:data}
-\vspace{-1cm}
-\subsection{Brain connectivity analysis}
-Figure~\ref{fig:braincv} shows the MAE based on 5-fold cross-validations with $r = 3,6,\ldots, 15$ and $H = 20$. We find that our method outperforms CPT in all combinations of ranks and missing rates. The achieved error reduction appears to be more profound as the missing rate increases. This trend highlights the applicability of our method in tensor completion tasks. In addition, our method exhibits a smaller standard error in cross-validation experiments as shown in Figure~\ref{fig:braincv} and Table~\ref{tab:data} (in the main paper), demonstrating the stability over CPT.  One possible reason is that that our estimate is guaranteed to be in $[0,1]$ (for binary tensor problem where $\tY\in\{0,1\}^{d_1\times\cdots\times d_K}$) whereas CPT estimation may fall outside the valid range $[0,1]$. 
-
-\begin{figure}[h!]
-\includegraphics[width = \textwidth]{figure/brain_sim.pdf}
-\caption{Estimation error versus rank under different missing rate. Panels (a)-(d) correspond to missing rate 20\%, 33\%, 50\%, and 67\%, respectively. Error bar represents the standard error over 5-fold cross-validations.}\label{fig:braincv}
-\end{figure}
-
-We next investigate the pattern in the estimated signal tensor. Figure~\ref{fig:signal} of the main paper shows the identified top edges associated with IQ scores. Specifically, we first obtain a denoised tensor $\hat \Theta\in\mathbb{R}^{68\times 68\times 114}$ using our method with $r=10$ and $H=20$. Then, we perform a regression analysis of $\hat \Theta(i,j,\colon)\in\mathbb{R}^{144}$ against the normalized IQ score across the 144 individuals. The regression model is repeated for each edge $(i,j)\in[68]\times[68]$. We find that top edges represent the interhemispheric connections in the frontal lobes. The result is consistent with the role of interhemispheric connectivity in human intelligence. 
-
-\subsection{NIPS data analysis}
-In the main paper we have summarized the MAE in cross-validation experiments for $r=6, 9,12$. Here we provide additional results for a wider range $r= 3, 6, \ldots,15$. Table~\ref{tab:NIPS} suggests that further increment of rank appears to have little effect on the performance. In addition, we also perform naive imputation where the missing values are predicted using the sample average. The two tensor methods outperform the naive imputation, implying the necessity of incorporating tensor structure in the analysis.
-\begin{table}[h!]
-\centering
-\begin{tabular}{c|ccccc}
-Method & $r = 3$ & $r = 6$ & $r=9$ & $r=12$&$r=15$ \\
-\hline
-NonparaT (Ours) & {\bf 0.18}(0.002) & {\bf 0.16}(0.002) & {\bf 0.15}(0.001)& {\bf 0.14}(0.001)&{\bf 0.13}(0.001)\\
- \hline
-Low-rank CPT &0.22(0.004) & 0.20(0.007) & 0.19(0.007)&0.17(0.007)&0.17(0.007)\\
-  \hline
-Naive imputation& \multicolumn{5}{c}{0.32(.001)}\\
-\end{tabular}
-\caption{Prediction accuracy measured in MAE in the NIPS data analysis. The reported MAEs are averaged over five runs of cross-validation, with standard errors in parentheses. Bold numbers indicate the minimal MAE among three methods. For low-rank CPT, we use R function {\tt rTensor} with default hyperparameters, and for our method, we set $H=20$. }\label{tab:NIPS}
-\end{table}
 
 \section{Proofs}\label{sec:proof}
 \subsection{Proofs of Propositions~\ref{cor:monotonic}-\ref{prop:global}}
@@ -616,6 +389,313 @@ Notice that all points $\pi\in\Pi\cap\tN_H^c$ satisfy $|\pi-\pi'|>{1\over H}$ fo
  where the third line uses the monotonicity of ${1\over x^2}$ for $x\geq 1$. 
  \end{proof}
 \end{lem}
+
+
+\section{Additional results}\label{sec:additional}
+\subsection{Sensitivity of tensor rank to monotonic transformations}
+In Section~\ref{sec:intro} of the main paper, we have provided a motivating example to show the sensitivity of tensor rank to monotonic transformations. Here, we describe the details of the example set-up. 
+
+The step 1 is to generate a rank-3 tensor $\tZ$ based on the CP representation
+\[
+\tZ=\ma^{\otimes 3}+\mb^{\otimes 3}+\mc^{\otimes 3},
+\]
+where $\ma,\mb,\mc\in\mathbb{R}^{30}$ are vectors consisting of $N(0,1)$ entries, and the shorthand $\ma^{\otimes 3}=\ma\otimes \ma\otimes \ma$ denotes the Kronecker power. We then apply $f(z)=(1+\exp(-cz))^{-1}$ to $\tZ$ entrywise, and obtain a transformed tensor $\Theta=f(\tZ)$. 
+
+The step 2 is to determine the rank of $\Theta$. Unlike matrices, the exact rank determination for tensors is NP hard. Therefore, we choose to compute the numerical rank of $\Theta$ as an approximation.  The numerical rank is determined as the minimal rank for which the relative approximation error is below $0.1$, i.e.,
+\begin{equation}\label{eq:numeric}
+ \hat r(\Theta)=\min\left\{s\in\mathbb{N}_{+}\colon \min_{\hat \Theta\colon \rank(\hat \Theta)\leq s}{\FnormSize{}{\Theta-\hat \Theta}\over \FnormSize{}{\Theta}} \leq 0.1\right\}.
+\end{equation}
+We compute $\hat r(\Theta)$ by searching over $s\in\{1,\ldots,30^2\}$, where for each $s$, we (approximately) solve the least-square minimization using CP function in R package {\tt rTensor}. 
+We repeat steps 1-2 ten times, and plot the averaged numerical rank of $\Theta$ versus transformation level $c$ in Figure~\ref{fig:example}a.  
+
+\subsection{Tensor rank and sign-rank}\label{sec:high-rank}
+In the main paper, we have provided several tensor examples with high tensor rank but low sign-rank. This section provides more examples and their proofs. 
+Unless otherwise specified, let $\Theta$ be an order-$K$ $(d,\ldots,d)$-dimensional tensor. 
+\begin{example}[Max hypergraphon]\label{example:max} Suppose the tensor $\Theta$ takes the form 
+\[
+\Theta(i_1,\ldots,i_K)=\log\left(1+{1\over d}\max(i_1,\ldots,i_K)\right), \ \text{for all }(i_1,\ldots,i_K)\in[d]^K.
+\]
+ Then 
+ \[
+ \rank(\Theta)\geq d, \quad \text{and}\quad \srank(\Theta-\pi)\leq 2\ \text{for all }\pi\in\mathbb{R}. 
+ \]
+\end{example}
+\begin{proof}
+We first prove the results for $K=2$. The full-rankness of $\Theta$ is verified from elementary row operations as follows
+\begin{align}
+\begin{pmatrix}
+(\Theta_2-\Theta_1)/(\log(1+\frac{2}{d})-\log(1+\frac{1}{d}))\\(\Theta_3-\Theta_2)/(\log(1+\frac{3}{d})-\log(1+\frac{2}{d}))\\\vdots\\ (\Theta_d-\Theta_{d-1})/(\log(1+\frac{d}{d})-\log(1+\frac{d-1}{d}))\\\Theta_d/\log(1+\frac{d}{d})
+\end{pmatrix} = \begin{pmatrix}
+ 1&          0  &        &              &          0 \\
+1& 1 & \ddots &              &            \\
+      \vdots &     \vdots & \ddots &       \ddots &            \\
+ 1 & 1 &1 & 1 &0\\
+ 1 & 1 &1 & 1 &1
+\end{pmatrix},
+\end{align}
+where $\Theta_i$ denotes the $i$-th row of $\Theta$. 
+Now it suffices to show $\srank(\Theta-\pi)\leq 2$ for $\pi$ in the feasible range $(\log(1+{1\over d}),\ \log 2)$. In this case, there exists an index $i^*\in\{2,\ldots,d\}$, such that $\log(1+{i^*-1\over d})< \pi\leq \log(1+{i^*\over d})$. By definition, the sign matrix $\sign (\Theta-\pi)$ takes the form
+\begin{equation}\label{eq:matrix}
+\sign (\Theta(i,j)-\pi)=
+\begin{cases}
+-1, & \text{both $i$ and $j$ are smaller than $i^*$};\\
+1, & \text{otherwise}.
+\end{cases}
+\end{equation}
+Therefore, the matrix $\sign (\Theta-\pi)$ is a rank-2 block matrix, which implies $\srank(\Theta-\pi)=2$. 
+
+We now extend the results to $K\geq 3$. By definition of the tensor rank, the rank of a tensor is lower bounded by the rank of its matrix slice.  So we have $\rank(\Theta)\geq \rank(\Theta(\colon,\colon,1,\ldots,1))=d$. For the sign rank with feasible $\pi$, notice that the sign tensor $\sign(\Theta-\pi)$ takes the similar form as in~\eqref{eq:matrix},
+\begin{equation}\label{eq:entrywise}
+\sign (\Theta(i_1,\ldots,i_K)-\pi)=
+\begin{cases}
+-1, & \text{$i_k<i^*$ for all $k\in[K]$};\\
+1, & \text{otherwise},
+\end{cases}
+\end{equation}
+where $i^*$ denotes the index that satisfies $\log(1+\frac{i^*-1}{d})<\pi\leq \log(1+\frac{i^*}{d})$.
+The equation~\eqref{eq:entrywise} implies that $\sign(\Theta-\pi)=-2\ma^{\otimes K}+1$, where $\ma=(1,\ldots,1,0,\ldots,0)^T$ takes 1 on the $i$-th entry if $i<i^*$ and 0 otherwise. Henceforth $\srank(\Theta-\pi)=2$. 
+\end{proof}
+
+In fact, Example~\ref{example:max} is a special case of the following proposition. 
+
+\begin{prop}[Min/Max hypergraphon] Let $\tZ_{\max}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote a tensor with entries 
+\begin{equation}\label{eq:max}
+\tZ_{\max}(i_1,\ldots,i_K)=\max(x^{(1)}_{i_1},\ldots,x^{(K)}_{i_K}),
+\end{equation}
+where $x^{(k)}_{i_k}\in[0,1]$ are given numbers for all $i_k\in[d_k]$. Let $g\colon \mathbb{R}\to \mathbb{R}$ be a continuous function and $\Theta:=g(\tZ_{\max})$ be the transformed tensor. For a given $\pi\in[-1,1]$, suppose the function $g(z)=\pi$ has at most $r\geq 1$ distinct real roots. Then, the sign rank of $(\Theta-\pi)$ satisfies
+\[
+\srank(\Theta-\pi)\leq 2r.
+\]
+The same conclusion holds if we use $\min$ in place of $\max$ in~\eqref{eq:max}. 
+\end{prop}
+\begin{proof} 
+We reorder the tensor indices along each mode such that $x^{(k)}_{1}\leq \cdots \leq x^{(k)}_{d_k}$ for all $k\in[K]$. Based on the construction of $\tZ_{\max}$, the reordering does not change the rank of $\tZ_{\max}$ or $(\Theta-\pi)$. Let $z_1<\cdots<z_r$ be the $r$ distinct real roots for the equation $g(z)=\pi$. We separate the proof for two cases, $r=1$ and $r\geq 2$. 
+
+\begin{itemize}[leftmargin=*,topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+\item When $r=1$. The continuity of $g(\cdot)$ implies that the function $(g(z)-\pi)$ has at most one sign change point. Using similar proof as in Example~\ref{example:max}, we have
+\begin{align}
+&\sign(\Theta-\pi)=1-2\ma^{(1)}\otimes\cdots\otimes \ma^{(K)}\quad \text{ or } \quad \sign(\Theta-\pi) = 2\ma^{(1)}\otimes\cdots\otimes \ma^{(K)} -1,
+\end{align}
+where $\ma^{(k)}$ are binary vectors defined by
+\[
+\ma^{(k)}=(\KeepStyleUnderBrace{1,\ldots,1,}_{\text{positions for which $x_{i_k}^{k}<z_1$}}0,\ldots,0)^T, \quad \text{for }k\in[K].
+\]
+Therefore, $\srank(\Theta-\pi)\leq \rank(\sign(\Theta-\pi)) = 2$. 
+
+\item When $r\geq 2$.   By continuity, the function $(g(z)-\pi)$ is non-zero and remains an unchanged sign in each of the intervals $(z_s, z_{s+1})$ for $1\leq s\leq r-1$. Define the index set $\tI=\{s\in\mathbb{N}_{+}\colon \text{the interval $(z_s, z_{s+1})$ in which $g(z)<\pi$}\}$. 
+We now prove that the sign tensor $\sign(\Theta-\pi)$ has rank bounded by $2r-1$. To see this, consider the tensor indices for which $\sign(\Theta-\pi)=-1$,
+\begin{align}\label{eq:support}
+\{\omega\colon \Theta(\omega)-\pi <0 \} & = \{\omega \colon g(\tZ_{\max}(\omega))<\pi\} \notag \\
+&=\cup_{s\in \tI} \{\omega\colon \tZ_{\max}(\omega)\in(z_s,z_{s+1})\}\notag\\
+&=\cup_{s\in \tI}\Big( \{\omega\colon \text{$x^{(k)}_{i_k}< z_{s+1}$ for all $k\in[K]$}\}\cap \{\omega\colon \text{$x^{(k)}_{i_k}\leq z_{s}$ for all $k\in[K]$}\}^c\Big).
+\end{align}
+The equation~\eqref{eq:support} is equivalent to 
+\begin{align}\label{eq:indicator}
+\mathds{1}(\Theta(i_1,\ldots,i_K)< \pi)&
+=\sum_{s\in \tI}\left( \prod_k \mathds{1}(x^{(k)}_{i_k}< z_{s+1}) - \prod_k \mathds{1}(x^{(k)}_{i_k}\leq z_{s})\right),
+\end{align}
+for all $(i_1,\ldots,i_K)\in[d_1]\times \cdots\times[d_K]$, where $\mathds{1}(\cdot)\in\{0,1\}$ denotes the indicator function. The equation~\eqref{eq:indicator} implies the low-rank representation of $\sign(\Theta-\pi)$,
+\begin{equation}\label{eq:sum}
+\sign(\Theta-\pi)=1-2\sum_{s\in \tI } \left(\ma^{(1)}_{s+1}\otimes\cdots\otimes \ma^{(K)}_{s+1} - \bar \ma^{(1)}_s\otimes\cdots\otimes \bar \ma^{(K)}_s\right),
+\end{equation}
+where we have denoted the two binary vectors 
+\[
+\ma^{(k)}_{s+1}=(\KeepStyleUnderBrace{1,\ldots,1,}_{\text{positions for which $x_{i_k}^{(k)}<z_{s+1}$}}0,\ldots 0)^T,\quad \text{and}\quad
+\bar \ma^{(k)}_s=(\KeepStyleUnderBrace{1,\ldots,1,}_{\text{positions for which $x_{i_k}^{(k)}\leq z_{s}$}}0,\ldots 0)^T.
+\]
+Therefore, by~\eqref{eq:sum} and the assumption $|\tI|\leq r-1$, we conclude that 
+\[
+\srank(\Theta-\pi)\leq 1+2(r-1)=2r-1.
+\]
+\end{itemize}
+Combining two cases yields that $\srank(\Theta-\pi)\leq 2r$ for any $r\geq 1$.
+\end{proof}
+
+We next provide several additional examples such that $\rank(\Theta)\geq d$ whereas $\srank(\Theta)\leq c$ for a constant $c$ independent of $d$. We state the examples in the matrix case, i.e, $K=2$. Similar conclusion extends to $K\geq 3$, by the following proposition. 
+\begin{prop} Let $\mM\in\mathbb{R}^{d_1\times d_2}$ be a matrix. For any given $K\geq 3$, define an order-$K$ tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ by
+\[
+\Theta=\mM\otimes \mathbf{1}_{d_3}\otimes \cdots \otimes \mathbf{1}_{d_K},
+\] 
+where $\mathbf{1}_{d_k}\in\mathbb{R}^{d_k}$ denotes an all-one vector, for $3\leq k\leq K$. Then we have
+\[
+\rank(\Theta)=\rank(\mM),\quad \text{and}\quad \srank(\Theta-\pi)=\srank(\mM-\pi) \ \text{for all $\pi\in\mathbb{R}$}.
+\] 
+\end{prop}
+\begin{proof}
+The conclusion directly follows from the definition of tensor rank. 
+\end{proof}
+
+\begin{example}[Stacked banded matrices]\label{example:banded} Let $\ma=(1,2,\ldots,d)^T$ be a $d$-dimensional vector, and define a $d$-by-$d$ banded matrix $\mM=|\ma\otimes \mathbf{1}-\mathbf{1}\otimes \ma|$. Then
+\[
+\rank(\mM)=d,\quad \text{and}\quad \srank(\mM-\pi)\leq 3, \quad \text{for all }\pi\in \mathbb{R}.
+\]
+\end{example}
+\begin{proof}
+Note that $\mM$ is a banded matrix with entries
+\[
+\mM(i,j)={|i-j|}, \quad \text{for all }(i,j)\in[d]^2.
+\]
+Elementary row operation directly shows that $\mM$ is full rank as follows,
+\begin{align}
+\begin{pmatrix}
+(\mM_1+\mM_d)/(d-1)\\
+\mM_1-\mM_2\\
+\mM_2-\mM_3\\
+\vdots\\
+\mM_{d-1}-\mM_{d}
+\end{pmatrix} = 
+\begin{pmatrix}
+1&1&1&\ldots&1&1\\
+-1&1&1&\ldots&1&1\\
+-1&-1&1&\ldots&1&1\\
+\vdots\\
+-1&-1&-1&\ldots&-1&1
+\end{pmatrix}.
+\end{align}
+
+We now show $\srank(\mM-\pi)\leq 3$ by construction. Define two vectors $\mb=(2^{-1},2^{-2},\ldots,2^{-d})^T\in\mathbb{R}^d$ and $\text{rev}(\mb)=(2^{-d},\ldots,2^{-1})^T\in\mathbb{R}^d$. We construct the following matrix
+\begin{equation}\label{eq:A}
+\mA=\mb\otimes\text{rev}(\mb)+\text{rev}(\mb)\otimes\mb.
+\end{equation}
+The matrix $\mA\in\mathbb{R}^{d\times d}$ is banded with entries
+\[
+\mA(i,j)=\mA(j,i)=\mA(d-i,d-j)=\mA(d-j,d-i)=2^{-d-1}\left(2^{j-i}+2^{i-j}\right),\ \text{for all }(i,j)\in[d]^2.
+\] 
+Furthermore, the entry value $\mA(i,j)$ decreases with respect to $|i-j|$; i.e., 
+\begin{equation}\label{eq:decrease}
+\mA(i,j) \geq \mA(i',j'), \quad \text{for all }|i-j|\geq |i'-j'|.
+\end{equation}
+Notice that for a given $\pi\in\mathbb{R}$, there exists $\pi'\in\mathbb{R}$ such that $\sign(\mA-\pi')=\sign(\mM-\pi)$. This is because both $\mA$ and $\mM$ are banded matrices satisfying monotonicity~\eqref{eq:decrease}. By definition~\eqref{eq:A}, $\mA$ is a rank-2 matrix. Henceforce, $\srank(\mM-\pi)=\srank(\mA-\pi')\leq 3.$
+\end{proof}
+
+\begin{rmk} The tensor analogy of banded matrices $\Theta=|\ma\otimes\mathbf{1}\otimes \mathbf{1}-\mathbf{1}\otimes\ma\otimes \mathbf{1}|$ is used as simulation model 3 in the main paper.  
+\end{rmk}
+
+\begin{example}[Stacked identity matrices]
+Let $\mI$ be a $d$-by-$d$ identity matrix. Then
+\[
+\rank(\mI)=d,\quad\text{and}\quad  \srank(\mI-\pi)\leq 3 \ \text{for all }\pi\in\mathbb{R}.
+\]
+\end{example}
+\begin{proof}
+Depending on the value of $\pi$, the sign matrix $\sign(\mI-\pi)$ falls into one of the three cases: 1) $\sign(\mI-\pi)$ is a matrix of all $1$; 2) $\sign(\mI-\pi)$ is a matrix of all $-1$; 3) $\sign(\mI-\pi)=2\mI-\mathbf{1}_d\otimes \mathbf{1}_d$. The former two cases are trivial, so it suffices to show $\srank(\mI-\pi)\leq 3$ in the third case.   
+
+
+Based on Example~\ref{example:banded}, the rank-2 matrix $\mA$ in~\eqref{eq:A} satisfies 
+\[
+\mA(i,j)
+\begin{cases}
+=2^{-d}, & i=j,\\
+\geq 2^{-d}+2^{-d-2}, & i\neq j.
+\end{cases}
+\]
+Therefore, $\sign\left(2^{-d}+2^{-d-3}-\mA\right)=2\mI-\mathbf{1}_d\otimes \mathbf{1}_d$. We conclude that $\srank(\mI-\pi)\leq \rank(2^{-d}+2^{-d-3}-\mA)=3$. 
+\end{proof}
+
+\subsection{Extension of Theorem~\ref{thm:classification} and~\ref{thm:estimation} to unbounded observation case}
+Consider the signal plus noise model
+\begin{align*}
+\tY = \Theta+\tE,
+\end{align*}
+where $\tE$ consists of mean-zero, independent noise entries, and $\Theta\in\caliP(r)$ is an $\alpha$-smooth tensor.
+Theoretical results in Section~\ref{sec:estimation} of the main paper are based on bounded observation $\|\tY\|_\infty\leq A$ for some constant $A>0$. We extend the results to unbounded observation with the following assumption.
+\begin{assumption}[Sub-Gaussian noise]\label{assm:subg}\text{ }
+\begin{enumerate}
+\item There exists a constant $\beta>0$, independent of tensor dimension, such that $\|\Theta\|_\infty\leq \beta$. Without loss of generality, we set $\beta = 1$.
+\item The noise entries $\tE(\omega)$ are independent and sub-Gaussian, i.e, $\mathbb{P}(|\tE(\omega)|\geq B)\leq Ce^{-B^2/\sigma^2}$ for $B>0.$
+\end{enumerate}
+\end{assumption}
+\begin{thm}[Sign tensor estimation for unbounded observation case]\label{thm:unbddno1}
+Consider the same condition of Theorem~\ref{thm:classification}.   Suppose that Assumption~\ref{assm:subg} holds. Then, for all $\pi\in[-1,1]$ except for a finite number of levels,  with the probability  $1-c\exp\left(-\sigma^2rd_{\max}\log d_{\max}\right)-\frac{1}{d_{\max}},$
+\begin{align}
+ \text{MAE}(\text{sgn}(\hat \tZ),\text{sgn}(\bar\Theta))\lesssim \left(\sigma^2rd_{\max}\log d_{\max}\over |\Omega|\right)^{\alpha\over \alpha+2}+\frac{1}{\rho^2(\pi,\tN)}{\sigma^2rd_{\max}\log d_{\max}\over |\Omega|},
+\end{align}
+for some constant $c>0.$
+\end{thm}
+
+
+\begin{proof}
+We follow the proof of Theorem~\ref{thm:classification}.  We summarize only the key difference compared to Section~\ref{sec:proof}. We expand the variance by 
+\begin{align}
+    \label{eq:variance2}
+    \text{Var}\left[\ell_\omega\left(\tZ,\bar\tY_\Omega\right)-\ell_\omega\left(\bar\Theta,\bar\tY_\Omega\right)\right]&\leq \mathbb{E}|\ell_\omega(\tZ(\omega),\bar\tY(\omega))-\ell_\omega(\bar\Theta(\omega),\bar\tY(\omega))|^2\\&=\mathbb{E}|\bar\tY(\omega)|^2|\text{sgn}\tZ(\omega)-\text{sgn}\bar\Theta(\omega)|^2\\&\leq2\mathbb{E}|\bar Y(\omega)-\bar \Theta(\omega)+\bar\Theta(\omega)|^2|\text{sgn}\tZ(\omega)-\text{sgn}\bar\Theta(\omega)|\\&\leq 2(\|\tY-\Theta\|^2_\infty+\|\Theta-\pi\|^2_\infty)\mathbb{E}|\text{sgn}\tZ-\text{sgn}\Theta|\\&\lesssim
+    \|\tE\|^2_\infty\text{MAE}(\sign\tZ,\sign\bar\Theta),
+\end{align}
+where the last line comes from the definition of MAE and the inequality $\|\tE\|_\infty \geq 2$ with high probability.
+Based on \eqref{eq:variance2}, the $(\alpha,\pi)$-smoothness of $\Theta$ implies
+\begin{align}\label{eq:vartomean}
+\text{Var}\Delta_i(f_{\tZ},\bar \tY)\lesssim\|\tE\|_\infty^2\left\{\left[\mathbb{E}\Delta_i(f_{\tZ},\bar\tY\right]^{\alpha\over1+\alpha}+\frac{1}{\rho}\mathbb{E}\Delta_i(f_{\tZ},\bar\tY)\right\},\quad\text{ for all } f_{\tZ}\in\tF_{\tT}.
+\end{align}
+The empirical process with variance-to-mean relationship \eqref{eq:vartomean} gives that
+\begin{align}\label{eq:empriskbd}
+\mathbb{P	}\left(\text{Risk}(\hat\tZ)-\text{Risk}(\bar\Theta)\geq L_n\right)\lesssim \exp(-nL_n),
+\end{align}
+where the convergence rate $L_n$ is obtained by the same way in the proof of Lemma~\ref{lem:metric} as 
+\begin{align}
+L_n\asymp t_n^{(\alpha+1)/(\alpha+2)}+\frac{1}{\rho}t_n,\quad\text{ where } t_n =  {\|\tE\|^2_\infty d_{\max}r K\log K\over n}.
+\end{align}
+Plugging $t = d_{\max}$ into Lemma~\ref{lem:subg},  we have 
+\begin{align}\label{eq:subgcont}\|\tE\|_\infty\leq \sqrt{2\sigma^2(K+1)\log d_{\max}},\end{align}
+with the probability $1-1/d_{\max}$.
+Combining \eqref{eq:empriskbd} and \eqref{eq:subgcont},  we obtain 
+\begin{align}\label{eq:riskunbd}
+   \text{Risk}(\hat\tZ)-\text{Risk}(\hat\Theta)\lesssim  \left(\sigma^2rd_{\max}\log d_{\max}\over |\Omega|\right)^{(\alpha+1)/(\alpha+2)}+\frac{1}{\rho(\pi,\tN)} \left(\sigma^2rd_{\max}\log d_{\max}\over |\Omega|\right),
+\end{align} with the probability $1-c\exp\left(-\sigma^2rd_{\max}\log d_{\max}\right)-1/d_{\max}$ 
+for some constant $c>0$.
+Therefore,  combining \eqref{eq:riskunbd} and \eqref{eq:final} completes the proof.
+\end{proof}
+
+  We obtain tensor estimation error for unbounded observation case from the proof of Theorem~\ref{thm:estimation} and Theorem~\ref{thm:unbddno1}.
+\begin{thm}[Tensor estimation error for unbounded observation case] Consider the same conditions of Theorem~\ref{thm:unbddno1}. With the probability  $1-c\exp\left(-\sigma^2rd_{\max}\log d_{\max}\right)-\frac{1}{d_{\max}},$
+\begin{align}
+ \text{MAE}(\hat \Theta,\Theta))\lesssim \left(\sigma^2rd_{\max}\log d_{\max}\over |\Omega|\right)^{\alpha\over \alpha+2}+\frac{1}{H}+H\left({\sigma^2rd_{\max}\log d_{\max}\over |\Omega|}\right),
+\end{align}
+for some constant $c>0.$
+Setting $H\asymp \left({ |\Omega|\over \sigma^2rd_{\max}\log d_{\max}}\right)^{1/2}$ yields the error bound
+\begin{align*}
+ \text{MAE}(\hat \Theta,\Theta))\lesssim \left({\sigma^2rd_{\max}\log d_{\max}\over |\Omega|}\right)^{{\alpha\over\alpha+2}\wedge \frac{1}{2}}.
+\end{align*}
+\end{thm}
+
+
+\begin{lem}\label{lem:subg}
+Let $X_1,\ldots,X_n$ be independent sub-Gaussian random variables with $\sigma^2$. Then, for any $t>0,$
+\[\mathbb{P}\left\{\max_{1\leq i\leq n}|X_i|\geq\sqrt{2\sigma^2(\log n +t)}\right\}\leq2 e^{-t}.\]
+\end{lem}
+\begin{proof}
+Notice that 
+\begin{align}
+\mathbb{P}[\max_{1\leq i\leq n}X_i\geq u] \leq \sum_{i=1}^n\mathbb{P}[X_i\leq u]\leq n e^{-{u^2\over 2\sigma^2}} = e^{-t},
+\end{align}
+where we set $u = \sqrt{2\sigma^2(\log n+t)}.$
+\end{proof}
+\section{Additional data analysis}~\label{sec:data}
+\vspace{-1cm}
+\subsection{Brain connectivity analysis}
+Figure~\ref{fig:braincv} shows the MAE based on 5-fold cross-validations with $r = 3,6,\ldots, 15$ and $H = 20$. We find that our method outperforms CPT in all combinations of ranks and missing rates. The achieved error reduction appears to be more profound as the missing rate increases. This trend highlights the applicability of our method in tensor completion tasks. In addition, our method exhibits a smaller standard error in cross-validation experiments as shown in Figure~\ref{fig:braincv} and Table~\ref{tab:data} (in the main paper), demonstrating the stability over CPT.  One possible reason is that that our estimate is guaranteed to be in $[0,1]$ (for binary tensor problem where $\tY\in\{0,1\}^{d_1\times\cdots\times d_K}$) whereas CPT estimation may fall outside the valid range $[0,1]$. 
+
+\begin{figure}[h!]
+\includegraphics[width = \textwidth]{figure/brain_sim.pdf}
+\caption{Estimation error versus rank under different missing rate. Panels (a)-(d) correspond to missing rate 20\%, 33\%, 50\%, and 67\%, respectively. Error bar represents the standard error over 5-fold cross-validations.}\label{fig:braincv}
+\end{figure}
+
+We next investigate the pattern in the estimated signal tensor. Figure~\ref{fig:signal} of the main paper shows the identified top edges associated with IQ scores. Specifically, we first obtain a denoised tensor $\hat \Theta\in\mathbb{R}^{68\times 68\times 114}$ using our method with $r=10$ and $H=20$. Then, we perform a regression analysis of $\hat \Theta(i,j,\colon)\in\mathbb{R}^{144}$ against the normalized IQ score across the 144 individuals. The regression model is repeated for each edge $(i,j)\in[68]\times[68]$. We find that top edges represent the interhemispheric connections in the frontal lobes. The result is consistent with the role of interhemispheric connectivity in human intelligence. 
+
+\subsection{NIPS data analysis}
+In the main paper we have summarized the MAE in cross-validation experiments for $r=6, 9,12$. Here we provide additional results for a wider range $r= 3, 6, \ldots,15$. Table~\ref{tab:NIPS} suggests that further increment of rank appears to have little effect on the performance. In addition, we also perform naive imputation where the missing values are predicted using the sample average. The two tensor methods outperform the naive imputation, implying the necessity of incorporating tensor structure in the analysis.
+\begin{table}[h!]
+\centering
+\begin{tabular}{c|ccccc}
+Method & $r = 3$ & $r = 6$ & $r=9$ & $r=12$&$r=15$ \\
+\hline
+NonparaT (Ours) & {\bf 0.18}(0.002) & {\bf 0.16}(0.002) & {\bf 0.15}(0.001)& {\bf 0.14}(0.001)&{\bf 0.13}(0.001)\\
+ \hline
+Low-rank CPT &0.22(0.004) & 0.20(0.007) & 0.19(0.007)&0.17(0.007)&0.17(0.007)\\
+  \hline
+Naive imputation& \multicolumn{5}{c}{0.32(.001)}\\
+\end{tabular}
+\caption{Prediction accuracy measured in MAE in the NIPS data analysis. The reported MAEs are averaged over five runs of cross-validation, with standard errors in parentheses. Bold numbers indicate the minimal MAE among three methods. For low-rank CPT, we use R function {\tt rTensor} with default hyperparameters, and for our method, we set $H=20$. }\label{tab:NIPS}
+\end{table}
 
 
 
