@@ -14,7 +14,6 @@
 %\renewcommand{\textfloatsep}{5mm}
 
 
-\usepackage{comment}
 % Definitions of handy macros can go here
 \usepackage{amsmath,amssymb,amsthm,bm,mathtools}
 \usepackage{mathrsfs}
@@ -84,6 +83,7 @@
 \usepackage{xr}
 \externaldocument{signT_v1}
 \input macros.tex
+\usepackage{comment}
 
 
 \def\sign{\textup{sgn}}
@@ -592,7 +592,7 @@ Based on Example~\ref{example:banded}, the rank-2 matrix $\mA$ in~\eqref{eq:A} s
 Therefore, $\sign\left(2^{-d}+2^{-d-3}-\mA\right)=2\mI-\mathbf{1}_d\otimes \mathbf{1}_d$. We conclude that $\srank(\mI-\pi)\leq \rank(2^{-d}+2^{-d-3}-\mA)=3$. 
 \end{proof}
 
-\subsection{Extension of Theorem~\ref{thm:classification} and~\ref{thm:estimation} to unbounded observation case}
+\subsection{Extension of Theorems~\ref{thm:classification} and~\ref{thm:estimation} to unbounded observation with sub-Gaussian noises}
 Consider the signal plus noise model
 \begin{align*}
 \tY = \Theta+\tE,
@@ -602,17 +602,19 @@ Theoretical results in Section~\ref{sec:estimation} of the main paper are based 
 \begin{assumption}[Sub-Gaussian noise]\label{assm:subg}\text{ }
 \begin{enumerate}
 \item There exists a constant $\beta>0$, independent of tensor dimension, such that $\|\Theta\|_\infty\leq \beta$. Without loss of generality, we set $\beta = 1$.
-\item The noise entries $\tE(\omega)$ are independent and sub-Gaussian, i.e, $\mathbb{P}(|\tE(\omega)|\geq B)\leq Ce^{-B^2/\sigma^2}$ for $B>0.$
+\item The noise entries $\tE(\omega)$ are independent and sub-Gaussian, i.e,   $\mathbb{P}(|\tE(\omega)|\geq B)\leq 2e^{-B^2/2\sigma^2}$ for all $B>0$.  
+\item\ $\mathbb{P}(|\tE(\omega)|<1)<1$  holds for all but finitely many $\omega\in[d_1]\times \cdots\times [d_K]$.
 \end{enumerate}
 \end{assumption}
-\begin{thm}[Sign tensor estimation for unbounded observation case]\label{thm:unbddno1}
-Consider the same condition of Theorem~\ref{thm:classification}.   Suppose that Assumption~\ref{assm:subg} holds. Then, for all $\pi\in[-1,1]$ except for a finite number of levels,  with the probability  $1-c\exp\left(-\sigma^2rd_{\max}\log d_{\max}\right)-\frac{1}{d_{\max}},$
+The third condition in Assumption~\ref{assm:subg} is for the distinction from bounded observation case.
+
+\begin{thm}[Sign tensor estimation under sub-Gaussian noise]\label{thm:unbddno1}
+Consider the same condition of Theorem~\ref{thm:classification}.   Suppose that Assumption~\ref{assm:subg} holds. Then, for all $\pi\in[-1,1]$ except for a finite number of levels,  with the probability  $1-c_1\exp\left(-\sigma^2rd_{\max}\log d_{\max}\right)-c_2/{d_{\max}},$
 \begin{align}
  \text{MAE}(\text{sgn}(\hat \tZ),\text{sgn}(\bar\Theta))\lesssim \left(\sigma^2rd_{\max}\log d_{\max}\over |\Omega|\right)^{\alpha\over \alpha+2}+\frac{1}{\rho^2(\pi,\tN)}{\sigma^2rd_{\max}\log d_{\max}\over |\Omega|},
 \end{align}
-for some constant $c>0.$
+for some constants $c_1,c_2>0.$
 \end{thm}
-
 
 \begin{proof}
 We follow the proof of Theorem~\ref{thm:classification}.  We summarize only the key difference compared to Section~\ref{sec:proof}. We expand the variance by 
@@ -621,7 +623,7 @@ We follow the proof of Theorem~\ref{thm:classification}.  We summarize only the 
     \text{Var}\left[\ell_\omega\left(\tZ,\bar\tY_\Omega\right)-\ell_\omega\left(\bar\Theta,\bar\tY_\Omega\right)\right]&\leq \mathbb{E}|\ell_\omega(\tZ(\omega),\bar\tY(\omega))-\ell_\omega(\bar\Theta(\omega),\bar\tY(\omega))|^2\\&=\mathbb{E}|\bar\tY(\omega)|^2|\text{sgn}\tZ(\omega)-\text{sgn}\bar\Theta(\omega)|^2\\&\leq2\mathbb{E}|\bar Y(\omega)-\bar \Theta(\omega)+\bar\Theta(\omega)|^2|\text{sgn}\tZ(\omega)-\text{sgn}\bar\Theta(\omega)|\\&\leq 2(\|\tY-\Theta\|^2_\infty+\|\Theta-\pi\|^2_\infty)\mathbb{E}|\text{sgn}\tZ-\text{sgn}\Theta|\\&\lesssim
     \|\tE\|^2_\infty\text{MAE}(\sign\tZ,\sign\bar\Theta),
 \end{align}
-where the last line comes from the definition of MAE and the inequality $\|\tE\|_\infty \geq 2$ with high probability.
+where the last line comes from the definition of MAE and the inequality $2\|\tE\|_\infty \geq 2\geq \|\Theta-\pi\|_\infty$ with high probability because $\mathbb{P}(\|\tE\|_\infty\geq 1) = 1-\mathbb{P}(\|\tE\|_\infty<1) = 1-\prod_{\omega\in[d_1]\times\cdots\times[d_K]}\mathbb{P}(|\tE(\omega|<1)\rightarrow 1$ for fixed $\sigma$.
 Based on \eqref{eq:variance2}, the $(\alpha,\pi)$-smoothness of $\Theta$ implies
 \begin{align}\label{eq:vartomean}
 \text{Var}\Delta_i(f_{\tZ},\bar \tY)\lesssim\|\tE\|_\infty^2\left\{\left[\mathbb{E}\Delta_i(f_{\tZ},\bar\tY\right]^{\alpha\over1+\alpha}+\frac{1}{\rho}\mathbb{E}\Delta_i(f_{\tZ},\bar\tY)\right\},\quad\text{ for all } f_{\tZ}\in\tF_{\tT}.
@@ -630,27 +632,26 @@ The empirical process with variance-to-mean relationship \eqref{eq:vartomean} gi
 \begin{align}\label{eq:empriskbd}
 \mathbb{P	}\left(\text{Risk}(\hat\tZ)-\text{Risk}(\bar\Theta)\geq L_n\right)\lesssim \exp(-nL_n),
 \end{align}
-where the convergence rate $L_n$ is obtained by the same way in the proof of Lemma~\ref{lem:metric} as 
-\begin{align}
-L_n\asymp t_n^{(\alpha+1)/(\alpha+2)}+\frac{1}{\rho}t_n,\quad\text{ where } t_n =  {\|\tE\|^2_\infty d_{\max}r K\log K\over n}.
+where the convergence rate $L_n$ is obtained by the same way in the proof of Lemma~\ref{lem:metric}, \begin{align}\label{eq:subgbd}
+L_n\asymp t_n^{(\alpha+1)/(\alpha+2)}+\frac{1}{\rho}t_n,\quad\text{ with } t_n =  {\|\tE\|^2_\infty d_{\max}r K\log K\over n}.
 \end{align}
-Plugging $t = d_{\max}$ into Lemma~\ref{lem:subg},  we have 
-\begin{align}\label{eq:subgcont}\|\tE\|_\infty\leq \sqrt{2\sigma^2(K+1)\log d_{\max}},\end{align}
-with the probability $1-1/d_{\max}$.
+Setting $s=K\log(d_{\max})$ in Lemma~\ref{lem:subg},  we have 
+\begin{align}\label{eq:subgcont}\|\tE\|_\infty\leq \sqrt{4\sigma^2K\log d_{\max}},\end{align}
+with the probability $1-c_2/d_{\max}$ for some constant $c_2$.
 Combining \eqref{eq:empriskbd} and \eqref{eq:subgcont},  we obtain 
 \begin{align}\label{eq:riskunbd}
    \text{Risk}(\hat\tZ)-\text{Risk}(\hat\Theta)\lesssim  \left(\sigma^2rd_{\max}\log d_{\max}\over |\Omega|\right)^{(\alpha+1)/(\alpha+2)}+\frac{1}{\rho(\pi,\tN)} \left(\sigma^2rd_{\max}\log d_{\max}\over |\Omega|\right),
-\end{align} with the probability $1-c\exp\left(-\sigma^2rd_{\max}\log d_{\max}\right)-1/d_{\max}$ 
-for some constant $c>0$.
+\end{align} with the probability $1-c_1\exp\left(-\sigma^2rd_{\max}\log d_{\max}\right)-c_2/d_{\max}$ 
+for some constants $c_1,c_2>0$.
 Therefore,  combining \eqref{eq:riskunbd} and \eqref{eq:final} completes the proof.
 \end{proof}
 
-  We obtain tensor estimation error for unbounded observation case from the proof of Theorem~\ref{thm:estimation} and Theorem~\ref{thm:unbddno1}.
-\begin{thm}[Tensor estimation error for unbounded observation case] Consider the same conditions of Theorem~\ref{thm:unbddno1}. With the probability  $1-c\exp\left(-\sigma^2rd_{\max}\log d_{\max}\right)-\frac{1}{d_{\max}},$
+  We obtain tensor estimation error under sub-Gaussian noise from the proof of Theorem~\ref{thm:estimation} and Theorem~\ref{thm:unbddno1}.
+\begin{thm}[Tensor estimation error under sub-Gaussian noise] Consider the same conditions of Theorem~\ref{thm:unbddno1}. With the probability  $1-c_1\exp\left(-\sigma^2rd_{\max}\log d_{\max}\right)-c_2/{d_{\max}},$
 \begin{align}
  \text{MAE}(\hat \Theta,\Theta))\lesssim \left(\sigma^2rd_{\max}\log d_{\max}\over |\Omega|\right)^{\alpha\over \alpha+2}+\frac{1}{H}+H\left({\sigma^2rd_{\max}\log d_{\max}\over |\Omega|}\right),
 \end{align}
-for some constant $c>0.$
+for some constants $c_1,c_2>0.$
 Setting $H\asymp \left({ |\Omega|\over \sigma^2rd_{\max}\log d_{\max}}\right)^{1/2}$ yields the error bound
 \begin{align*}
  \text{MAE}(\hat \Theta,\Theta))\lesssim \left({\sigma^2rd_{\max}\log d_{\max}\over |\Omega|}\right)^{{\alpha\over\alpha+2}\wedge \frac{1}{2}}.
@@ -659,15 +660,15 @@ Setting $H\asymp \left({ |\Omega|\over \sigma^2rd_{\max}\log d_{\max}}\right)^{1
 
 
 \begin{lem}\label{lem:subg}
-Let $X_1,\ldots,X_n$ be independent sub-Gaussian random variables with $\sigma^2$. Then, for any $t>0,$
-\[\mathbb{P}\left\{\max_{1\leq i\leq n}|X_i|\geq\sqrt{2\sigma^2(\log n +t)}\right\}\leq2 e^{-t}.\]
+Let $X_1,\ldots,X_n$ be independent sub-Gaussian random variables with variance proxy $\sigma^2$. Then, for any $s>0,$
+\[\mathbb{P}\left\{\max_{1\leq i\leq n}|X_i|\geq\sqrt{2\sigma^2(\log n +s)}\right\}\leq2 e^{-s}.\]
 \end{lem}
 \begin{proof}
-Notice that 
+The conclusion follows from
 \begin{align}
-\mathbb{P}[\max_{1\leq i\leq n}X_i\geq u] \leq \sum_{i=1}^n\mathbb{P}[X_i\leq u]\leq n e^{-{u^2\over 2\sigma^2}} = e^{-t},
+\mathbb{P}[\max_{1\leq i\leq n}X_i\geq u] \leq \sum_{i=1}^n\mathbb{P}[X_i\geq u]\leq n e^{-{u^2\over 2\sigma^2}} = e^{-s},
 \end{align}
-where we set $u = \sqrt{2\sigma^2(\log n+t)}.$
+where we set $u = \sqrt{2\sigma^2(\log n+s)}.$
 \end{proof}
 \section{Additional data analysis}~\label{sec:data}
 \vspace{-1cm}
