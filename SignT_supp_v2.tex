@@ -592,7 +592,7 @@ Based on Example~\ref{example:banded}, the rank-2 matrix $\mA$ in~\eqref{eq:A} s
 Therefore, $\sign\left(2^{-d}+2^{-d-3}-\mA\right)=2\mI-\mathbf{1}_d\otimes \mathbf{1}_d$. We conclude that $\srank(\mI-\pi)\leq \rank(2^{-d}+2^{-d-3}-\mA)=3$. 
 \end{proof}
 
-\subsection{Extension of Theorems~\ref{thm:classification} and~\ref{thm:estimation} to unbounded observation with sub-Gaussian noises}
+\subsection{Extension of Theorems~\ref{thm:classification} and~\ref{thm:estimation} to unbounded observation with sub-Gaussian noise}
 Consider the signal plus noise model
 \begin{align*}
 \tY = \Theta+\tE,
@@ -633,7 +633,7 @@ We expand the variance by
     %&=\mathbb{E}|\bar\tY(\omega)|^2|\text{sgn}\tZ(\omega)-\text{sgn}\bar\Theta(\omega)|^2 \notag \\
     &= \mathbb{E}|\bar \tY(\omega)-\bar \Theta(\omega)+\bar\Theta(\omega)|^2|\text{sgn}\tZ(\omega)-\text{sgn}\bar\Theta(\omega)| \notag \\
     &\leq 2\left(4 \sigma^2K\log d_{\max}+2\right) \mathbb{E}|\text{sgn}\tZ-\text{sgn}\Theta| \notag \\
-    & \lesssim (\sigma^2K \log d_{\max}) \text{MAE}(\sign \tZ, \sign \bar \Theta).
+    & \lesssim (\sigma^2K \log d_{\max}) \text{MAE}(\sign \tZ, \sign \bar \Theta),
     \end{align}
 where the third line uses the facts $\mnormSize{}{\bar \Theta}\leq 2$ and $\mnormSize{}{\bar \tY-\bar \Theta}^2=\mnormSize{}{\tE}^2\leq 4 \sigma^2K\log d_{\max}$ within the Event II; the last line comes from the definition of MAE and the asymptotic $\sigma^2\log d_{\max}\gg 1$ provided that $\sigma>0$ with $d_{\max}$ sufficiently large. 
 
@@ -668,7 +668,7 @@ Setting $H\asymp \left({ |\Omega|\over r \sigma^2d_{\max}\log d_{\max}}\right)^{
 \end{thm}
 
 
-\begin{lem}\label{lem:subg}
+\begin{lem}[sub-Gaussian maximum]\label{lem:subg}
 Let $X_1,\ldots,X_n$ be independent sub-Gaussian mean-zero random variables with variance proxy $\sigma^2$. Then, for any $s>0,$
 \[\mathbb{P}\left\{\max_{1\leq i\leq n}|X_i|\geq\sqrt{2\sigma^2(\log n +s)}\right\}\leq2 e^{-s}.\]
 \end{lem}
