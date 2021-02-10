@@ -647,7 +647,7 @@ We say that an event $E$ occurs ``with high probability'' if $\mathbb{P}(E)$ ten
 \begin{thm}[Sign tensor estimation under sub-Gaussian noise]\label{thm:unbddno1}
 Consider the same condition of Theorem~\ref{thm:classification}.   Suppose that Assumption~\ref{assm:subg} holds. Then, for all $\pi\in[-1,1]$ except for a finite number of levels,  with high probability,
 \begin{align}
- \text{MAE}(\text{sgn}(\hat \tZ),\text{sgn}(\bar\Theta))\lesssim \left(r\sigma^2d_{\max}\log d_{\max}\over |\Omega|\right)^{\alpha\over \alpha+2}+\frac{1}{\rho^2(\pi,\tN)}{r\sigma^2d_{\max}\log d_{\max}\over |\Omega|}.
+ \textup{MAE}(\textup{sgn}(\hat \tZ_\pi),\textup{sgn}(\Theta-\pi))\lesssim \left(r\sigma^2d_{\max}\log d_{\max}\over |\Omega|\right)^{\alpha\over \alpha+2}+\frac{1}{\rho^2(\pi,\tN)}{r\sigma^2d_{\max}\log d_{\max}\over |\Omega|}.
 \end{align}
 \end{thm}
 
@@ -661,21 +661,21 @@ We divide the sample space into two exclusive events:
 \item Event I: $\mnormSize{}{\tE}\geq \sqrt{4\sigma^2K\log d_{\max}}$;
 \item Event II: $\mnormSize{}{\tE}< \sqrt{4\sigma^2K\log d_{\max}}$.
 \end{itemize}
-Because the Event 1 occurs with probability tending to zero, we restrict ourselves to the Event II only by following the proof of Theorem~\ref{thm:classification}. We summarize only the key difference compared to Section~\ref{sec:proof}. 
+Because the Event I occurs with probability tending to zero, we restrict ourselves to the Event II only by following the proof of Theorem~\ref{thm:classification}.   We summarize the key difference compared to Section~\ref{sec:proof}. 
 We expand the variance by 
 \begin{align}
     \label{eq:variance2}
     \text{Var}\left[\ell_\omega\left(\tZ,\bar\tY_\Omega\right)-\ell_\omega\left(\bar\Theta,\bar\tY_\Omega\right)\right]&\leq \mathbb{E}|\ell_\omega(\tZ(\omega),\bar\tY(\omega))-\ell_\omega(\bar\Theta(\omega),\bar\tY(\omega))|^2\notag \\
     %&=\mathbb{E}|\bar\tY(\omega)|^2|\text{sgn}\tZ(\omega)-\text{sgn}\bar\Theta(\omega)|^2 \notag \\
     &= \mathbb{E}|\bar \tY(\omega)-\bar \Theta(\omega)+\bar\Theta(\omega)|^2|\text{sgn}\tZ(\omega)-\text{sgn}\bar\Theta(\omega)| \notag \\
-    &\leq 2\left(4 \sigma^2K\log d_{\max}+2\right) \mathbb{E}|\text{sgn}\tZ-\text{sgn}\Theta| \notag \\
+    &\leq 2\left(4 \sigma^2K\log d_{\max}+2\right) \mathbb{E}|\text{sgn}\tZ-\text{sgn}\bar\Theta| \notag \\
     & \lesssim (\sigma^2K \log d_{\max}) \text{MAE}(\sign \tZ, \sign \bar \Theta),
     \end{align}
-where the third line uses the facts $\mnormSize{}{\bar \Theta}\leq 2$ and $\mnormSize{}{\bar \tY-\bar \Theta}^2=\mnormSize{}{\tE}^2\leq 4 \sigma^2K\log d_{\max}$ within the Event II; the last line comes from the definition of MAE and the asymptotic $\sigma^2\log d_{\max}\gg 1$ provided that $\sigma>0$ with $d_{\max}$ sufficiently large. 
+where the third line uses the facts $\mnormSize{}{\bar \Theta}\leq 2$ and $\mnormSize{}{\bar \tY-\bar \Theta}^2=\mnormSize{}{\tE}^2<4 \sigma^2K\log d_{\max}$ within the Event II; the last line comes from the definition of MAE and the asymptotic $\sigma^2\log d_{\max}\gg 1$ provided that $\sigma>0$ with $d_{\max}$ sufficiently large. 
 
 Based on \eqref{eq:variance2}, the $(\alpha,\pi)$-smoothness of $\Theta$ implies
 \begin{align}\label{eq:vartomean}
-\text{Var}\Delta_i(f_{\tZ},\bar \tY)\lesssim \left(\sigma^2K\log d_{\max}\right) \left\{\left[\mathbb{E}\Delta_i(f_{\tZ},\bar\tY\right]^{\alpha\over1+\alpha}+\frac{1}{\rho}\mathbb{E}\Delta_i(f_{\tZ},\bar\tY)\right\},\quad\text{ for all } f_{\tZ}\in\tF_{\tT}.
+\text{Var}\Delta_i(f_{\tZ},\bar \tY)\lesssim \left(\sigma^2K\log d_{\max}\right) \left\{\left[\mathbb{E}\Delta_i(f_{\tZ},\bar\tY)\right]^{\alpha\over1+\alpha}+\frac{1}{\rho}\mathbb{E}\Delta_i(f_{\tZ},\bar\tY)\right\},\quad\text{ for all } f_{\tZ}\in\tF_{\tT}.
 \end{align}
 The empirical process with variance-to-mean relationship \eqref{eq:vartomean} gives that
 \begin{align}\label{eq:empriskbd}
@@ -687,7 +687,7 @@ L_n\asymp t_n^{(\alpha+1)/(\alpha+2)}+\frac{1}{\rho}t_n,\quad\text{ with } t_n =
 \end{align}
 Combining \eqref{eq:empriskbd} and \eqref{eq:subgbd}, we obtain that, with high probability, 
 \begin{align}\label{eq:riskunbd}
-   \text{Risk}(\hat\tZ)-\text{Risk}(\hat\Theta)\lesssim \left( {r \sigma^2  d_{\max}\log d_{\max}  \over |\Omega|}\right)^{(\alpha+1)/(\alpha+2)}+\frac{1}{\rho(\pi,\tN)} \left({r \sigma^2  d_{\max} \log d_{\max} \over |\Omega|} \right),
+   \text{Risk}(\hat\tZ)-\text{Risk}(\bar\Theta)\lesssim \left( {r \sigma^2  d_{\max}\log d_{\max}  \over |\Omega|}\right)^{(\alpha+1)/(\alpha+2)}+\frac{1}{\rho(\pi,\tN)} \left({r \sigma^2  d_{\max} \log d_{\max} \over |\Omega|} \right),
 \end{align} 
 where constants (possibly depending on $K$) have been absorbed into the $\lesssim$ relationship. Therefore, combining \eqref{eq:riskunbd} and \eqref{eq:final} completes the proof.
 \end{proof}
@@ -697,7 +697,7 @@ We obtain tensor estimation error under sub-Gaussian noise following the proof o
 \begin{align}
  \textup{MAE}(\hat \Theta,\Theta)\lesssim \left({r \sigma^2d_{\max}\log d_{\max} \over |\Omega|}\right)^{\alpha\over \alpha+2}+\frac{1}{H}+H\left({r \sigma^2d_{\max}\log d_{\max} \over |\Omega|}\right).
 \end{align}
-Setting $H\asymp \left({ |\Omega|\over r \sigma^2d_{\max}\log d_{\max}}\right)^{1/2}$ yields the error bound
+In particular, setting $H\asymp \left({ |\Omega|\over r \sigma^2d_{\max}\log d_{\max}}\right)^{1/2}$ yields the error bound
 \begin{align*}
  \textup{MAE}(\hat \Theta,\Theta)\lesssim \left({r \sigma^2d_{\max}\log d_{\max}\over |\Omega|}\right)^{\min({\alpha\over\alpha+2},\frac{1}{2})}.
 \end{align*}
