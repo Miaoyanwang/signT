@@ -105,7 +105,43 @@
 \end{center}
 
 \appendix
-The appendix consists of proofs (Section~\ref{sec:proof}), additional theoretical results (Section~\ref{sec:additional}),  and numerical experiments (Section~\ref{sec:data}).
+The appendix consists of  numerical experiments (Section~\ref{sec:data}),  proofs (Section~\ref{sec:proof}), and additional theoretical results (Section~\ref{sec:additional}).
+
+\section{Additional results on numerical experiments}~\label{sec:data}
+\vspace{-1cm}
+\subsection{Simulation models used in the main paper}
+We have described four simulation models in the main paper. Unfortunately, the schematic figures in Table 1 were not displayed properly. Here we provide a high resolution version again for better repository.
+\begin{table*}[h!]
+\includegraphics[width=1\textwidth]{figure/simulation.pdf}
+\caption{Simulation models used for comparison. We use $\mM_k\in\{0,1\}^{d\times 3}$ to denote membership matrices, $\tC\in\mathbb{R}^{3\times 3\times 3}$ the block means, $\ma={1\over d}(1,2,\ldots,d)^T \in\mathbb{R}^d$, $\tZ_{\max}$ and $\tZ_{\min}$ are order-3 tensors with entries ${1\over d}\max(i,j,k)$ and ${1\over d}\min(i,j,k)$, respectively.}\label{tab:simulation}
+\end{table*}
+
+\subsection{Brain connectivity analysis}
+Figure~\ref{fig:braincv} shows the MAE based on 5-fold cross-validations with $r = 3,6,\ldots, 15$ and $H = 20$. We find that our method outperforms CPT in all combinations of ranks and missing rates. The achieved error reduction appears to be more profound as the missing rate increases. This trend highlights the applicability of our method in tensor completion tasks. In addition, our method exhibits a smaller standard error in cross-validation experiments as shown in Figure~\ref{fig:braincv} and Table~\ref{tab:data} (in the main paper), demonstrating the stability over CPT.  One possible reason is that that our estimate is guaranteed to be in $[0,1]$ (for binary tensor problem where $\tY\in\{0,1\}^{d_1\times\cdots\times d_K}$) whereas CPT estimation may fall outside the valid range $[0,1]$. 
+
+\begin{figure}[h!]
+\includegraphics[width = \textwidth]{figure/brain_sim.pdf}
+\caption{Estimation error versus rank under different missing rate. Panels (a)-(d) correspond to missing rate 20\%, 33\%, 50\%, and 67\%, respectively. Error bar represents the standard error over 5-fold cross-validations.}\label{fig:braincv}
+\end{figure}
+
+We next investigate the pattern in the estimated signal tensor. Figure~\ref{fig:signal} of the main paper shows the identified top edges associated with IQ scores. Specifically, we first obtain a denoised tensor $\hat \Theta\in\mathbb{R}^{68\times 68\times 114}$ using our method with $r=10$ and $H=20$. Then, we perform a regression analysis of $\hat \Theta(i,j,\colon)\in\mathbb{R}^{144}$ against the normalized IQ score across the 144 individuals. The regression model is repeated for each edge $(i,j)\in[68]\times[68]$. We find that top edges represent the interhemispheric connections in the frontal lobes. The result is consistent with the role of interhemispheric connectivity in human intelligence. 
+
+\subsection{NIPS data analysis}
+In the main paper we have summarized the MAE in cross-validation experiments for $r=6, 9,12$. Here we provide additional results for a wider range $r= 3, 6, \ldots,15$. Table~\ref{tab:NIPS} suggests that further increment of rank appears to have little effect on the performance. In addition, we also perform naive imputation where the missing values are predicted using the sample average. The two tensor methods outperform the naive imputation, implying the necessity of incorporating tensor structure in the analysis.
+\begin{table}[h!]
+\centering
+\begin{tabular}{c|ccccc}
+Method & $r = 3$ & $r = 6$ & $r=9$ & $r=12$&$r=15$ \\
+\hline
+NonparaT (Ours) & {\bf 0.18}(0.002) & {\bf 0.16}(0.002) & {\bf 0.15}(0.001)& {\bf 0.14}(0.001)&{\bf 0.13}(0.001)\\
+ \hline
+Low-rank CPT &0.22(0.004) & 0.20(0.007) & 0.19(0.007)&0.17(0.007)&0.17(0.007)\\
+  \hline
+Naive imputation& \multicolumn{5}{c}{0.32(.001)}\\
+\end{tabular}
+\caption{Prediction accuracy measured in MAE in the NIPS data analysis. The reported MAEs are averaged over five runs of cross-validation, with standard errors in parentheses. Bold numbers indicate the minimal MAE among three methods. For low-rank CPT, we use R function {\tt rTensor} with default hyperparameters, and for our method, we set $H=20$. }\label{tab:NIPS}
+\end{table}
+
 
 
 \section{Proofs}\label{sec:proof}
@@ -611,7 +647,7 @@ We say that an event $E$ occurs ``with high probability'' if $\mathbb{P}(E)$ ten
 \begin{thm}[Sign tensor estimation under sub-Gaussian noise]\label{thm:unbddno1}
 Consider the same condition of Theorem~\ref{thm:classification}.   Suppose that Assumption~\ref{assm:subg} holds. Then, for all $\pi\in[-1,1]$ except for a finite number of levels,  with high probability,
 \begin{align}
- \text{MAE}(\text{sgn}(\hat \tZ),\text{sgn}(\bar\Theta))\lesssim \left(\sigma^2rd_{\max}\log d_{\max}\over |\Omega|\right)^{\alpha\over \alpha+2}+\frac{1}{\rho^2(\pi,\tN)}{\sigma^2rd_{\max}\log d_{\max}\over |\Omega|}.
+ \text{MAE}(\text{sgn}(\hat \tZ),\text{sgn}(\bar\Theta))\lesssim \left(r\sigma^2d_{\max}\log d_{\max}\over |\Omega|\right)^{\alpha\over \alpha+2}+\frac{1}{\rho^2(\pi,\tN)}{r\sigma^2d_{\max}\log d_{\max}\over |\Omega|}.
 \end{align}
 \end{thm}
 
@@ -679,33 +715,6 @@ The conclusion follows from
 \end{align}
 where we set $u = \sqrt{2\sigma^2(\log n+s)}.$
 \end{proof}
-\section{Additional data analysis}~\label{sec:data}
-\vspace{-1cm}
-\subsection{Brain connectivity analysis}
-Figure~\ref{fig:braincv} shows the MAE based on 5-fold cross-validations with $r = 3,6,\ldots, 15$ and $H = 20$. We find that our method outperforms CPT in all combinations of ranks and missing rates. The achieved error reduction appears to be more profound as the missing rate increases. This trend highlights the applicability of our method in tensor completion tasks. In addition, our method exhibits a smaller standard error in cross-validation experiments as shown in Figure~\ref{fig:braincv} and Table~\ref{tab:data} (in the main paper), demonstrating the stability over CPT.  One possible reason is that that our estimate is guaranteed to be in $[0,1]$ (for binary tensor problem where $\tY\in\{0,1\}^{d_1\times\cdots\times d_K}$) whereas CPT estimation may fall outside the valid range $[0,1]$. 
-
-\begin{figure}[h!]
-\includegraphics[width = \textwidth]{figure/brain_sim.pdf}
-\caption{Estimation error versus rank under different missing rate. Panels (a)-(d) correspond to missing rate 20\%, 33\%, 50\%, and 67\%, respectively. Error bar represents the standard error over 5-fold cross-validations.}\label{fig:braincv}
-\end{figure}
-
-We next investigate the pattern in the estimated signal tensor. Figure~\ref{fig:signal} of the main paper shows the identified top edges associated with IQ scores. Specifically, we first obtain a denoised tensor $\hat \Theta\in\mathbb{R}^{68\times 68\times 114}$ using our method with $r=10$ and $H=20$. Then, we perform a regression analysis of $\hat \Theta(i,j,\colon)\in\mathbb{R}^{144}$ against the normalized IQ score across the 144 individuals. The regression model is repeated for each edge $(i,j)\in[68]\times[68]$. We find that top edges represent the interhemispheric connections in the frontal lobes. The result is consistent with the role of interhemispheric connectivity in human intelligence. 
-
-\subsection{NIPS data analysis}
-In the main paper we have summarized the MAE in cross-validation experiments for $r=6, 9,12$. Here we provide additional results for a wider range $r= 3, 6, \ldots,15$. Table~\ref{tab:NIPS} suggests that further increment of rank appears to have little effect on the performance. In addition, we also perform naive imputation where the missing values are predicted using the sample average. The two tensor methods outperform the naive imputation, implying the necessity of incorporating tensor structure in the analysis.
-\begin{table}[h!]
-\centering
-\begin{tabular}{c|ccccc}
-Method & $r = 3$ & $r = 6$ & $r=9$ & $r=12$&$r=15$ \\
-\hline
-NonparaT (Ours) & {\bf 0.18}(0.002) & {\bf 0.16}(0.002) & {\bf 0.15}(0.001)& {\bf 0.14}(0.001)&{\bf 0.13}(0.001)\\
- \hline
-Low-rank CPT &0.22(0.004) & 0.20(0.007) & 0.19(0.007)&0.17(0.007)&0.17(0.007)\\
-  \hline
-Naive imputation& \multicolumn{5}{c}{0.32(.001)}\\
-\end{tabular}
-\caption{Prediction accuracy measured in MAE in the NIPS data analysis. The reported MAEs are averaged over five runs of cross-validation, with standard errors in parentheses. Bold numbers indicate the minimal MAE among three methods. For low-rank CPT, we use R function {\tt rTensor} with default hyperparameters, and for our method, we set $H=20$. }\label{tab:NIPS}
-\end{table}
 
 
 
