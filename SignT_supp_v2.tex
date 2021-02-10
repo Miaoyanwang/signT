@@ -597,12 +597,12 @@ Consider the signal plus noise model
 \begin{align*}
 \tY = \Theta+\tE,
 \end{align*}
-where $\tE$ consists of mean-zero, independent noise entries, and $\Theta\in\caliP(r)$ is an $\alpha$-smooth tensor.
+where $\tE$ consists of zero-mean, independent noise entries, and $\Theta\in\caliP(r)$ is an $\alpha$-smooth tensor.
 Theoretical results in Section~\ref{sec:estimation} of the main paper are based on bounded observation $\|\tY\|_\infty\leq A$ for some constant $A>0$. We extend the results to unbounded observation with the following assumption.
 \begin{assumption}[Sub-Gaussian noise]\label{assm:subg}\text{ }
 \begin{enumerate}
 \item There exists a constant $\beta>0$, independent of tensor dimension, such that $\|\Theta\|_\infty\leq \beta$. Without loss of generality, we set $\beta = 1$.
-\item The noise entries $\tE(\omega)$ are independent mean-zero sub-Gaussian random variables with variance proxy $\sigma^2>0$; i.e, $\mathbb{P}(|\tE(\omega)|\geq B)\leq 2e^{-B^2/2\sigma^2}$ for all $B>0$.  
+\item The noise entries $\tE(\omega)$ are independent zero-mean sub-Gaussian random variables with variance proxy $\sigma^2>0$; i.e, $\mathbb{P}(|\tE(\omega)|\geq B)\leq 2e^{-B^2/2\sigma^2}$ for all $B>0$.  
 \end{enumerate}
 \end{assumption}
 
@@ -669,7 +669,7 @@ Setting $H\asymp \left({ |\Omega|\over r \sigma^2d_{\max}\log d_{\max}}\right)^{
 
 
 \begin{lem}[sub-Gaussian maximum]\label{lem:subg}
-Let $X_1,\ldots,X_n$ be independent sub-Gaussian mean-zero random variables with variance proxy $\sigma^2$. Then, for any $s>0,$
+Let $X_1,\ldots,X_n$ be independent sub-Gaussian zero-mean random variables with variance proxy $\sigma^2$. Then, for any $s>0,$
 \[\mathbb{P}\left\{\max_{1\leq i\leq n}|X_i|\geq\sqrt{2\sigma^2(\log n +s)}\right\}\leq2 e^{-s}.\]
 \end{lem}
 \begin{proof}
