@@ -15,20 +15,21 @@ gradient=function(A1,A2,A3,mode,Ybar,W,type=c("logistic","hinge")){
     }else if(type=="hinge"){
         tem=-W*Ybar*(margin<1)
     }
+    scale = length(tem)-sum(is.na(tem))
     tem[is.na(tem)]=0
 
     if(mode==3){
         Grad=matrix(0,nrow=dim(A3)[1],ncol=R)
         for(r in 1:R){
-            Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A2[,r]))),ms=c(1,2))@data
+            Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A2[,r]))),ms=c(1,2))@data/scale
         }}else if(mode==2){
             Grad=matrix(0,nrow=dim(A2)[1],ncol=R)
             for(r in 1:R){
-                Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A3[,r]))),ms=c(1,3))@data
+                Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A3[,r]))),ms=c(1,3))@data/scale
             }}else if(mode==1){
                 Grad=matrix(0,nrow=dim(A1)[1],ncol=R)
                 for(r in 1:R){
-                    Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A2[,r])),as.matrix(t(A3[,r]))),ms=c(2,3))@data
+                    Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A2[,r])),as.matrix(t(A3[,r]))),ms=c(2,3))@data/scale
                 }}
     return(Grad)
 }
@@ -104,7 +105,7 @@ tensorize=function(X,Y,Z){
 #' Y = Theta + noise
 #'
 #' # Estimate Theta from nonparametic completion method via sign series
-#' hatTheta = SignT(Y,truer = 3,H = 5,Lmin = -3,Lmax = 3, option =1)
+#' hatTheta = SignT(Y,truer = 3,H = 3,Lmin = -3,Lmax = 3, option =1)
 #' print(hatTheta$est)
 #'
 #' @export
@@ -189,7 +190,7 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge"),start="linear"){
 
     error=1;iter=1;
 
- while((error>0.01)&(binary_obj[iter]>0.01)&(iter<20)){
+ while((error>0.01)&(iter<20)){
 
 
  optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
