@@ -1435,9 +1435,13 @@ Key words:\hskip1em}\ignorespaces}
 \else
   \def\@printed{}
 \fi
-\gdef\@journal{\vbox{\fontsize{10}{10}\selectfont\vbox{\hsize\textwidth{\sc Biometrics}
-{\@volume},  \@pagerange\hfill\ifx\@doi\@empty\else{DOI:}\ \@doi\fi}\par
-\vbox{\@month\ \@pubyear}}}
+%\gdef\@journal{\vbox{\fontsize{10}{10}\selectfont\vbox{\hsize\textwidth{\sc Biometrics}
+% \@pagerange\hfill\ifx\@doi\@empty\else{DOI:}\ \@doi\fi}\par
+%\vbox{\@month\ \@pubyear}}}
+
+\gdef\@journal{\vbox{\fontsize{10}{10}\selectfont\vbox{\hsize\textwidth{\sc Manuscript}
+ \@pagerange}}}
+
 % (\number\year) \@microfiche\@printed}
 %
 % \ps@empty and \ps@plain defined in LATEX.TEX
@@ -1451,7 +1455,7 @@ Key words:\hskip1em}\ignorespaces}
    \rm\@ddell\hbox to 0pt{\small\thepage}}
  \def\@oddfoot{}%\small\copyright\ \@pubyear\ RAS, MNRAS {\bf \@volume}, \@pagerange\hfil}
  \def\@evenhead{\Large\@ddell\hbox to
- 0pt{\small\thepage}\hspace{1.5em}\hfill\small{\it Biometrics, \@month}\ \@pubyear\hfill}
+ 0pt{\small\thepage}\hspace{1.5em}\hfill\small{\it Manuscript Submitted for 2021 ICSA Student Paper Award}\ \hfill}
  \def\@evenfoot{}%\hfil\small\copyright\ \@pubyear\ RAS, MNRAS {\bf \@volume}, \@pagerange}
  \def\sectionmark##1{\markboth{##1}{}}
  \def\subsectionmark##1{\markright{##1}}}
@@ -1469,7 +1473,7 @@ Key words:\hskip1em}\ignorespaces}
 to 7.75pt{\tiny C}}}
 \def\ps@titlepage{\let\@mkboth\@gobbletwo
  \def\@oddhead{\footnotesize\@journal\hfill}
- \def\@oddfoot{\hfill{\reset@font\ This paper has been submitted for consideration for publication in {\it Biometrics}}\hfill}
+ \def\@oddfoot{\hfill{\reset@font\ This paper is under consideration for 2021 ICSA student paper award.}\hfill}
 %\hfill{\reset@font\thepage}\hfill}
  \def\@evenhead{\footnotesize\@journal\hfill}
  %\def\@evenfoot{\hfil\small\copyright\ \@pubyear\ The Society for the Study
@@ -1995,7 +1999,7 @@ to \linewidth\bgroup\@eqnsel\hskip\@centering$\displaystyle\tabskip\z@
    \@ifnextchar [%
    {\@ythm{#1}{#2}}%
    {\xdef\thname{#2}
-\@begintheorem{#2}{\ifx\thname\PROOF\unskip:\else\csname the#1\endcsname:\fi}\ignorespaces\ifx\Boldhead\TRUE\reset@font\itshape\fi}}%fci
+\@begintheorem{#2}{\ifx\thname\PROOF\unskip.\else\csname the#1\endcsname.\fi}\ignorespaces\ifx\Boldhead\TRUE\reset@font\itshape\fi}}%fci
 \global\let\@xthm\relax
 \newskip\theorempreskipamount
 \newskip\theorempostskipamount
@@ -2051,7 +2055,7 @@ to \linewidth\bgroup\@eqnsel\hskip\@centering$\displaystyle\tabskip\z@
 										\gdef\Boldhead{false}\fi\fi\fi\fi\fi\fi\fi%
         \item[\hskip\parindent \theorem@headerfont\def\checkhead{##1}% \labelsep
                     \ifx\Boldhead\TRUE{\reset@font\normalfont~~\sc##1\ ##2}\enspace\else% 
-					\ifx\thname\PROOF{\reset@font\sc##1:}\enspace\else##1\ ##2\enspace\fi\fi]}%
+					\ifx\thname\PROOF{\reset@font\sc##1.}\enspace\else##1\ ##2\enspace\fi\fi]}%
 \def\@opargbegintheorem##1##2##3{%
 			\xdef\Check{##1}%
 			\ifx\Check\ALGO\gdef\Boldhead{true}\else%
@@ -2063,16 +2067,16 @@ to \linewidth\bgroup\@eqnsel\hskip\@centering$\displaystyle\tabskip\z@
 									\ifx\Check\THRM\gdef\Boldhead{true}\else%
 										\gdef\Boldhead{false}\fi\fi\fi\fi\fi\fi\fi%
    \item[\hskip\parindent \theorem@headerfont %labelsep
-		 \ifx\Boldhead\TRUE{\reset@font\normalfont~~\sc##1\	##2}\ {\rm (##3)}{\reset@font\sc:}\enspace\else% 
-					  \ifx\thname\PROOF{\reset@font\sc##1\ {\rm(##3)}:}\enspace\else%		
-						   ##1\ ##2\ {\rm	(##3):\enspace}\fi\fi] 
+		 \ifx\Boldhead\TRUE{\reset@font\normalfont~~\sc##1\	##2}\ {\rm (##3)}{\reset@font\sc.}\enspace\else% 
+					  \ifx\thname\PROOF{\reset@font\sc##1\ {\rm(##3)}.}\enspace\else%		
+						   ##1\ ##2\ {\rm	(##3).\enspace}\fi\fi] 
 						   \ifx\Boldhead\TRUE\itshape\fi}}
 %%
 \let\bm\bmath
 %%
 \ifSFB@referee
-  \usepackage[nolists]{endfloat}
-  \AtBeginDocument{\usepackage{endrotfloat}}
+%  \usepackage[nolists]{endfloat}
+%  \AtBeginDocument{\usepackage{endrotfloat}}
 \fi
 % end of Biom.cls
 
