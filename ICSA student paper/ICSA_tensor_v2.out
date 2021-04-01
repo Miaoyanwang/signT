@@ -1,0 +1,15 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Inadequacies of low-rank models}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Our contributions}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Notation}{section.1}% 4
+\BOOKMARK [1][-]{section.2}{Model and proposal overview}{}% 5
+\BOOKMARK [1][-]{section.3}{Statistical properties of sign representable tensors}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Sign-rank and sign tensor series}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Statistical characterization of sign tensors via weighted classification}{section.3}% 8
+\BOOKMARK [1][-]{section.4}{Nonparametric tensor completion via sign series}{}% 9
+\BOOKMARK [2][-]{subsection.4.1}{Estimation error and sample complexity}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.2}{Numerical implementation}{section.4}% 11
+\BOOKMARK [1][-]{section.5}{Simulations}{}% 12
+\BOOKMARK [1][-]{section.6}{Data applications}{}% 13
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 14
+\BOOKMARK [1][-]{section*.10}{References}{}% 15
