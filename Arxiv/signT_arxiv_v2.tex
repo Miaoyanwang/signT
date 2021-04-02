@@ -941,17 +941,17 @@ where $C>0$ is a constant independent of $r,K$  and $d_{\text{max}}$. The proof 
 \begin{proof}[Proof of Theorem~\ref{thm:estimation}]
 By definition of $\hat\Theta$, we have
 \begin{align}\label{eq:pfmain3}\nonumber
-\text{MAE}(\hat\Theta,\Theta) &= \mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\sign\hat Z_\pi-\Theta\right|\\\nonumber
-&\leq \mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\left(\sign\hat Z_\pi-\sign(\Theta-\pi)\right)\right|+\mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\sign(\Theta-\pi)-\Theta\right|\\&
-\leq \frac{1}{2H+1}\sum_{\pi\in\Pi}\text{MAE}(\sign\hat Z_\pi,\sign(\Theta-\pi))+\frac{1}{H},
+\text{MAE}(\hat\Theta,\Theta) &= \mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\tH}\sign\hat Z_\pi-\Theta\right|\\\nonumber
+&\leq \mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\tH}\left(\sign\hat Z_\pi-\sign(\Theta-\pi)\right)\right|+\mathbb{E}\left|\frac{1}{2H+1}\sum_{\pi\in\tH}\sign(\Theta-\pi)-\Theta\right|\\&
+\leq \frac{1}{2H+1}\sum_{\pi\in\tH}\text{MAE}(\sign\hat Z_\pi,\sign(\Theta-\pi))+\frac{1}{H},
 \end{align}
 where the last line comes  from the triangle inequality and the inequality
 \begin{equation}
-\left|\frac{1}{2H+1}\sum_{\pi\in\Pi}\sign(\Theta(\omega)-\pi)-\Theta(\omega)\right|\leq \frac{1}{H},\quad\text{for all } \omega\in[d_1]\times\cdots\times[d_K] .
+\left|\frac{1}{2H+1}\sum_{\pi\in\tH}\sign(\Theta(\omega)-\pi)-\Theta(\omega)\right|\leq \frac{1}{H},\quad\text{for all } \omega\in[d_1]\times\cdots\times[d_K] .
 \end{equation}
 Write $n=|\Omega|$. Now it suffices to bound  the first term in \eqref{eq:pfmain3}.  We prove that 
 \begin{equation}\label{eq:total}
-{1\over 2H+1}\sum_{\pi \in \Pi} \textup{MAE}(\sign \hat Z_\pi, \sign (\Theta-\pi)) \lesssim  t_n^{\alpha/(\alpha+2)}+{1\over H}+ H t_n, \quad \text{with } t_n={d_{\max}rK\log K\over n}.
+{1\over 2H+1}\sum_{\pi \in \tH} \textup{MAE}(\sign \hat Z_\pi, \sign (\Theta-\pi)) \lesssim  t_n^{\alpha/(\alpha+2)}+{1\over H}+ H t_n, \quad \text{with } t_n={d_{\max}rK\log K\over n}.
 \end{equation}
 Theorem~\ref{thm:classification} implies that the  sign estimation accuracy depends on the closeness of $\pi\in \tH$ to the mass points in $\tH$. Therefore, we partition the level set $\pi \in \tH$ based on their closeness to $\tN$. Specifically, Define $\tH_1 \stackrel{\text{def}}{=}\{\pi\in\tH\colon \rho(\pi,\tN)<\frac{1}{H}\}$ and $\tH_2 = \tH\setminus\tH_1$.   Notice $|\tH_1|\leq 2|\tN|$.  We expand~\eqref{eq:total} by
 \begin{align}\label{eq:twobounds}
