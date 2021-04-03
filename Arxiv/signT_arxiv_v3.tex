@@ -754,7 +754,7 @@ The Assumption~\ref{ass:margin} states that
 \begin{align}\label{eq:ass}
 \mathbb{P}\left(|\bar \Theta | \leq t\right) \leq 
 \begin{cases}ct^\alpha, & \text{for all } \Delta s \leq t< \rho(\pi,\tN),\\
-C\Delta s, & \text{for all }t< \Delta s.
+C\Delta s, & \text{for all }0\leq t< \Delta s.
 \end{cases}
 \end{align}
 Without further specification, all relevant probability statements, such as $\mathbb{E}$ and $\mathbb{P}$, are with respect to $\omega\sim \Pi$. 
@@ -775,7 +775,7 @@ where the last line follows from the definition of MAE and~\eqref{eq:ass}. We ma
 \[
 t_{\text{opt}}=\begin{cases}
 \rho(\pi, \tN), & \text{if } \textup{MAE}(\sign \tZ,\sign \bar\Theta) > \text{cut-off},\\
-\left[ {1\over 2c(1+\alpha)} \textup{MAE} (\sign \tZ,\sign \bar\Theta)-C\Delta S  \right]^{1/\alpha}, &  \text{if }\textup{MAE}( \sign \tZ,\sign \bar\Theta) \leq \text{cut-off}.
+\left[ {1\over 2c(1+\alpha)} (\textup{MAE} (\sign \tZ,\sign \bar\Theta)-C\Delta S  )\right]^{1/\alpha}, &  \text{if }\textup{MAE}( \sign \tZ,\sign \bar\Theta) \leq \text{cut-off}.
  \end{cases}
 \]
 where we have denoted the cut-off $= 2c(1+\alpha) \rho^{\alpha}(\pi, \tN)+C\Delta s$.
