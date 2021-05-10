@@ -21,5 +21,5 @@ bic(ttnsr,theta,omega,d,r)
 BIC value at given inputs based on cumulative logistic model.
 }
 \description{
-Compute Bayesian Information Criterion (BIC) given a parameter tensor, an observed tensor, the dimension, and the rank based on cumulative logistic model. This BIC function is designed for searching rank in the \code{fit_ordinal} function.
+Compute Bayesian Information Criterion (BIC) given a parameter tensor, an observed tensor, the dimension, and the rank based on cumulative logistic model. This BIC function is designed for selecting rank in the \code{fit_ordinal} function.
 }

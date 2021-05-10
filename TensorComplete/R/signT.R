@@ -127,15 +127,15 @@ tensorize=function(X,Y,Z){
 #' @references C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2021.
 #' @examples
 #' library(tensorregress)
-#' indices = c(2,3,4)
+#' indices = c(2,2,2)
 #' noise = rand_tensor(indices)@data
-#' Theta = array(runif(prod(indices),min=-3,max = 3),indices)
+#' Theta = array(runif(prod(indices),min=-2,max = 2),indices)
 #'
 #' # The signal plus noise model
 #' Y = Theta + noise
 #'
 #' # Estimate Theta from nonparametic completion method via sign series
-#' hatTheta = fit_nonparaT(Y,truer = 3,H = 3,Lmin = -3,Lmax = 3, option =2)
+#' hatTheta = fit_nonparaT(Y,truer = 2,H = 2,Lmin = -2,Lmax = 2, option =2)
 #' print(hatTheta$est)
 #'
 #' @export

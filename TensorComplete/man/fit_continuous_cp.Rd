@@ -9,7 +9,7 @@ fit_continuous_cp(data,r)
 \arguments{
 \item{data}{A given (possibly noisy and incomplete) data tensor.}
 
-\item{r}{Rank of the signal tensor.}
+\item{r}{A rank to be fitted (CP rank).}
 }
 \value{
 The returned object is a list of components.
