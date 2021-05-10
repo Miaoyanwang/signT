@@ -11,7 +11,7 @@ Altopt(Ybar,W,r,type = c("logistic","hinge"),start = "linear")
 
 \item{W}{A weight tensor used in the weighted classification loss.}
 
-\item{r}{Tensor rank to be fitted.}
+\item{r}{A rank to be fitted (CP rank).}
 
 \item{type}{A large margin loss to be used. Logistic or hinge loss is available.}
 
@@ -31,7 +31,7 @@ The returned object is a list of components.
 \code{fitted} - A tensor that optimizes the weighted classification loss.
 }
 \description{
-Optimize the weighted classification loss given a weight tensor, an observed data tensor, and a large margin loss.
+Optimize the weighted classification loss given a weight tensor, an observed data tensor, and a large margin loss. This function is used as a subroutine in the main function \code{fit_nonparaT}.
 }
 \examples{
 library(tensorregress)
@@ -48,5 +48,5 @@ signTheta = sign(result$fitted)
 
 }
 \references{
-C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2020.
+C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2021.
 }

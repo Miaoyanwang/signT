@@ -2,12 +2,12 @@
 % Please edit documentation in R/signT.R
 \name{fit_nonparaT}
 \alias{fit_nonparaT}
-\title{Signal tensor estimation from a noisy and incomplete data tensor based on nonparametric tensor method via sign series.}
+\title{Main function for nonparametric tensor estimation and completion based on low sign rank model.}
 \usage{
 fit_nonparaT(Y,truer,H,Lmin,Lmax,option = 2)
 }
 \arguments{
-\item{Y}{A given (possibly noisy and incomplete) data tensor.}
+\item{Y}{A given (possibly noisy and incomplete) data tensor. The function allows both continuous- and binary-valued tensors. Missing value should be encoded as \code{NA}.}
 
 \item{truer}{Sign rank of the signal tensor.}
 
@@ -22,7 +22,7 @@ fit_nonparaT(Y,truer,H,Lmin,Lmax,option = 2)
 \value{
 The returned object is a list of components.
 
-\code{fitted} - A series of optimizers that minimize the weighted classification loss at each pi.
+\code{fitted} - A series of optimizers that minimize the weighted classification loss at each level.
 
 \code{est} - An estimated signal tensor based on nonparametic tensor method via sign series.
 }
@@ -44,5 +44,5 @@ print(hatTheta$est)
 
 }
 \references{
-C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2020.
+C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2021.
 }

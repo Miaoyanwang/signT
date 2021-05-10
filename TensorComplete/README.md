@@ -1,5 +1,4 @@
 # TensorComplete
-Efficient algorithm for tensor noise reduction and completion. This package includes the cumulative link model for ordinal tensor observation and nonparametric tensor method via sign series.
-The algorithm employs the alternating optimization approach.
+Efficient algorithm for tensor noise reduction and completion. This package includes a suite of parametric and nonparametric tools for estimating tensor signals from noisy, possibly incomplete observations. The algorithm employs the alternating optimization.
 
 

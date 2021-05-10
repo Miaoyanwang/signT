@@ -111,17 +111,17 @@ tensorize=function(X,Y,Z){
 
 
 
-#' Signal tensor estimation from a noisy and incomplete data tensor based on nonparametric tensor method via sign series.
+#' Main function for nonparametric tensor estimation and completion based on low sign rank model.
 #'
 #' Estimate a signal tensor from a noisy and incomplete data tensor using nonparametric tensor method via sign series.
-#' @param Y A given (possibly noisy and incomplete) data tensor.
+#' @param Y A given (possibly noisy and incomplete) data tensor. The function allows both continuous- and binary-valued tensors. Missing value should be encoded as \code{NA}.
 #' @param truer Sign rank of the signal tensor.
 #' @param H Resolution parameter.
 #' @param Lmin Minimum value of the signal tensor (or minimum value of the tensor Y).
 #' @param Lmax Maximum value of the signal tensor (or maximum value of the tensor Y).
 #' @param option A large margin loss to be used. Use logistic loss if \code{option} = 1, hinge loss if \code{option} = 2. Hinge loss is default.
 #' @return The returned object is a list of components.
-#' @return \code{fitted} - A series of optimizers that minimize the weighted classification loss at each pi.
+#' @return \code{fitted} - A series of optimizers that minimize the weighted classification loss at each level.
 #' @return \code{est} - An estimated signal tensor based on nonparametic tensor method via sign series.
 #' @usage fit_nonparaT(Y,truer,H,Lmin,Lmax,option = 2)
 #' @references C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2021.
@@ -200,10 +200,10 @@ SignM=function(Y,truer,H=5,Lmin,Lmax,option=2){
 
 #' Alternating optimization of the weighted classification loss
 #'
-#' Optimize the weighted classification loss given a weight tensor, an observed data tensor, and a large margin loss.
+#' Optimize the weighted classification loss given a weight tensor, an observed data tensor, and a large margin loss. This function is used as a subroutine in the main function \code{fit_nonparaT}.
 #' @param Ybar A given (possibly noisy and incomplete) data tensor.
 #' @param W A weight tensor used in the weighted classification loss.
-#' @param r Tensor rank to be fitted.
+#' @param r A rank to be fitted (CP rank).
 #' @param type A large margin loss to be used. Logistic or hinge loss is available.
 #' @param start Choice of initialization method. Use random initialization if \code{start} = "random"; Use the initialization based on low rank approximation if \code{start} = "linear". Linear initialization is default.
 #' @return The returned object is a list of components.
@@ -332,7 +332,7 @@ Altm=function(Ybar,W,r,type=c("logistic","hinge"),start="linear"){
 #'
 #' Estimate a signal tensor from a noisy and incomplete data tensor using CP low rank tensor method.
 #' @param data A given (possibly noisy and incomplete) data tensor.
-#' @param r Rank of the signal tensor.
+#' @param r A rank to be fitted (CP rank).
 #' @return The returned object is a list of components.
 #' @return \code{est} - An estimated signal tensor based on CP low rank tensor method.
 #' @return \code{U} - A list of factor matrices.

@@ -1,1 +1,1 @@
-May, 2021:  New release for tensor completion algorithms including the cumulative link model for ordinal observation and nonparametric tensor completion method via sign series.
+May, 2021:  New release for tensor completion methods including a suite of parametric and nonparametric tools for estimating tensor signals from noisy, possibly incomplete observations.

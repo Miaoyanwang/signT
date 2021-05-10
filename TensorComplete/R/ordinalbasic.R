@@ -13,19 +13,6 @@ k_unfold=function(tnsr,m=NULL){
   unfold(tnsr,row_idx=rs,col_idx=cs)
 }
 
-#' The probability matrix given latent parameters.
-#'
-#' Compute the probability matrix given latent parameters from the cumulative model.
-#' @usage theta_to_p(theta,omega)
-#' @param theta a continuous-valued tensor (latent parameters).
-#' @param omega the cut-off points.
-#' @return a probability matrix in which the number of columns is possible outcomes and each row vector is corresponding probabilities at an entry of the tensor.
-#' @examples
-#' indices <- c(10,20,30)
-#' arr <- array(runif(prod(indices),-2,2),dim = indices)
-#' b <- c(-1.5,0,1.5)
-#' probability <- theta_to_p(arr,b);probability
-#' @export
 theta_to_p=function(theta,omega){
   epsilon=10^-4
   k = length(omega)
@@ -39,13 +26,13 @@ theta_to_p=function(theta,omega){
 }
 
 
-#' An ordinal tensor randomly simulated from the cumulative model.
+#' An ordinal-valued tensor randomly simulated from the cumulative model.
 #'
-#' Simulate an ordinal tensor from the cumulative logistic model with the parameter tensor and the cut-off points.
+#' Simulate an ordinal-valued tensor from the cumulative logistic model with the parameter tensor and the cut-off points.
 #' @usage realization(theta,omega)
-#' @param theta a continuous-valued tensor (latent parameters).
-#' @param omega the cut-off points.
-#' @return an ordinal tensor randomly simulated from the cumulative logistic model.
+#' @param theta A continuous-valued tensor (latent parameters).
+#' @param omega The cut-off points.
+#' @return An ordinal-valued tensor randomly simulated from the cumulative logistic model.
 #' @references C. Lee and M. Wang. Tensor denoising and completion based on ordinal observations. \emph{International Conference on Machine Learning (ICML)}, 2020.
 #' @examples
 #' indices <- c(10,20,30)
@@ -66,28 +53,28 @@ realization = function(theta,omega){
 }
 
 
-#' Estimation of tensor entries from the cumulative model.
+#' Predict ordinal-valued tensor entries from the cumulative logistic model.
 #'
-#' Estimate the ordinal-valued tensor entries given latent parameters and a type of estimations.
-#' @usage estimation(theta,omega,type = c("mode","mean","median"))
-#' @param theta a continuous-valued tensor (latent parameters).
-#' @param omega the cut-off points.
-#' @param type type of estimations:
+#' Predict ordinal-valued tensor entries given latent parameters and a type of estimations.
+#' @usage predict_ordinal(theta,omega,type = c("mode","mean","median"))
+#' @param theta A continuous-valued tensor (latent parameters).
+#' @param omega The cut-off points.
+#' @param type Type of estimations:
 #'
 #' \code{"mode"} specifies argmax based label estimation.
 #'
 #' \code{"mean"} specifies mean based label estimation.
 #'
 #' \code{"median"} specifies median based label estimation.
-#' @return an estimated ordinal tensor given latent parameters and a type of estimations.
+#' @return A predicted ordinal-valued tensor given latent parameters and a type of estimations.
 #' @references C. Lee and M. Wang. Tensor denoising and completion based on ordinal observations. \emph{International Conference on Machine Learning (ICML)}, 2020.
 #' @examples
 #' indices <- c(10,20,30)
 #' arr <- array(runif(prod(indices),-2,2),dim = indices)
 #' b <- c(-1.5,0,1.5)
-#' r_predict <- estimation(arr,b,type = "mode");r_predict
+#' r_predict <- predict_ordinal(arr,b,type = "mode");r_predict
 #' @export
-estimation = function(theta,omega,type = c("mode","mean","median")){
+predict_ordinal = function(theta,omega,type = c("mode","mean","median")){
   k=length(omega)
   if(is.matrix(theta)){
     theta_output=c(theta)
@@ -111,15 +98,15 @@ estimation = function(theta,omega,type = c("mode","mean","median")){
 #'
 #' Return log-likelihood function (cost function) value evaluated at a given parameter tensor, an observed tensor, and cut-off points.
 #' @usage likelihood(ttnsr,theta,omega,type = c("ordinal","Gaussian"))
-#' @param theta a continuous-valued tensor (latent parameters).
-#' @param omega the cut-off points.
-#' @param ttnsr an observed tensor data.
-#' @param type types of log-likelihood function.
+#' @param theta A continuous-valued tensor (latent parameters).
+#' @param omega The cut-off points.
+#' @param ttnsr An observed tensor data.
+#' @param type Types of log-likelihood function.
 #'
 #' \code{"ordinal"} specifies log-likelihood function based on the cumulative logistic model.
 #'
 #' \code{"Gaussian"} specifies log-likelihood function based on the Gaussian model.
-#' @return log-likelihood value at given inputs.
+#' @return Log-likelihood value at given inputs.
 #' @export
 
 likelihood = function(ttnsr,theta,omega=0,type = c("ordinal","Gaussian")){
@@ -137,14 +124,14 @@ likelihood = function(ttnsr,theta,omega=0,type = c("ordinal","Gaussian")){
 
 #' Bayesian Information Criterion (BIC) value.
 #'
-#' Compute Bayesian Information Criterion (BIC) given a parameter tensor, an observed tensor, the dimension, and the rank.
+#' Compute Bayesian Information Criterion (BIC) given a parameter tensor, an observed tensor, the dimension, and the rank based on cumulative logistic model. This BIC function is designed for selecting rank in the \code{fit_ordinal} function.
 #' @usage bic(ttnsr,theta,omega,d,r)
-#' @param ttnsr an observed tensor.
-#' @param theta a continuous-valued tensor (latent parameters).
-#' @param omega the cut-off points.
-#' @param d dimension of the tensor.
-#' @param r rank of the tensor.
-#' @return BIC value at given inputs.
+#' @param ttnsr An observed tensor.
+#' @param theta A continuous-valued tensor (latent parameters).
+#' @param omega The cut-off points.
+#' @param d Dimension of the tensor.
+#' @param r Rank of the tensor.
+#' @return BIC value at given inputs based on cumulative logistic model.
 #' @export
 bic = function(ttnsr,theta,omega=0,d,r){
   return(2*likelihood(ttnsr,theta,omega)+(prod(r)+sum(r*(d-r)))*log(prod(d)))

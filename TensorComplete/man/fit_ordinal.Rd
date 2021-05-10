@@ -2,37 +2,37 @@
 % Please edit documentation in R/ordinalT.R
 \name{fit_ordinal}
 \alias{fit_ordinal}
-\title{Signal tensor estimation from a noisy and incomplete ordinal-valued tensor based on the cumulative logistic model.}
+\title{Main function for parametric tensor estimation and completion based on ordinal observations.}
 \usage{
 fit_ordinal(ttnsr,r,omega=TRUE,alpha = TRUE)
 }
 \arguments{
-\item{ttnsr}{an observed tensor.}
+\item{ttnsr}{A given (possibly noisy and incomplete) data tensor. The function allows binary- and ordinal-valued tensors. Missing value should be encoded as \code{NA}.}
 
-\item{r}{a rank to be fitted (Tucker rank).}
+\item{r}{A rank to be fitted (Tucker rank).}
 
-\item{omega}{the cut-off points if known,
+\item{omega}{The cut-off points if known,
 
 \code{omega = TRUE} if unknown.}
 
-\item{alpha}{a signal level
+\item{alpha}{A signal level
 
 \code{alpha = TRUE} if the signal level is unknown.}
 }
 \value{
-a list containing the following:
+A list containing the following:
 
-\code{C} - an estimated core tensor.
+\code{C} - An estimated core tensor.
 
-\code{A} - estimated factor matrices.
+\code{A} - Estimated factor matrices.
 
-\code{theta} - an estimated latent parameter tensor.
+\code{theta} - An estimated latent parameter tensor.
 
-\code{iteration} - the number of iterations.
+\code{iteration} - The number of iterations.
 
-\code{cost} - log-likelihood value at each iteration.
+\code{cost} - Log-likelihood value at each iteration.
 
-\code{omega} - estimated cut-off points.
+\code{omega} - Estimated cut-off points.
 }
 \description{
 Estimate a signal tensor from a noisy and incomplete ordinal-valued tensor using the cumulative logistic model.

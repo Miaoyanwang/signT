@@ -2,20 +2,20 @@
 % Please edit documentation in R/ordinalbasic.R
 \name{realization}
 \alias{realization}
-\title{An ordinal tensor randomly simulated from the cumulative model.}
+\title{An ordinal-valued tensor randomly simulated from the cumulative model.}
 \usage{
 realization(theta,omega)
 }
 \arguments{
-\item{theta}{a continuous-valued tensor (latent parameters).}
+\item{theta}{A continuous-valued tensor (latent parameters).}
 
-\item{omega}{the cut-off points.}
+\item{omega}{The cut-off points.}
 }
 \value{
-an ordinal tensor randomly simulated from the cumulative logistic model.
+An ordinal-valued tensor randomly simulated from the cumulative logistic model.
 }
 \description{
-Simulate an ordinal tensor from the cumulative logistic model with the parameter tensor and the cut-off points.
+Simulate an ordinal-valued tensor from the cumulative logistic model with the parameter tensor and the cut-off points.
 }
 \examples{
 indices <- c(10,20,30)

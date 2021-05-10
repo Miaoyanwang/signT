@@ -7,24 +7,24 @@
 fit_continuous_tucker(ttnsr,r,alpha = TRUE)
 }
 \arguments{
-\item{ttnsr}{an observed tensor.}
+\item{ttnsr}{A given (possibly noisy and incomplete) data tensor.}
 
-\item{r}{a rank to be fitted (Tucker rank).}
+\item{r}{A rank to be fitted (Tucker rank).}
 
-\item{alpha}{a signal level
+\item{alpha}{A signal level
 
-\code{alpha = TRUE} if the signal level is unknown.}
+\code{alpha = TRUE} If the signal level is unknown.}
 }
 \value{
-a list containing the following:
+A list containing the following:
 
-\code{C} - an estimated core tensor.
+\code{C} - An estimated core tensor.
 
-\code{A} - estimated factor matrices.
+\code{A} - Estimated factor matrices.
 
-\code{iteration} - the number of iterations.
+\code{iteration} - The number of iterations.
 
-\code{cost} - log-likelihood value at each iteration.
+\code{cost} - Log-likelihood value at each iteration.
 }
 \description{
 Estimate a signal tensor from a noisy and incomplete data tensor using the Tucker model.

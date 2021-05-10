@@ -7,19 +7,19 @@
 bic(ttnsr,theta,omega,d,r)
 }
 \arguments{
-\item{ttnsr}{an observed tensor.}
+\item{ttnsr}{An observed tensor.}
 
-\item{theta}{a continuous-valued tensor (latent parameters).}
+\item{theta}{A continuous-valued tensor (latent parameters).}
 
-\item{omega}{the cut-off points.}
+\item{omega}{The cut-off points.}
 
-\item{d}{dimension of the tensor.}
+\item{d}{Dimension of the tensor.}
 
-\item{r}{rank of the tensor.}
+\item{r}{Rank of the tensor.}
 }
 \value{
-BIC value at given inputs.
+BIC value at given inputs based on cumulative logistic model.
 }
 \description{
-Compute Bayesian Information Criterion (BIC) given a parameter tensor, an observed tensor, the dimension, and the rank.
+Compute Bayesian Information Criterion (BIC) given a parameter tensor, an observed tensor, the dimension, and the rank based on cumulative logistic model. This BIC function is designed for searching rank in the \code{fit_ordinal} function.
 }

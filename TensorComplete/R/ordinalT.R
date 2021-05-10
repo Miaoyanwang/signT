@@ -118,24 +118,24 @@ corecomb = function(A_1,A_2,A_3,C,ttnsr,omega,alpha=TRUE,type="ordinal"){
 }
 
 
-#' Signal tensor estimation from a noisy and incomplete ordinal-valued tensor based on the cumulative logistic model.
+#' Main function for parametric tensor estimation and completion based on ordinal observations.
 #'
 #' Estimate a signal tensor from a noisy and incomplete ordinal-valued tensor using the cumulative logistic model.
-#' @param ttnsr an observed tensor.
-#' @param r a rank to be fitted (Tucker rank).
-#' @param omega the cut-off points if known,
+#' @param ttnsr A given (possibly noisy and incomplete) data tensor. The function allows binary- and ordinal-valued tensors. Missing value should be encoded as \code{NA}.
+#' @param r A rank to be fitted (Tucker rank).
+#' @param omega The cut-off points if known,
 #'
 #' \code{omega = TRUE} if unknown.
-#' @param alpha a signal level
+#' @param alpha A signal level
 #'
 #' \code{alpha = TRUE} if the signal level is unknown.
-#' @return a list containing the following:
-#' @return \code{C} - an estimated core tensor.
-#' @return \code{A} - estimated factor matrices.
-#' @return \code{theta} - an estimated latent parameter tensor.
-#' @return \code{iteration} - the number of iterations.
-#' @return \code{cost} - log-likelihood value at each iteration.
-#' @return \code{omega} - estimated cut-off points.
+#' @return A list containing the following:
+#' @return \code{C} - An estimated core tensor.
+#' @return \code{A} - Estimated factor matrices.
+#' @return \code{theta} - An estimated latent parameter tensor.
+#' @return \code{iteration} - The number of iterations.
+#' @return \code{cost} - Log-likelihood value at each iteration.
+#' @return \code{omega} - Estimated cut-off points.
 #' @usage fit_ordinal(ttnsr,r,omega=TRUE,alpha = TRUE)
 #' @references C. Lee and M. Wang. Tensor denoising and completion based on ordinal observations. \emph{International Conference on Machine Learning (ICML)}, 2020.
 #' @examples
@@ -274,16 +274,16 @@ fit_ordinal = function(ttnsr,r,omega=TRUE,alpha = TRUE){
 #' Signal tensor estimation from a noisy and incomplete data tensor based on the Tucker model.
 #'
 #' Estimate a signal tensor from a noisy and incomplete data tensor using the Tucker model.
-#' @param ttnsr an observed tensor.
-#' @param r a rank to be fitted (Tucker rank).
-#' @param alpha a signal level
+#' @param ttnsr A given (possibly noisy and incomplete) data tensor.
+#' @param r A rank to be fitted (Tucker rank).
+#' @param alpha A signal level
 #'
-#' \code{alpha = TRUE} if the signal level is unknown.
-#' @return a list containing the following:
-#' @return \code{C} - an estimated core tensor.
-#' @return \code{A} - estimated factor matrices.
-#' @return \code{iteration} - the number of iterations.
-#' @return \code{cost} - log-likelihood value at each iteration.
+#' \code{alpha = TRUE} If the signal level is unknown.
+#' @return A list containing the following:
+#' @return \code{C} - An estimated core tensor.
+#' @return \code{A} - Estimated factor matrices.
+#' @return \code{iteration} - The number of iterations.
+#' @return \code{cost} - Log-likelihood value at each iteration.
 #' @usage fit_continuous_tucker(ttnsr,r,alpha = TRUE)
 #' @examples
 #' # Latent parameters
