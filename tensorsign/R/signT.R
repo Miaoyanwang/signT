@@ -42,6 +42,36 @@ cost=function(A1,A2,A3,Ybar,W,type=c("logistic","hinge")){
 
 
 
+# gradient function of weighted classification with large margin loss in matrix case
+gradientm=function(A1,A2,mode,Ybar,W,type=c("logistic","hinge")){
+    margin = Ybar*(A1%*%t(A2))
+    d = dim(Ybar)
+    if(type=="logistic"){
+        tem=-W*Ybar*exp(-margin)/(1+exp(-margin))
+    }else if(type=="hinge"){
+        tem=-W*Ybar*(margin<1)
+    }
+    scale = length(tem)-sum(is.na(tem))
+    tem[is.na(tem)]=0
+
+    if(mode==1){
+        Grad = tem%*%A2/scale
+    }else if(mode==2){
+        Grad = t(tem)%*%A1/scale
+    }
+    return(Grad)
+}
+
+
+
+# weighted classification with large margin loss function in matrix case
+costm = function(A1,A2,Ybar,W,type = c("logistic","hinge")){
+    return(mean(W*loss((A1%*%t(A2))*Ybar,type),na.rm=TRUE))
+}
+
+
+
+
 # large margin loss functions
 loss=function(y,type=c("logistic","hinge")){
     if(type=="hinge") return(ifelse(1-y>0,1-y,0))
@@ -57,7 +87,7 @@ binaryloss=function(Ybar,W,Yfit){
 
 
 # Squared error loss
-likelihood = function(data,theta){
+SEL = function(data,theta){
     index=which(is.na(data)==F & is.na(theta)==F)
     return(sqrt(sum((data[index]-theta[index])^2)))
 }
@@ -89,14 +119,14 @@ tensorize=function(X,Y,Z){
 #' @param H Resolution parameter.
 #' @param Lmin Minimum value of the signal tensor (or minimum value of the tensor Y).
 #' @param Lmax Maximum value of the signal tensor (or maximum value of the tensor Y).
-#' @param option A large margin loss to be used. Use logistic loss if \code{option} = 1, hinge loss if \code{option} = 2. Logistic loss is default.
+#' @param option A large margin loss to be used. Use logistic loss if \code{option} = 1, hinge loss if \code{option} = 2. Hinge loss is default.
 #' @return The returned object is a list of components.
 #' @return \code{fitted} - A series of optimizers that minimize the weighted classification loss at each pi.
 #' @return \code{est} - An estimated signal tensor based on nonparametic tensor method via sign series.
-#' @usage SignT(Y,truer,H,Lmin,Lmax,option = 1)
-#' @references Lee, C., & Wang, M. (2021). Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}.
+#' @usage fit_nonparaT(Y,truer,H,Lmin,Lmax,option = 2)
+#' @references C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2020.
 #' @examples
-#' library(rTensor)
+#' library(tensorregress)
 #' indices = c(2,3,4)
 #' noise = rand_tensor(indices)@data
 #' Theta = array(runif(prod(indices),min=-3,max = 3),indices)
@@ -105,15 +135,27 @@ tensorize=function(X,Y,Z){
 #' Y = Theta + noise
 #'
 #' # Estimate Theta from nonparametic completion method via sign series
-#' hatTheta = SignT(Y,truer = 3,H = 3,Lmin = -3,Lmax = 3, option =1)
+#' hatTheta = fit_nonparaT(Y,truer = 3,H = 3,Lmin = -3,Lmax = 3, option =2)
 #' print(hatTheta$est)
 #'
 #' @export
-#' @import rTensor
-#' @importFrom stats "optim" "runif"
+#' @import tensorregress
+#' @import utils
+#' @importFrom stats "optim" "runif" "rnorm" "fft"
+#' @importFrom methods "is"
 
 
-SignT=function(Y,truer,H=5,Lmin,Lmax,option=1){
+fit_nonparaT = function(Y,truer,H=5,Lmin,Lmax,option=2){
+    if(length(dim(Y))==2){
+        result = SignM(Y,truer,H,Lmin,Lmax,option)
+    }else{
+        result = SignT(Y,truer,H,Lmin,Lmax,option)
+    }
+    return(result)
+}
+
+
+SignT=function(Y,truer,H=5,Lmin,Lmax,option=2){
     B_fitted=result=list()
     pi_seq=seq(from=Lmin,to=Lmax,length=2*H+1)
 
@@ -134,6 +176,27 @@ SignT=function(Y,truer,H=5,Lmin,Lmax,option=1){
 }
 
 
+SignM=function(Y,truer,H=5,Lmin,Lmax,option=2){
+    B_fitted=result=list()
+    pi_seq=seq(from=Lmin,to=Lmax,length=2*H+1)
+
+    for(h in 2:(2*H)){
+        pi=pi_seq[h]
+        if(option==1){
+            res=Altm(sign(Y-pi),abs(Y-pi),r=truer,type="logistic",start="linear")## recommend
+        }else if(option==2){
+            res=Altm(sign(Y-pi),abs(Y-pi),r=truer,type="hinge",start="linear")## recommend
+        }
+        B_fitted[[h]]=res$fitted
+    }
+    B_fitted=array(unlist(B_fitted),dim=c(dim(Y),2*H-1));
+    res=list();
+    res$fitted=B_fitted
+    res$est=1/2*(apply(sign(B_fitted),1:2,sum)/(2*H)+1)*(Lmax-Lmin)+Lmin
+    return(res)
+}
+
+
 
 #' Alternating optimization of the weighted classification loss
 #'
@@ -149,10 +212,10 @@ SignT=function(Y,truer,H=5,Lmin,Lmax,option=1){
 #' @return \code{iter} - The number of iterations.
 #' @return \code{error} - Trajectory of errors over iterations.
 #' @return \code{fitted} - A tensor that optimizes the weighted classification loss.
-#' @usage Alt(Ybar,W,r,type = c("logistic","hinge"),start = "linear")
-#' @references Lee, C., & Wang, M. (2021). Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}.
+#' @usage Altopt(Ybar,W,r,type = c("logistic","hinge"),start = "linear")
+#' @references C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2020.
 #' @examples
-#' library(rTensor)
+#' library(tensorregress)
 #' indices = c(2,3,4)
 #' noise = rand_tensor(indices)@data
 #' Theta = array(runif(prod(indices),min=-3,max = 3),indices)
@@ -161,57 +224,107 @@ SignT=function(Y,truer,H=5,Lmin,Lmax,option=1){
 #' Y = Theta + noise
 #'
 #' # Optimize the weighted classification for given a sign tensor sign(Y) and a weight tensor abs(Y)
-#' result = Alt(sign(Y),abs(Y),r = 3,type = "logistic",start = "linear")
+#' result = Altopt(sign(Y),abs(Y),r = 3,type = "hinge",start = "linear")
 #' signTheta = sign(result$fitted)
 #'
 #' @export
-#' @import rTensor
-#' @importFrom stats "optim" "runif"
+#' @import utils
+#' @importFrom stats "optim" "runif" "rnorm" "fft"
+#' @importFrom methods "is"
 
-
+Altopt = function(Ybar,W,r,type=c("logistic","hinge"),start="linear"){
+    if(length(dim(Ybar))==2){
+        result = Altm(Ybar,W,r,type,start)
+    }else{
+        result = Alt(Ybar,W,r,type,start)
+    }
+    return(result)
+}
 
 Alt=function(Ybar,W,r,type=c("logistic","hinge"),start="linear"){
     result=list()
     d=dim(Ybar)
     if(start=="linear"){
-    ini=fit_continuous(Ybar,r)
-    A1 = ini$U[[1]];
-    A2 = ini$U[[2]];
-    scale=matrix(0,nrow=r,ncol=r)
-    diag(scale)=ini$lambda
-    A3 = ini$U[[3]]%*%scale;
+        ini=fit_continuous_cp(Ybar,r)
+        A1 = ini$U[[1]];
+        A2 = ini$U[[2]];
+        scale=matrix(0,nrow=r,ncol=r)
+        diag(scale)=ini$lambda
+        A3 = ini$U[[3]]%*%scale;
     }else{
-    A1 = matrix(runif(d[1]*r,-1,1),nrow = d[1],ncol = r);
-    A2 = matrix(runif(d[2]*r,-1,1),nrow = d[2],ncol = r);
-    A3 = matrix(runif(d[3]*r,-1,1),nrow = d[3],ncol = r);
+        A1 = matrix(runif(d[1]*r,-1,1),nrow = d[1],ncol = r);
+        A2 = matrix(runif(d[2]*r,-1,1),nrow = d[2],ncol = r);
+        A3 = matrix(runif(d[3]*r,-1,1),nrow = d[3],ncol = r);
     }
     obj=cost(A1,A2,A3,Ybar,W,type);
     binary_obj=binaryloss(Ybar,W,tensorize(A1,A2,A3))
 
     error=1;iter=1;
 
- while((error>0.01)&(iter<20)){
+    while((error>0.01)&(iter<20)){
 
 
- optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
- A3=matrix(optimization$par,ncol=r)
- optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,Ybar,W,type),method="BFGS")
- A2=matrix(optimization$par,ncol=r)
- optimization=optim(c(A1),function(x)cost(matrix(x,ncol=r),A2,A3,Ybar,W,type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,Ybar,W,type),method="BFGS")
- A1=matrix(optimization$par,ncol=r)
+        optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
+        A3=matrix(optimization$par,ncol=r)
+        optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,Ybar,W,type),method="BFGS")
+        A2=matrix(optimization$par,ncol=r)
+        optimization=optim(c(A1),function(x)cost(matrix(x,ncol=r),A2,A3,Ybar,W,type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,Ybar,W,type),method="BFGS")
+        A1=matrix(optimization$par,ncol=r)
 
         obj=c(obj,cost(A1,A2,A3,Ybar,W,type))
         binary_obj=c(binary_obj,binaryloss(Ybar,W,tensorize(A1,A2,A3)))
         iter=iter+1
-error=(obj[iter-1]-obj[iter])
+        error=(obj[iter-1]-obj[iter])
 
- }
- result$binary_obj=binary_obj;
- result$obj=obj;
- result$iter=iter;
- result$error=error;
- result$fitted=tensorize(A1,A2,A3); ## exact low-rank
- return(result)
+    }
+    result$binary_obj=binary_obj;
+    result$obj=obj;
+    result$iter=iter;
+    result$error=error;
+    result$fitted=tensorize(A1,A2,A3); ## exact low-rank
+    return(result)
+}
+
+
+Altm=function(Ybar,W,r,type=c("logistic","hinge"),start="linear"){
+    result=list()
+    d=dim(Ybar)
+    if(start=="linear"){
+        ini=fit_continuous_cp(Ybar,r)
+        A1 = ini$U[[1]];
+        scale=matrix(0,nrow=r,ncol=r)
+        diag(scale)=ini$lambda
+        A2 = ini$U[[2]]%*%scale;
+    }else{
+        A1 = matrix(runif(d[1]*r,-1,1),nrow = d[1],ncol = r);
+        A2 = matrix(runif(d[2]*r,-1,1),nrow = d[2],ncol = r);
+    }
+    obj=costm(A1,A2,Ybar,W,type)
+    binary_obj=binaryloss(Ybar,W,A1%*%t(A2))
+
+    error=1;iter=1;
+
+    while((error>0.01)&(iter<20)){
+
+
+        optimization=optim(c(A2),function(x) costm(A1,matrix(x,ncol=r),Ybar,W,type),function(x) c(gradientm(A1,matrix(x,ncol=r),2,Ybar,W,type)),method="BFGS")
+        A2=matrix(optimization$par,ncol=r)
+
+        optimization=optim(c(A1),function(x)costm(matrix(x,ncol=r),A2,Ybar,W,type),function(x)gradientm(matrix(x,ncol=r),A2,1,Ybar,W,type),method="BFGS")
+        A1=matrix(optimization$par,ncol=r)
+
+        obj=c(obj,costm(A1,A2,Ybar,W,type))
+        binary_obj=c(binary_obj,binaryloss(Ybar,W,A1%*%t(A2)))
+        iter=iter+1
+        error=(obj[iter-1]-obj[iter])
+
+    }
+    result$binary_obj=binary_obj;
+    result$obj=obj;
+    result$iter=iter;
+    result$error=error;
+    result$fitted=A1%*%t(A2); ## exact low-rank
+    return(result)
 }
 
 
@@ -224,9 +337,9 @@ error=(obj[iter-1]-obj[iter])
 #' @return \code{est} - An estimated signal tensor based on CP low rank tensor method.
 #' @return \code{U} - A list of factor matrices.
 #' @return \code{lambda} - A vector of tensor singular values.
-#' @usage fit_continuous(data,r)
+#' @usage fit_continuous_cp(data,r)
 #' @examples
-#' library(rTensor)
+#' library(tensorregress)
 #' indices = c(2,3,4)
 #' noise = rand_tensor(indices)@data
 #' Theta = array(runif(prod(indices),min=-3,max = 3),indices)
@@ -235,46 +348,46 @@ error=(obj[iter-1]-obj[iter])
 #' Y = Theta + noise
 #'
 #' # Estimate Theta from CP low rank tensor method
-#' hatTheta = fit_continuous(Y,3)
+#' hatTheta = fit_continuous_cp(Y,3)
 #' print(hatTheta$est)
 #'
 #' @export
-#' @import rTensor
+#' @import tensorregress
 #' @importFrom stats "optim" "runif"
 
 
-fit_continuous=function(data,r){
+fit_continuous_cp=function(data,r){
     index=which(is.na(data)==TRUE)
     data[index]=mean(data,na.rm=TRUE)
-   original_data=data
+    original_data=data
 
     if(length(dim(data))>=3){
         sink(tempfile())
-decomp=tryCatch(cp(as.tensor(original_data),r),error=function(c)"degeneracy")
-sink()
-if(inherits(decomp,"character")==TRUE){
-    U=list();
-    U[[1]]=matrix(0,ncol=r,nrow=dim(data)[1])
-    U[[2]]=matrix(0,ncol=r,nrow=dim(data)[2])
-    U[[3]]=matrix(0,ncol=r,nrow=dim(data)[3])
-return(list("est"=array(NA,dim=dim(data)),"U"=U,"lambda"=rep(0,r),"info"="degeneracy"))
-}
-    res0=1
-    res=0
-    thresh=10^(-3)
-    error=NULL
+        decomp=tryCatch(cp(as.tensor(original_data),r),error=function(c)"degeneracy")
+        sink()
+        if(inherits(decomp,"character")==TRUE){
+            U=list();
+            U[[1]]=matrix(0,ncol=r,nrow=dim(data)[1])
+            U[[2]]=matrix(0,ncol=r,nrow=dim(data)[2])
+            U[[3]]=matrix(0,ncol=r,nrow=dim(data)[3])
+            return(list("est"=array(NA,dim=dim(data)),"U"=U,"lambda"=rep(0,r),"info"="degeneracy"))
+        }
+        res0=1
+        res=0
+        thresh=10^(-3)
+        error=NULL
 
-    while((res0-res)>thresh){
-    res0=likelihood(original_data,decomp$est@data)
-    sink(tempfile())
-    decomp=cp(as.tensor(data),r)
-    sink()
-    res=likelihood(original_data,decomp$est@data)
-    data[index]=decomp$est@data[index]
-    error=c(error,res)
-    }
+        while((res0-res)>thresh){
+            res0=SEL(original_data,decomp$est@data)
+            sink(tempfile())
+            decomp=cp(as.tensor(data),r)
+            sink()
+            res=SEL(original_data,decomp$est@data)
+            data[index]=decomp$est@data[index]
+            error=c(error,res)
+        }
 
-    return(list("est"=decomp$est@data,"U"=decomp$U,"lambda"=decomp$lambda))
+        return(list("est"=decomp$est@data,"U"=decomp$U,"lambda"=decomp$lambda))
     }else if(length(dim(data))==2){
         PQ=svd(data)
         if(r==1){
@@ -292,7 +405,7 @@ return(list("est"=array(NA,dim=dim(data)),"U"=U,"lambda"=rep(0,r),"info"="degene
         error=NULL
 
         while((res0-res)>thresh){
-            res0=likelihood(original_data,est)
+            res0=SEL(original_data,est)
             if(r==1){
                 est=cbind(PQ$u[,1:r])%*%diag(as.matrix(PQ$d[1:r]))%*%t(cbind(PQ$v[,1:r]))
                 U = list(PQ$u[,1:r],PQ$v[,1:r])
@@ -302,11 +415,11 @@ return(list("est"=array(NA,dim=dim(data)),"U"=U,"lambda"=rep(0,r),"info"="degene
                 U = list(PQ$u[,1:r],PQ$v[,1:r])
                 lambda = PQ$d[1:r]
             }
-            res=likelihood(original_data,est)
+            res=SEL(original_data,est)
             data[index]=est[index]
             error=c(error,res)
         }
         return(list("est" = est,"U" = U,"lambda"= lambda))
-}
+    }
 }
 
