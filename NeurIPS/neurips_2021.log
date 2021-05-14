@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  12 MAY 2021 23:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  13 MAY 2021 20:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -290,14 +290,39 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
+(/usr/local/texlive/2019/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2018/10/06 v3.3-154 Customizing captions (AR)
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2018/09/12 v1.8c caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 64.
+\captionmargin=\dimen134
+\captionmargin@=\dimen135
+\captionwidth=\dimen136
+\caption@tempdima=\dimen137
+\caption@indent=\dimen138
+\caption@parindent=\dimen139
+\caption@hangindent=\dimen140
+)
+\c@caption@flags=\count115
+\c@ContinuedFloat=\count116
+Package caption Info: hyperref package is loaded.
+)
+(/usr/local/texlive/2019/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box28
+\sift@deathcycles=\count117
+\@vwid@loff=\dimen141
+\@vwid@roff=\dimen142
+)
 (/usr/local/texlive/2019/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/02/04 v3.8 Customized lists
 \labelindent=\skip52
-\enit@outerparindent=\dimen134
+\enit@outerparindent=\dimen143
 \enit@toks=\toks22
-\enit@inbox=\box28
-\enit@count@id=\count115
-\enitdp@description=\count116
+\enit@inbox=\box29
+\enit@count@id=\count118
+\enitdp@description=\count119
 )
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2018/12/01 v2.17b AMS math features
@@ -310,46 +335,46 @@ Package: amstext 2000/06/29 v2.01 AMS text
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks23
-\ex@=\dimen135
+\ex@=\dimen144
 ))
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen136
+\pmbraise@=\dimen145
 )
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count117
+\inf@bad=\count120
 LaTeX Info: Redefining \frac on input line 223.
-\uproot@=\count118
-\leftroot@=\count119
+\uproot@=\count121
+\leftroot@=\count122
 LaTeX Info: Redefining \overline on input line 385.
-\classnum@=\count120
-\DOTSCASE@=\count121
+\classnum@=\count123
+\DOTSCASE@=\count124
 LaTeX Info: Redefining \ldots on input line 482.
 LaTeX Info: Redefining \dots on input line 485.
 LaTeX Info: Redefining \cdots on input line 606.
-\Mathstrutbox@=\box29
-\strutbox@=\box30
-\big@size=\dimen137
+\Mathstrutbox@=\box30
+\strutbox@=\box31
+\big@size=\dimen146
 LaTeX Font Info:    Redeclaring font encoding OML on input line 729.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
-\macc@depth=\count122
-\c@MaxMatrixCols=\count123
+\macc@depth=\count125
+\c@MaxMatrixCols=\count126
 \dotsspace@=\muskip11
-\c@parentequation=\count124
-\dspbrk@lvl=\count125
+\c@parentequation=\count127
+\dspbrk@lvl=\count128
 \tag@help=\toks24
-\row@=\count126
-\column@=\count127
-\maxfields@=\count128
+\row@=\count129
+\column@=\count130
+\maxfields@=\count131
 \andhelp@=\toks25
-\eqnshift@=\dimen138
-\alignsep@=\dimen139
-\tagshift@=\dimen140
-\tagwidth@=\dimen141
-\totwidth@=\dimen142
-\lineht@=\dimen143
+\eqnshift@=\dimen147
+\alignsep@=\dimen148
+\tagshift@=\dimen149
+\tagwidth@=\dimen150
+\totwidth@=\dimen151
+\lineht@=\dimen152
 \@envbody=\toks26
 \multlinegap=\skip54
 \multlinetaggap=\skip55
@@ -385,15 +410,15 @@ Package: mathtools 2018/01/08 v1.21 mathematical typesetting tools
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count129
-\calc@Bcount=\count130
-\calc@Adimen=\dimen144
-\calc@Bdimen=\dimen145
+\calc@Acount=\count132
+\calc@Bcount=\count133
+\calc@Adimen=\dimen153
+\calc@Bdimen=\dimen154
 \calc@Askip=\skip59
 \calc@Bskip=\skip60
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count131
+\calc@Ccount=\count134
 \calc@Cskip=\skip61
 )
 (/usr/local/texlive/2019/texmf-dist/tex/latex/mathtools/mhsetup.sty
@@ -403,15 +428,15 @@ LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
-\g_MT_multlinerow_int=\count132
-\l_MT_multwidth_dim=\dimen146
+\g_MT_multlinerow_int=\count135
+\l_MT_multwidth_dim=\dimen155
 \origjot=\skip62
-\l_MT_shortvdotswithinadjustabove_dim=\dimen147
-\l_MT_shortvdotswithinadjustbelow_dim=\dimen148
-\l_MT_above_intertext_sep=\dimen149
-\l_MT_below_intertext_sep=\dimen150
-\l_MT_above_shortintertext_sep=\dimen151
-\l_MT_below_shortintertext_sep=\dimen152
+\l_MT_shortvdotswithinadjustabove_dim=\dimen156
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen157
+\l_MT_above_intertext_sep=\dimen158
+\l_MT_below_intertext_sep=\dimen159
+\l_MT_above_shortintertext_sep=\dimen160
+\l_MT_below_shortintertext_sep=\dimen161
 )
 (/usr/local/texlive/2019/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
@@ -419,46 +444,46 @@ nment
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count133
+\c@float@type=\count136
 \float@exts=\toks34
-\float@box=\box31
+\float@box=\box32
 \@float@everytoks=\toks35
-\@floatcapt=\box32
+\@floatcapt=\box33
 )
 \@float@every@algorithm=\toks36
-\c@algorithm=\count134
+\c@algorithm=\count137
 )
 (/usr/local/texlive/2019/texmf-dist/tex/latex/makecell/makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/tools/array.sty
 Package: array 2018/12/30 v2.4k Tabular extension package (FMi)
-\col@sep=\dimen153
-\ar@mcellbox=\box33
-\extrarowheight=\dimen154
+\col@sep=\dimen162
+\ar@mcellbox=\box34
+\extrarowheight=\dimen163
 \NC@list=\toks37
 \extratabsurround=\skip63
 \backup@length=\skip64
-\ar@cellbox=\box34
+\ar@cellbox=\box35
 )
-\rotheadsize=\dimen155
-\c@nlinenum=\count135
+\rotheadsize=\dimen164
+\c@nlinenum=\count138
 \TeXr@lab=\toks38
 )
 (/usr/local/texlive/2019/texmf-dist/tex/latex/jknapltx/mathrsfs.sty
 Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
 \symrsfs=\mathgroup9
 )
-\c@thm=\count136
-\c@lem=\count137
-\c@prop=\count138
-\c@pro=\count139
-\c@cor=\count140
-\c@defn=\count141
-\c@assumption=\count142
-\c@example=\count143
-\c@rmk=\count144
-\c@innercustomgeneric=\count145
+\c@thm=\count139
+\c@lem=\count140
+\c@prop=\count141
+\c@pro=\count142
+\c@cor=\count143
+\c@defn=\count144
+\c@assumption=\count145
+\c@example=\count146
+\c@rmk=\count147
+\c@innercustomgeneric=\count148
 
 (./macros.tex
 (/usr/local/texlive/2019/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
@@ -472,7 +497,7 @@ Package: parskip 2019-01-16 v2.0c non-zero parskip adjustments
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2018/08/19 v2.5f e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count146
+\etb@tempcnta=\count149
 ))
 (/usr/local/texlive/2019/texmf-dist/tex/latex/tools/xr.sty
 Package: xr 2019/01/05 v5.04 eXternal References (DPC)
@@ -484,36 +509,36 @@ Package: algpseudocode
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count147
-\c@ALG@rem=\count148
-\c@ALG@nested=\count149
+\c@ALG@line=\count150
+\c@ALG@rem=\count151
+\c@ALG@nested=\count152
 \ALG@tlm=\skip65
 \ALG@thistlm=\skip66
-\c@ALG@Lnr=\count150
-\c@ALG@blocknr=\count151
-\c@ALG@storecount=\count152
-\c@ALG@tmpcounter=\count153
+\c@ALG@Lnr=\count153
+\c@ALG@blocknr=\count154
+\c@ALG@storecount=\count155
+\c@ALG@tmpcounter=\count156
 \ALG@tmplength=\skip67
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
 ) (./neurips_2021.aux)
 \openout1 = `neurips_2021.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Try loading font information for T1+ptm on input line 152.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 151.
+LaTeX Font Info:    ... okay on input line 151.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 151.
+LaTeX Font Info:    ... okay on input line 151.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 151.
+LaTeX Font Info:    ... okay on input line 151.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 151.
+LaTeX Font Info:    ... okay on input line 151.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 151.
+LaTeX Font Info:    ... okay on input line 151.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 151.
+LaTeX Font Info:    ... okay on input line 151.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 151.
+LaTeX Font Info:    ... okay on input line 151.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 151.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
@@ -584,25 +609,25 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\AtBeginShipoutBox=\box35
-Package hyperref Info: Link coloring OFF on input line 152.
+\AtBeginShipoutBox=\box36
+Package hyperref Info: Link coloring OFF on input line 151.
 (/usr/local/texlive/2019/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
 (/usr/local/texlive/2019/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count154
+\c@section@level=\count157
 )
-LaTeX Info: Redefining \ref on input line 152.
-LaTeX Info: Redefining \pageref on input line 152.
-LaTeX Info: Redefining \nameref on input line 152.
+LaTeX Info: Redefining \ref on input line 151.
+LaTeX Info: Redefining \pageref on input line 151.
+LaTeX Info: Redefining \nameref on input line 151.
 
 (./neurips_2021.out) (./neurips_2021.out)
 \@outlinefile=\write3
 \openout3 = `neurips_2021.out'.
 
-LaTeX Info: Redefining \microtypecontext on input line 152.
+LaTeX Info: Redefining \microtypecontext on input line 151.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -618,18 +643,22 @@ File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
 )
 (/usr/local/texlive/2019/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count155
-\scratchdimen=\dimen156
-\scratchbox=\box36
-\nofMPsegments=\count156
-\nofMParguments=\count157
+\scratchcounter=\count158
+\scratchdimen=\dimen165
+\scratchbox=\box37
+\nofMPsegments=\count159
+\nofMParguments=\count160
 \everyMPshowfont=\toks39
-\MPscratchCnt=\count158
-\MPscratchDim=\dimen157
-\MPnumerator=\count159
-\makeMPintoPDFobject=\count160
+\MPscratchCnt=\count161
+\MPscratchDim=\dimen166
+\MPnumerator=\count162
+\makeMPintoPDFobject=\count163
 \everyMPtoPDFconversion=\toks40
-) (/usr/local/texlive/2019/texmf-dist/tex/latex/graphics/graphicx.sty
+)
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: End \AtBeginDocument code.
+ (/usr/local/texlive/2019/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/graphics/graphics.sty
@@ -643,17 +672,17 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
 )
-\Gin@req@height=\dimen158
-\Gin@req@width=\dimen159
+\Gin@req@height=\dimen167
+\Gin@req@width=\dimen168
 )
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 155.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 154.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 155.
+LaTeX Font Info:    Try loading font information for U+msa on input line 154.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -661,7 +690,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2019/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 155.
+LaTeX Font Info:    Try loading font information for U+msb on input line 154.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -669,18 +698,18 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (/usr/local/texlive/2019/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 155.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 154.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Try loading font information for U+stmry on input line 155.
+LaTeX Font Info:    Try loading font information for U+stmry on input line 154.
 
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 155.
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 155.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 154.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 154.
 
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/base/t1cmtt.fd
@@ -691,8 +720,8 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 156.
-LaTeX Font Info:    Try loading font information for T1+phv on input line 158.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 155.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 157.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
@@ -701,161 +730,126 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `phv' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 167.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 166.
 
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 167.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 166.
 
 
-LaTeX Warning: Reference `sec:additional' on page 1 undefined on input line 176
+LaTeX Warning: Reference `sec:additional' on page 1 undefined on input line 175
 .
 
 [1
 
 
 {/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<figure/example_comb.pdf, id=113, 532.3182pt x 226.30333pt>
+<figure/example_comb.pdf, id=91, 532.3182pt x 226.30333pt>
 File: figure/example_comb.pdf Graphic file (type pdf)
 <use figure/example_comb.pdf>
-Package pdftex.def Info: figure/example_comb.pdf  used on input line 181.
+Package pdftex.def Info: figure/example_comb.pdf  used on input line 182.
 (pdftex.def)             Requested size: 238.49341pt x 101.39009pt.
 
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 185.
+(amsmath)                 on input line 189.
 
-<figure/demo.pdf, id=118, 3341.37225pt x 633.17891pt>
+<figure/demo.pdf, id=95, 3341.37225pt x 633.17891pt>
 File: figure/demo.pdf Graphic file (type pdf)
 <use figure/demo.pdf>
-Package pdftex.def Info: figure/demo.pdf  used on input line 195.
-(pdftex.def)             Requested size: 397.48499pt x 75.3212pt.
-[2pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) 
-has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.202 
-      pdfTeX warning (ext4): destination with the same identifier (name{figure.
-2}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.202 
-       <./figure/example_comb.pdf> <./figure/demo.pdf
+Package pdftex.def Info: figure/demo.pdf  used on input line 199.
+(pdftex.def)             Requested size: 417.36044pt x 79.07953pt.
+[2 <./figure/example_comb.pdf> <./figure/demo.pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figure/demo.pdf): PDF incl
 usion: multiple pdfs with page group included in a single page
 >]
 
-LaTeX Font Warning: Command \small invalid in math mode on input line 228.
+LaTeX Font Warning: Command \small invalid in math mode on input line 230.
 
 [3] [4] [5] [6] [7]
-<figure/algorithm.pdf, id=618, 513.11702pt x 173.448pt>
+<figure/algorithm.pdf, id=547, 513.11702pt x 173.448pt>
 File: figure/algorithm.pdf Graphic file (type pdf)
 <use figure/algorithm.pdf>
-Package pdftex.def Info: figure/algorithm.pdf  used on input line 452.
+Package pdftex.def Info: figure/algorithm.pdf  used on input line 467.
 (pdftex.def)             Requested size: 397.48499pt x 134.36522pt.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [8]
-<figure/simulation2.pdf, id=652, 526.85112pt x 66.88467pt>
+LaTeX Warning: Reference `eq:CP' on page 8 undefined on input line 472.
+
+<figure/simulation2.pdf, id=559, 526.85112pt x 62.44423pt>
 File: figure/simulation2.pdf Graphic file (type pdf)
 <use figure/simulation2.pdf>
-Package pdftex.def Info: figure/simulation2.pdf  used on input line 465.
-(pdftex.def)             Requested size: 397.48499pt x 50.46138pt.
+Package pdftex.def Info: figure/simulation2.pdf  used on input line 482.
+(pdftex.def)             Requested size: 397.48499pt x 47.11127pt.
 
-[9pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
-as been already used, duplicate ignored
+LaTeX Warning: Reference `fig:compare2' on page 8 undefined on input line 489.
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.475 
-       <./figure/algorithm.pdf> <./figure/simulation2.pdf>]
-<figure/fig1-4v2.pdf, id=782, 985.89778pt x 221.31212pt>
+<figure/fig1-4v2.pdf, id=561, 985.89778pt x 221.31212pt>
 File: figure/fig1-4v2.pdf Graphic file (type pdf)
 <use figure/fig1-4v2.pdf>
-Package pdftex.def Info: figure/fig1-4v2.pdf  used on input line 477.
+Package pdftex.def Info: figure/fig1-4v2.pdf  used on input line 493.
 (pdftex.def)             Requested size: 397.48499pt x 89.22568pt.
-<figure/fig5-8v2.pdf, id=785, 1017.05263pt x 219.82126pt>
-File: figure/fig5-8v2.pdf Graphic file (type pdf)
-<use figure/fig5-8v2.pdf>
-Package pdftex.def Info: figure/fig5-8v2.pdf  used on input line 483.
-(pdftex.def)             Requested size: 397.48499pt x 85.91106pt.
-<figure/brainIQ.pdf, id=793, 534.75964pt x 524.49962pt>
-File: figure/brainIQ.pdf Graphic file (type pdf)
-<use figure/brainIQ.pdf>
-Package pdftex.def Info: figure/brainIQ.pdf  used on input line 514.
-(pdftex.def)             Requested size: 99.37125pt x 97.46307pt.
-<figure/signal.pdf, id=794, 763.05296pt x 707.37498pt>
-File: figure/signal.pdf Graphic file (type pdf)
-<use figure/signal.pdf>
-Package pdftex.def Info: figure/signal.pdf  used on input line 516.
-(pdftex.def)             Requested size: 127.1981pt x 117.90993pt.
-
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[10pdfTeX warning (ext4): destination with the same identifier (name{figure.3})
- has been already used, duplicate ignored
+[8 <./figure/algorithm.pdf> <./figure/simulation2.pdf>]
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 551.
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.522 
-      pdfTeX warning (ext4): destination with the same identifier (name{figure.
-4}) has been already used, duplicate ignored
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.522 
-      pdfTeX warning (ext4): destination with the same identifier (name{table.2
-}) has been already used, duplicate ignored
+Package varwidth Warning: Failed to reprocess entire contents on input line 552
+.
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.522 
-       <./figure/fig1-4v2.pdf> <./figure/fig5-8v2.pdf
 
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figure/fig5-8v2.pdf): PDF 
-inclusion: multiple pdfs with page group included in a single page
->] (./neurips_2021.bbl [11pdfTeX warning (ext4): destination with the same iden
-tifier (name{figure.5}) has been already used, duplicate ignored
+Package varwidth Warning: Failed to reprocess entire contents on input line 552
+.
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.61 
-      <./figure/brainIQ.pdf> <./figure/signal.pdf
+<figure/brainIQ.pdf, id=693, 534.75964pt x 524.49962pt>
+File: figure/brainIQ.pdf Graphic file (type pdf)
+<use figure/brainIQ.pdf>
+Package pdftex.def Info: figure/brainIQ.pdf  used on input line 556.
+(pdftex.def)             Requested size: 89.4335pt x 87.71516pt.
+<figure/signal.pdf, id=694, 763.05296pt x 707.37498pt>
+File: figure/signal.pdf Graphic file (type pdf)
+<use figure/signal.pdf>
+Package pdftex.def Info: figure/signal.pdf  used on input line 557.
+(pdftex.def)             Requested size: 89.4335pt x 82.9061pt.
+(./neurips_2021.bbl [9 <./figure/fig1-4v2.pdf> <./figure/brainIQ.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figure/brainIQ.pdf): PDF i
+nclusion: multiple pdfs with page group included in a single page
+> <./figure/signal.pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figure/signal.pdf): PDF in
 clusion: multiple pdfs with page group included in a single page
->] [12])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 533.
- [13]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 533.
+>] [10])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 586.
+ [11]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 586.
  (./neurips_2021.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 533.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 533.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 586.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 586.
 Package rerunfilecheck Info: File `neurips_2021.out' has not changed.
-(rerunfilecheck)             Checksum: 62C5BFE487C53C02A2E134A4E9860303;991.
+(rerunfilecheck)             Checksum: 9ED48010E4B807807D1058FCFCB08731;804.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 533.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 586.
  ) 
 Here is how much of TeX's memory you used:
- 12376 strings out of 492616
- 181259 string characters out of 6129482
- 333503 words of memory out of 5000000
- 15789 multiletter control sequences out of 15000+600000
- 51339 words of font info for 175 fonts, out of 8000000 for 9000
+ 13477 strings out of 492616
+ 201361 string characters out of 6129482
+ 344607 words of memory out of 5000000
+ 16892 multiletter control sequences out of 15000+600000
+ 54012 words of font info for 175 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 31i,12n,38p,1433b,502s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,14n,41p,1434b,547s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/t
 exlive/2019/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/tex
 live/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texl
@@ -873,18 +867,19 @@ f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2019/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2019/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2019/texmf-dis
 t/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2019/texmf
--dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2019/t
-exmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/201
-9/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb></usr/local/texlive/2019/texmf-
-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2019/texmf-di
-st/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2019/texmf-dist/font
-s/type1/urw/times/utmb8a.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/ur
-w/times/utmr8a.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/urw/times/ut
-mri8a.pfb>
-Output written on neurips_2021.pdf (13 pages, 986149 bytes).
+-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2019/te
+xmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/201
+9/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/
+2019/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb></usr/local/texlive/2019/tex
+mf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2019/texmf
+-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2019/texmf-dist/f
+onts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1
+/urw/times/utmr8a.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/urw/times
+/utmri8a.pfb>
+Output written on neurips_2021.pdf (11 pages, 892160 bytes).
 PDF statistics:
- 1516 PDF objects out of 1728 (max. 8388607)
- 1146 compressed objects within 12 object streams
- 102 named destinations out of 1000 (max. 500000)
- 23193 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 1001 PDF objects out of 1200 (max. 8388607)
+ 774 compressed objects within 8 object streams
+ 93 named destinations out of 1000 (max. 500000)
+ 23676 words of extra memory for PDF output out of 24883 (max. 10000000)
 
