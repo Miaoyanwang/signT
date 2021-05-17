@@ -36,12 +36,12 @@
 \citation{ganti2015matrix}
 \citation{pmlr-v70-ongie17a,fan2019online}
 \citation{anandkumar2017analyzing}
-\citation{hitchcock1927expression}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \relax \fontsize  {7}{8}\selectfont  (a) Numerical rank of $\Theta $ versus $c$ in the first example. (b) Top $d=30$ tensor singular values in the second example. \relax }}{2}{figure.caption.2}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:example}{{1}{2}{\scriptsize (a) Numerical rank of $\Theta $ versus $c$ in the first example. (b) Top $d=30$ tensor singular values in the second example. \relax }{figure.caption.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces \relax \fontsize  {7}{8}\selectfont  Illustration of our method. For visualization purpose, we plot an order-2 tensor (a.k.a.\ matrix); similar procedure applies to higher-order tensors. (a): a noisy and incomplete tensor input. (b) and (c): main steps of estimating sign tensor series $\textup  {sgn}(\Theta -\pi )$ for $\pi \in \{-1,\ldots  ,-{1\over H},0,{1\over H},\ldots  ,1\}$. (d): estimated signal $\mathaccentV {hat}05E\Theta $. The depicted signal is a full-rank matrix based on Example\nobreakspace  {}\ref  {eq:example} in Section\nobreakspace  {}\ref  {sec:representation}.\relax }}{2}{figure.caption.3}\protected@file@percent }
 \newlabel{fig:demo}{{2}{2}{\scriptsize Illustration of our method. For visualization purpose, we plot an order-2 tensor (a.k.a.\ matrix); similar procedure applies to higher-order tensors. (a): a noisy and incomplete tensor input. (b) and (c): main steps of estimating sign tensor series $\sign (\Theta -\pi )$ for $\pi \in \{-1,\ldots ,-{1\over H},0,{1\over H},\ldots ,1\}$. (d): estimated signal $\hat \Theta $. The depicted signal is a full-rank matrix based on Example~\ref {eq:example} in Section~\ref {sec:representation}.\relax }{figure.caption.3}{}}
+\citation{hitchcock1927expression}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Model and proposal overview}{3}{section.2}\protected@file@percent }
 \newlabel{sec:overview}{{2}{3}{Model and proposal overview}{section.2}{}}
 \newlabel{eq:model}{{2}{3}{Model and proposal overview}{equation.2.2}{}}
@@ -49,8 +49,6 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3}Oracle properties of sign representable tensors}{3}{section.3}\protected@file@percent }
 \newlabel{sec:representation}{{3}{3}{Oracle properties of sign representable tensors}{section.3}{}}
 \MT@newlabel{eq:model}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Sign-rank and sign tensor series}{3}{subsection.3.1}\protected@file@percent }
-\newlabel{sec:sign-rank}{{3.1}{3}{Sign-rank and sign tensor series}{subsection.3.1}{}}
 \citation{cohn2013fast}
 \citation{alon2016sign}
 \citation{de2003nondeterministic}
@@ -62,10 +60,12 @@
 \citation{hong2020generalized}
 \citation{robinson1988root}
 \citation{balabdaoui2019least,ganti2017learning}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Sign-rank and sign tensor series}{4}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:sign-rank}{{3.1}{4}{Sign-rank and sign tensor series}{subsection.3.1}{}}
 \newlabel{cor:monotonic}{{1}{4}{Upper bounds of the sign-rank}{prop.1}{}}
 \newlabel{prop:extention}{{2}{4}{Broadness}{prop.2}{}}
 \newlabel{cor:broadness}{{2}{4}{Broadness}{prop.2}{}}
-\newlabel{eq:example}{{5}{4}{Structured tensors with repeating entries}{example.5}{}}
+\newlabel{eq:example}{{5}{5}{Structured tensors with repeating entries}{example.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Statistical characterization of sign tensors via weighted classification}{5}{subsection.3.2}\protected@file@percent }
 \newlabel{sec:identifiability}{{3.2}{5}{Statistical characterization of sign tensors via weighted classification}{subsection.3.2}{}}
 \newlabel{eq:sample}{{3}{5}{Statistical characterization of sign tensors via weighted classification}{equation.3.3}{}}
@@ -97,24 +97,22 @@
 \newlabel{thm:classification}{{2}{6}{Sign tensor estimation}{thm.2}{}}
 \MT@newlabel{eq:est}
 \newlabel{eq:bound}{{7}{6}{Sign tensor estimation}{equation.4.7}{}}
-\newlabel{thm:estimation}{{3}{6}{Tensor estimation error}{thm.3}{}}
-\MT@newlabel{eq:est}
-\newlabel{eq:bound2}{{8}{6}{Tensor estimation error}{equation.4.8}{}}
 \citation{wang2019multiway}
 \citation{zhang2018tensor,wang2018learning}
 \citation{ganti2015matrix}
 \citation{yuan2016tensor,ghadermarzy2019near,pmlr-v119-lee20i}
-\citation{ghadermarzy2018learning,wang2018learning,hong2020generalized}
-\citation{bartlett2006convexity}
+\newlabel{thm:estimation}{{3}{7}{Tensor estimation error}{thm.3}{}}
+\MT@newlabel{eq:est}
+\newlabel{eq:bound2}{{8}{7}{Tensor estimation error}{equation.4.8}{}}
 \MT@newlabel{eq:bound2}
 \MT@newlabel{eq:bound2}
 \MT@newlabel{eq:bound}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Numerical implementation via learning reduction}{7}{subsection.4.2}\protected@file@percent }
+\citation{ghadermarzy2018learning,wang2018learning,hong2020generalized}
+\citation{bartlett2006convexity}
 \citation{ghadermarzy2018learning}
 \citation{wang2018learning,han2020optimal}
 \citation{anandkumar2014tensor,hong2020generalized}
-\citation{wang2017bayesian}
-\citation{globerson2007euclidean}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Numerical implementation via learning reduction}{8}{subsection.4.2}\protected@file@percent }
 \newlabel{alg:tensorT}{{4.2}{8}{Numerical implementation via learning reduction}{subsection.4.2}{}}
 \MT@newlabel{eq:est}
 \MT@newlabel{eq:CP}
@@ -123,10 +121,9 @@
 \newlabel{sec:simulation}{{5}{8}{Simulations}{section.5}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces \relax \fontsize  {7}{8}\selectfont  Simulation models used for comparison. We use $\bm  {M}_k\in \{0,1\}^{d\times 3}$ to denote membership matrices, $\mathcal  {C}\in \mathbb  {R}^{3\times 3\times 3}$ the block means, $\bm  {a}={1\over d}(1,2,\ldots  ,d)^T \in \mathbb  {R}^d$, $\mathcal  {Z}_{\qopname  \relax m{max}}$ and $\mathcal  {Z}_{\qopname  \relax m{min}}$ are order-3 tensors with entries ${1\over d}\qopname  \relax m{max}(i,j,k)$ and ${1\over d}\qopname  \relax m{min}(i,j,k)$, respectively.\relax }}{8}{table.caption.4}\protected@file@percent }
 \newlabel{tab:simulation}{{1}{8}{\scriptsize Simulation models used for comparison. We use $\mM _k\in \{0,1\}^{d\times 3}$ to denote membership matrices, $\tC \in \mathbb {R}^{3\times 3\times 3}$ the block means, $\ma ={1\over d}(1,2,\ldots ,d)^T \in \mathbb {R}^d$, $\tZ _{\max }$ and $\tZ _{\min }$ are order-3 tensors with entries ${1\over d}\max (i,j,k)$ and ${1\over d}\min (i,j,k)$, respectively.\relax }{table.caption.4}{}}
+\citation{wang2017bayesian}
+\citation{globerson2007euclidean}
 \citation{li2009brain,wang2017bayesian}
-\bibstyle{plain}
-\bibdata{tensor_wang}
-\bibcite{alon2016sign}{{1}{2016}{{Alon et~al.}}{{Alon, Moran, and Yehudayoff}}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \relax \fontsize  {9}{10}\selectfont  Estimation error versus tensor dimension. {\color  {red} need change}\relax }}{9}{figure.caption.5}\protected@file@percent }
 \newlabel{fig:compare1}{{3}{9}{\footnotesize Estimation error versus tensor dimension. {\color {red} need change}\relax }{figure.caption.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Data applications}{9}{section.6}\protected@file@percent }
@@ -134,7 +131,9 @@
 \newlabel{tab:data}{{2}{9}{\scriptsize MAE comparison between our method {\bf NonparaT} ($H=20$) and CP low-rank method ({\bf CPT}) in the brain and NIPS data analysis. Standard errors are reported in parenthesis.\relax }{table.caption.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \relax \fontsize  {7}{8}\selectfont  (a) top IQ-associated edges in the brain connectivity data. (b) top authors and words for years 1996-1999 in the NIPS data. \relax }}{9}{table.caption.6}\protected@file@percent }
 \newlabel{fig:signal}{{4}{9}{\scriptsize (a) top IQ-associated edges in the brain connectivity data. (b) top authors and words for years 1996-1999 in the NIPS data. \relax }{table.caption.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{9}{section.7}\protected@file@percent }
+\bibstyle{plain}
+\bibdata{tensor_wang}
+\bibcite{alon2016sign}{{1}{2016}{{Alon et~al.}}{{Alon, Moran, and Yehudayoff}}}
 \bibcite{anandkumar2014tensor}{{2}{2014}{{Anandkumar et~al.}}{{Anandkumar, Ge, Hsu, Kakade, and Telgarsky}}}
 \bibcite{anandkumar2017analyzing}{{3}{2017}{{Anandkumar et~al.}}{{Anandkumar, Ge, and Janzamin}}}
 \bibcite{balabdaoui2019least}{{4}{2019}{{Balabdaoui et~al.}}{{Balabdaoui, Durot, and Jankowski}}}
@@ -152,6 +151,7 @@
 \bibcite{ghadermarzy2019near}{{16}{2019}{{Ghadermarzy et~al.}}{{Ghadermarzy, Plan, and Yilmaz}}}
 \bibcite{globerson2007euclidean}{{17}{2007}{{Globerson et~al.}}{{Globerson, Chechik, Pereira, and Tishby}}}
 \bibcite{han2020optimal}{{18}{2020}{{Han et~al.}}{{Han, Willett, and Zhang}}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{10}{section.7}\protected@file@percent }
 \bibcite{hastie2009elements}{{19}{2009}{{Hastie et~al.}}{{Hastie, Tibshirani, and Friedman}}}
 \bibcite{hillar2013most}{{20}{2013}{{Hillar and Lim}}{{Hillar and Lim}}}
 \bibcite{hitchcock1927expression}{{21}{1927}{{Hitchcock}}{{Hitchcock}}}
