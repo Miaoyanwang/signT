@@ -463,7 +463,7 @@ The base algorithm is a low-rank binary tensor estimation problem. Following the
 \[
 \risk(\tZ)-\risk(\Theta-\pi)\leq C[\risk_F(\tZ)-\risk_F(\Theta-\pi)],\quad \text{for all }\pi\in[-1,1] \text{ and all tensor }\tZ,
 \]
-with $\risk_F(\cdot)$ defined similarly as in~\eqref{eq:population} by using hinge loss in place of binary loss. The following result ensures the desirable statistical properties under mild conditions. 
+with $\risk_F(\cdot)$ defined similarly as in~\eqref{eq:population} by using hinge loss in place of binary loss. The following result ensures the desirable statistical properties under mild conditions (see Appendix {\color{red} number?}). 
 
 \begin{thm}[Large-margin loss] Let $\hat \Theta_F$ be the output from Algorithm~\ref{alg:tensorT} with $F$ being the hinge loss. Under the set-up of Theorem~\ref{thm:classification} and mild technical assumptions for base algorithm, $\hat \Theta_F$ has the same error bound as in~\eqref{eq:bound2}. Furthermore, the total complexity is within a $\text{poly}(d)$ factor of base algorithm. 
 \end{thm}
