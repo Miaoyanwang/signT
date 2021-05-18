@@ -1,0 +1,62 @@
+\documentclass[10pt]{article}
+\usepackage[paperheight=1.5in,paperwidth=7.1in,margin=0.05in]{geometry}
+
+\usepackage{setspace}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{fancybox}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{comment}
+\usepackage{bm}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs=true}
+
+\usepackage{natbib}
+\usepackage{xr}
+
+\input macros.tex
+\def\sign{\textup{sgn}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+
+
+%\input macros.tex
+
+\def\@normalsize{\@setsize\normalsize{11pt}\xpt\@xpt}
+
+\newcommand\Algphase[1]{%
+\vspace*{-.7\baselineskip}\Statex\hspace*{\dimexpr-\algorithmicindent-2pt\relax}\rule{\textwidth}{0.4pt}%
+\Statex\hspace*{-\algorithmicindent}\textbf{#1}%
+\vspace*{-.7\baselineskip}\Statex\hspace*{\dimexpr-\algorithmicindent-2pt\relax}\rule{\textwidth}{0.4pt}%
+}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+\algnewcommand\OUTPUT{\item[\algorithmicoutput]}
+%\usepackage{icml2020}
+
+
+\begin{document}
+
+\begin{algorithm}[h!]
+  \caption{Nonparametric tensor completion}\label{alg:tensorT}
+ \begin{algorithmic}[1] 
+\INPUT Noisy and incomplete data tensor $\tY_\Omega$, rank $r$, resolution parameter $H$.
+\For {$\pi \in \tH=\{ -1, \ldots, -{1\over H}, 0, {1\over H},\ldots, 1\}$}
+\State Define $\pi$-shifted tensor $\bar \tY=\tY-\pi$ and corresponding sign tensor $\sign(\bar \tY)=\sign(\tY-\pi)$. 
+\State Run 1-bit tensor estimation using base algorithm (e.g \citep{ghadermarzy2018learning,wang2018learning,hong2020generalized,alquier2019estimation}) on $\bar \tY_\Omega$ and obtain $\hat \tZ_\pi\leftarrow \argmin_{\text{low-rank }\tZ}\sum_{\omega\in \Omega} |\bar \tY(\omega)|\times F(\tZ(\omega)\sign\bar \tY(\omega))$ where $F(\cdot)$ is the large-margin loss.
+\EndFor
+\OUTPUT Estimated signal tensor $\hat \Theta={1\over 2H+1}\sum_{\pi \in \tH}\sign(\hat \tZ_\pi)$.
+    \end{algorithmic}
+\end{algorithm}
+
+
+
+\end{document}

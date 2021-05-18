@@ -153,7 +153,7 @@
 \maketitle
 
 \begin{abstract}
-We consider the problem of tensor estimation from noisy observations with possibly missing entries. A nonparametric approach to tensor completion is developed based on a new model which we coin as sign representable tensors. The model represents the signal tensor of interest using a series of structured sign tensors. Unlike earlier methods, the sign series representation effectively addresses both low- and high-rank signals, while encompassing many existing tensor models---including CP models, Tucker models, single index models, structured tensors with repeating entries---as special cases. We show the reduction of nonparametric tensor estimation to a series of structured classifications with carefully-specified weights, and we develop a learning reduction machinery to empower existing low-rank tensor algorithms for more challenging high-rank estimation. Excess risk bounds, estimation errors, and sample complexities are established. We demonstrate the outperformance of our approach over previous methods on two datasets, one on human brain connectivity networks and the other on topic data mining. 
+We consider the problem of tensor estimation from noisy observations with possibly missing entries. A nonparametric approach to tensor completion is developed based on a new model which we coin as sign representable tensors. The model represents the signal tensor of interest using a series of structured sign tensors. Unlike earlier methods, the sign series representation effectively addresses both low- and high-rank signals, while encompassing many existing tensor models---including CP models, Tucker models, single index models, structured tensors with repeating entries---as special cases. We provably reduce the tensor estimation problem to a series of structured classification tasks with carefully-designed weights, and we develop a learning reduction machinery to empower existing low-rank tensor algorithms for more challenging high-rank estimation. Excess risk bounds, estimation errors, and sample complexities are established. We demonstrate the outperformance of our approach over previous methods on two datasets, one on human brain connectivity networks and the other on topic data mining. 
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
@@ -172,23 +172,22 @@ where $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an order-$K$ data tens
 {\bf Inadequacies of  low-rank models.} The signal plus noise model~\eqref{eq:model} is popular in tensor literature. Existing methods estimate the signal tensor based on low-rankness of $\Theta$~\citep{jain2014provable,montanari2018spectral}. Common low-rank models include Canonical Polyadic (CP) tensors~\citep{hitchcock1927expression}, Tucker tensors~\citep{de2000multilinear}, and block tensors~\citep{wang2019multiway}. While these methods have shown great success in theory, tensors in applications often violate the low-rankness. Here we provide two examples to illustrate the limitation of classical models.
 
 
-The first example reveals the sensitivity of tensor rank to order-preserving transformations. Let $\tZ \in \mathbb{R}^{30\times 30\times 30}$ be an order-3 tensor with CP $\text{rank}(\tZ)=3$ (formal definition is deferred to end of this section). Suppose a monotonic transformation $f(z)=(1+\exp(-cz))^{-1}$ is applied to $\tZ$ entrywise, and we let the signal $\Theta$ in model~\eqref{eq:modelintro} be the tensor after transformation. Figure~\ref{fig:example}a plots the numerical rank (see Section~\ref{sec:additional} in Appendix) of $\Theta$ versus $c$. As we see, the rank increases rapidly with $c$, rending traditional low-rank tensor methods ineffective in the presence of mild order-preserving nonlinearities. In  digital processing~\citep{ghadermarzy2018learning} and genomics analysis~\citep{hore2016tensor}, the tensor of interest often undergoes unknown transformation prior to measurements. The sensitivity to transformation makes the low-rank model less desirable in practice. {\color{red} larger spacing between two figures.}
-
+The first example reveals the sensitivity of tensor rank to order-preserving transformations. Let $\tZ \in \mathbb{R}^{30\times 30\times 30}$ be an order-3 tensor with CP $\text{rank}(\tZ)=3$ (formal definition is deferred to later section). Suppose a monotonic transformation $f(z)=(1+\exp(-cz))^{-1}$ is applied to $\tZ$ entrywise, and we let the signal $\Theta$ in model~\eqref{eq:modelintro} be the tensor after transformation. Figure~\ref{fig:example}a plots the numerical rank (see Section~\ref{sec:additional} in Appendix) of $\Theta$ versus $c$. As we see, the rank increases rapidly with $c$, rending traditional low-rank tensor methods ineffective in the presence of mild order-preserving nonlinearities. In  digital processing~\citep{ghadermarzy2018learning} and genomics analysis~\citep{hore2016tensor}, the tensor of interest often undergoes unknown transformation prior to measurements. The sensitivity to transformation makes the low-rank model less desirable in practice. 
 
 \begin{figure}[h]
 \captionsetup{font=scriptsize}
 \centering
 \vspace{-.3cm}
-\includegraphics[width=.6\textwidth]{figure/example_comb.pdf}
+\includegraphics[width=.7\textwidth]{figure/example_comb2.pdf}
 \vspace{-.2cm}
 \caption{\scriptsize (a) Numerical rank of $\Theta$ versus $c$ in the first example. (b) Top $d=30$ tensor singular values in the second example. }
 \vspace{-.3cm}
 \label{fig:example}
 \end{figure}
 
-The second example demonstrates the inadequacy of classical low-rankness in representing special structures. Here we consider the signal tensor of the form $\Theta=\log(1+\tZ)$, where $\tZ\in\mathbb{R}^{d\times d\times d}$ is an order-3 tensor with entries $\tZ(i,j,k)={1\over d}\max(i,j,k)$ for $i,j,k\in\{1,\ldots,d\}$. The matrix analogy of $\Theta$ was studied by~\cite{chan2014consistent} in graphon analysis. In this case neither $\Theta$ nor $\tZ$ is low-rank; in fact, the rank is no smaller than the dimension $d$ as illustrated in Figure~\ref{fig:example}b. Again, classical low-rank models fail to address this type of tensor structure. 
+The second example demonstrates the inadequacy of classical low-rankness in representing special structures. Here we consider the signal tensor of the form $\Theta=\log(1+\tZ)$, where $\tZ\in\mathbb{R}^{d\times d\times d}$ is an order-3 tensor with entries $\tZ(i,j,k)={1\over d}\max(i,j,k)$ for $i,j,k\in\{1,\ldots,d\}$. The matrix analogy of $\Theta$ was studied in graphon analysis~\cite{chan2014consistent}. In this case neither $\Theta$ nor $\tZ$ is low-rank; in fact, the rank is no smaller than the dimension $d$ as illustrated in Figure~\ref{fig:example}b. Again, classical low-rank models fail to address this type of tensor structure. 
 
-In the above and many other examples, the signal tensors $\Theta$ is of high rank. Classical low-rank models will miss these important structures. The observations have motivated us to develop more flexible tensor modeling. 
+In the above and many other examples, the signal tensors $\Theta$ of interest have high rank. Classical low-rank models will miss these important structures. The observations have motivated us to develop more flexible tensor modeling. 
 
 
 {\bf Our contributions.} We develop a new model called sign representable tensors to address the aforementioned challenges. 
@@ -203,13 +202,11 @@ Figure~\ref{fig:demo} illustrates our main idea. Our approach is built on the si
 
 Statistically, the problem of high-rank tensor estimation is challenging. Existing estimation theory~\citep{anandkumar2014tensor,montanari2018spectral,cai2019nonconvex} exclusively focuses on the regime of fixed $r$ growing $d$. However, such premise fails in high-rank tensors, where the rank may grow with, or even exceed, the dimension. A proper notion of nonparametric complexity is crucial. We show that, somewhat surprisingly, the sign tensor series not only preserves all information in the original signals, but also brings the benefits of flexibility and accuracy over classical low-rank models. The results fill the gap between parametric (low-rank) and nonparametric (high-rank) tensors, thereby greatly enriching the tensor model literature. 
 
-From computational perspective, optimizations regarding tensors are in general NP-hard. Fortunately, tensors sought in applications are specially-structured, for which a number of efficient algorithms are available~\citep{ghadermarzy2018learning,wang2018learning, han2020optimal}. Our high-rank tensor estimate is provably reducible to a series of classifications, and its divide-and-conquer nature facilitates efficient computation. The ability to import and adapt existing tensor algorithms is one advantage of our method. 
+Computationally, a number of polynomial-time algorithms are readily available for 1-bit tensor estimation~\cite{wang2018learning, han2020optimal, ghadermarzy2018learning}. These algorithms enjoys statistical and computational accuracy while being restricted to binary inputs. Our work is orthogonal to these algorithmic developments, and we show that the high-rank tensor estimate is provably reducible to a series of binary tensor problems with suitable weights. This reduction provides a generic engine to empower existing algorithms for a wider range of structured tensor problems. We use a divide-and-concur approach to combine these base algorithms, thereby achieving computational accuracy without the need to reinvent the wheel. The flexibility to import and adapt existing tensor algorithms is one advantage of our method. 
 
 We also highlight the challenges associated with tensors compared to matrices. High-rank matrix estimation is recently studied under nonlinear models~\citep{ganti2015matrix} and subspace clustering~\citep{pmlr-v70-ongie17a,fan2019online}. However, the problem for high-rank tensors is more challenging, because the tensor rank often exceeds the dimension when order $K\geq 3$~\citep{anandkumar2017analyzing}. This is in sharp contrast to matrices. We show that, applying matrix methods to higher-order tensors results in suboptimal estimates. A full exploitation of the higher-order structure is needed; this is another challenge we address in this paper.
 
-{\bf Notation.} We use $\sign(\cdot)\colon \mathbb{R}\to\{-1,1\}$ to denote the sign function, where $\sign(y)=1$ if $y\geq 0$ and $-1$ otherwise. We allow univariate functions, such as $\sign(\cdot)$ and general $f\colon \mathbb{R}\to\mathbb{R}$, to be applied to tensors in an element-wise manner. 
-We denote $a_n\lesssim b_n$ if $\lim_{n\to \infty} a_n/b_n\leq c$ for some constant $c\geq0$.  We use the shorthand $[n]$ to denote the $n$-set $\{1,\ldots,n\}$ for $n\in\mathbb{N}_{+}$. Let $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor, and $\Theta(\omega)\in\mathbb{R}$ denote the tensor entry indexed by $\omega \in[d_1]\times \cdots \times [d_K]$. An event $E$ is said to occur ``with very high probability'' if $\mathbb{P}(E)$ tends to 1 faster than any polynomial of tensor dimension $d:=\min_k d_k \to\infty$. The CP decomposition~\citep{hitchcock1927expression} is defined by $\Theta=\sum_{s=1}^r\lambda_s \ma^{(1)}_s\otimes\cdots\otimes \ma^{(K)}_s$,
-where $\lambda_1\geq \cdots \geq \lambda_r>0$ are tensor singular values, $\ma^{(k)}_s\in\mathbb{R}^{d_k}$ are norm-1 tensor singular vectors, and $\otimes$ denotes the outer product of vectors. The minimal $r\in\mathbb{N}_{+}$ in the CP decomposition is called the tensor rank, denoted $\rank(\Theta)$.  
+{\bf Notation.} We use the shorthand $[n]$ to denote the $n$-set $\{1,\ldots,n\}$ for $n\in\mathbb{N}_{+}$. Let $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor, and $\Theta(\omega)\in\mathbb{R}$ denote the tensor entry indexed by $\omega \in[d_1]\times \cdots \times [d_K]$. An event $E$ is said to occur ``with very high probability'' if $\mathbb{P}(E)$ tends to 1 faster than any polynomial of tensor dimension $d:=\min_k d_k \to\infty$. The tensor rank~\citep{hitchcock1927expression} is defined by $\text{rank}(\Theta)=\min\{r\in\mathbb{N}\colon \sum_{s=1}^r\ma^{(1)}_s\otimes\cdots\otimes \ma^{(K)}_s\}$, where $\ma^{(k)}_s\in\mathbb{R}^{d_k}$ are vectors, and $\otimes$ denotes the outer product of vectors. We use $\sign(\cdot)\colon \mathbb{R}\to\{-1,1\}$ to denote the sign function, where $\sign(y)=1$ if $y\geq 0$ and $-1$ otherwise. We allow univariate functions, such as $\sign(\cdot)$ and general $f\colon \mathbb{R}\to\mathbb{R}$, to be applied to tensors in an element-wise manner. Denote $a_n\asymp b_n$ if $c_1\leq \lim_{n\to \infty} a_n/b_n\leq c_2$ for some constants $c_1,c_2>0$, and denote $a_n\lesssim b_n$ if $\lim_{n\to\infty} a_n/b_n\leq c$ for some constant $c\geq 0$. 
 
 \vspace{-.2cm}
 \section{Model and proposal overview}\label{sec:overview}
@@ -217,17 +214,15 @@ Let $\tY$ be an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor generated from t
 \begin{equation}\label{eq:model}
 \tY=\Theta+\tE,
 \end{equation}
-where $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an unknown signal tensor of interest, and $\tE$ is a noise tensor consisting of zero-mean, independent but not necessarily identically distributed entries. We allow heterogenous noise, in that the marginal distribution of noise entry $\tE(\omega)$ may depend on $\omega$.
-For simplicity, we assume the noise is bounded; the extension to a sub-Gaussian noise is provided in the Appendix.  Here,  we assume the range of $\tY$ is the bounded interval $[-1,1]$ for cleaner exposition. Our observation is an incomplete data tensor from~\eqref{eq:model}, denoted  $\tY_\Omega$, where $\Omega\subset[d_1]\times\cdots\times[d_K]$ is the index set of observed entries. We consider a general model on $\Omega$ that allows both uniform and non-uniform samplings. Specifically, let $\Pi=\{p_\omega\}$ be an arbitrarily predefined probability distribution over the full index set with $\sum_{\omega\in[d_1]\times \cdots \times [d_K]}p_\omega=1$. Assume that the entries $\omega$ in $\Omega$ are i.i.d.\ draws with replacement from distribution $\Pi$. The sampling rule is denoted as $\omega\sim \Pi$. 
+where $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an unknown signal tensor, and $\tE$ is a noise tensor consisting of zero-mean, independent but not necessarily identically distributed entries. We allow heterogenous noise, in that the marginal distribution of noise entry $\tE(\omega)$ may depend on $\omega$. For a cleaner exposition, we assume the noise is bounded and the range of $Y$ is in $[-1,1]$; the extension to a sub-Gaussian noise is provided in Section~\ref{sec:sub-Gaussian} of the Appendix. Our observation is an incomplete data tensor from~\eqref{eq:model}, denoted  $\tY_\Omega$, where $\Omega\subset[d_1]\times\cdots\times[d_K]$ is the index set of observed entries. We consider a general model on $\Omega$ that allows both uniform and non-uniform samplings. Specifically, let $\Pi=\{p_\omega\}$ be an arbitrarily predefined probability distribution over the full index set with $\sum_{\omega\in[d_1]\times \cdots \times [d_K]}p_\omega=1$. We use $\omega\sim \Pi$ to denote the sampling rule, meaning $\omega$ in $\Omega$ are i.i.d.\ draws with replacement from distribution $\Pi$. The goal is to estimate $\Theta$ from $Y_{\Omega}$. Note that $\Theta$ is not necessarily low-rank. 
 
-{\bf Intuition.} Before describing our main results, we provide the intuition behind our method. In the two examples in Section~\ref{sec:intro}, the high-rankness in the signal $\Theta$ makes the estimation challenging. Now let us examine the sign of the $\pi$-shifted signal $\sign(\Theta-\pi)$ for any given $\pi\in[-1,1]$. It turns out that, these sign tensors share the same sign patterns as low-rank tensors. Indeed, the signal tensor in the first example has the same sign pattern as a rank-$4$ tensor, since $\sign(\Theta-\pi)=\sign(\tZ-f^{-1}(\pi))$. The signal tensor in the second example has the same sign pattern as a rank-2 tensor, since $\sign(\Theta(i,j,k)-\pi)=\sign(\max(i,j,k)-d(e^{\pi}-1))$ (see Example~\ref{eq:example} in Section~\ref{sec:representation}).
+{\bf Algorithm intuition.} Before describing our main results, we provide the intuition behind our method. In the two examples in Section~\ref{sec:intro}, the high-rankness in the signal $\Theta$ makes the estimation challenging. Now let us examine the sign of the $\pi$-shifted signal $\sign(\Theta-\pi)$ for any given $\pi\in[-1,1]$. It turns out that, these sign tensors share the same sign patterns as low-rank tensors. Indeed, the signal tensor in the first example has the same sign pattern as a rank-$4$ tensor, since $\sign(\Theta-\pi)=\sign(\tZ-f^{-1}(\pi))$. The signal tensor in the second example has the same sign pattern as a rank-2 tensor, since $\sign(\Theta(i,j,k)-\pi)=\sign(\max(i,j,k)-d(e^{\pi}-1))$ (see Example~\ref{eq:example} in Section~\ref{sec:representation}).
 
-The above observation suggests a general framework to estimate both low- and high-rank signal tensors. Figure~\ref{fig:demo} illustrates the main crux of our method. We propose to estimate the signal tensor $\Theta$ by taking the average over sign tensors
-\[
-\hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH} \sign(\hat \tZ_\pi), \quad \text{where}\quad \hat \tZ_\pi=\argmin_{\text{low rank tensor $\tZ$}} \text{Weighted-Loss}(\sign(\tZ), \sign (\tY_\Omega-\pi)),
-\]
-where $\sign(\hat \tZ_\pi)\in\{-1,1\}^{d_1\times\cdots\times d_K}$ is a sign tensor that estimates sign signal, $\sign(\Theta-\pi)$, at a series of $\pi\in \tH={\{\small-1,\ldots,  -{1/H},0, {1/H},\ldots,1\}}$, and Weighted-Loss$(\cdot,\cdot)$ denotes a carefully-designed classification objective function which will be described in Section~\ref{sec:identifiability}. To obtain $\sign(\hat \tZ_\pi)$ for a given $\pi$, we propose to dichotomize the data tensor into sign tensor, $\sign (\tY_\Omega-\pi)$, and estimate the sign signal by performing weighted classification based on objective Weighted-Loss$(\cdot,\cdot)$. 
-%\[
+The above observation suggests a general framework to estimate both low- and high-rank signal tensors. Figure~\ref{fig:demo} illustrates the main crux of our method. We propose to estimate the signal tensor $\Theta$ by taking the average over structured sign tensors
+\begin{equation}\label{eq:intuition}
+\hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH} \sign(\hat \tZ_\pi), \quad \text{where}\quad \hat \tZ_\pi=\argmin_{\text{low rank tensor $\tZ$}} \text{Weighted-Loss}(\sign(\tZ), \sign (\tY_\Omega-\pi)).
+\end{equation}
+Here $\sign(\hat \tZ_\pi)\in\{-1,1\}^{d_1\times\cdots\times d_K}$ is the sign tensor estimate at a series of $\pi\in \tH=\{\small-1,\ldots,$ $-{1/H},0, {1/H},\ldots,1\}$, and Weighted-Loss$(\cdot,\cdot)$ denotes a classification objective function with an entry-specific weight to each tensor entry; its specific form will be described in Section~\ref{sec:identifiability}. To obtain $\sign(\hat \tZ_\pi)$ for a given $\pi$, we propose to dichotomize the data tensor into a sign tensor $\sign (\tY_\Omega-\pi)$ and estimate the de-noised sign by performing weighted classification. %\[
 %\hat \tZ_\pi=\argmin_{\text{low rank tensor $\tZ$}} \text{Weighted-Loss}(\sign(\tZ), \sign (\tY_\Omega-\pi)),
 %\]
 %where Weighted-Loss$(\cdot,\cdot)$ denotes a carefully-designed classification objective function which will be described in later sections. 
@@ -235,9 +230,9 @@ where $\sign(\hat \tZ_\pi)\in\{-1,1\}^{d_1\times\cdots\times d_K}$ is a sign ten
 %\[
 %\hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH} \sign(\hat \tZ_\pi).
 %\]
-Our approach is built on the nonparametric sign representation of signal tensors. 
+Our approach is built on the nonparametric sign representation of signal tensors.
 %The estimate $\hat \Theta$ is essentially learned from dichotomized tensor series $\{\sign(\tY_\Omega-\pi)\colon \pi \in \tH\}$ with proper weights. 
-We show that a careful aggregation of dichotomized data not only preserves all information in the original signals, but also brings benefits of accuracy and flexibility over classical low-rank models. Unlike traditional methods, the sign representation is guaranteed to recover both low- and high-rank signals. The method enjoys statistical effectiveness and computational efficiency. 
+We show that a careful aggregation of dichotomized data not only preserves all information in the original signals, but also brings benefits of accuracy and flexibility over classical low-rank models. Unlike traditional methods, the sign representation is guaranteed to recover both low- and high-rank signals. In addition, a total of $H=\text{poly}(d)$ dichotomized problems suffice to recover $\Theta$ under the considered model.  The method therefore enjoys both statistical effectiveness and computational efficiency. 
 
 \section{Oracle properties of sign representable tensors}\label{sec:representation}
 This section develops sign representable tensor models for $\Theta$ in~\eqref{eq:model}. We characterize the algebraic and statistical properties of sign tensor series, which serves the foundation for our method. 
@@ -246,25 +241,25 @@ This section develops sign representable tensor models for $\Theta$ in~\eqref{eq
 \subsection{Sign-rank and sign tensor series}\label{sec:sign-rank}
 Let $\Theta$ be the tensor of interest, and $\sign (\Theta)$ the corresponding sign pattern. The sign patterns induce an equivalence relationship between tensors. Two tensors are called sign equivalent, denoted $\simeq$, if they have the same sign pattern.
 
+\vspace{.1cm}
 \begin{defn}[Sign-rank]
 The sign-rank of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined by the minimal rank among all tensors that share the same sign pattern as $\Theta$; i.e.,
 \[
 \srank(\Theta) = \min \{\rank(\Theta')\colon  \Theta'\simeq \Theta,\ \Theta'\in\mathbb{R}^{d_1\times \cdots \times d_K}\}.
 \]
 \end{defn}
-The sign-rank is also called {support rank}~\citep{cohn2013fast}, {minimal rank}~\citep{alon2016sign}, and {nondeterministic rank}~\citep{de2003nondeterministic}. Earlier work defines sign-rank for binary-valued tensors; we extend the notion to continuous-valued tensors. Note that the sign-rank concerns only the sign pattern but discards the magnitude information of $\Theta$. In particular, $\srank(\Theta)=\srank(\sign \Theta)$. 
+This concept is important in combinatorics~\citep{cohn2013fast}, complexity theory~\citep{alon2016sign}, and quantum mechanics~\citep{de2003nondeterministic}; we extend the notion to continuous-valued tensors. Note that the sign-rank concerns only the sign pattern but discards the magnitude information of $\Theta$. In particular, $\srank(\Theta)=\srank(\sign \Theta)$. 
 
-Like most tensor problems~\citep{hillar2013most}, determining the sign-rank for a general tensor is NP hard~\citep{alon2016sign}. Fortunately, tensors arisen in applications often possess special structures that facilitate analysis. By definition, the sign-rank is upper bounded by the tensor rank. More generally, we have the following upper bounds. 
-
-\begin{prop}[Upper bounds of the sign-rank]~\label{cor:monotonic} For any strictly monotonic function $g\colon \mathbb{R}\to \mathbb{R}$ with $g(0)=0$,  the following holds true,
-$\textup{srank}(\Theta)\leq\rank(g(\Theta)).$
+Like most tensor problems~\citep{hillar2013most}, determining the sign-rank is NP hard in the worst case~\citep{alon2016sign}. Fortunately, tensors arisen in applications often possess special structures that facilitate analysis. The sign-rank is upper bounded by tensor rank. More generally, we show the following properties.
+\vspace{.1cm}
+\begin{prop}[Upper bounds of the sign-rank]~\label{cor:monotonic} \hfill
+\begin{enumerate}[label={2.\arabic*},wide, labelwidth=!, labelindent=0pt,itemsep=0ex,parsep=0ex,topsep=-7pt]
+\item[(a)] [Upper bounds] For any strictly monotonic function $g\colon \mathbb{R}\to \mathbb{R}$ with $g(0)=0$,  we have $\textup{srank}(\Theta)\leq\rank(g(\Theta))$.
+\item[(b)] [Broadness] For every order $K\geq 2$ and dimension $d$, there exist tensors $\Theta\in\mathbb{R}^{d\times \cdots \times d}$ such that $\rank(\Theta)\geq d$ but $\srank(\Theta-\pi)\leq 2$ for all $\pi\in\mathbb{R}$.  
+\end{enumerate}
 \end{prop}
-\vspace{-.1cm}
-The sign-rank can be much smaller than the tensor rank, as we have shown in Section~\ref{sec:intro}.
-
-\begin{prop}[Broadness]\label{prop:extention}\label{cor:broadness}For every order $K\geq 2$ and dimension $d$, there exist tensors $\Theta\in\mathbb{R}^{d\times \cdots \times d}$ such that $\rank(\Theta)\geq d$ but $\srank(\Theta-\pi)\leq 2$ for all $\pi\in\mathbb{R}$.  
-\end{prop}
-We provide additional examples in the Appendix in which the tensor rank grows with dimension $d$ but the sign-rank remains a constant. The results highlight the advantages of using sign-rank in the high-dimensional tensor analysis.  Propositions~\ref{cor:monotonic} and~\ref{prop:extention} together demonstrate the strict broadness of low sign-rank family over the usual low-rank family. 
+Propositions~\ref{cor:monotonic} demonstrates the strict broadness of low sign-rank family over the usual low-rank family. 
+In particular, the sign-rank can be much smaller than the tensor rank, as we have shown in Section~\ref{sec:intro}. We provide additional examples in the Appendix in which the tensor rank grows with dimension $d$ but the sign-rank remains a constant. The results highlight the advantages of using sign-rank in the high-dimensional tensor analysis. 
 
 We now introduce a tensor family, which we coin as ``sign representable tensors''.
 \begin{defn}[Sign representable tensors] 
@@ -272,30 +267,33 @@ Fix a level $\pi\in[-1,1]$. A tensor $\Theta$ is called $(r,\pi)$-sign represent
 We use $\caliP(r)=\{\Theta\colon \max_{\pi\in[-1,1]}\srank(\Theta-\pi)\leq r\}$ to denote the $r$-sign representable tensor family.
 \end{defn}
 
-We show that the $r$-sign representable tensor family is a general model that incorporates most existing tensor models, including low-rank tensors, single index models, GLM models, and structured tensors with repeating entries. 
+We next show that the $r$-sign representable tensor family is a general model that incorporates most existing tensor models, including low-rank tensors, single index models, GLM models, and structured tensors with repeating entries. 
 
+\vspace{.05cm}
 \begin{example}[CP/Tucker low-rank models] The CP and Tucker low-rank tensors are the two most popular tensor models~\citep{kolda2009tensor}. Let $\Theta$ be a low-rank tensor with CP rank $r$. We see that $\Theta$ belongs to the sign representable family; i.e., $\Theta\in\caliP(r+1)$ (the constant $1$ is due to $\rank(\Theta-\pi)\leq r+1$). Similar results hold for Tucker low-rank tensors $\Theta\in\caliP(r+1)$, where $r=\prod_kr_k$ with $r_k$ being the $k$-th mode Tucker rank of $\Theta$.  
 \end{example} 
+\vspace{.1cm}
 
 \begin{example}[Tensor block models (TBMs)] Tensor block model~\citep{wang2019multiway,chi2020provable} assumes a checkerboard structure among tensor entries under marginal index permutation. The signal tensor $\Theta$ takes at most $r$ distinct values, where $r$ is the total number of multiway blocks. Our model incorporates TBM because $\Theta \in \caliP(r)$. 
 \end{example}
+\vspace{.1cm}
 
-
-\begin{example}[Generalized linear models (GLMs)] Let $\tY$ be a binary tensor from a logistic model~\citep{wang2018learning} with mean $\Theta=\text{logit}(\tZ)$, where $\tZ$ is a latent low-rank tensor. Notice that $\Theta$ itself may be high-rank (see Section~\ref{sec:intro}). By definition, $\Theta$ is a low-rank sign representable tensor. Same conclusion holds for general exponential-family models with a (known) link function~\citep{hong2020generalized}. 
+\begin{example}[Generalized linear models (GLMs)] Let $\tY$ be a binary tensor from a logistic model~\citep{wang2018learning} with mean $\Theta=\text{logit}(\tZ)$, where $\tZ$ is a latent low-rank tensor. Notice that $\Theta$ itself may be high-rank (see Figure~\ref{fig:example}a). By definition, $\Theta$ is a low-rank sign representable tensor. Same conclusion holds for general exponential-family models with a (known) link function~\citep{hong2020generalized}. 
 \end{example}
+\vspace{.1cm}
 
 \begin{example}[Single index models (SIMs)] Single index model is a flexible semiparametric model proposed in economics~\citep{robinson1988root} and high-dimensional statistics~\citep{balabdaoui2019least,ganti2017learning}. The SIM assumes the existence of a (unknown) monotonic function $g\colon \mathbb{R}\to \mathbb{R}$ such that $g(\Theta)$ has rank $r$. We see that $\Theta$ belongs to the sign representable family; i.e., $\Theta\in \caliP(r+1)$. 
 \end{example}
+\vspace{.1cm}
 
-\begin{example}[Structured tensors with repeating entries]\label{eq:example} Here we revisit the model introduced in Section~\ref{sec:intro}. Let $\Theta$ be an order-$K$ tensor with entries $\Theta(i_1,\ldots,i_K)=\log(1+\max_kx^{(k)}_{i_k})$, where $x^{(k)}_{i_k}$ are given number in $[0,1]$ for all $i_k\in[d_k], k\in[K]$. We conclude that $\Theta \in \caliP(2)$, because the sign tensor $\sign(\Theta-\pi)$ with an arbitrary $\pi\in(0,\ \log 2)$ is a block tensor with at most two blocks (see Figure~\ref{fig:demo}c). The results extend to general structured tensors with repeating entries. Let $g(\cdot)$ be a polynomial of degree $r$ and the associated tensor $\Theta$ with entries $\Theta(i_1,\ldots,i_K)=g(\max_kx^{(k)}_{i_k})$. We have $\Theta\in \caliP(2r)$ (see proofs in the Appendix). 
-%Same conclusion holds if max in $g(\cdot)$ is replaced by min. 
+\begin{example}[Structured tensors with repeating entries]\label{eq:example} Here we revisit the model introduced in Figure~\ref{fig:example}b of Section~\ref{sec:intro}. Let $\Theta$ be an order-$K$ tensor with entries $\Theta(i_1,\ldots,i_K)=\log(1+\max_kx^{(k)}_{i_k})$, where $x^{(k)}_{i_k}$ are given numbers in $[0,1]$ for all $i_k\in[d_k], k\in[K]$. We conclude that $\Theta \in \caliP(2)$, because the sign tensor $\sign(\Theta-\pi)$ with an arbitrary $\pi\in(0,\ \log 2)$ is a block tensor with at most two blocks (see Figure~\ref{fig:demo}c). Similar results extend to structured tensors with repeating entries, e.g.\ tensor $\Theta$ with entries $\Theta(i_1,\ldots,i_K)=g(\max_kx^{(k)}_{i_k})$, where $g(\cdot)$ is a polynomial of degree $r$. In this case, we have $\Theta\in \caliP(2r)$ (see proofs in the Appendix~\ref{sec:additional}). 
 \end{example}
 
 \vspace{-.2cm}
 \subsection{Statistical characterization of sign tensors via weighted classification}\label{sec:identifiability}
 \vspace{-.2cm}
 %Accurate estimation of a sign representable tensor depends on the behavior of sign tensor series, $\sign(\Theta-\pi)$. 
-In this section, we show that sign tensors are characterized by weighted classification. The results bridge the algebraic and statistical properties of sign representable tensors.
+We now provide the explicit form of the weighted loss introduced in~\eqref{eq:intuition}, and show that sign tensors are characterized by weighted classification. The results bridge the algebraic and statistical properties of sign representable tensors.
  
 For a given $\pi \in [-1,1]$, define a $\pi$-shifted data tensor $\bar \tY_\Omega$ with entries $\bar \tY(\omega) = (\tY(\omega)-\pi)$ for $\omega\in \Omega$. We propose a weighted classification objective function
 \begin{equation}\label{eq:sample}
@@ -309,6 +307,8 @@ Our proposed weighted classification function~\eqref{eq:sample} is important for
 \end{equation}
 where the expectation is taken with respect to $\tY_\Omega$ under model~\eqref{eq:model} and the sampling distribution $\omega\sim\Pi$. %Note that
 The form of $\textup{Risk}(\cdot)$ implicitly depends on $\pi$; we suppress $\pi$ when no confusion arises. 
+
+\vspace{.05cm}
 \begin{prop}[Global optimum of weighted risk]\label{prop:global}
 Suppose the data $\tY_\Omega$ is generated from model~\eqref{eq:model} with $\Theta \in \caliP(r)$. Then, for all $\bar \Theta$ that are sign equivalent to $\sign(\Theta-\pi)$, 
 \begin{align}\label{eq:optimal}
@@ -318,7 +318,7 @@ Suppose the data $\tY_\Omega$ is generated from model~\eqref{eq:model} with $\Th
 \end{prop}
 The results show that the sign tensor $\sign(\Theta-\pi)$ optimizes the weighted classification risk. This fact suggests a practical procedure to estimate $\sign(\Theta-\pi)$ via empirical risk optimization of $L(\tZ,\bar \tY_\Omega)$. In order to establish the recovery guarantee, we shall address the uniqueness (up to sign equivalence) for the optimizer of $\risk(\cdot)$. The local behavior of $\Theta$ around $\pi$ plays a key role in the accuracy. 
 
-Some additional notation is needed for stating the results in full generality. Let $d_t=\prod^K_{k=1} d_k$ denote the total number of tensor entries, and $\Delta s = 1/d_t$ a small tolerance. We quantify distribution of entries in tensor $\Theta$ using a pseudo density, i.e., histogram with bin width $2\Delta s$. Let $G(\pi):=\mathbb{P}_{\omega\sim \Pi}[\Theta(\omega)\leq \pi]$ denote the cumulative distribution function (CDF) of $\Theta(\omega)$ under $\omega\sim \Pi$. We partition $[-1,1]=\tN \cup \tN^c$, where $\tN$ consists of levels whose pseudo density based on $2\Delta s$-bin is asymptotically unbounded; i.e,
+Some additional notation is needed for stating the results in full generality. Let $d_t=\prod^K_{k=1} d_k$ denote the total number of tensor entries, and $\Delta s = 1/d_t$ a small tolerance. We quantify the distribution of tensor entries $\Theta(\omega)$ using a pseudo density, i.e., histogram with bin width $2\Delta s$. Let $G(\pi):=\mathbb{P}_{\omega\sim \Pi}[\Theta(\omega)\leq \pi]$ denote the cumulative distribution function (CDF) of $\Theta(\omega)$ under $\omega\sim \Pi$. We partition $[-1,1]=\tN \cup \tN^c$, where $\tN$ consists of levels whose pseudo density based on $2\Delta s$-bin is asymptotically unbounded; i.e,
 \[
 \tN=\left\{\pi\in[-1,1] \colon {G(\pi+{\Delta s})-G(\pi-{\Delta s})\over \Delta s} \geq C \right\},\ \text{for some universal constant }C>0,
 \]
@@ -348,9 +348,9 @@ The recovery is easier at levels where points are less concentrated around $\pi$
 %\end{figure}
 
 We now reach the main theorem in this section. For two tensors $\Theta_1,\Theta_2$, define the mean absolute error (MAE) as
-$\text{MAE}(\Theta_1, \Theta_2)\stackrel{\text{def}}{=}\mathbb{E}_{\omega\sim \Pi}|\Theta_1(\omega)-\Theta_2(\omega)|.$
+$\text{MAE}(\Theta_1, \Theta_2)=\mathbb{E}_{\omega\sim \Pi}|\Theta_1(\omega)-\Theta_2(\omega)|.$
 
-
+\vspace{.05cm}
 \begin{thm}[Identifiability]\label{thm:population}Assume $\Theta\in\caliP(r)$ is $\alpha$-globally smooth. Then, for all $\pi\notin\tN$ and tensors $\bar \Theta \simeq \sign(\Theta-\pi)$, we have
 \[
 \textup{MAE}(\sign \tZ, \sign \bar \Theta) \lesssim C(\pi)\left[\textup{Risk}(\tZ)-\textup{Risk}( \bar \Theta)\right]^{\alpha/(\alpha+1)}+\Delta s, \quad \text{for all }\tZ\in\mathbb{R}^{d_1\times \cdots \times d_K},
@@ -360,11 +360,12 @@ where $C(\pi)>0$ is independent of $\tZ$.
 The result establishes the recovery stability of sign tensors $\sign (\Theta-\pi)$ using optimization with population risk~\eqref{eq:population}. The bound immediately shows the uniqueness of the optimizer for $\text{Risk}(\cdot)$ up to a  $\Delta s$-measure set under $\Pi$. We find that a higher value of $\alpha$ implies more stable recovery, as intuition would suggest. Similar results hold for optimization with sample risk~\eqref{eq:sample} (see Section~\ref{sec:estimation}). 
 
 We conclude this section by applying Assumption~\ref{ass:margin} to the examples described in Section~\ref{sec:sign-rank}. For simplicity, suppose $\Pi$ is the uniform sampling. 
-The tensor block model is $\infty$-globally smooth. This is because the set $\tN$ consists of finite $2\Delta s$-bin's covering the distinct block means in $\Theta$. Furthermore, we have $\alpha= \infty$ for all $\pi \notin \tN$, since the numerator in~\eqref{eq:smooth} is zero. Similarly, the high-rank tensor $\Theta(i_1,\ldots,i_K) = \log(1+\max_{\ell = 1,\ldots K}i_\ell/d)$ is $\infty$-globally smooth because $\alpha=\infty$ for all $\pi$ except those in $\tN$, where $\tN$ collects $d$ many $2\Delta s$-bin's covering $\log(1+i/d)$ for $i =1,\ldots, d$.
+The tensor block model is $\infty$-globally smooth. This is because the set $\tN$ consists of finite $2\Delta s$-bin's covering the distinct block means in $\Theta$. Furthermore, we have $\alpha= \infty$ for all $\pi \notin \tN$, since the numerator in~\eqref{eq:smooth} is zero. Similarly, the high-rank $(d,d,d)$-dimensional tensor $\Theta(i,j,k) = \log(1+{1\over d}\max(i,j,k))$ is $\infty$-globally smooth because $\alpha=\infty$ for all $\pi$ except those in $\tN$, where $\tN$ collects $d$ many $2\Delta s$-bin's covering $\log(1+i/d)$ for all $i \in[d]$.
 
-\vspace{-.2cm}
+
 \section{Nonparametric tensor completion via sign series}\label{sec:estimation}
-In previous sections we have established the sign series representation and its relationship to classification. In this section, we present our learning reduction proposal (Figure~\ref{fig:demo}) in details. We provide the estimation error bound and address the empirical implementation of the method. 
+
+In previous sections we have established the sign series representation and its relationship to classification. In this section, we present our learning reduction proposal in details (Figure~\ref{fig:demo}). We provide the estimation error bound and address the empirical implementation of the method. 
 \vspace{-.2cm}
 
 \subsection{Statistical error and sample complexity}
@@ -374,7 +375,7 @@ Given a noisy incomplete tensor observation $\tY_\Omega$ from model~\eqref{eq:mo
 \hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH}\sign{\hat \tZ_\pi}, \quad \text{where}\quad \hat \tZ_\pi = \argmin_{\tZ\colon \text{rank}\tZ\leq r} L(\tZ, \tY_\Omega-\pi),
 \end{equation}
 where %$\hat \tZ_\pi$ is a $\pi$-weighted classifier estimated at level 
-$\tH=\{-1,\ldots,-{1/ H}, 0, {1/H},\ldots,1\}$ is a series of level to aggregate, 
+$\tH=\{-1,\ldots,-{1/ H}, 0, {1/H},\ldots,1\}$ is the series of levels to aggregate, 
 %\begin{equation}\label{eq:estimate}
 %\hat \tZ_\pi = \argmin_{\tZ\in\mathbb{R}^{d_1\times \dots\times d_K}\colon \text{rank}\tZ\leq r} L(\tZ, \tY_\Omega-\pi).
 %\end{equation}
@@ -383,46 +384,46 @@ $L(\cdot,\cdot)$ denotes the weighted classification objective defined in~\eqref
 and the rank constraint on $\tZ$ follows from Proposition~\ref{prop:global}. For the theory, we assume the true $r$ is known; in practice, $r$ could be chosen in a data adaptive fashion via cross-validation or elbow method~\citep{hastie2009elements}. 
 %Step  \eqref{eq:estimate} corresponds Figure~\ref{fig:demo}c while  \eqref{eq:est} to Figure~\ref{fig:demo}d .
 
-The next theorem establishes the statistical convergence for the sign tensor estimate~\eqref{eq:est}, which is an important ingredient for the final signal tensor estimate $\hat \Theta$ in~\eqref{eq:est}. 
+The next theorem establishes the statistical convergence for the sign tensor estimate~\eqref{eq:est}.
 
- \begin{thm}[Sign tensor estimation]\label{thm:classification} Suppose $\Theta\in\caliP(r)$ and $\Theta(\omega)$ is $\alpha$-globally smooth under $\omega\sim \Pi$. Let $\hat \tZ_\pi$ be the estimate in~\eqref{eq:est}, $d_{\max}=\max_{k\in[K]} d_k$, and $t_d =d_{\max}r/|\Omega|\lesssim 1$. Then, for all $\pi\notin\tN$, with very high probability over $\tY_\Omega$, 
+\begin{thm}[Sign tensor estimation]\label{thm:classification} Suppose $\Theta\in\caliP(r)$ and $\Theta(\omega)$ is $\alpha$-globally smooth under $\omega\sim \Pi$. Let $\hat \tZ_\pi$ be the estimate in~\eqref{eq:est} and $t_d ={r\over |\Omega|}\max_{k\in[K]} d_k\lesssim 1$. Then, for all $\pi\notin\tN$, with very high probability over $\tY_\Omega$, 
 \begin{align}\label{eq:bound}
-\textup{MAE}(\sign \hat \tZ_\pi, \sign(\Theta-\pi)) \lesssim t_d^{\alpha/( \alpha+2)}+{1 \over \rho^2(\pi, \tN)}t_d.
+\textup{MAE}(\sign \hat \tZ_\pi, \sign(\Theta-\pi)) \lesssim \log H t_d^{\alpha/( \alpha+2)}+{1 \over \rho^2(\pi, \tN)}t_d.
 \end{align}
 \end{thm}
 Theorem~\ref{thm:classification} provides the error bound for the sign tensor estimation. Compared to the population results in Theorem~\ref{thm:population}, we explicitly reveal the dependence of accuracy on the sample complexity and the level $\pi$. The result demonstrates the polynomial decay of sign errors with $|\Omega|$.  Our sign estimate achieves consistent recovery using as few as $\tilde O(d_{\max}r)$ noisy entries. 
 
-Recall that $\tN$ collects the levels for which the sign tensor is possibly nonrecoverable. Let $|\tN|$ be the covering number of $\tN$ with $2\Delta s$-bin's, i.e, $|\tN| = \lceil \mu(\tN)/2\Delta s \rceil$, where $\mu$ is the Lebesgue measure. Combining the sign representability of the signal tensor and the sign estimation accuracy, we obtain the main results on our nonparametric tensor estimation method. 
+Recall that $\tN$ collects the levels for which the sign tensor is possibly nonrecoverable. Let $|\tN|$ be the covering number of $\tN$ with $2\Delta s$-bin's, i.e, $|\tN| = \lceil \text{Leb}(\tN)/2\Delta s \rceil$, where $\text{Leb}(\cdot)$ is the Lebesgue measure and $\lceil \cdot \rceil$ is the ceiling function. Combining the sign representability of the signal tensor and the sign estimation accuracy, we obtain the main results on our nonparametric tensor estimation method. 
 
 
-\begin{thm}[Tensor estimation error]\label{thm:estimation} Consider the same conditions of Theorem~\ref{thm:classification}. Let $\hat \Theta$ be the estimate in~\eqref{eq:est} and $t_d={d_{\max}r /|\Omega|}$. With very high probability over $\tY_\Omega$,
+\begin{thm}[Tensor estimation error]\label{thm:estimation} Consider the same conditions of Theorem~\ref{thm:classification}. Let $\hat \Theta$ be the estimate in~\eqref{eq:est}. For any resolution parameter $H\in\mathbb{N}_{+}$, with very high probability over $\tY_\Omega$,
 \begin{equation}\label{eq:bound2}
-\textup{MAE}(\hat \Theta, \Theta)\lesssim t_d^{\alpha/(\alpha+2)}+{1+|\tN|\over H}+{Ht_d}.
+\textup{MAE}(\hat \Theta, \Theta)\lesssim (t_d\log H)^{\alpha\over \alpha+2}+{1+|\tN|\over H}+{t_dH\log H}.
 \end{equation}
-In particular, setting $\scriptstyle H\asymp (1+|\tN|)^{1/2} t_d^{-1/2} $ yields the error bound $\scriptstyle \textup{MAE}(\hat \Theta, \Theta)\lesssim t_d^{{\alpha/ (\alpha+2)} }+\ t_d^{1/2}(1+|\tN|)^{1/2}$.
+In particular, setting $\footnotesize H\asymp (1+|\tN|)^{1/2} t_d^{-1/2}$ yields the tightest upper bound for $\textup{MAE}(\hat \Theta, \Theta)$.
 \end{thm}
 
 Theorem~\ref{thm:estimation} demonstrates the convergence rate of our tensor estimation. The bound~\eqref{eq:bound2} reveals three sources of errors: the estimation error for sign tensors, the bias from sign series representations, and the variance thereof. The resolution parameter $H$ controls the bias-variance tradeoff. We remark that the signal estimation error~\eqref{eq:bound2} is generally no better than the corresponding sign error~\eqref{eq:bound}. This is to be expected, since magnitude estimation is  a harder problem than sign estimation. 
 
-In the special case of full observation with equal dimension $d_1=\cdots=d_K=d$, our signal estimate achieves convergence
+In the special case of full observation with equal dimension $d_1=\cdots=d_K=d$ and bounded $|\tN|\leq C$, our signal estimate achieves convergence
 \begin{equation}
-\textup{MAE}(\hat \Theta, \Theta)\lesssim \sqrt{r}d^{-\alpha(K-1)/(\alpha+2)}+ \sqrt{r}d^{-(K-1)/2}(1+|\tN|)^{1/2}.
+\textup{MAE}(\hat \Theta, \Theta)\lesssim rd^{-(K-1)\min({\alpha\over \alpha+2},\ {1\over 2})},
 \end{equation}
-Compared to earlier methods, our estimation accuracy applies to both low- and high-rank signal tensors. The rate depends on the sign complexity $\Theta\in\caliP(r)$, and this $r$ is often much smaller than the usual tensor rank (see Section~\ref{sec:sign-rank}). Our result also reveals that the convergence becomes favorable as the order of data tensor increases. 
+by setting $H\asymp \sqrt{r}d^{(K-1)/2}\asymp \text{poly}(d)$. Compared to earlier methods, our estimation accuracy applies to both low- and high-rank signal tensors. The rate depends on the sign complexity $\Theta\in\caliP(r)$, and this $r$ is often much smaller than the usual tensor rank (see Section~\ref{sec:sign-rank}). Our result also reveals that the convergence becomes favorable as the order of data tensor increases. 
 
 We apply our method to the main examples in Section~\ref{sec:sign-rank}, and compare the results with existing literature. The numerical comparison is provided in Section~\ref{sec:simulation}. 
 
 \begin{customexample}{2}[TBMs]
-Consider a tensor block model with $r$ multiway blocks. Our result implies a rate $\tO(d^{-(K-1)/2})$ by taking $\alpha=\infty$ and $|\tN| \leq r^K$. This rate agrees with the  previous root-mean-square error (RMSE) for block tensor estimation~\citep{wang2019multiway}.
+Consider a tensor block model with $r$ multiway blocks. Our result implies a rate $\tO(d^{-(K-1)/2})$ by taking $\alpha=\infty$ and $|\tN| \leq r^K\lesssim \tO(1)$. This rate agrees with the  previous root-mean-square error (RMSE) for block tensor estimation~\citep{wang2019multiway}.
 \end{customexample}
 
 
 \begin{customexample}{3} [GLMs] 
-Consider a GLM tensor $\Theta=g(\tZ)$, where $g$ is a known link function and $\tZ$ is a latent low-rank tensor. Suppose the marginal density of $\Theta(\omega)$ is uniformly bounded as $d\to\infty$. Applying our results with $\alpha=1$ and finite $|\tN|$ yields $\tO(d^{-(K-1)/3})$. This rate is slightly slower than the parametric RMSE rate~\citep{zhang2018tensor,wang2018learning}, as expected. The reason is that our estimate remains valid for unknown $g$ and general high-rank tensors. The nonparametric rate is the price one has to pay for not knowing the form $\Theta=g(\tZ)$ as a priori. 
+Consider a GLM tensor $\Theta=g(\tZ)$, where $g$ is a known link function and $\tZ$ is a latent low-rank tensor. Suppose the CDF of $\Theta(\omega)$ is uniformly bounded as $d\to\infty$. Applying our results with $\alpha=1$ and finite $|\tN|$ yields $\tO(d^{-(K-1)/3})$. This rate is slightly slower than the parametric RMSE rate~\citep{zhang2018tensor,wang2018learning}, as expected. The reason is that our estimate remains valid for unknown $g$ and general high-rank tensors. The nonparametric rate is the price one has to pay for not knowing the form $\Theta=g(\tZ)$ as a priori. 
 \end{customexample}
 
 \begin{customexample}{4}[SIMs]
-The earlier example has shown the nonparametric rate $\tO(d^{-(K-1)/3})$ when applying our method to single index tensor model. In the matrix case with $K=2$, our result yields error rate $\tO(d^{-1/3})$, which is faster compared to the RMSE rate $\tO(d^{-1/4})$ obtained by \cite{ganti2015matrix}. 
+The earlier example has shown the nonparametric rate $\tO(d^{-(K-1)/3})$ when applying our method to single index tensor model. In the matrix case with $K=2$, our result yields error rate $\tO(d^{-1/3})$, which is faster than the RMSE rate $\tO(d^{-1/4})$ obtained by \cite{ganti2015matrix}. 
 \end{customexample}
 
 \begin{customexample}{5}[Structured tensors with repeating entries]
@@ -440,86 +441,71 @@ The following corollary reveal the sample complexity for nonparamtric tensor com
 Our result improves earlier work~\citep{yuan2016tensor,ghadermarzy2019near,pmlr-v119-lee20i} by allowing both low- and high-rank signals. Interestingly, the sample requirements depend only on the sign complexity $d_{\max}r$ but not the nonparametric complexity $\alpha$. Note that $\tilde \tO(d_{\max}r)$ roughly matches the degree of freedom of sign tensors, suggesting the optimality of our sample requirements. 
 
 \subsection{Numerical implementation via learning reduction}
-{\color{red} Cut details. Emphasize learning reduction. Meta algorithm is a simple average of $2H+1\asymp \text{poly}(d)$ terms. Base algorithm can be chosen from a variety of polynomial tensor solvers...Skip the detailed optimization. }
-We take a learning reduction approach to estimate the signal in a divide-and-conquer fashion (Figure~\ref{fig:demo}). The mega algorithm takes the average of $2H+1$ sign tensors based on the sign representations of the signal tensor. The base algorithm estimates sign tensors $\tZ_\pi$ for the series $\pi \in \tH$ through parallel implementation. The estimate enjoys low computational cost similar to a single sign tensor estimation.  
-
-The base algorithm reduces to binary tensor decomposition with a weighted classification loss. A number of algorithms have been developed for this problem~\citep{ghadermarzy2018learning,wang2018learning,hong2020generalized}. We adopt similar ideas by tailoring the algorithms to our contexts. Following the common practice in classification, we replace the binary loss $\ell(z,y)=|\sign z - \sign y|$ with a surrogate loss $F(m)$ using a continuous function of margin $m:=z\sign(y)$. Examples of large-margin loss are hinge loss $F(m) = (1-m)_+$, logistic loss $F(m) =\log(1+e^{-m})$, and nonconvex $\psi$-loss $F(m)=2\min(1,(1-m)_+)$ with $m_{+}=\max(m,0)$. We implement the hinge loss and logistic loss in our algorithm, although our framework is applicable to general large-margin losses~\citep{bartlett2006convexity}. The full procedure is described in Algorithm~\ref{alg:tensorT}.
-
-%\begin{algorithm}[h!]
-%  \caption{Nonparametric tensor completion}\label{alg:tensorT}
-% \begin{algorithmic}[1] 
-%\INPUT  Noisy and incomplete data tensor $\tY_\Omega$, rank $r$, resolution parameter $H$.
-%\For {$\pi \in \tH=\{ -1, \ldots, -{1\over H}, 0, {1\over H},\ldots, 1\}$}
-%\State Random initialization of tensor factors $\mA_k=[\ma^{(k)}_1,\ldots,\ma^{(k)}_r]\in\mathbb{R}^{d_k\times r}$ for all $k\in[K]$. 
-%\While{not convergence}
-%\For {$k=1,\ldots,K$}
-%\State Update $\mA_k$ while holding others fixed: $\mA_k\leftarrow \argmin_{\mA_k\in\mathbb{R}^{d_k\times r}}\sum_{\omega\in \Omega} |\tY(\omega)-\pi|\times$ $F(\tZ(\omega)\sign(\tY(\omega)-\pi))$, where $F(\cdot)$ is the large-margin loss, and $\tZ=\sum_{s\in[r]} \ma^{(1)}_s\otimes \cdots\otimes \ma^{(K)}_s$ is a rank-$r$ tensor. 
-%\EndFor
-%\EndWhile
-%\State Return $\tZ_\pi\leftarrow \sum_{s\in[r]} \ma^{(1)}_s\otimes \cdots\otimes \ma^{(K)}_s$.
-%\EndFor
-%\OUTPUT Estimated signal tensor $\hat \Theta={1\over 2H+1}\sum_{\pi \in \tH}\sign(\tZ_\pi)$.
-%    \end{algorithmic}
-%\end{algorithm}
+This section addresses the practical implementation of our estimation~\eqref{eq:est} illustrated in Figure~\ref{fig:demo}. We take a learning reduction approach by dividing the full procedure into a meta algorithm and $2H+1$ base algorithms. The meta algorithm takes the average of $(2H+1)\asymp \text{poly}(d)$ sign tensors, whereas each base algorithm estimates the tensor $\sign(\Theta-\pi)$ given binary input $\sign(\tY-\pi)$ and a target rank $r$. The full procedure is described in Algorithm~\ref{alg:tensorT}.
 
 
-\includegraphics[width=\textwidth]{figure/algorithm.pdf}
-\label{alg:tensorT}
+\vspace{-.3cm}
+\begin{algorithm}[h!]
+  \caption{Nonparametric tensor completion via learning reduction}\label{alg:tensorT}
+ \begin{algorithmic}[1] 
+\INPUT Noisy and incomplete data tensor $\tY_\Omega$, rank $r$, resolution parameter $H$.
+\For {$\pi \in \tH=\{ -1, \ldots, -{1\over H}, 0, {1\over H},\ldots, 1\}$}
+\State Define $\pi$-shifted tensor $\bar \tY=\tY-\pi$ and corresponding sign tensor $\sign(\bar \tY)=\sign(\tY-\pi)$. 
+\State Run 1-bit tensor estimation using base algorithm (e.g \citep{ghadermarzy2018learning,wang2018learning,hong2020generalized,alquier2019estimation}) on $\bar \tY_\Omega$ and obtain $\hat \tZ_\pi\leftarrow \argmin_{\text{low-rank }\tZ}\sum_{\omega\in \Omega} |\bar \tY(\omega)|\times F(\tZ(\omega)\sign\bar \tY(\omega))$ where $F(\cdot)$ is the large-margin loss.
+\EndFor
+\OUTPUT Estimated signal tensor $\hat \Theta_F={1\over 2H+1}\sum_{\pi \in \tH}\sign(\hat \tZ_\pi)$.
+\vspace{-.1cm}
+    \end{algorithmic}
+\end{algorithm}
+\vspace{-.3cm}
+
+Each base algorithm is a low-rank binary tensor estimation problem. Following the common practice in classification, we replace the 0-1 loss $\ell(z,y)=|\sign z - \sign y|$ in~\eqref{eq:sample} with a (continuous) large-margin loss $F(m)$ where $m=z\sign(y)$ is the margin. Common large-margin loss are hinge loss $F(m) = (1-m)_+$, logistic loss $F(m) =\log(1+e^{-m})$, and $\psi$-loss $F(m)=2\min(1,(1-m)_+)$ with $m_{+}=\max(m,0)$. A number of polynomial-time algorithms have been developed for this type of problem with optimization guarantees~\citep{ghadermarzy2018learning,wang2018learning,hong2020generalized,alquier2019estimation}. We implement hinge loss~\cite{alquier2019estimation,genzel2020robust} for illustration, which satisfies the linear excess risk bound
+\[
+\risk(\tZ)-\risk(\Theta-\pi)\leq C[\risk_F(\tZ)-\risk_F(\Theta-\pi)],\quad \text{for all }\pi\in[-1,1] \text{ and all tensor }\tZ,
+\]
+with $\risk_F(\cdot)$ defined similarly as in~\eqref{eq:population} by using hinge loss in place of binary loss. The following result ensures the desirable statistical properties under mild conditions. 
+
+\begin{thm}[Large-margin loss] Let $\hat \Theta_F$ be the output from Algorithm~\ref{alg:tensorT} with $F$ being the hinge loss. Under the set-up of Theorem~\ref{thm:classification} and mild technical assumptions for base algorithm, $\hat \Theta_F$ has the same error bound as in~\eqref{eq:bound2}. Furthermore, the total complexity is within a $\text{poly}(d)$ factor of base algorithm. 
+\end{thm}
+In principle, uses can choose their own favorite margin losses, as long as the resulting algorithms are sample efficient. The comparison between various large-margin losses has been studied~\cite{bartlett2006convexity}. Note that instead of using $\hat \tZ_\pi$ directly output from the base algorithm, we use $\sign(\hat \tZ_\pi)$ for the final nonparametric estimation. The sign aggregation brings the benefits of flexibility and accuracy over classical low-rank models. Our method enjoys both statistical and computational efficiency. 
 
 
-\vspace{-.5cm}
-{\color{red} Add guarantee from 0-1 loss to hinge loss. {\color{red}Users can choose their favorite (polynomial) 1-bit tensor algorithms, as long as these algorithms are sample efficient. Revise the pseudo algorithm to reflect the meta vs. base algorithms. Skip the details of base algorithm.}} 
+%\includegraphics[width=\textwidth]{figure/algorithm.pdf}
+
+
 %The rank constraints in the optimization~\eqref{eq:est} have been extensively studied in literature. Recent developments involve convex norm relaxation~\citep{ghadermarzy2018learning} and nonconvex optimization~\citep{wang2018learning, han2020optimal}. Unlike matrices, computing the tensor convex norm is NP hard, so we choose (non-convex) alternating optimization due to its numerical efficiency. Briefly, we use the rank decomposition~\eqref{eq:CP} of $\tZ=\tZ(\mA_1,\ldots, \mA_K)$ to optimize the unknown factor matrices $\mA_k=[\ma^{(k)}_1,\ldots,\ma^{(k)}_r]\in\mathbb{R}^{d_k\times r}$, where we choose to collect tensor singular values into $\mA_K$. We numerically solve \eqref{eq:est} by optimizing one factor $\mA_k$ at a time while holding others fixed. Each suboptimization reduces to a convex optimization with a low-dimensional decision variable. Following common practice in tensor optimization~\citep{anandkumar2014tensor,hong2020generalized}, we run the optimization from multiple initializations to locate a final estimate with the lowest objective value.
 
 
 \vspace{-.3cm}
-\section{Experiments}\label{sec:simulation}
-\vspace{-.1cm}
-\subsection{Finite-sample accuracy}
+\section{Numerical Experiments}\label{sec:simulation}
 \vspace{-.2cm}
-We compare our nonparametric tensor method ({\bf NonParaT}) with two alternative approaches: low-rank tensor CP decomposition ({\bf CPT}), and the matrix version of our method applied to tensor unfolding ({\bf NonParaM}). The performance is assessed under both complete and incomplete observations. We generate signal tensors based on four models listed in Table~\ref{tab:simulation}. The simulation covers a wide range of complexity, including block tensors, transformed low rank tensors, structured tensors with repeating entries. We consider order-3  tensors of equal dimension $d_1=d_2=d_3=d$, and set $d\in \{15, 20,\ldots,55,60\}$, $r=2$, $H=10+{(d-15)/ 5}$ in Algorithm~\ref{alg:tensorT}. For {\bf NonParaM}, we apply Algorithm~\ref{alg:tensorT} to each of the three unfolded matrices and report the average error. All summary statistics are averaged across $30$ replicates.  
+
+{\bf Finite-sample accuracy.} We compare our nonparametric tensor method ({\bf NonParaT}) with two alternative approaches: low-rank tensor CP decomposition ({\bf CPT}), and the matrix version of our method applied to tensor unfolding ({\bf NonParaM}). The performance is assessed under both complete and incomplete observations.  We generate signal tensors based on four models listed in Table~\ref{tab:simulation}, including block tensors, transformed low rank tensors, and structured tensors with repeating entries. We consider order-3  tensors of equal dimension, and set $d\in \{15, 20,\ldots,55,60\}$, $r=2$, $H=10+{(d-15)/ 5}$ in Algorithm~\ref{alg:tensorT}. All summary statistics are averaged across $30$ replicates. 
+
 
 \begin{table}[h]
 \captionsetup{font=scriptsize}
 \includegraphics[width=\textwidth]{figure/simulation2.pdf}
-\vspace{-.3cm}
+\vspace{-.2cm}
 \caption{\scriptsize Simulation models used for comparison. We use $\mM_k\in\{0,1\}^{d\times 3}$ to denote membership matrices, $\tC\in\mathbb{R}^{3\times 3\times 3}$ the block means, $\ma={1\over d}(1,2,\ldots,d)^T \in\mathbb{R}^d$, $\tZ_{\max}$ and $\tZ_{\min}$ are order-3 tensors with entries ${1\over d}\max(i,j,k)$ and ${1\over d}\min(i,j,k)$, respectively.}\label{tab:simulation}
-\vspace{-.4cm}
+\vspace{-.3cm}
 \end{table}
 
 
-Figure~\ref{fig:compare1} compares the estimation error under full observation. The MAE decreases with tensor dimension for all three methods. We find that our method {\bf NonParaT} achieves the best performance in all scenarios, whereas the second best method is {\bf CPT} for models 1-2, and {\bf NonParaM} for models 3-4. One possible reason is that models 1-2 have controlled multilinear tensor rank, which makes tensor methods {\bf NonParaT} and {\bf CPT} more accurate than matrix methods. For models 3-4, the rank exceeds the tensor dimension, and therefore, the two nonparametric methods {\bf NonParaT} and {\bf NonparaM} exhibit the greater advantage for signal recovery. Figure~\ref{fig:compare2} shows the completion error against observation fraction. We fix $d=40$ and gradually increase the observation fraction ${|\Omega|/d^3}$ from 0.3 to 1. We find that {\bf NonParaT} achieves the lowest error among all methods. Our simulation covers a reasonable range of  complexities; for example, model 1 has $3^3$ jumps in the CDF of signal $\Theta$, and models 2 and 4 have unbounded noise. Nevertheless, our method shows good performance in spite of model misspecification. This robustness is appealing in practice because the structure of underlying signal tensor is often unknown. {\color{red} keep only one figure. panels b and d only. Others in appendix.}
+Figure~\ref{fig:compare1}a-b compares the estimation error under full observation. For space consideration, only results for models 2-3 are presented in the main paper, and the rest in the Appendix. We find that MAE decreases with tensor dimension for all three methods. Our method {\bf NonParaT} achieves the best performance in all scenarios, whereas the second best method is {\bf CPT} for model 2, and {\bf NonParaM} for model 3. The model 2 has controlled multilinear tensor rank, which makes tensor methods {\bf NonParaT} and {\bf CPT} more accurate than matrix methods. For model 4, the rank exceeds the tensor dimension, and therefore, the two nonparametric methods {\bf NonParaT} and {\bf NonparaM} exhibit the greater advantage. Figure~\ref{fig:compare1}c-d shows the completion error against observation fraction. We fix $d=40$ and gradually increase the observation fraction ${|\Omega|/d^3}$ from 0.3 to 1. We find that {\bf NonParaT} achieves the lowest error among all methods. Our simulation covers a wide range of complexities, and our method shows good performance in all experiments. 
 
 \begin{figure}[h!]
-\captionsetup{font=footnotesize}
-\includegraphics[width=\textwidth]{figure/fig1-4v2.pdf}
-\vspace{-.5cm}
-\caption{\footnotesize Estimation error versus tensor dimension. {\color{red} need change}}\label{fig:compare1}
-\end{figure}
-%\begin{figure}[h!]
-%\includegraphics[width=\textwidth]{figure/fig5-8v2.pdf}
-%\caption{\footnotesize Completion error versus observation fraction. Panels (a)-(d) correspond to simulation models 1-4 in Table~\ref{tab:simulation}. }\label{fig:compare2}
-%\end{figure}
-\vspace{-.5cm}
-\subsection{Data applications}
+\vspace{-.1cm}
+\captionsetup{font=scriptsize}
+\includegraphics[width=\textwidth]{figure/fig_combined.pdf}
 \vspace{-.4cm}
-We apply our method to two tensor datasets, the MRN-114 human brain connectivity data~\citep{wang2017bayesian}, and NIPS data~\cite{globerson2007euclidean}. The brain dataset records the structural connectivity among 68 brain regions for 114 individuals along with their Intelligence Quotient (IQ) scores. We organize the connectivity data into an order-3 tensor, where entries encode the presence or absence of fiber connections between brain regions across individuals. The NIPS dataset consists of word occurrence counts in papers published from 1987 to 2003. We focus on the top 100 authors, 200 most frequent words, and normalize each word count by log transformation with pseudo-count~1. The resulting dataset is an order-3 tensor with entry representing the log counts of words by authors across years. 
-%\begin{table}[h!]
-%\centering
-%\resizebox{1\textwidth}{!}{
-%\begin{tabular}{c|c|c|c||c|c|c}
-%\Xhline{2\arrayrulewidth}
-%\multicolumn{4}{c|}{MRN-114 brain connectivity dataset}& \multicolumn{3}{c}{NIPS word occurrence dataset}\\
-%\Xhline{2\arrayrulewidth}
-%Method             &$r =6$        & $r=9$ &  $r=12$&$r=6$&$r = 9$&$r = 12$\\
-%\hline
-%NonparaT (Ours)& $ {\bf 0.14}(0.001)$ & ${\bf 0.12}(0.001)$&${\bf 0.12}(0.001)$&${\bf 0.16}(0.002)$ & ${\bf 0.15}(0.001)$& ${\bf 0.14}(0.001)$\\
-%Low-rank CPT & $0.23(0.006$)&$0.22(0.004)$&$0.21(0.006)$&$0.20(0.007)$ & $0.19(0.007)$&$0.17(0.007)$\\
- %\Xhline{2\arrayrulewidth}
-%\end{tabular}
-%}
-%\caption{MAE comparison in the brain data and NIPS data analysis. Reported MAEs are averaged over five runs of cross-validation, with %20\% entries for testing and 80\% for training, with standard errors in parentheses. Bold numbers indicate the minimal MAE among three %methods. For low-rank CPT, we use R function {\tt rTensor} with default hyperparameters, and for our method, we set $H=20$.}%\label{tab:data}
-%\end{table}
+\caption{\scriptsize Performance comparison. (a)-(b): Estimation error versus tensor dimension. (c)-(d): Estimation error versus observation fraction. Panels (a) and (c) are for Model 2, whereas (b) and (d) are for Model 3.}\label{fig:compare1}
+\vspace{-.1cm}
+\end{figure}
+
+
+{\bf Data applications.} We apply our method to two tensor datasets, the MRN-114 human brain connectivity data~\citep{wang2017bayesian}, and NIPS data~\cite{globerson2007euclidean}. The brain dataset records the structural connectivity among 68 brain regions for 114 individuals along with their Intelligence Quotient (IQ) scores. We organize the connectivity data into an order-3 tensor, where entries encode the presence or absence of fiber connections between brain regions across individuals. The NIPS dataset consists of word occurrence counts in papers published from 1987 to 2003. We focus on the top 100 authors, 200 most frequent words, and normalize each word count by log transformation with pseudo-count~1. The resulting dataset is an order-3 tensor with entry representing the log counts of words by authors across years. 
+
 \begin{table}[ht]
 \captionsetup{font=scriptsize}
 \begin{varwidth}[b]{0.4\linewidth}
@@ -544,18 +530,18 @@ CPT &$0.20(0.007)$&$0.19(0.007)$&$0.17(0.007)$\\
 \end{tabular}
 }
 \vspace{.4cm}
-\caption{\scriptsize MAE comparison between our method {\bf NonparaT} ($H=20$) and CP low-rank method ({\bf CPT}) in the brain and NIPS data analysis. Standard errors are reported in parenthesis.}\label{tab:data}
+\caption{\scriptsize MAE comparison between our method {\bf NonparaT} ($H=20$) and {\bf CPT} in the brain and NIPS data analysis. Standard errors are reported in parenthesis.}\label{tab:data}
 \end{varwidth}
 \hfill
  \begin{minipage}[b]{0.55\textwidth}
  \centering
  \vspace{-.2cm}
 \includegraphics[width=.43\textwidth]{figure/brainIQ.pdf}
-\includegraphics[width=.54\textwidth]{figure/signal.pdf}
+\includegraphics[width=.55\textwidth]{figure/signal.pdf}
 \captionof{figure}{\scriptsize  (a) top IQ-associated edges in the brain connectivity data. (b) top authors and words for years 1996-1999 in the NIPS data. }\label{fig:signal}
  \end{minipage}
  \end{table}
-\vspace{-.5cm}
+\vspace{-.3cm}
 
 Table~\ref{tab:data} compares the prediction accuracy of different methods. Reported MAEs are averaged over five runs of cross-validation, with 20\% entries for testing and 80\% for training. Our method substantially outperforms the low-rank CP method for every configuration under consideration. Further increment of rank appears to have little effect on the performance, and we find that increased missingness gives more advantages to our method (see details in Appendix). The comparison highlights the advantage of our method in achieving accuracy while maintaining low complexity. 
 
@@ -568,11 +554,12 @@ Table~\ref{tab:data} compares the prediction accuracy of different methods. Repo
 %}\label{fig:signal}
 %\end{figure}
 
-We next examine the estimated signal tensor $\hat \Theta$ from our method. Figure~\ref{fig:signal}a shows the top 10 brain edges based on regression analysis of denoised connection strengths against normalized IQ scores. We find that top connections are mostly inter-hemisphere edges, consistent with recent research on brain connectivity with intelligence~\cite{li2009brain,wang2017bayesian}. Figure~\ref{fig:signal}b illustrates the results from NIPS data, where we plot the entries in $\hat \Theta$ corresponding to top authors and most-frequent words (after excluding generic words such as \emph{figure}, \emph{results}, etc). The identified pattern is consistent with the active topics in the NIPS publication. Among the top words are \emph{neural} (marginal mean = 1.95), \emph{learning} (1.48), and \emph{network} (1.21), whereas top authors are \emph{T.\ Sejnowski} (1.18), \emph{B.~Scholkopf} (1.17), \emph{M.\ Jordan} (1.11), and \emph{G.\ Hinton} (1.06). We also find strong heterogeneity among word occurrences across authors and years. For example, \emph{training} and \emph{algorithm} are popular words for \emph{B.\ Scholkopf} and \emph{A.\ Smola} in 1998-1999, whereas \emph{model} occurs more often in \emph{M.\ Jordan} and in 1996. The detected pattern and achieved accuracy demonstrate the applicability of our method.
+Figure~\ref{fig:signal}a shows the top 10 brain edges based on regression analysis of denoised connection strengths against normalized IQ scores. We find that top connections are mostly inter-hemisphere edges, consistent with recent research on brain connectivity with intelligence~\cite{li2009brain,wang2017bayesian}. Figure~\ref{fig:signal}b illustrates the results from NIPS data, where we plot the entries in $\hat \Theta$ corresponding to top authors and most-frequent words (after excluding generic words such as \emph{figure}, \emph{results}, etc). The identified pattern is consistent with the active topics in the NIPS publication. Among the top words are \emph{neural} (marginal mean = 1.95), \emph{learning} (1.48), and \emph{network} (1.21), whereas top authors are \emph{T.\ Sejnowski} (1.18), \emph{B.~Scholkopf} (1.17), \emph{M.\ Jordan} (1.11), and \emph{G.\ Hinton} (1.06). We also find strong heterogeneity among word occurrences across authors and years. For example, \emph{training} and \emph{algorithm} are popular words for \emph{B.\ Scholkopf} and \emph{A.\ Smola} in 1998-1999, whereas \emph{model} occurs more often in \emph{M.\ Jordan} and in 1996. The detected pattern and achieved accuracy demonstrate the applicability of our method.
 
 
-
+\vspace{-.1cm}
 \section{Conclusion}
+\vspace{-.1cm}
 We have developed a tensor completion method that addresses both low- and high-rankness based on sign series representation. Our work provides a nonparametric framework for tensor estimation, and we obtain results  previously impossible.  We hope the work opens up new inquiry that allows more researchers to contribute to this field.
 %\bibliographystyle{chicago}
 
