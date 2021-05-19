@@ -96,7 +96,6 @@
 \usepackage[parfill]{parskip}
 
 \usepackage{microtype}
-\usepackage{xr}
 \usepackage{algpseudocode}
 
 \newcommand\Algphase[1]{%
@@ -111,7 +110,8 @@
 
 
 
-
+\usepackage{xr}
+\externaldocument{neurips_2021_supplement}
 
 
 \title{Beyond the Signs: Nonparametric Tensor \\
@@ -160,7 +160,7 @@ where $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an order-$K$ data tens
 {\bf Inadequacies of  low-rank models.} The signal plus noise model~\eqref{eq:model} is popular in tensor literature. Existing methods estimate the signal tensor based on low-rankness of $\Theta$~\citep{jain2014provable,montanari2018spectral}. Common low-rank models include Canonical Polyadic (CP) tensors~\citep{hitchcock1927expression}, Tucker tensors~\citep{de2000multilinear}, and block tensors~\citep{wang2019multiway}. While these methods have shown great success in theory, tensors in applications often violate the low-rankness. Here we provide two examples to illustrate the limitation of classical models.
 
 
-The first example reveals the sensitivity of tensor rank to order-preserving transformations. Let $\tZ \in \mathbb{R}^{30\times 30\times 30}$ be an order-3 tensor with CP $\text{rank}(\tZ)=3$ (formal definition is deferred to later section). Suppose a monotonic transformation $f(z)=(1+\exp(-cz))^{-1}$ is applied to $\tZ$ entrywise, and we let the signal $\Theta$ in model~\eqref{eq:modelintro} be the tensor after transformation. Figure~\ref{fig:example}a plots the numerical rank (see Section~\ref{sec:additional} in Appendix) of $\Theta$ versus $c$. As we see, the rank increases rapidly with $c$, rending traditional low-rank tensor methods ineffective in the presence of mild order-preserving nonlinearities. In  digital processing~\citep{ghadermarzy2018learning} and genomics analysis~\citep{hore2016tensor}, the tensor of interest often undergoes unknown transformation prior to measurements. The sensitivity to transformation makes the low-rank model less desirable in practice. 
+The first example reveals the sensitivity of tensor rank to order-preserving transformations. Let $\tZ \in \mathbb{R}^{30\times 30\times 30}$ be an order-3 tensor with CP $\text{rank}(\tZ)=3$ (formal definition is deferred to later section). Suppose a monotonic transformation $f(z)=(1+\exp(-cz))^{-1}$ is applied to $\tZ$ entrywise, and we let the signal $\Theta$ in model~\eqref{eq:modelintro} be the tensor after transformation. Figure~\ref{fig:example}a plots the numerical rank (see Appendix~\ref{sec:additional}{\color{red}?}) of $\Theta$ versus $c$. As we see, the rank increases rapidly with $c$, rending traditional low-rank tensor methods ineffective in the presence of mild order-preserving nonlinearities. In  digital processing~\citep{ghadermarzy2018learning} and genomics analysis~\citep{hore2016tensor}, the tensor of interest often undergoes unknown transformation prior to measurements. The sensitivity to transformation makes the low-rank model less desirable in practice. 
 
 \begin{figure}[h]
 \captionsetup{font=footnotesize}
@@ -192,7 +192,7 @@ Statistically, the problem of high-rank tensor estimation is challenging. Existi
 
 Computationally, a number of polynomial-time algorithms are readily available for 1-bit tensor estimation~\cite{wang2018learning, han2020optimal, ghadermarzy2018learning}. These algorithms enjoys statistical and computational accuracy while being restricted to binary inputs. Our work is orthogonal to these algorithmic developments, and we show that the high-rank tensor estimate is provably reducible to a series of binary tensor problems with suitable weights. This reduction provides a generic engine to empower existing algorithms for a wider range of structured tensor problems. We use a divide-and-concur approach to combine these base algorithms, thereby achieving computational accuracy without the need to reinvent the wheel. The flexibility to import and adapt existing tensor algorithms is one advantage of our method. 
 
-We also highlight the challenges associated with tensors compared to matrices. High-rank matrix estimation is recently studied under nonlinear models~\citep{ganti2015matrix} and subspace clustering~\citep{pmlr-v70-ongie17a,fan2019online}. However, the problem for high-rank tensors is more challenging, because the tensor rank often exceeds the dimension when order $K\geq 3$~\citep{anandkumar2017analyzing}. This is in sharp contrast to matrices. We show that, applying matrix methods to higher-order tensors results in suboptimal estimates. A full exploitation of the higher-order structure is needed; this is another challenge we address in this paper.
+We also highlight the challenges associated with tensors compared to matrices. High-rank matrix estimation is recently studied under nonlinear models~\citep{ganti2015matrix} and subspace clustering~\citep{pmlr-v70-ongie17a,fan2019online}. However, high-rank tensor problems is more challenging, because the tensor rank often exceeds the dimension when order $K$ greater than two~\citep{anandkumar2017analyzing}. This is in sharp contrast to matrices ($K=2$). We show that, applying matrix methods to higher-order tensors results in suboptimal estimates. A full exploitation of higher-order structure is needed; this is another challenge we address in this paper.
 
 {\bf Notation.} We use $[n]=\{1,\ldots,n\}$ for $n$-set with $n\in\mathbb{N}_{+}$, $a_n\lesssim b_n$ if $\lim_{n\to\infty} a_n/b_n\leq c$ for some constant $c>0$, and $a_n\asymp b_n$ if $c_1\leq \lim_{n\to \infty} a_n/b_n\leq c_2$ for some constants $c_1,c_2>0$. We use $\tO(\cdot)$ to denote the big-O notation, $\tilde \tO(\cdot)$ the variant hiding logarithmic factors. Let $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor, and $\Theta(\omega)\in\mathbb{R}$ denote the tensor entry indexed by $\omega \in[d_1]\times \cdots \times [d_K]$. An event $A$ is said to occur ``with very high probability'' if $\mathbb{P}(A)$ tends to 1 faster than any polynomial of tensor dimension $d:=\min_k d_k \to\infty$. The tensor rank~\citep{hitchcock1927expression} is defined by $\text{rank}(\Theta)=\min\{r\in\mathbb{N}\colon \Theta=\sum_{s=1}^r\ma^{(1)}_s\otimes\cdots\otimes \ma^{(K)}_s\}$, where $\ma^{(k)}_s\in\mathbb{R}^{d_k}$ are vectors for $k\in[K], s\in[r]$, and $\otimes$ denotes the outer product of vectors. We use $\sign(\cdot)\colon \mathbb{R}\to\{-1,1\}$ to denote the sign function, where $\sign(y)=1$ if $y\geq 0$ and $-1$ otherwise. We allow univariate functions, such as $\sign(\cdot)$ and general $f\colon \mathbb{R}\to\mathbb{R}$, to be applied to tensors in an element-wise manner. 
 
@@ -202,7 +202,7 @@ Let $\tY$ be an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor generated from t
 \begin{equation}\label{eq:model}
 \tY=\Theta+\tE,
 \end{equation}
-where $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an unknown signal tensor, and $\tE$ is a noise tensor consisting of zero-mean, independent but not necessarily identically distributed entries. We allow heterogenous noise, in that the marginal distribution of noise entry $\tE(\omega)$ may depend on $\omega$. For a cleaner exposition, we assume the noise is bounded and the range of $Y$ is in $[-1,1]$; the extension to a sub-Gaussian noise is provided in Section~\ref{sec:sub-Gaussian} of the Appendix. Our observation is an incomplete data tensor from~\eqref{eq:model}, denoted  $\tY_\Omega$, where $\Omega\subset[d_1]\times\cdots\times[d_K]$ is the index set of observed entries. We consider a general model on $\Omega$ that allows both uniform and non-uniform samplings. Specifically, let $\Pi=\{p_\omega\}$ be an arbitrarily predefined probability distribution over the full index set with $\sum_{\omega\in[d_1]\times \cdots \times [d_K]}p_\omega=1$. We use $\omega\sim \Pi$ to denote the sampling rule, meaning $\omega$ in $\Omega$ are i.i.d.\ draws with replacement from distribution $\Pi$. The goal is to estimate $\Theta$ from $Y_{\Omega}$. Note that $\Theta$ is not necessarily low-rank. 
+where $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an unknown signal tensor, and $\tE$ is a noise tensor consisting of zero-mean, independent but not necessarily identically distributed entries. We allow heterogenous noise, in that the marginal distribution of noise entry $\tE(\omega)$ may depend on $\omega$. For a cleaner exposition, we assume the noise is bounded and the range of $Y$ is in $[-1,1]$; the extension to a sub-Gaussian noise is provided in Appendix~\ref{sec:subGaussian}. Our observation is an incomplete data tensor from~\eqref{eq:model}, denoted  $\tY_\Omega$, where $\Omega\subset[d_1]\times\cdots\times[d_K]$ is the index set of observed entries. We consider a general model on $\Omega$ that allows both uniform and non-uniform samplings. Specifically, let $\Pi=\{p_\omega\}$ be an arbitrarily predefined probability distribution over the full index set with $\sum_{\omega\in[d_1]\times \cdots \times [d_K]}p_\omega=1$. We use $\omega\sim \Pi$ to denote the sampling rule, meaning $\omega$ in $\Omega$ are i.i.d.\ draws with replacement from distribution $\Pi$. The goal is to estimate $\Theta$ from $Y_{\Omega}$. Note that $\Theta$ is not necessarily low-rank. 
 
 {\bf Algorithm intuition.} Before describing our main results, we provide the intuition behind our method. In the two examples in Section~\ref{sec:intro}, the high-rankness in the signal $\Theta$ makes the estimation challenging. Now let us examine the sign of the $\pi$-shifted signal $\sign(\Theta-\pi)$ for any given $\pi\in[-1,1]$. It turns out that, these sign tensors share the same sign patterns as low-rank tensors. Indeed, the signal tensor in the first example has the same sign pattern as a rank-$4$ tensor, since $\sign(\Theta-\pi)=\sign(\tZ-f^{-1}(\pi))$. The signal tensor in the second example has the same sign pattern as a rank-2 tensor, since $\sign(\Theta(i,j,k)-\pi)=\sign(\max(i,j,k)-d(e^{\pi}-1))$ (see Example~\ref{eq:example} in Section~\ref{sec:representation}).
 
@@ -239,7 +239,7 @@ Like most tensor problems~\citep{hillar2013most}, determining the sign-rank is N
 \end{enumerate}
 \end{prop}
 Propositions~\ref{cor:monotonic} demonstrates the strict broadness of low sign-rank family over the usual low-rank family. 
-In particular, the sign-rank can be much smaller than the tensor rank, as we have shown in Section~\ref{sec:intro}. We provide additional examples in the Appendix in which the tensor rank grows with dimension $d$ but the sign-rank remains a constant. The results highlight the advantages of using sign-rank in the high-dimensional tensor analysis. 
+In particular, the sign-rank can be much smaller than the tensor rank, as we have shown in Section~\ref{sec:intro}. We provide additional examples in Appendix~\ref{sec:high-rank} in which the tensor rank grows with dimension $d$ but the sign-rank remains a constant. The results highlight the advantages of using sign-rank in the high-dimensional tensor analysis. 
 
 We now introduce a tensor family, which we coin as ``sign representable tensors''.
 \vspace{.05cm}
@@ -267,7 +267,7 @@ We next show that the $r$-sign representable tensor family is a general model th
 \end{example}
 \vspace{.05cm}
 
-\begin{example}[Structured tensors with repeating entries]\label{eq:example} Here we revisit the model introduced in Figure~\ref{fig:example}b of Section~\ref{sec:intro}. Let $\Theta$ be an order-$K$ tensor with entries $\Theta(i_1,\ldots,i_K)=\log(1+\max_kx^{(k)}_{i_k})$, where $x^{(k)}_{i_k}$ are given numbers in $[0,1]$ for all $i_k\in[d_k], k\in[K]$. We conclude that $\Theta \in \caliP(2)$, because the sign tensor $\sign(\Theta-\pi)$ with an arbitrary $\pi\in(0,\ \log 2)$ is a block tensor with at most two blocks (see Figure~\ref{fig:demo}c). Similar results extend to structured tensors with repeating entries, e.g.\ tensor $\Theta$ with entries $\Theta(i_1,\ldots,i_K)=g(\max_kx^{(k)}_{i_k})$, where $g(\cdot)$ is a polynomial of degree $r$. In this case, we have $\Theta\in \caliP(2r)$ (see proofs in the Appendix~\ref{sec:additional}). 
+\begin{example}[Structured tensors with repeating entries]\label{eq:example} Here we revisit the model introduced in Figure~\ref{fig:example}b of Section~\ref{sec:intro}. Let $\Theta$ be an order-$K$ tensor with entries $\Theta(i_1,\ldots,i_K)=\log(1+\max_kx^{(k)}_{i_k})$, where $x^{(k)}_{i_k}$ are given numbers in $[0,1]$ for all $i_k\in[d_k], k\in[K]$. We conclude that $\Theta \in \caliP(2)$, because the sign tensor $\sign(\Theta-\pi)$ with an arbitrary $\pi\in(0,\ \log 2)$ is a block tensor with at most two blocks (see Figure~\ref{fig:demo}c). Similar results extend to structured tensors with repeating entries, e.g.\ tensor $\Theta$ with entries $\Theta(i_1,\ldots,i_K)=g(\max_kx^{(k)}_{i_k})$, where $g(\cdot)$ is a polynomial of degree $r$. In this case, we have $\Theta\in \caliP(2r)$ (see proofs in Appendix~\ref{sec:high-rank}). 
 \end{example}
 
 
@@ -335,10 +335,10 @@ The tensor block model is $\infty$-globally smooth. This is because the set $\tN
 In previous sections we have established the sign series representation and its relationship to classification. In this section, we present our learning reduction proposal in details (Figure~\ref{fig:demo}). We provide the estimation error bound and address the empirical implementation of the method. 
 
 
-\subsection{Statistical error and sample complexity}
-Given a noisy incomplete tensor observation $\tY_\Omega$ from model~\eqref{eq:model}, we cast the problem of estimating $\Theta$ into a series of weighted classifications. Specifically we propose the tensor estimate using the sign representation,
+\subsection{Statistical error and sample complexity}\label{sec:error}
+Given a noisy incomplete tensor observation $\tY_\Omega$ from model~\eqref{eq:model}, we cast the problem of estimating $\Theta$ into a series of weighted classifications. Specifically, we propose the signal tensor estimate using averaged structured sign tensors
 \begin{equation}\label{eq:est}
-\hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH}\sign{\hat \tZ_\pi}, \quad \text{where}\quad \hat \tZ_\pi = \argmin_{\tZ\colon \text{rank}\tZ\leq r} L(\tZ, \tY_\Omega-\pi),
+\hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH}\sign{\hat \tZ_\pi}, \quad \text{with}\quad \hat \tZ_\pi = \argmin_{\tZ\colon \text{rank}\tZ\leq r} L(\tZ, \tY_\Omega-\pi),
 \end{equation}
 where $\tH=\{-1,\ldots,-{1/ H}, 0, {1/H},\ldots,1\}$ is the series of levels to aggregate, $L(\cdot,\cdot)$ denotes the weighted classification objective defined in~\eqref{eq:sample}, and the rank constraint on $\tZ$ follows from Proposition~\ref{prop:global}. For the theory, we assume the true $r$ is known; in practice, $r$ could be chosen in a data adaptive fashion via cross-validation or elbow method~\citep{hastie2009elements}. 
 
@@ -412,7 +412,7 @@ This section addresses the practical implementation of our estimation~\eqref{eq:
 \INPUT Noisy and incomplete data tensor $\tY_\Omega$, rank $r$, resolution parameter $H$, ridge penalty $\lambda$.
 \For {$\pi \in \tH=\{ -1, \ldots, -{1\over H}, 0, {1\over H},\ldots, 1\}$}
 \State Define $\pi$-shifted tensor $\bar \tY=\tY-\pi$ and corresponding sign tensor $\sign(\bar \tY)=\sign(\tY-\pi)$. 
-\State Perform 1-bit tensor estimation algorithm~\citep{ghadermarzy2018learning,wang2018learning,hong2020generalized,alquier2019estimation}) on $\bar \tY_\Omega$ and obtain $\hat \tZ_\pi\leftarrow \argmin_{\text{low-rank }\tZ}\sum_{\omega\in \Omega} |\bar \tY(\omega)|F(\tZ(\omega)\sign\bar \tY(\omega))+\lambda\FnormSize{}{\tZ}$ where $F(\cdot)$ is the large-margin loss.
+\State Perform 1-bit tensor estimation algorithm~\citep{ghadermarzy2018learning,wang2018learning,hong2020generalized,alquier2019estimation}) on $\bar \tY_\Omega$ and obtain $\hat \tZ_\pi\leftarrow \argmin_{\text{low-rank }\tZ}\sum_{\omega\in \Omega} |\bar \tY(\omega)|F(\tZ(\omega)\sign\bar \tY(\omega))+\lambda\FnormSize{}{\tZ}^2$ where $F(\cdot)$ is the large-margin loss.
 \EndFor
 \OUTPUT Estimated signal tensor $\hat \Theta_F={1\over 2H+1}\sum_{\pi \in \tH}\sign(\hat \tZ_\pi)$.
 \vspace{-.1cm}
@@ -420,7 +420,7 @@ This section addresses the practical implementation of our estimation~\eqref{eq:
 \end{algorithm}
 \vspace{-.2cm}
 
-The base algorithm reduces to a low-rank 1-bit tensor estimation problem. Following the common practice in classification, we replace the 0-1 loss $\ell(z,y)=|\sign z - \sign y|$ in~\eqref{eq:sample} with a continuous large-margin loss $F(m)$ where $m=z\sign(y)$ is the margin. Examples of large-margin loss are hinge loss $F(m) = (1-m)_+$, logistic loss $F(m) =\log(1+e^{-m})$, and $\psi$-loss $F(m)=2\min(1,(1-m)_+)$ with $m_{+}=\max(m,0)$. A number of polynomial-time algorithms have been well studied for this problem with optimization guarantees~\citep{ghadermarzy2018learning,wang2018learning,hong2020generalized,alquier2019estimation}. We implement hinge loss~\cite{alquier2019estimation,genzel2020robust} which maintains desirable statistical properties as in 0-1 loss, because of the linear excess risk bound
+The base algorithm reduces to a low-rank 1-bit tensor estimation problem. Following the common practice in classification, we replace the 0-1 loss $\ell(z,y)=|\sign z - \sign y|$ in~\eqref{eq:sample} with a continuous large-margin loss $F(m)$ where $m=z\sign(y)$ is the margin. Examples of large-margin loss are hinge loss $F(m) = (1-m)_+$, logistic loss $F(m) =\log(1+e^{-m})$, and $\psi$-loss $F(m)=2\min(1,(1-m)_+)$ with $m_{+}=\max(m,0)$. A number of polynomial-time algorithms have been well studied for this problem with optimal guarantees~\citep{ghadermarzy2018learning,wang2018learning,hong2020generalized,alquier2019estimation}. We implement hinge loss~\cite{alquier2019estimation,genzel2020robust} which maintains desirable statistical properties as in 0-1 loss, because of the linear excess risk bound
 \[
 \risk(\tZ)-\risk(\Theta-\pi)\leq C[\risk_F(\tZ)-\risk_F(\Theta-\pi)],\quad \text{for all }\pi\in[-1,1] \text{ and all tensor }\tZ.
 \]
@@ -445,7 +445,7 @@ In principle, uses can choose their own favorite large-margin losses, as long as
 \end{table}
 \vspace{-.1cm}
 
-Figure~\ref{fig:compare1}a-b compares the estimation error under full observation. For space consideration, only results for models 2-3 are presented in the main paper, and the rest in the Appendix. We find that MAE decreases with tensor dimension for all three methods. Our method \NonParaT\ achieves the best performance in all scenarios, whereas the second best method is \CPT\ for model 2, and \NonParaM\ for model 3. The model 2 has controlled multilinear rank along mode 3, which makes tensor methods \NonParaT\ and \CPT\ more accurate than \NonParaM. The model 4 fits poorly into low-rank tensor models, and therefore, the two nonparametric methods \NonParaT\ and \NonParaM\ exhibit the greater advantage. Figure~\ref{fig:compare1}c-d shows the completion error against observation fraction. We fix $d=40$ and gradually increase the observation fraction ${|\Omega|/d^3}$ from 0.3 to 1. Again, we find that \NonParaT\ achieves the lowest error. The simulation covers a wide range of complexities, and our method shows good performance in experiments. 
+Figure~\ref{fig:compare1}a-b compares the estimation error under full observation. For space consideration, only results for models 2-3 are presented in the main paper, and the rest in the Appendix~{\color{red}?}. We find that MAE decreases with tensor dimension for all three methods. Our method \NonParaT\ achieves the best performance in all scenarios, whereas the second best method is \CPT\ for model 2, and \NonParaM\ for model 3. The model 2 has controlled multilinear rank along mode 3, which makes tensor methods \NonParaT\ and \CPT\ more accurate than \NonParaM. The model 4 fits poorly into low-rank tensor models, and therefore, the two nonparametric methods \NonParaT\ and \NonParaM\ exhibit the greater advantage. Figure~\ref{fig:compare1}c-d shows the completion error against observation fraction. We fix $d=40$ and gradually increase the observation fraction ${|\Omega|/d^3}$ from 0.3 to 1. Again, we find that \NonParaT\ achieves the lowest error. The simulation covers a wide range of complexities, and our method shows good performance in experiments. 
 
 \begin{figure}[h!]
 \vspace{-.1cm}
@@ -493,7 +493,7 @@ CPT &$0.20(0.007)$&$0.19(0.007)$&$0.17(0.007)$\\
 \captionof{figure}{(a) top IQ-associated edges in the brain connectivity data. (b) top (authors, words, year) triplets in the NIPS data. }\label{fig:signal}
  \end{minipage}
 
-Table~\ref{tab:data} compares the prediction accuracy of different methods. Reported MAEs are averaged over five runs of cross-validation, with 20\% entries for testing and 80\% for training. Our method substantially outperforms the low-rank CP method for every configuration under consideration. Further increment of rank appears to have little effect on the performance, and we find that increased missingness gives more advantages to our method (see details in Appendix). The comparison highlights the advantage of our method in achieving accuracy while maintaining low complexity. 
+Table~\ref{tab:data} compares the prediction accuracy of different methods. Reported MAEs are averaged over five runs of cross-validation, with 20\% entries for testing and 80\% for training. Our method substantially outperforms the low-rank CP method for every configuration under consideration. Further increment of rank appears to have little effect on the performance, and we find that increased missingness gives more advantages to our method (see details in Appendix {\color{red}?}). The comparison highlights the advantage of our method in achieving accuracy while maintaining low complexity. 
 
 Figure~\ref{fig:signal}a shows the top 10 brain edges based on regression analysis of denoised tensor from \NonParaT\ against normalized IQ scores. We find that the top connections are mostly inter-hemisphere edges, consistent with recent research on brain connectivity~\cite{li2009brain,wang2017bayesian}. Figure~\ref{fig:signal}b illustrates the results from NIPS data, where we plot the entries in $\hat \Theta$ corresponding to top authors and most-frequent words (after excluding generic words such as \emph{figure}, \emph{results}, etc). The identified pattern agrees with active topics in the NIPS publication. Among the top words are \emph{neural} (marginal mean = 1.95), \emph{learning} (1.48), and \emph{network} (1.21), whereas top authors are \emph{T.\ Sejnowski} (1.18), \emph{B.~Scholkopf} (1.17), \emph{M.\ Jordan} (1.11), and \emph{G.\ Hinton} (1.06). We also find strong heterogeneity among word occurrences across authors and years. For example, \emph{training} and \emph{algorithm} are popular words for \emph{B.\ Scholkopf} and \emph{A.\ Smola} in 1998-1999, whereas \emph{model} occurs more often in \emph{M.\ Jordan} and in 1996. The detected pattern and achieved accuracy demonstrate the applicability of our method.
 
@@ -513,11 +513,11 @@ We have developed a tensor estimation method that addresses both low- and high-r
 \item For all authors...
 \begin{enumerate}
   \item Do the main claims made in the abstract and introduction accurately reflect the paper's contributions and scope?
-    \answerYes{}
+    \answerYes{See Section~\ref{sec:intro}, {\bf Our contributions}.}
   \item Did you describe the limitations of your work?
-    \answerYes{See Section~\ref{sec:intro}, paragraph {\bf Our contributions}. }
+    \answerYes{Theoretical assumptions and limitations are described in Sections~\ref{sec:identifiability} and~\ref{sec:error}. Numerical assumptions are stated in Section~\ref{sec:simulation}.}
   \item Did you discuss any potential negative societal impacts of your work?
-    \answerNA{There is no potential negative societal impacts}
+    \answerNA{This work does not present any foreseeable societal consequence.}
   \item Have you read the ethics review guidelines and ensured that your paper conforms to them?
     \answerYes{}
 \end{enumerate}
@@ -525,45 +525,45 @@ We have developed a tensor estimation method that addresses both low- and high-r
 \item If you are including theoretical results...
 \begin{enumerate}
   \item Did you state the full set of assumptions of all theoretical results?
-    \answerYes{The assumptions for main theorems 1-3 have been fully described in the main paper. The assumptions for theorem 4 involves lengthy technical details; we have chosen to provide the main intuition in the main paper but leave the detail assumptions in the Appendix.}
+    \answerYes{The assumptions for main Theorems are fully stated in Sections~\ref{sec:identifiability} and~\ref{sec:error}. The assumptions for Theorem 4 and technical lemmas are stated in Appendix {\color{red}?}.}
 	\item Did you include complete proofs of all theoretical results?
-    \answerYes{All proofs and technical lemmas are provided in the Appendix.}
+    \answerYes{All proofs are provided in Appendix~\ref{sec:proofs}. Short proof intuition is provided in Section~\ref{sec:overview}. Comparison with existing theory is provided in Sections~\ref{sec:representation} and~\ref{sec:error}.}
 \end{enumerate}
 
 \item If you ran experiments...
 \begin{enumerate}
   \item Did you include the code, data, and instructions needed to reproduce the main experimental results (either in the supplemental material or as a URL)?
-    \answerYes{We have provide the package, data, and code in the supplemental materials. For better disseminate the research, we have also wrap the functions into a user-friendly package and the docmentation. }
+    \answerYes{See Section~\ref{sec:simulation} and Appendix~\ref{sec:data}. Code and user manual are submitted as supplemental materials.}
   \item Did you specify all the training details (e.g., data splits, hyperparameters, how they were chosen)?
-    \answerYes{The training details have been described in the main paper. The additional details based on cross validation are provided in Appendix}
+    \answerYes{Training procedures are described in Section~\ref{sec:simulation}. Additional details on hyperparameter selection and cross validation results are provided in Appendix~\ref{sec:data}.}
 	\item Did you report error bars (e.g., with respect to the random seed after running experiments multiple times)?
-    \answerYes{All error bars are in Figure...}
+    \answerYes{Error bars are provided in all Figures/Tables in the main paper and in Appendix~\ref{sec:data}.}
 	\item Did you include the total amount of compute and the type of resources used (e.g., type of GPUs, internal cluster, or cloud provider)?
-    \answerYes{Details provided in the Appendix??}
+    \answerYes{Computational platform and running time are detailed in Appendix~\ref{sec:data}. {\color{red}add from earlier rebuttal}}
 \end{enumerate}
 
 \item If you are using existing assets (e.g., code, data, models) or curating/releasing new assets...
 \begin{enumerate}
   \item If your work uses existing assets, did you cite the creators?
-    \answerYes{the source of data have been cited}
+    \answerYes{Data source has been  in Section~\ref{sec:data}, {\bf Data application}. }
   \item Did you mention the license of the assets?
-    \answerNA{there is no license for the data}
+    \answerNA{No license available for the assets used in this work.}
   \item Did you include any new assets either in the supplemental material or as a URL?
-    \answerYes{this paper generates no new data. The code is released}
+    \answerYes{We have submitted the software package as supplemental materials.}
   \item Did you discuss whether and how consent was obtained from people whose data you're using/curating?
-    \answerNA{The data is publicly available}
+    \answerNA{The datasets are publicly available.}
   \item Did you discuss whether the data you are using/curating contains personally identifiable information or offensive content?
-    \answerNA{The data incurses no offensive content.}
+    \answerNA{No personally identifiable information is included in the datasets.}
 \end{enumerate}
 
 \item If you used crowdsourcing or conducted research with human subjects...
 \begin{enumerate}
   \item Did you include the full text of instructions given to participants and screenshots, if applicable?
-    \answerNA{The research uses no human subjects}
+    \answerNA{This work does not involve human subjects.}
   \item Did you describe any potential participant risks, with links to Institutional Review Board (IRB) approvals, if applicable?
-    \answerNA{}
+    \answerNA{This work does not involve potential participant risk.}
   \item Did you include the estimated hourly wage paid to participants and the total amount spent on participant compensation?
-    \answerNA{}
+    \answerNA{This work does not involve participants.}
 \end{enumerate}
 
 \end{enumerate}
