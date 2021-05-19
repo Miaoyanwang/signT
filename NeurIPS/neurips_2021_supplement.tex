@@ -238,9 +238,9 @@ where the second line comes from the boundedness of classification loss $L(\cdot
 Fix $\pi\notin\tN$. For notational simplicity, we suppress the subscript $\pi$ and write $\hat \tZ$ in place of $\hat \tZ_\pi$. Denote $n=|\Omega|$ and $\rho=\rho(\pi, \tN)$. 
 
 Because the classification loss $L(\cdot, \cdot)$ is scale-free, i.e., $L(\tZ,\cdot)=L(c\tZ, \cdot)$ for every $c>0$, we consider the estimation subject to $\FnormSize{}{\tZ}\leq 1$ without loss of generality. Specifically, let
-\[
+\begin{align}\label{eq:opt}
 \hat \tZ=\argmin_{\tZ\colon \textup{rank}(\tZ)\leq r, \FnormSize{}{\tZ}\leq 1}L(\tZ, \bar \tY_{\Omega}).
-\]
+\end{align}
 
 We next apply the empirical process theory to bound $\hat \tZ$. To facilitate the analysis, we view the data $\bar \tY_\Omega=\{\bar \tY(\omega)\colon \omega\in \Omega\}$ as a collection of $n$ independent random variables where the randomness is from both $\bar \tY$ and $\omega\sim\Pi$. Write the index set $\Omega=\{1,\ldots,n\}$, so the loss function~\eqref{eq:sample2} becomes
 \[
@@ -252,7 +252,7 @@ We use $f_\tZ \colon [d_1]\times\cdots\times[d_n] \to \mathbb{R}$ to denote the 
 \end{align}
 is an empirical process induced by function $f_{\tZ}\in \tF_{\tT}$ where $\tT=\{\tZ\colon \rank(\tZ)\leq r, \ \FnormSize{}{\tZ}\leq 1\}$. Note that there is an one-to-one correspondence between sets $\tF_{\tT}$ and $\tT$. 
 
-Let $L_n$ denote the desired convergence rate to seek. By definition of $\hat \tZ$, we have, 
+Let $L_n$ denote the desired convergence rate to seek. By definition of $\hat \tZ$ in \eqref{eq:opt}, we have, 
 \[ L(\hat \tZ,\bar \tY_\Omega)-L(\bar \Theta,\bar \tY_\Omega) = \frac{1}{n}\sum_{i=1}^n\Delta_i(f_\tZ,\bar \Theta)\leq 0.\]
 Therefore, we have the following inclusion of probability events,
 \begin{align}\label{eq:unionpb}
@@ -423,7 +423,7 @@ where the first inequality uses the property of event $A$, and  the last inequal
 \end{align} 
 Based on the proof of Theorem~\ref{thm:classification} and union bound over $\pi\in\tH$, we have, for all $t\geq t_n$,
 \begin{align}\label{eq:pbA}
-\mathbb{P}(A)&\geq 1-\sum_{\pi\in\tH} \mathbb{P}\left(\text{MAE}(\sign\hat \tZ_\pi,\sign(\Theta-\pi))\lesssim t^{\alpha/(\alpha+2}+\frac{t}{\rho(\pi,\tN)}\right)\nonumber\\
+\mathbb{P}(A)&\geq 1-\sum_{\pi\in\tH} \mathbb{P}\left(\text{MAE}(\sign\hat \tZ_\pi,\sign(\Theta-\pi))\gtrsim t^{\alpha/(\alpha+2)}+\frac{t}{\rho(\pi,\tN)^2}\right)\nonumber\\
 &\gtrsim 1-(2H+1)\exp(-nt)\gtrsim 1-\exp(-nt+\log H).
 \end{align}
 We choose $t\asymp t_n\log H$ in \eqref{eq:pbA} so that $\log H$ is negligible compared to $nt$.
@@ -455,10 +455,10 @@ Notice that all points $\pi\in\tH_2$ satisfy $|\pi-\pi'|\gtrsim{1\over H}$ for a
  \end{proof}
  
 
-\subsection{Formal statement of Theorem 4 }
+\subsection{Formal statement  and proof of Theorem 4 }
  Here we consider the estimation 
  \begin{align}\label{eq:largemgopt}
-  \hat\tZ_\pi = \argmin_{\text{rank}(\tZ)\leq r}\sum_{\omega\in\Omega} |\bar\tY(\omega)|\times F(\tZ(\omega)\sign(\bar \tY(\omega))+\lambda\FnormSize{}{\tZ},
+  \hat\tZ_\pi = \argmin_{\text{rank}(\tZ)\leq r}\sum_{\omega\in\Omega} |\bar\tY(\omega)|\times F(\tZ(\omega)\sign(\bar \tY(\omega))+\lambda\FnormSize{}{\tZ}^2,
  \end{align}
  where $\lambda>0$ is the penalty parameter and $F$ is  a large-margin loss satisfying the following assumption.
 
@@ -479,12 +479,12 @@ Therefore, it suffices to bound the excess $F$-risk in order to bound the usual 
 \begin{thm}[Large-margin estimation]~\label{thm:extension} 
 Consider the same setup as in Theorem~\ref{thm:estimation}, and denote $ t_n={d_{\max}rK\log n \over n}$, where $n:=|\Omega|$. Suppose the surrogate loss $F$ satisfies Assumption~\ref{ass:main} with $a_n \lesssim t_n^{(\alpha+1)/(\alpha+2)}$. Set $\lambda\asymp t_n^{(\alpha+1)/(\alpha+2)}+t_n/\rho(\pi,\tN)$ in \eqref{eq:largemgopt}. Then, with high probability at least $1-\exp(-nt_n)$,  we have:
 \begin{enumerate}[label=(\alph*)]
-\item (Sign function estimation). For all $\pi\in[-1,1]$ except for a finite number of levels,
+\item (Sign tensor estimation). For all $\pi\in[-1,1]$ except for a finite number of levels,
 \begin{equation}\label{eq:sfe}
 \textup{MAE}(\sign(\hat \tZ_\pi,\sign(\bar\Theta)) \lesssim t_n ^{\alpha\over 2+\alpha}+{1\over \rho^2(\pi,\tN)}t_n.
 \end{equation}
 
-\item (Regression function estimation). 
+\item (Tensor estimation). 
 \begin{equation}\label{eq:rfs}
 \textup{MAE}(\hat\Theta,\Theta) \lesssim  \left(t_n\log H\right)^{\alpha \over 2+\alpha}+\frac{1+|\tN|}{H}+t_nH\log H.
 \end{equation}
@@ -492,39 +492,50 @@ In particualr, setting $H\asymp(1+|\tN|)^{1/2} t_n^{-1/2}$ yields the tighter up
 \end{enumerate}
 \end{thm}
 \begin{proof}
-Regression function estimation result \eqref{eq:rfs}  directly follows from  sign function estimation \eqref{eq:sfe} and the proof of Theorem~\ref{thm:estimation}.
+Tensor estimation result \eqref{eq:rfs}  directly follows from  sign tensor estimation \eqref{eq:sfe} and the proof of Theorem~\ref{thm:estimation}.
 Therefore, it suffices to prove \eqref{eq:sfe}.
 Our  proof uses  the same techniques used in the proof of  Theorem~\ref{thm:classification}. We summarize only the key difference.
 
-Fix $\pi\notin\tN$. For notational simplicity, we suppress the subscript $\pi$ and write $\hat \tZ$ in place of $\hat \tZ_\pi$. Denote $n=|\Omega|$ and $\rho=\rho(\pi, \tN)$. 
-Define $\ell_{\omega,F}(\tZ) =  |\bar\tY(\omega)|\times F(\tZ(\omega)\sign(\bar \tY(\omega))$.  
+Fix $\pi\notin\tN$. For notational simplicity, we suppress the subscript $\pi$ and write $\hat \tZ$ in place of $\hat \tZ_\pi$. Denote $n=|\Omega|$ and $\rho=\rho(\pi, \tN)$.  
+Define $\ell_{\omega,F}(\tZ) =  |\bar\tY(\omega)|\times F(\tZ(\omega)\sign(\bar \tY(\omega))$ and $\ell_{\omega,F'}(\tZ) =  |\bar\tY(\omega)|\times F'(\tZ(\omega)\sign(\bar \tY(\omega))$ where $F'$ is T-truncated version of $F$ such that $F'(x) =  \min(F(x),T)$ with $T=\max(2,J^2)$.  
 Notice that 
 \begin{align}\label{eq:empirical}
-{1\over n}\sum_{i=1}^n \KeepStyleUnderBrace{\left[\ell_{i,F}(\tZ, \bar \tY)-\ell_{i,F}(\bar \Theta, \bar \tY)\right]}_{\stackrel{\text{def}}{=}\Delta_{i,F}(f_\tZ, \bar\Theta)},
+{1\over n}\sum_{i=1}^n \KeepStyleUnderBrace{\left[\ell_{i,F}(\tZ, \bar \tY)-\ell_{i,F}(\bar \Theta, \bar \tY)\right]}_{\stackrel{\text{def}}{=}\Delta_{i,F}(f_\tZ, \bar\Theta)},\quad\text { and }\quad  {1\over n}\sum_{i=1}^n \KeepStyleUnderBrace{\left[\ell_{i,F'}(\tZ, \bar \tY)-\ell_{i,F'}(\bar \Theta, \bar \tY)\right]}_{\stackrel{\text{def}}{=}\Delta_{i,F'}(f_\tZ, \bar\Theta)}
 \end{align}
-is an empirical process induced by function $f_{\tZ}\in \tF_{\tT}$ where $\tT=\{\tZ\colon \rank(\tZ)\leq r\}$. Note that there is an one-to-one correspondence between sets $\tF_{\tT}$ and $\tT$. 
+are empirical processes induced by function $f_{\tZ}\in \tF_{\tT}$ where $\tT=\{\tZ\colon \rank(\tZ)\leq r\}$. Note that there is an one-to-one correspondence between sets $\tF_{\tT}$ and $\tT$. 
 
-By definition of $\hat \tZ$, we have, 
+By definition of $\hat \tZ$ in \eqref{eq:largemgopt}, we have, 
 \[ \frac{1}{n}\sum_{i=1}^n \Delta_{i,F}(f_{\hat \tZ},\tZ^{(n)})\leq \lambda J^2-\lambda\FnormSize{}{\hat\tZ}^2,\] where $\tZ^{(n)}$ is a sequence of function in Assumption~\ref{ass:main}(a).
 Let $L_n$ denote the desired convergence rate to seek.  Then, we have the following inclusion of probability events,
 \begin{align}\label{eq:unionpb2}
-&\left\{(\omega,\tY_{\omega})\colon \risk(\hat \tZ)-\risk(\bar\Theta)\geq 2L_n \right\}\nonumber\\
-&\subset\left\{(\omega,\tY_{\omega})\colon\exists \tZ \text{ s.t. } \text{rank}(\tZ)\leq r,  \risk(\tZ)-\risk(\bar\Theta)\geq2 L_n, \text{ and } -\frac{1}{n}\sum_{i=1}^n\Delta_i(f_\tZ,\tZ^{(n)})+\lambda J^2-\lambda\FnormSize{}{\hat\tZ}^2\geq 0 \right\}\nonumber\\
+&\left\{(\omega,\tY_{\omega})\colon \risk_{F'}(\hat \tZ)-\risk_{F'}(\bar\Theta)\geq 2L_n \right\}\nonumber\\
+&\subset\bigg\{(\omega,\tY_{\omega})\colon\exists \tZ \text{ s.t. } \text{rank}(\tZ)\leq r,  \risk_{F'}(\tZ)-\risk_{F'}(\bar\Theta)\geq2 L_n,\nonumber
+\\& \hspace{4cm}\text{ and } -\frac{1}{n}\sum_{i=1}^n\Delta_{i,F}(f_\tZ,\tZ^{(n)})+\lambda J^2-\lambda\FnormSize{}{\hat\tZ}^2\geq 0 \bigg\}\nonumber\\
+&\stackrel{(*)}{\subset}\bigg\{(\omega,\tY_{\omega})\colon\exists \tZ \text{ s.t. } \text{rank}(\tZ)\leq r,  \risk_{F'}(\tZ)-\risk_{F'}(\bar\Theta)\geq2 L_n,\nonumber
+\\& \hspace{4cm}\text{ and } -\frac{1}{n}\sum_{i=1}^n\Delta_{i,F'}(f_\tZ,\tZ^{(n)})+\lambda J^2-\lambda\FnormSize{}{\hat\tZ}^2\geq 0 \bigg\}\nonumber\\
 &\subset \left\{(\omega,\tY_{\omega})\colon\sup_{\substack{\text{rank}(\tZ)\leq r\\  
-\risk(\tZ)-\risk(\bar\Theta)\geq 2L_n  }}-\frac{1}{n}\sum_{i=1}^n\Delta_i(f_\tZ,\tZ^{(n)})+\lambda J^2-\lambda\FnormSize{}{\hat\tZ}^2\geq 0\right\}\nonumber\\
-&\subset \bigcup_{\ell_1,\ell_2=1}^{\infty}\left\{(\omega,\tY_\omega)\colon \sup_{\tZ\in A_{\ell_1,\ell_2}}-\frac{1}{n}\sum_{i=1}^n\Delta_i(f_\tZ,\tZ^{(n)})+\lambda J^2-\lambda\FnormSize{}{\hat\tZ}^2\geq 0\right\},
+\risk_{F'}(\tZ)-\risk_{F'}(\bar\Theta)\geq 2L_n  }}-\frac{1}{n}\sum_{i=1}^n\Delta_{i,F'}(f_\tZ,\tZ^{(n)})+\lambda J^2-\lambda\FnormSize{}{\hat\tZ}^2\geq 0\right\}\nonumber\\
+&\subset \bigcup_{\ell_1,\ell_2=1}^{\infty}\left\{(\omega,\tY_\omega)\colon \sup_{\tZ\in A_{\ell_1,\ell_2}}-\frac{1}{n}\sum_{i=1}^n\Delta_{i,F'}(f_\tZ,\tZ^{(n)})+\lambda J^2-\lambda\FnormSize{}{\hat\tZ}^2\geq 0\right\},
 \end{align}
-where we have partitioned $\{\tZ\colon \text{rank}(\tZ)\leq r \text{ and } \risk(\tZ)-\risk(\bar\Theta)\geq 2L_n\}$ in to union of $A_{\ell_1,\ell_2}$ with 
+where  $(*)$ comes from
+ \begin{align}
+ \ell_{\omega,F'}(\tZ,\bar\tY)\leq \ell_{\omega,F}(\tZ,\bar\tY) \text{ for all } \tZ \text{ and }   \ell_{\omega,F'}(\tZ^{(n)},\bar\tY)= \ell_{\omega,F}(\tZ^{(n)},\bar\tY) 
+ \end{align}
+ because the truncation constant $T = \max(2,J^2)\geq \max(2,\sup_n\FnormSize{}{\tZ^{(n)}}^2)$.
+In the last line of \eqref{eq:unionpb2}, we have partitioned $\{\tZ\colon \text{rank}(\tZ)\leq r \text{ and } \risk_{F'}(\tZ)-\risk_{F'}(\bar\Theta)\geq 2L_n\}$ in to union of $A_{\ell_1,\ell_2}$ with 
 \begin{align}
-A_{\ell_1,\ell_2} = \{\tZ\colon \text{rank}(\tZ)\leq r, (\ell_1+1) L_n\leq  \risk(\tZ)-\risk(\bar\Theta)<(\ell_1+2)L_n,\text{ and } \ell_2J^2\leq \FnormSize{}{\tZ}<(\ell_2+1)J^2\},
+A_{\ell_1,\ell_2} = \{\tZ\colon \text{rank}(\tZ)\leq r, (\ell_1+1) L_n\leq  \risk_{F'}(\tZ)-\risk_{F'}(\bar\Theta)<(\ell_1+2)L_n,\text{ and } \ell_2J^2\leq \FnormSize{}{\tZ}^2<(\ell_2+1)J^2\},
 \end{align}
-for $\ell_1,\ell_2 = 1,2,\ldots$. Let $\Gamma$ denote the target probability for the first line in \eqref{eq:unionpb2}.   For each $A_{\ell_1,\ell_2}$, we consider the centered empirical process,
+for $\ell_1,\ell_2 = 1,2,\ldots$. 
+
+
+Let $\Gamma$ denote the target probability for the first line in \eqref{eq:unionpb2}.   For each $A_{\ell_1,\ell_2}$, we consider the centered empirical process,
 \begin{align}\label{eq:vn2}
-v_n(f_{\tZ}) := -\frac{1}{n}\sum_{i=1}^n \left(\Delta_{i,F}(f_\tZ,\tZ^{(n)})- \mathbb{E}\Delta_{i,F}(f_\tZ,\tZ^{(n)})\right).
+v_n(f_{\tZ}) := -\frac{1}{n}\sum_{i=1}^n \left(\Delta_{i,F'}(f_\tZ,\tZ^{(n)})- \mathbb{E}\Delta_{i,F'}(f_\tZ,\tZ^{(n)})\right).
 \end{align}
 Notice  that 
 \begin{align}
- \mathbb{E}\Delta_{i,F}(f_\tZ,\tZ^{(n)}) &=  \risk_F({\tZ})-\risk_F(\bar\Theta)+\risk_F({\bar\Theta})-\risk_F(\tZ^{(n)})\\&\geq (\ell_1+1)L_n-a_n\\&\geq \ell_1 L_n,
+ \mathbb{E}\Delta_{i,F'}(f_\tZ,\tZ^{(n)}) &=  \risk_{F'}({\tZ})-\risk_{F'}(\bar\Theta)+\risk_{F'}({\bar\Theta})-\risk_{F'}(\tZ^{(n)})\\&\geq (\ell_1+1)L_n-a_n\\&\geq \ell_1 L_n,
 \end{align}
 where the first inequality is from the fact that $\tZ\in A_{\ell_1,\ell_2}$ and Assumption~\ref{ass:main}(a) and the last inequality uses the condition that $a_n\lesssim L_n$.
 
@@ -532,9 +543,9 @@ Combining \eqref{eq:unionpb2},  \eqref{eq:vn2} and union bound yields
 \begin{align}\label{eq:gammabd3}
 \Gamma\leq \sum_{\ell_1,\ell_2=1}^\infty\mathbb{P}\left\{\sup_{\tZ\in A_{\ell_1,\ell_2}} v_n(f_{\tZ})\geq  \ell_1 L_n+\lambda(\ell_2-2)J^2=:M(\ell_1,\ell_2) \right\}.
 \end{align}
-Similar to the proof of Lemma~\ref{lem:variance} and Lemma 2 in \cite{lee2021nonparametric} the variance of empirical process is bounded by 
+Similar to the proof of Lemma~\ref{lem:variance} and Lemma 2 with $T$-truncated hinge loss case in \cite{lee2021nonparametric} the variance of empirical process is bounded by 
 \begin{align}
-\sup_{\tZ\in A_{\ell_1,\ell_2}}\textup{Var}\Delta_{i,F}(f_\tZ,\bar \Theta)& \lesssim \sup_{\tZ\in A_{\ell_1,\ell_2}}\left( \left[\mathbb{E}\Delta_{i,F}(f_\tZ,\bar \Theta)\right]^{\alpha \over 1+\alpha}+{1\over \rho}\mathbb{E}\Delta_{i,F}(f_\tZ,\bar \Theta)\right)+\Delta s \\&\lesssim M(\ell_1,\ell_2)^{\alpha\over 1+\alpha}+\frac{1}{\rho}M(\ell_1,\ell_2) +\Delta s =: V(\ell_1,\ell_2).
+\sup_{\tZ\in A_{\ell_1,\ell_2}}\textup{Var}\Delta_{i,F'}(f_\tZ,\bar \Theta)& \lesssim \sup_{\tZ\in A_{\ell_1,\ell_2}}\left( \left[\mathbb{E}\Delta_{i,F'}(f_\tZ,\bar \Theta)\right]^{\alpha \over 1+\alpha}+{1\over \rho}\mathbb{E}\Delta_{i,F'}(f_\tZ,\bar \Theta)\right)+\Delta s \\&\lesssim M(\ell_1,\ell_2)^{\alpha\over 1+\alpha}+\frac{1}{\rho}M(\ell_1,\ell_2) +\Delta s =: V(\ell_1,\ell_2).
 \end{align}
 To apply Theorem~\ref{thm:refer}, we choose the pair $(L_n,\lambda)$ satisfying
 \begin{align}\label{eq:cd}
@@ -547,7 +558,7 @@ L_n\asymp t_n^{(\alpha+1)/(\alpha+2)}+\frac{t_n}{\rho},\quad\text{and}\quad\lamb
 With the choice \eqref{eq:choice},  we bounds the right-hand side of \eqref{eq:gammabd3} based on Theorem~\ref{thm:refer} , 
 \begin{align}\label{eq:gammabd4}
 \Gamma&\lesssim \sum_{\ell_1,\ell_2=1}^\infty \exp\left(-\frac{nM^2(\ell_1,\ell_2)}{V(\ell_1,\ell_2)+2M(\ell_1,\ell_2)}\right)\\&\lesssim \sum_{\ell_1,\ell_2=1}^\infty	\exp(-\rho  n M(\ell_1,\ell_2))\\&\leq \left(e^{-n\rho L_n}\over 1-e^{-n\rho L_n}\right)\left(e^{n\rho \lambda J^2}\over 1-e^{-n\rho \lambda J^2}\right)\\&\lesssim e^{-n\rho L_n}\leq e^{-nt_n},
-\end{align},where the last line uses the fact that $\rho\lambda J^2\asymp \rho L_n\gtrsim t_n\gtrsim n^{-1}$ from \eqref{eq:choice}. The proof is then completed by \eqref{eq:final}.
+\end{align},where the last line uses the fact that $2\rho\lambda J^2= \rho L_n\gtrsim t_n\gtrsim n^{-1}$ from \eqref{eq:choice}. The proof is then completed by \eqref{eq:final}.
 \end{proof}
 
 
@@ -843,6 +854,25 @@ where we set $u = \sqrt{2\sigma^2(\log n+s)}.$
 
 
 \section{Additional results on numerical experiments}~\label{sec:data}
+\subsection{Simulations}
+We provide simulation results for model 1-4.  Detailed simulation setting is explained in Section~\ref{sec:simulation} of the main paper.  
+
+Figure~\ref{fig:compare1} compares the estimation error under full observation for model 1-4.  Similar to results for model 2-3 in the main paper,  we check that the MAE decreases with tensor dimension for all three methods. Our method {\bf NonParaT} achieves the best performance in all scenarios, whereas the second best method is {\bf CPT} for models 1-2, and {\bf NonParaM} for models 3-4.  As explained in the main paper, models 1-2 have controlled multilinear tensor rank, which makes tensor methods {\bf NonParaT} and {\bf CPT} more accurate than matrix methods. For models 3-4, the rank exceeds the tensor dimension, and therefore, the two nonparametric methods {\bf NonParaT} and {\bf NonparaM} exhibit the greater advantage for signal recovery. 
+
+
+Figure~\ref{fig:compare2} shows the completion error against observation fraction.  We find that {\bf NonParaT} achieves the lowest error among all methods. Our simulation covers a reasonable range of  complexities; for example, model 1 has $3^3$ jumps in the CDF of signal $\Theta$, and models 2 and 4 have unbounded noise. Nevertheless, our method shows good performance in spite of model misspecification. This robustness is appealing in practice because the structure of underlying signal tensor is often unknown. 
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{figure/fig1-4v2.pdf}
+\caption{Estimation error versus tensor dimension. Panels (a)-(d) correspond to simulation models 1-4 in Table~\ref{tab:simulation}.}\label{fig:compare1}
+\end{figure}
+
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{figure/fig5-8v2.pdf}
+\caption{Completion error versus observation fraction. Panels (a)-(d) correspond to simulation models 1-4 in Table~\ref{tab:simulation}. }\label{fig:compare2}
+\end{figure}
+
 
 \subsection{Brain connectivity analysis}
 Figure~\ref{fig:braincv} shows the MAE based on 5-fold cross-validations with $r = 3,6,\ldots, 15$ and $H = 20$. We find that our method outperforms CPT in all combinations of ranks and missing rates. The achieved error reduction appears to be more profound as the missing rate increases. This trend highlights the applicability of our method in tensor completion tasks. In addition, our method exhibits a smaller standard error in cross-validation experiments as shown in Figure~\ref{fig:braincv} and Table~\ref{tab:data} (in the main paper), demonstrating the stability over CPT.  One possible reason is that that our estimate is guaranteed to be in $[0,1]$ (for binary tensor problem where $\tY\in\{0,1\}^{d_1\times\cdots\times d_K}$) whereas CPT estimation may fall outside the valid range $[0,1]$. 
