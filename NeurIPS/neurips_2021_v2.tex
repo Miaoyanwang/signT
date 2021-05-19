@@ -147,6 +147,7 @@ We consider the problem of tensor estimation from noisy observations with possib
 \section{Introduction}\label{sec:intro}
 
 Higher-order tensors have recently received much attention in enormous fields including social networks~\citep{anandkumar2014tensor}, neuroscience~\citep{wang2017bayesian}, and genomics~\citep{hore2016tensor}. Tensor methods provide effective representation of the hidden structure in multiway data. In this paper we consider the signal plus noise model,
+\vspace{-.2cm}
 \begin{equation}\label{eq:modelintro}
 \tY=\Theta+\tE,
 \end{equation}
@@ -165,9 +166,9 @@ The first example reveals the sensitivity of tensor rank to order-preserving tra
 \begin{figure}[h]
 \captionsetup{font=footnotesize}
 \centering
-\vspace{-.2cm}
+\vspace{-.15cm}
 \includegraphics[width=.65\textwidth]{figure/example_comb2.pdf}
-\vspace{-.1cm}
+\vspace{-.05cm}
 \caption{(a) Tensor rank vs.\ $c$ in the first example. (b) Top $d=30$ tensor singular values in the second example. }
 \vspace{-.2cm}
 \label{fig:example}
@@ -180,13 +181,6 @@ In the above and many other examples, the signal tensors $\Theta$ of interest ha
 
 {\bf Our contributions.} We develop a new model called sign representable tensors to address the aforementioned challenges. 
 Figure~\ref{fig:demo} illustrates our main idea. Our approach is built on the sign series representation of the signal tensor, and we propose to estimate the sign tensors through a series of weighted classifications. In contrast to existing methods, our method is guaranteed to recover a wide range of low- and high-rank signals. We highlight two main contributions that set our work apart from earlier literature. 
-
-\begin{figure}[h!]
-\captionsetup{font=footnotesize}
-\centerline{\includegraphics[width=1.05\textwidth]{figure/demo.pdf}}
-\caption{Illustration of our method in the context of an order-2 tensor (a.k.a.\ matrix). (a): a noisy, incomplete tensor input. (b)-(c): Estimation of sign tensor series $\sign(\Theta-\pi)$ for $\pi\in  \{-1,\ldots,-{1/ H},0,{1/H},\ldots,1\}$. (d): recovered signal $\hat \Theta$. The depicted signal is a full-rank matrix based on Example~\ref{eq:example} in Section~\ref{sec:representation}.}\label{fig:demo}
-\vspace{-.2cm}
-\end{figure}
 
 Statistically, the problem of high-rank tensor estimation is challenging. Existing estimation theory~\citep{anandkumar2014tensor,montanari2018spectral,cai2019nonconvex} exclusively focuses on the regime of fixed $r$ growing $d$. However, such premise fails in high-rank tensors, where the rank may grow with, or even exceed, the dimension. A proper notion of nonparametric complexity is crucial. We show that, somewhat surprisingly, the sign tensor series not only preserves all information in the original signals, but also brings the benefits of flexibility and accuracy over classical low-rank models. The results fill the gap between parametric (low-rank) and nonparametric (high-rank) tensors, thereby greatly enriching the tensor model literature. 
 
@@ -211,6 +205,13 @@ The above observation suggests a general framework to estimate both low- and hig
 \hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH} \sign(\hat \tZ_\pi), \ \text{where}\ \hat \tZ_\pi=\argmin_{\text{low rank tensor $\tZ$}} \text{Weighted-Loss}(\sign(\tZ), \sign (\tY_\Omega-\pi)).
 \end{equation}
 Here $\sign(\hat \tZ_\pi)\in\{-1,1\}^{d_1\times\cdots\times d_K}$ is the sign tensor estimate at a series of $\pi\in \tH=\{\small-1,\ldots,$ $-{1/H},0, {1/H},\ldots,1\}$, and Weighted-Loss$(\cdot,\cdot)$ denotes a classification objective function with an entry-specific weight to each tensor entry; its specific form will be described in Section~\ref{sec:identifiability}. To obtain $\sign(\hat \tZ_\pi)$ for a given $\pi$, we propose to dichotomize the data tensor into a sign tensor $\sign (\tY_\Omega-\pi)$ and estimate the de-noised sign by performing weighted classification. 
+
+\begin{figure}[h!]
+\captionsetup{font=footnotesize}
+\centerline{\includegraphics[width=1.05\textwidth]{figure/demo.pdf}}
+\caption{Illustration of our method in the context of an order-2 tensor (a.k.a.\ matrix). (a): a noisy, incomplete tensor input. (b)-(c): Estimation of sign tensor series $\sign(\Theta-\pi)$ for $\pi\in  \{-1,\ldots,-{1/ H},0,{1/H},\ldots,1\}$. (d): recovered signal $\hat \Theta$. The depicted signal is a full-rank matrix based on Example~\ref{eq:example} in Section~\ref{sec:representation}.}\label{fig:demo}
+\vspace{-.2cm}
+\end{figure}
 
 Our approach is built on the nonparametric sign representation of signal tensors. We show that a careful aggregation of dichotomized data not only preserves all information in the original signals, but also brings benefits of accuracy and flexibility over classical low-rank models. Unlike traditional methods, the sign representation is guaranteed to recover both low- and high-rank signals. In addition, a total of $H=\text{poly}(d)$ dichotomized problems suffice to recover $\Theta$ under the considered model.  The method therefore enjoys both statistical effectiveness and computational efficiency. 
 
