@@ -367,11 +367,11 @@ Theorem~\ref{thm:estimation} demonstrates the convergence rate of our tensor est
 
 In the special case of full observation with equal dimension $d_1=\cdots=d_K=d$ and bounded $|\tN|\leq C$, our signal estimate achieves convergence
 \begin{equation}
-\textup{MAE}(\hat \Theta, \Theta)\lesssim rd^{-(K-1)\min({\alpha\over \alpha+2},\ {1\over 2})}\log d,
+\textup{MAE}(\hat \Theta, \Theta)\lesssim rd^{-(K-1)\min({\alpha\over \alpha+2},\ {1\over 2})}\log^2 d,
 \end{equation}
 by setting $H\asymp d^{(K-1)/2}$. Compared to earlier methods, our estimation accuracy applies to both low- and high-rank signal tensors. The rate depends on the sign complexity $\Theta\in\caliP(r)$, and this $r$ is often much smaller than the usual tensor rank (see Section~\ref{sec:sign-rank}). Our result also reveals that the convergence becomes favorable as the order of data tensor increases. 
 
-We apply our method to the main examples in Section~\ref{sec:sign-rank}, and compare the results with existing literature. The numerical comparison is provided in Section~\ref{sec:simulation}. 
+We apply our method to the main examples in Section~\ref{sec:sign-rank}, and compare the results with existing literature. The numerical comparison is provided in Sec tion~\ref{sec:simulation}. 
 
 \vspace{.05cm}
 \begin{customexample}{2}[TBMs]
@@ -396,7 +396,7 @@ We consider a more general model than that in Section~\ref{sec:intro}. Consider 
 The following corollary reveal the sample complexity for nonparamtric tensor completion. 
 \begin{cor}[Sample complexity for nonparametric completion] Assume the same conditions of Theorem~\ref{thm:estimation} and bounded $|\tN|$. Then, with high probability over $\tY_\Omega$, 
 \[
-\textup{MAE}(\hat \Theta, \Theta)\to 0, \quad \text{as}\quad {|\Omega|\over {dr} \log |\Omega|}\to \infty.
+\textup{MAE}(\hat \Theta, \Theta)\to 0, \quad \text{as}\quad {|\Omega|\over {dr} \log^2 |\Omega|}\to \infty.
 \]
 \end{cor}
 \vspace{-.2cm}
