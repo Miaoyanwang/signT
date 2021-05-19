@@ -111,7 +111,7 @@
 
 
 \usepackage{xr}
-\externaldocument{neurips_2021_supplement}
+\externaldocument{neurips_2021_supplement_v2}
 
 
 \title{Beyond the Signs: Nonparametric Tensor \\
@@ -160,7 +160,7 @@ where $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an order-$K$ data tens
 {\bf Inadequacies of  low-rank models.} The signal plus noise model~\eqref{eq:model} is popular in tensor literature. Existing methods estimate the signal tensor based on low-rankness of $\Theta$~\citep{jain2014provable,montanari2018spectral}. Common low-rank models include Canonical Polyadic (CP) tensors~\citep{hitchcock1927expression}, Tucker tensors~\citep{de2000multilinear}, and block tensors~\citep{wang2019multiway}. While these methods have shown great success in theory, tensors in applications often violate the low-rankness. Here we provide two examples to illustrate the limitation of classical models.
 
 
-The first example reveals the sensitivity of tensor rank to order-preserving transformations. Let $\tZ \in \mathbb{R}^{30\times 30\times 30}$ be an order-3 tensor with tensor $\text{rank}(\tZ)=3$ (formal definition is deferred to the end of this section). Suppose a monotonic transformation $f(z)=(1+\exp(-cz))^{-1}$ is applied to $\tZ$ entrywise, and we let the signal $\Theta$ in model~\eqref{eq:modelintro} be the tensor after transformation. Figure~\ref{fig:example}a plots the numerical rank (see Appendix~\ref{sec:additional}{\color{red}?}) of $\Theta$ versus $c$. As we see, the rank increases rapidly with $c$, rending traditional low-rank tensor methods ineffective in the presence of mild order-preserving nonlinearities. In  digital processing~\citep{ghadermarzy2018learning} and genomics analysis~\citep{hore2016tensor}, the tensor of interest often undergoes unknown transformation prior to measurements. The sensitivity to transformation makes the low-rank model less desirable in practice. 
+The first example reveals the sensitivity of tensor rank to order-preserving transformations. Let $\tZ \in \mathbb{R}^{30\times 30\times 30}$ be an order-3 tensor with tensor $\text{rank}(\tZ)=3$ (formal definition is deferred to the end of this section). Suppose a monotonic transformation $f(z)=(1+\exp(-cz))^{-1}$ is applied to $\tZ$ entrywise, and we let the signal $\Theta$ in model~\eqref{eq:modelintro} be the tensor after transformation. Figure~\ref{fig:example}a plots the numerical rank (see Appendix~\ref{sec:numericalrank}) of $\Theta$ versus $c$. As we see, the rank increases rapidly with $c$, rending traditional low-rank tensor methods ineffective in the presence of mild order-preserving nonlinearities. In  digital processing~\citep{ghadermarzy2018learning} and genomics analysis~\citep{hore2016tensor}, the tensor of interest often undergoes unknown transformation prior to measurements. The sensitivity to transformation makes the low-rank model less desirable in practice. 
 
 \begin{figure}[h]
 \captionsetup{font=footnotesize}
@@ -344,12 +344,12 @@ where $\tH=\{-1,\ldots,-{1/ H}, 0, {1/H},\ldots,1\}$ is the series of levels to 
 
 The next theorem establishes the statistical convergence for the sign tensor estimate~\eqref{eq:est}.
 
-\begin{thm}[Sign tensor estimation]\label{thm:classification} Suppose $\Theta\in\caliP(r)$ and $\Theta(\omega)$ is $\alpha$-globally smooth under $\omega\sim \Pi$. Let $\hat \tZ_\pi$ be the estimate in~\eqref{eq:est}, $d=\max_{k\in[K]}d_k$, and $t_d =dr/|\Omega|\lesssim 1$. Then, for all $\pi\in\tN^c$, with very high probability over $\tY_\Omega$, 
+\begin{thm}[Sign tensor estimation]\label{thm:classification} Suppose $\Theta\in\caliP(r)$ and $\Theta(\omega)$ is $\alpha$-globally smooth under $\omega\sim \Pi$. Let $\hat \tZ_\pi$ be the estimate in~\eqref{eq:est}, $d=\max_{k\in[K]}d_k$, and $t_d ={dr\log|\Omega|\over |\Omega|}\lesssim 1$. Then, for all $\pi\in\tN^c$, with very high probability over $\tY_\Omega$, 
 \begin{align}\label{eq:bound}
 \textup{MAE}(\sign \hat \tZ_\pi, \sign(\Theta-\pi)) \lesssim t_d^{\alpha/( \alpha+2)}+{1 \over \rho^2(\pi, \tN)}t_d.
 \end{align}
 \end{thm}
-Theorem~\ref{thm:classification} provides the error bound for the sign tensor estimation. Compared to the population results in Theorem~\ref{thm:population}, we explicitly reveal the dependence of accuracy on the sample complexity and the level $\pi$. The result demonstrates the polynomial decay of sign errors with $|\Omega|$.  Our sign estimate achieves consistent recovery using as few as $\tO(dr)$ noisy entries. 
+Theorem~\ref{thm:classification} provides the error bound for the sign tensor estimation. Compared to the population results in Theorem~\ref{thm:population}, we explicitly reveal the dependence of accuracy on the sample complexity and the level $\pi$. The result demonstrates the polynomial decay of sign errors with $|\Omega|$.  Our sign estimate achieves consistent recovery using as few as $\tilde \tO(dr)$ noisy entries. 
 
 Recall that $\tN$ collects the levels for which the sign tensor is possibly nonrecoverable. Let $|\tN|$ be the covering number of $\tN$ with $2\Delta s$-bin's, i.e, $|\tN| = \lceil \text{Leb}(\tN)/2\Delta s \rceil$, where $\text{Leb}(\cdot)$ is the Lebesgue measure and $\lceil \cdot \rceil$ is the ceiling function. Combining the sign representability of the signal tensor and the sign estimation accuracy, we obtain our main results on nonparametric tensor estimation. 
 
@@ -424,9 +424,9 @@ The base algorithm reduces to a low-rank 1-bit tensor estimation problem. Follow
 \[
 \risk(\tZ)-\risk(\Theta-\pi)\leq C[\risk_F(\tZ)-\risk_F(\Theta-\pi)],\quad \text{for all }\pi\in[-1,1] \text{ and all tensor }\tZ.
 \]
-Here $\risk_F(\cdot)$ is defined similarly as in~\eqref{eq:population} with hinge loss in place of 0-1 loss. The resulting estimate enjoys both statistical and computational efficiency under mild conditions (see Appendix {\color{red} ??}). 
+Here $\risk_F(\cdot)$ is defined similarly as in~\eqref{eq:population} with hinge loss in place of 0-1 loss. The resulting estimate enjoys both statistical and computational efficiency under mild conditions (see Appendix~\ref{sec:hinge}). 
 
-\begin{thm}[Large-margin loss] Let $\hat \Theta_F$ be the output from Algorithm~\ref{alg:tensorT} with $F$ being the hinge loss. Under the set-up of Theorem~\ref{thm:classification} and technical assumptions on base algorithms, $\hat \Theta_F$ has the same error bound as in~\eqref{eq:bound2}. Furthermore, the total complexity is within a $\text{poly}(d)$ factor of base algorithms. 
+\begin{thm}[Large-margin loss]\label{thm:hinge}Let $\hat \Theta_F$ be the output from Algorithm~\ref{alg:tensorT} with $F$ being the hinge loss. Under the set-up of Theorem~\ref{thm:classification} and technical assumptions on base algorithms, $\hat \Theta_F$ has the same error bound as in~\eqref{eq:bound2}. Furthermore, the total complexity is within a $\text{poly}(d)$ factor of base algorithms. 
 \end{thm}
 In principle, uses can choose their own favorite large-margin losses, as long as the base algorithms are sample efficient. The comparison between various large-margin losses has been studied before~\cite{bartlett2006convexity}. Note that, instead of using $\hat \tZ_\pi$ as in existing 1-bit tensor algorithms~\cite{ghadermarzy2018learning,wang2018learning}, we use $\sign(\hat \tZ_\pi)$ for more challenging nonparametric estimation. The sign aggregation brings the benefits of flexibility and accuracy over classical low-rank models. 
 
@@ -445,7 +445,7 @@ In principle, uses can choose their own favorite large-margin losses, as long as
 \end{table}
 \vspace{-.1cm}
 
-Figure~\ref{fig:compare1}a-b compares the estimation error under full observation. For space consideration, only results for models 2-3 are presented in the main paper, and the rest in the Appendix~{\color{red}?}. We find that MAE decreases with tensor dimension for all three methods. Our method \NonParaT\ achieves the best performance in all scenarios, whereas the second best method is \CPT\ for model 2, and \NonParaM\ for model 3. The model 2 has controlled multilinear rank along mode 3, which makes tensor methods \NonParaT\ and \CPT\ more accurate than \NonParaM. The model 4 fits poorly into low-rank tensor models, and therefore, the two nonparametric methods \NonParaT\ and \NonParaM\ exhibit the greater advantage. Figure~\ref{fig:compare1}c-d shows the completion error against observation fraction. We fix $d=40$ and gradually increase the observation fraction ${|\Omega|/d^3}$ from 0.3 to 1. Again, we find that \NonParaT\ achieves the lowest error. The simulation covers a wide range of complexities, and our method shows good performance in experiments. 
+Figure~\ref{fig:compare1}a-b compares the estimation error under full observation. For space consideration, only results for models 2-3 are presented in the main paper, and the rest in the Appendix~\ref{sec:moresim}. We find that MAE decreases with tensor dimension for all three methods. Our method \NonParaT\ achieves the best performance in all scenarios, whereas the second best method is \CPT\ for model 2, and \NonParaM\ for model 3. The model 2 has controlled multilinear rank along mode 3, which makes tensor methods \NonParaT\ and \CPT\ more accurate than \NonParaM. The model 4 fits poorly into low-rank tensor models, and therefore, the two nonparametric methods \NonParaT\ and \NonParaM\ exhibit the greater advantage. Figure~\ref{fig:compare1}c-d shows the completion error against observation fraction. We fix $d=40$ and gradually increase the observation fraction ${|\Omega|/d^3}$ from 0.3 to 1. Again, we find that \NonParaT\ achieves the lowest error. The simulation covers a wide range of complexities, and our method shows good performance in experiments. 
 
 \begin{figure}[h!]
 \vspace{-.1cm}
@@ -458,7 +458,6 @@ Figure~\ref{fig:compare1}a-b compares the estimation error under full observatio
 
 
 {\bf Data applications.} We apply our method to two tensor datasets, the MRN-114 human brain connectivity data~\citep{wang2017bayesian}, and NIPS data~\cite{globerson2007euclidean}. The brain dataset records the structural connectivity among 68 brain regions for 114 individuals along with their Intelligence Quotient (IQ) scores. We organize the connectivity data into an order-3 tensor, where entries encode the presence or absence of fiber connections between brain regions across individuals. The NIPS dataset consists of word occurrence counts in papers published from 1987 to 2003. We focus on the top 100 authors, 200 most frequent words, and normalize each word count by log transformation with pseudo-count~1. The resulting dataset is an order-3 tensor with entry representing the log counts of words by authors across years. 
-
 
 \captionsetup{font=footnotesize}
 \begin{minipage}[c]{0.4\textwidth}
@@ -493,7 +492,7 @@ CPT &$0.20(0.007)$&$0.19(0.007)$&$0.17(0.007)$\\
 \captionof{figure}{(a) top IQ-associated edges in the brain connectivity data. (b) top (authors, words, year) triplets in the NIPS data. }\label{fig:signal}
  \end{minipage}
 
-Table~\ref{tab:data} compares the prediction accuracy of different methods. Reported MAEs are averaged over five runs of cross-validation, with 20\% entries for testing and 80\% for training. Our method substantially outperforms the low-rank CP method for every configuration under consideration. Further increment of rank appears to have little effect on the performance, and we find that increased missingness gives more advantages to our method (see details in Appendix {\color{red}?}). The comparison highlights the advantage of our method in achieving accuracy while maintaining low complexity. 
+Table~\ref{tab:data} compares the prediction accuracy of different methods. Reported MAEs are averaged over five runs of cross-validation, with 20\% entries for testing and 80\% for training. Our method substantially outperforms the low-rank CP method for every configuration under consideration. Further increment of rank appears to have little effect on the performance, and we find that increased missingness gives more advantages to our method (see details in Appendix~\ref{sec:high-rank}). The comparison highlights the advantage of our method in achieving accuracy while maintaining low complexity. 
 
 Figure~\ref{fig:signal}a shows the top 10 brain edges based on regression analysis of denoised tensor from \NonParaT\ against normalized IQ scores. We find that the top connections are mostly inter-hemisphere edges, consistent with recent research on brain connectivity~\cite{li2009brain,wang2017bayesian}. Figure~\ref{fig:signal}b illustrates the results from NIPS data, where we plot the entries in $\hat \Theta$ corresponding to top authors and most-frequent words (after excluding generic words such as \emph{figure}, \emph{results}, etc). The identified pattern agrees with active topics in the NIPS publication. Among the top words are \emph{neural} (marginal mean = 1.95), \emph{learning} (1.48), and \emph{network} (1.21), whereas top authors are \emph{T.\ Sejnowski} (1.18), \emph{B.~Scholkopf} (1.17), \emph{M.\ Jordan} (1.11), and \emph{G.\ Hinton} (1.06). We also find strong heterogeneity among word occurrences across authors and years. For example, \emph{training} and \emph{algorithm} are popular words for \emph{B.\ Scholkopf} and \emph{A.\ Smola} in 1998-1999, whereas \emph{model} occurs more often in \emph{M.\ Jordan} and in 1996. The detected pattern and achieved accuracy demonstrate the applicability of our method.
 
@@ -525,7 +524,7 @@ We have developed a tensor estimation method that addresses both low- and high-r
 \item If you are including theoretical results...
 \begin{enumerate}
   \item Did you state the full set of assumptions of all theoretical results?
-    \answerYes{The assumptions for main Theorems are fully stated in Sections~\ref{sec:identifiability} and~\ref{sec:error}. The assumptions for Theorem 4 and technical lemmas are stated in Appendix {\color{red}?}.}
+    \answerYes{The assumptions for main Theorems are fully stated in Sections~\ref{sec:identifiability} and~\ref{sec:error}. The assumptions for Theorem 4 and technical lemmas are stated in Appendix~\ref{sec:proofs}.}
 	\item Did you include complete proofs of all theoretical results?
     \answerYes{All proofs are provided in Appendix~\ref{sec:proofs}. Short proof intuition is provided in Section~\ref{sec:overview}. Comparison with existing theory is provided in Sections~\ref{sec:representation} and~\ref{sec:error}.}
 \end{enumerate}
@@ -539,7 +538,7 @@ We have developed a tensor estimation method that addresses both low- and high-r
 	\item Did you report error bars (e.g., with respect to the random seed after running experiments multiple times)?
     \answerYes{Error bars are provided in all Figures/Tables in the main paper and in Appendix~\ref{sec:data}.}
 	\item Did you include the total amount of compute and the type of resources used (e.g., type of GPUs, internal cluster, or cloud provider)?
-    \answerYes{Computational platform and running time are detailed in Appendix~\ref{sec:data}. {\color{red}add from earlier rebuttal}}
+    \answerYes{Computational platform and running time are detailed in Appendix~\ref{sec:data}.}
 \end{enumerate}
 
 \item If you are using existing assets (e.g., code, data, models) or curating/releasing new assets...
