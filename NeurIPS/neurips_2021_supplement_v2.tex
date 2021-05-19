@@ -524,7 +524,7 @@ where  $(*)$ comes from the fact
 In the last line of \eqref{eq:unionpb2}, we have partitioned $\{\tZ\colon \text{rank}(\tZ)\leq r \text{ and } \risk_{F'}(\tZ)-\risk_{F'}(\bar\Theta)\geq 2L_n\}$ into union of $A_{\ell_1,\ell_2}$ with 
 \begin{align}
 A_{\ell_1,\ell_2} = \bigg\{\tZ\colon &\text{rank}(\tZ)\leq r, (\ell_1+1) L_n\leq  \risk_{F'}(\tZ)-\risk_{F'}(\bar\Theta)<(\ell_1+2)L_n,\\
-&\text{ and } \ell_2J^2\leq \FnormSize{}{\tZ}^2<(\ell_2+1)J^2\bigg\},
+&\text{ and } (\ell_2-1)J^2\leq \FnormSize{}{\tZ}^2<\ell_2 J^2\bigg\},
 \end{align}
 for $\ell_1,\ell_2 = 1,2,\ldots$. 
 
@@ -549,8 +549,9 @@ Similar to the proof of Lemma~\ref{lem:variance} and Lemma 2 with $T$-truncated 
 \end{align}
 To apply Theorem~\ref{thm:refer}, we choose the pair $(L_n,\lambda)$ satisfying
 \begin{align}\label{eq:cd}
-\sup_{\ell_1,\ell_2\geq 1}{1\over x}\int_{x}^{\sqrt{x^{\alpha/(\alpha+1)}+x/\rho+\Delta s}}\sqrt{\tH_{[\ ]}(\varepsilon, \tF_{\tT},\vnormSize{}{\cdot})}d\varepsilon \lesssim n^{1/2}, \quad \text{where }x=\ell_1 L_n+\lambda(\ell_2-2)J^2.
+\sup_{\ell_1,\ell_2\geq 1}{1\over x}\int_{x}^{\sqrt{x^{\alpha/(\alpha+1)}+x/\rho+\Delta s}}\sqrt{\tH_{[\ ]}(\varepsilon, \tF_{\tT}(\ell_2),\vnormSize{}{\cdot})}d\varepsilon \lesssim n^{1/2}, 
 \end{align}
+where $x=\ell_1 L_n+\lambda(\ell_2-2)J^2$ and $\tF_{\tT}(\ell_2):= \{f_{\tZ}\colon \text{rank}(\tZ)\leq r, \FnormSize{}{\tZ}^2\leq \ell_2J^2\}$.
 Similar to the proof of Lemma~\ref{lem:metric}, we solve the pair $(L_n,\lambda)$ satisfying \eqref{eq:cd} as
 \begin{align}\label{eq:choice}
 L_n\asymp t_n^{(\alpha+1)/(\alpha+2)}+\frac{t_n}{\rho},\quad\text{and}\quad\lambda =  \frac{L_n}{2J^2},
