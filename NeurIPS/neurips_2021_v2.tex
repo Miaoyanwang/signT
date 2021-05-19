@@ -26,8 +26,9 @@
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
+
 \usepackage{caption}
-\usepackage{varwidth}
+%\usepackage{varwidth}
 
 \usepackage{enumitem}
 \usepackage{amsmath,amssymb}
@@ -402,7 +403,7 @@ The following corollary reveal the sample complexity for nonparamtric tensor com
 Our result improves earlier work~\citep{yuan2016tensor,ghadermarzy2019near,pmlr-v119-lee20i} by allowing both low- and high-rank signals. Interestingly, the sample requirements depend only on the sign complexity $dr$ but not the nonparametric complexity $\alpha$. Note that $\tilde \tO(dr)$ roughly matches the degree of freedom of sign tensors, suggesting the optimality of our sample requirements. 
 
 
-\subsection{Numerical implementation via learning reduction}
+\subsection{Implementation via learning reduction}
 This section addresses the practical implementation of our estimation~\eqref{eq:est}. We take a learning reduction approach by dividing the full procedure into a meta algorithm and $2H+1$ base algorithms. The meta algorithm takes the average of $(2H+1)\asymp \text{poly}(d)$ sign tensors, whereas each base algorithm estimates the tensor $\sign(\Theta-\pi)$ given binary input $\sign(\tY-\pi)$ and a target rank $r$. The full procedure is described in Algorithm~\ref{alg:tensorT} and Figure~\ref{fig:demo}.
 
 
@@ -432,7 +433,7 @@ Here $\risk_F(\cdot)$ is defined similarly as in~\eqref{eq:population} with hing
 In principle, uses can choose their own favorite large-margin losses, as long as the base algorithms are sample efficient. The comparison between various large-margin losses has been studied before~\cite{bartlett2006convexity}. Note that, instead of using $\hat \tZ_\pi$ as in existing 1-bit tensor algorithms~\cite{ghadermarzy2018learning,wang2018learning}, we use $\sign(\hat \tZ_\pi)$ for more challenging nonparametric estimation. The sign aggregation brings the benefits of flexibility and accuracy over classical low-rank models. 
 
 \vspace{-.1cm}
-\section{Numerical Experiments}\label{sec:simulation}
+\section{Numerical experiments}\label{sec:simulation}
 \vspace{-.2cm}
 
 {\bf Finite-sample accuracy.} We compare our nonparametric tensor method (\NonParaT) with two alternative approaches: low-rank tensor CP decomposition (\CPT), and the matrix version of our method applied to tensor unfolding (\NonParaM). The performance is assessed under both complete and incomplete observations.  We generate signal tensors based on four models summarized in Table~\ref{tab:simulation}, including block tensors, transformed low rank tensors, and structured tensors with repeating entries. We consider order-3  tensors of equal dimension, and set $d\in \{15, 20,\ldots,55,60\}$, $r\in\{2,3,\ldots,10\}$, $H=10+{(d-15)/ 5}$ in Algorithm~\ref{alg:tensorT}. All summary statistics are averaged across $30$ replicates. 
