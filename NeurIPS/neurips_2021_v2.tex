@@ -333,10 +333,12 @@ The tensor block model is $\infty$-globally smooth. This is because the set $\tN
 
 \section{Nonparametric tensor completion via sign series}\label{sec:estimation}
 
+
 In previous sections we have established the sign series representation and its relationship to classification. In this section, we present our learning reduction proposal in details (Figure~\ref{fig:demo}). We provide the estimation error bound and address the empirical implementation of the method. 
 
 
 \subsection{Statistical error and sample complexity}\label{sec:error}
+\vspace{-.1cm}
 Given a noisy incomplete tensor observation $\tY_\Omega$ from model~\eqref{eq:model}, we cast the problem of estimating $\Theta$ into a series of weighted classifications. Specifically, we propose the signal tensor estimate using averaged structured sign tensors
 \begin{equation}\label{eq:est}
 \hat \Theta = {1\over 2H+1}\sum_{\pi \in \tH}\sign{\hat \tZ_\pi}, \quad \text{with}\quad \hat \tZ_\pi = \argmin_{\tZ\colon \text{rank}\tZ\leq r} L(\tZ, \tY_\Omega-\pi),
@@ -350,6 +352,7 @@ The next theorem establishes the statistical convergence for the sign tensor est
 \textup{MAE}(\sign \hat \tZ_\pi, \sign(\Theta-\pi)) \lesssim t_d^{\alpha/( \alpha+2)}+{1 \over \rho^2(\pi, \tN)}t_d.
 \end{align}
 \end{thm}
+\vspace{-.25cm}
 Theorem~\ref{thm:classification} provides the error bound for the sign tensor estimation. Compared to the population results in Theorem~\ref{thm:population}, we explicitly reveal the dependence of accuracy on the sample complexity and the level $\pi$. The result demonstrates the polynomial decay of sign errors with $|\Omega|$.  Our sign estimate achieves consistent recovery using as few as $\tilde \tO(dr)$ noisy entries. 
 
 Recall that $\tN$ collects the levels for which the sign tensor is possibly nonrecoverable. Let $|\tN|$ be the covering number of $\tN$ with $2\Delta s$-bin's, i.e, $|\tN| = \lceil \text{Leb}(\tN)/2\Delta s \rceil$, where $\text{Leb}(\cdot)$ is the Lebesgue measure and $\lceil \cdot \rceil$ is the ceiling function. Combining the sign representability of the signal tensor and the sign estimation accuracy, we obtain our main results on nonparametric tensor estimation. 
@@ -370,23 +373,23 @@ In the special case of full observation with equal dimension $d_1=\cdots=d_K=d$ 
 \end{equation}
 by setting $H\asymp d^{(K-1)/2}$. Compared to earlier methods, our estimation accuracy applies to both low- and high-rank signal tensors. The rate depends on the sign complexity $\Theta\in\caliP(r)$, and this $r$ is often much smaller than the usual tensor rank (see Section~\ref{sec:sign-rank}). Our result also reveals that the convergence becomes favorable as the order of data tensor increases. 
 
-We apply our method to the main examples in Section~\ref{sec:sign-rank}, and compare the results with existing literature. The numerical comparison is provided in Sec tion~\ref{sec:simulation}. 
+We apply our method to the main examples in Section~\ref{sec:sign-rank}, and compare the results with existing literature. The numerical comparison is provided in Section~\ref{sec:simulation}. 
 
-\vspace{-.1cm}
+\vspace{.05cm}
 \begin{customexample}{2}[TBMs]
 Consider a tensor block model with $r$ multiway blocks. Our result implies a rate $\tilde \tO(d^{-(K-1)/2})$ by taking $\alpha=\infty$ and $|\tN| \leq r^K\lesssim \tO(1)$. This rate agrees with the  previous root-mean-square error (RMSE) for block tensor estimation~\citep{wang2019multiway}.
 \end{customexample}
-\vspace{-.05cm}
+\vspace{.05cm}
 
 \begin{customexample}{3} [GLMs] 
 Consider a GLM tensor $\Theta=g(\tZ)$, where $g$ is a known link function and $\tZ$ is a latent low-rank tensor. Suppose the CDF of $\Theta(\omega)$ is uniformly bounded as $d\to\infty$. Applying our results with $\alpha=1$ and finite $|\tN|$ yields $\tilde \tO(d^{-(K-1)/3})$. This rate is slightly slower than the parametric RMSE rate~\citep{zhang2018tensor,wang2018learning}, as expected. The reason is that our estimate remains valid for unknown $g$ and general high-rank tensors. The nonparametric rate is the price one has to pay for not knowing the form $\Theta=g(\tZ)$ as a priori. 
 \end{customexample}
-\vspace{-.05cm}
+\vspace{.05cm}
 
 \begin{customexample}{4}[SIMs]
 The earlier example has shown the nonparametric rate $\tilde \tO(d^{-(K-1)/3})$ when applying our method to single index tensor model. In the matrix case with $K=2$, our result yields error rate $\tilde \tO(d^{-1/3})$, which is faster than the RMSE rate $\tO(d^{-1/4})$ obtained by \cite{ganti2015matrix}. 
 \end{customexample}
-\vspace{-.05cm}
+\vspace{.05cm}
 
 \begin{customexample}{5}[Structured tensors with repeating entries]
 We consider a more general model than that in Section~\ref{sec:intro}. Consider a $r$-sign representable tensor $\Theta\in \caliP(r)$ with at most $d$ distinct entries with repetition pattern. Applying our results with $\alpha=\infty$ and $|\tN|=d$ yields the rate $\tilde \tO(d^{-(K-2)/2})$. 
@@ -405,9 +408,8 @@ Our result improves earlier work~\citep{yuan2016tensor,ghadermarzy2019near,pmlr-
 \subsection{Implementation via learning reduction}
 This section addresses the practical implementation of our estimation~\eqref{eq:est}. We take a learning reduction approach by dividing the full procedure into a meta algorithm and $2H+1$ base algorithms. The meta algorithm takes the average of $(2H+1)\asymp \text{poly}(d)$ sign tensors, whereas each base algorithm estimates the tensor $\sign(\Theta-\pi)$ given binary input $\sign(\tY-\pi)$ and a target rank $r$. The full procedure is described in Algorithm~\ref{alg:tensorT} and Figure~\ref{fig:demo}.
 
-
 \vspace{-.2cm}
-\begin{algorithm}[h!]
+\begin{algorithm}[H]
   \caption{Nonparametric tensor completion via learning reduction}\label{alg:tensorT}
  \begin{algorithmic}[1] 
 \INPUT Noisy and incomplete data tensor $\tY_\Omega$, rank $r$, resolution parameter $H$, ridge penalty $\lambda$.
@@ -416,9 +418,10 @@ This section addresses the practical implementation of our estimation~\eqref{eq:
 \State Perform 1-bit tensor estimation algorithm~\citep{ghadermarzy2018learning,wang2018learning,hong2020generalized,alquier2019estimation} on $\bar \tY_\Omega$ and obtain $\hat \tZ_\pi\leftarrow \argmin_{\text{low-rank }\tZ}\sum_{\omega\in \Omega} |\bar \tY(\omega)|F(\tZ(\omega)\sign\bar \tY(\omega))+\lambda\FnormSize{}{\tZ}^2$ where $F(\cdot)$ is the large-margin loss.
 \EndFor
 \OUTPUT Estimated signal tensor $\hat \Theta_F={1\over 2H+1}\sum_{\pi \in \tH}\sign(\hat \tZ_\pi)$.
-\vspace{-.1cm}
 \end{algorithmic}
+\vspace{-.1cm}
 \end{algorithm}
+\vspace{-.4cm}
 
 The base algorithm reduces to a low-rank 1-bit tensor estimation problem. Following the common practice in classification~\cite{bartlett2006convexity}, we replace the 0-1 loss $\ell(z,y)=|\sign z - \sign y|$ in~\eqref{eq:sample} with a continuous large-margin loss $F(m)$ where $m=z\sign(y)$ is the margin. Examples of large-margin loss are hinge loss $F(m) = (1-m)_+$, logistic loss $F(m) =\log(1+e^{-m})$, and $\psi$-loss $F(m)=2\min(1,(1-m)_+)$ with $m_{+}=\max(m,0)$. A number of polynomial-time algorithms with convergence guarantees are readily available for this problem~\citep{ghadermarzy2018learning,wang2018learning,hong2020generalized,alquier2019estimation}. We implement hinge loss~\cite{alquier2019estimation,genzel2020robust,he2017kernelized} which maintains desirable statistical properties as in 0-1 loss, because of the linear excess risk bound~\cite{scott2011surrogate}
 \[
