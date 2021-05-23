@@ -136,7 +136,7 @@ The first example reveals the sensitivity of tensor rank to order-preserving tra
 \begin{figure}[h]
 \captionsetup{font=footnotesize}
 \centering
-\includegraphics[width=.65\textwidth]{figure/example_comb2.pdf}
+\includegraphics[width=0.78\textwidth]{figure/example_comb.pdf}
 \caption{(a) Tensor rank vs.\ $c$ in the first example. (b) Top $d=30$ tensor singular values in the second example. }
 \label{fig:example}
 \end{figure}
@@ -413,7 +413,7 @@ In principle, uses can choose their own favorite large-margin losses, as long as
 In this section, we compare our nonparametric tensor method ({\bf NonParaT}) with two alternative approaches: low-rank tensor CP decomposition ({\bf CPT}), and the matrix version of our method applied to tensor unfolding ({\bf NonParaM}). We assess the performance under both complete and incomplete observations. The signal tensors are generated based on four models listed in Table~\ref{tab:simulation}. The simulation covers a wide range of complexity, including block tensors, transformed low rank tensors, min/max hypergraphon with logarithm and exponential functions. We consider order-3  tensors of equal dimension $d_1=d_2=d_3=d$, and set $d\in \{15, 20,\ldots,55,60\}$, $r=2$, $H=10+{(d-15)/ 5}$ in Algorithm~\ref{alg:tensorT}. For {\bf NonParaM}, we apply Algorithm~\ref{alg:tensorT} to each of the three unfolded matrices and report the average error. All summary statistics are averaged across $30$ replicates.  
 
 \begin{table*}[h]
-\includegraphics[width=1\textwidth]{figure/simulation2.pdf}
+\includegraphics[width=1\textwidth]{figure/simulation.pdf}
 \caption{Simulation models used for comparison. We use $\mM_k\in\{0,1\}^{d\times 3}$ to denote membership matrices, $\tC\in\mathbb{R}^{3\times 3\times 3}$ the block means, $\ma={1\over d}(1,2,\ldots,d)^T \in\mathbb{R}^d$, $\tZ_{\max}$ and $\tZ_{\min}$ are order-3 tensors with entries ${1\over d}\max(i,j,k)$ and ${1\over d}\min(i,j,k)$, respectively.}\label{tab:simulation}
 \end{table*}
 
@@ -1228,6 +1228,9 @@ where we set $u = \sqrt{2\sigma^2(\log n+s)}.$
 \section{Conclusion}
 We have developed a tensor estimation method that addresses both low- and high-rankness. Our sign series representation leads to nonparametric guarantees previously impossible. We hope the work opens up new inquiry that allows more researchers to contribute to this field.
 
+
+\section*{Acknowledgements}
+This research is supported in part by NSF grant DMS-1915978, DMS-2023239 and Wisconsin Alumni Research Foundation.
 \bibliographystyle{apalike}
 \bibliography{tensor_wang.bib}
 
