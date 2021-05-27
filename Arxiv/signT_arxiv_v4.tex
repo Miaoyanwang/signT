@@ -108,6 +108,8 @@ University of Wisconsin -- Madison\\
 
 
 
+
+
 \begin{document}
 \maketitle
 
@@ -1163,9 +1165,9 @@ Consider the same condition of Theorem~\ref{thm:classification}.  Suppose that A
 \end{align}
 \item[(b)] For all resolution parameter $H\in\mathbb{N}_{+}$,
 \begin{equation}\label{eq:bound2}
-\textup{MAE}(\hat \Theta, \Theta)\lesssim \left(\sigma^2t_d\log d_{\max}\log H\right)^{\alpha/(\alpha+2)}+{1+|\tN|\over H}+{H( \sigma^2t_d \log d_{\max}\log H)}.
+\textup{MAE}(\hat \Theta, \Theta)\lesssim \left(t_d\log H\right)^{\alpha/(\alpha+2)}+{1+|\tN|\over H}+{H( t_d\log H)}.
 \end{equation}
-In particular, setting $\scriptstyle H\asymp \left({1+|\tN|\over \sigma^2t_d\log d_{\max}} \right)^{1/2}$ yields the tightest upper bound in~\eqref{eq:bound2}.
+In particular, setting $\scriptstyle H\asymp \left({1+|\tN|\over t_d} \right)^{1/2}$ yields the tightest upper bound in~\eqref{eq:bound2}.
 \end{enumerate}
 \end{thm}
 
