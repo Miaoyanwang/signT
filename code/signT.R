@@ -284,7 +284,7 @@ tensorize=function(X,Y,Z){
     return(tensor)
 }
 
-fit_continuous=function(data,r){
+fit_continuous=function(data,r,max_iter = 25){
     index=which(is.na(data)==TRUE)
     data[index]=mean(data,na.rm=TRUE)
    original_data=data
@@ -308,7 +308,7 @@ return(list("est"=array(NA,dim=dim(data)),"U"=U,"lambda"=rep(0,r),"info"="degene
     while((res0-res)>thresh){
     res0=likelihood(original_data,decomp$est@data)
     sink("NULL")
-    decomp=cp(as.tensor(data),r)
+    decomp=cp(as.tensor(data),r,max_iter = max_iter)
     sink()
     res=likelihood(original_data,decomp$est@data)
     data[index]=decomp$est@data[index]
@@ -428,4 +428,22 @@ appx_rank=function(tensor,thresh=95,step=5){
         if(rank[2]>thresh) break
     }
     return(res)
+}
+
+
+appx_rank2=function(tensor,thresh=95,step=5){
+  size=dim(tensor)
+  size=sort(size)
+  min=which(sqrt(cumsum(svd(unfold(tensor,1:2,3)@data)$d^2))>thresh*0.01)[1]
+  res=test=NULL
+  r=min
+  while(r<=(size[1])){
+    r=r+step;
+    sink("NULL");
+    rank=c(r,tucker(tensor,c(r,r,r))$norm_percent)
+    sink();
+    res=rbind(res,rank)
+    if(rank[2]>thresh) break
+  }
+  return(res)
 }
