@@ -386,15 +386,15 @@ We consider a more general model than that in Section~\ref{sec:intro}. Consider 
 \caption{Summary of our statistical rates compared to existing works under different models.  For notational simplicity, we present error rates assuming equal tensor dimension in all modes and finite $|\tN|$ for the smooth tensor model. Here $K$ denotes tensor order and $d$ denotes tensor dimension.\\}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{l|l|l|l|l}
-\multicolumn{1}{c|}{Model}   & $\alpha$    & $|\tN|$      & Our rate (power of $d$) & \multicolumn{1}{c}{Comparison with previous result} \\\hline
+\multicolumn{1}{c|}{Model}   & $\alpha$    & $|\tN|$  & Our rate (power of $d$) & \multicolumn{1}{c}{Comparison with previous result} \\\hline
 Tensor block model  & $\infty$ & Finite &          $-(K-1)/2$            & Achieves minimax rate  \citep{wang2019multiway}. \\
-\multirow{2}{*}{Single index model} &\multirow{2}{*}{ 1 }       & \multirow{2}{*}{0}  &  \multirow{2}{*}{  $-(K-1)/3$ }                    & Not available  for general $K>3$;   Improves               \\
+\multirow{2}{*}{Single index model} &\multirow{2}{*}{1}       & \multirow{2}{*}{0}  &  \multirow{2}{*}{$-(K-1)/3$ }                    & Not available  for general $K>3$;   Improves               \\
 &&&&previous rate -1/4 for $K=2$ \citep{ganti2015matrix}.  \\
-\multirow{2}{*}{Generalized linear model }                &\multirow{2}{*}{ 1}        &\multirow{2}{*}{0}  &       \multirow{2}{*}{$-(K-1)/3$}  & \multirow{2}{*}{Close to minimax rate  \citep{zhang2018tensor,wang2018learning,hu2021generalized}.}   \\
+\multirow{2}{*}{Generalized linear model }                &\multirow{2}{*}{1}        &\multirow{2}{*}{0}  &       \multirow{2}{*}{$-(K-1)/3$}  & \multirow{2}{*}{Close to minimax rate  \citep{zhang2018tensor,wang2018learning,hu2021generalized}.}   \\
 &&&&\\
 Structure with repeating entries   & $\infty$   & $d$       &       $-(K-2)/2$    & Not available.                       \\
-\multirow{2}{*}{Smooth tensor}                                   & \multirow{2}{*}{$\alpha$}    &   \multirow{2}{*}{Finite}    &   \multirow{2}{*}{$-(K-2)\min(\frac{\alpha}{\alpha+2},\frac{1}{2})$} & \multirow{2}{*}{Not available.} 
-&&&&&\\
+\multirow{2}{*}{Smooth tensor}                                   & \multirow{2}{*}{$\alpha$}    &   \multirow{2}{*}{Finite}    &   \multirow{2}{*}{$-(K-2)\min(\frac{\alpha}{\alpha+2},\frac{1}{2})$} & \multirow{2}{*}{Not available.} \\
+&&&&\\
 \end{tabular}
 }
 \label{tb:comparison}

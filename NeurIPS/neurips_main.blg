@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2019)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: neurips_main.aux
+The style file: plain.bst
+Database file #1: tensor_wang.bib
+You've used 45 entries,
+            2118 wiz_defined-function locations,
+            788 strings with 11707 characters,
+and the built_in function-call counts, 17843 in all, are:
+= -- 1797
+> -- 794
+< -- 14
++ -- 316
+- -- 266
+* -- 1303
+:= -- 2809
+add.period$ -- 136
+call.type$ -- 45
+change.case$ -- 266
+chr.to.int$ -- 0
+cite$ -- 45
+duplicate$ -- 671
+empty$ -- 1402
+format.name$ -- 266
+if$ -- 3788
+int.to.chr$ -- 0
+int.to.str$ -- 45
+missing$ -- 46
+newline$ -- 228
+num.names$ -- 90
+pop$ -- 257
+preamble$ -- 1
+purify$ -- 222
+quote$ -- 0
+skip$ -- 523
+stack$ -- 0
+substring$ -- 1404
+swap$ -- 195
+text.length$ -- 14
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 178
+warning$ -- 0
+while$ -- 180
+width$ -- 47
+write$ -- 495
