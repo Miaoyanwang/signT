@@ -36,6 +36,8 @@ SignT=function(Y,truer,H=5,Lmin,Lmax,rho=0.1,lambda=10^(-3),option=2){
             
         }else if(option==3){
             res=Alt(sign(Y-pi),abs(Y-pi),r=truer,type="hinge",start="linear")## recommend
+        }else if(option ==4){
+            res=Alt(sign(Y-pi),1,r=truer,type="logistic",start="linear")
         }
         result[[h]]=res
         B_fitted[[h]]=res$fitted
@@ -79,38 +81,38 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge"),start="random"){
     
     error=1;iter=1;
  
- while((error>0.01)&(binary_obj[iter]>0.01)&(iter<20)){
-     
- 
- #tic()
- optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
- A3=matrix(optimization$par,ncol=r)
- optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,Ybar,W,type),method="BFGS")
- A2=matrix(optimization$par,ncol=r)
- optimization=optim(c(A1),function(x)cost(matrix(x,ncol=r),A2,A3,Ybar,W,type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,Ybar,W,type),method="BFGS")
- A1=matrix(optimization$par,ncol=r)
- #toc()
-
- #tic()
- #l=lapply(1:nrow(A3),function(i){optim(c(A3[i,]),function(x)cost(A1,A2,matrix(x,ncol=r),array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),method="BFGS")$par}) ## perhaps faster than the other approach?
- #A3=matrix(unlist(l),nrow=nrow(A3),byrow=T)
- #l=lapply(1:nrow(A2),function(i){optim(c(A2[i,]),function(x)cost(A1,matrix(x,ncol=r),A3,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),method="BFGS")$par}) ## perhaps faster than the other approach?
- #A2=matrix(unlist(l),nrow=nrow(A2),byrow=T)
- #l=lapply(1:nrow(A1),function(i){optim(c(A1[i,]),function(x)cost(matrix(x,ncol=r),A2,A3,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),method="BFGS")$par}) ### perhaps faster than the other approach?
- #A1=matrix(unlist(l),nrow=nrow(A1),byrow=T)
- #toc()
-        obj=c(obj,cost(A1,A2,A3,Ybar,W,type))
-        binary_obj=c(binary_obj,binaryloss(Ybar,W,tensorize(A1,A2,A3)))
-        iter=iter+1
-error=(obj[iter-1]-obj[iter])
-
- }
- result$binary_obj=binary_obj;
- result$obj=obj;
- result$iter=iter;
- result$error=error;
- result$fitted=tensorize(A1,A2,A3); ## exact low-rank
- return(result)
+    while((error>0.01)&(binary_obj[iter]>0.01)&(iter<20)){
+       
+    
+    #tic()
+      optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
+      A3=matrix(optimization$par,ncol=r)
+      optimization=optim(c(A2),function(x)cost(A1,matrix(x,ncol=r),A3,Ybar,W,type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,Ybar,W,type),method="BFGS")
+      A2=matrix(optimization$par,ncol=r)
+      optimization=optim(c(A1),function(x)cost(matrix(x,ncol=r),A2,A3,Ybar,W,type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,Ybar,W,type),method="BFGS")
+      A1=matrix(optimization$par,ncol=r)
+    #toc()
+    
+    #tic()
+    #l=lapply(1:nrow(A3),function(i){optim(c(A3[i,]),function(x)cost(A1,A2,matrix(x,ncol=r),array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,array(Ybar[,,i],dim=c(d[1],d[2],1)),array(W[,,i],dim=c(d[1],d[2],1)),type),method="BFGS")$par}) ## perhaps faster than the other approach?
+    #A3=matrix(unlist(l),nrow=nrow(A3),byrow=T)
+    #l=lapply(1:nrow(A2),function(i){optim(c(A2[i,]),function(x)cost(A1,matrix(x,ncol=r),A3,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),function(x)gradient(A1,matrix(x,ncol=r),A3,2,array(Ybar[,i,],dim=c(d[1],1,d[3])),array(W[,i,],dim=c(d[1],1,d[3])),type),method="BFGS")$par}) ## perhaps faster than the other approach?
+    #A2=matrix(unlist(l),nrow=nrow(A2),byrow=T)
+    #l=lapply(1:nrow(A1),function(i){optim(c(A1[i,]),function(x)cost(matrix(x,ncol=r),A2,A3,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),function(x)gradient(matrix(x,ncol=r),A2,A3,1,array(Ybar[i,,],dim=c(1,d[2],d[3])),array(W[i,,],dim=c(1,d[2],d[3])),type),method="BFGS")$par}) ### perhaps faster than the other approach?
+    #A1=matrix(unlist(l),nrow=nrow(A1),byrow=T)
+    #toc()
+      obj=c(obj,cost(A1,A2,A3,Ybar,W,type))
+      binary_obj=c(binary_obj,binaryloss(Ybar,W,tensorize(A1,A2,A3)))
+      iter=iter+1
+      error=(obj[iter-1]-obj[iter])
+    
+    }
+    result$binary_obj=binary_obj;
+    result$obj=obj;
+    result$iter=iter;
+    result$error=error;
+    result$fitted=tensorize(A1,A2,A3); ## exact low-rank
+    return(result)
 }
 
 gradient=function(A1,A2,A3,mode,Ybar,W,type=c("logistic","hinge")){
