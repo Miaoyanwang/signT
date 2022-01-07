@@ -165,7 +165,7 @@ The first example reveals the sensitivity of tensor rank to order-preserving tra
 The second example demonstrates the inadequacy of classical low-rankness in representing special structures. Here we consider the signal tensor of the form $\Theta=\log(1+\tZ)$, where $\tZ\in\mathbb{R}^{d\times d\times d}$ is an order-3 tensor with entries $\tZ(i,j,k)=d^{-1}\max(i,j,k)$ for $i,j,k\in\{1,\ldots,d\}$. The matrix analogy of $\Theta$ was studied in graphon analysis~\cite{chan2014consistent}. In this case neither $\Theta$ nor $\tZ$ is low-rank; in fact, the rank is no smaller than the dimension $d$ as illustrated in Figure~\ref{fig:example}b. Again, classical low-rank models fail to address this type of tensor structure. 
 
 In the above and many other examples, the signal tensors $\Theta$ of interest have high rank. Classical low-rank models will miss these important structures. The observations have motivated us to develop more flexible tensor modeling.
-In this paper, we present sign-representable tensor model with a new notion of sign-rank that can successfully handle high rank tensors with low complexity.
+In this article, we extend the results in the paper \citep{lee2021beyond} and propose sign-representable tensor model that can successfully handle high rank tensors with low complexity.
 
 \subsection{Related work}
 The signal plus noise model~\eqref{eq:model} is popular in tensor literature. Our work is closely related to but also clearly distinctive from several lines of existing research. We review related literature for comparison.
@@ -548,7 +548,7 @@ Recall the signal plus noise model in \eqref{eq:model}
 \tY = \Theta+\tE,
 \end{align*}
 where $\tE$ consists of zero-mean, independent noise entries, and $\Theta\in\caliP(r)$ is an $\alpha$-smooth tensor.
-Theoretical results in Section~\ref{sec:error}  are based on bounded observation $\|\tY\|_\infty\leq 1$. In this section, we extend the results to unbounded observation and present the estimation errors for various type of noise.
+Theoretical results in Section~\ref{sec:error}  are based on bounded observation $\|\tY\|_\infty\leq 1$. In this section, we extend the results to unbounded observation and present the estimation errors for various types of noise.
 
 \subsubsection{Sub-Gaussian noise} In literature, sub-Gaussian noise is popularly used on various set up  such as sparsity, CP-low rankness, and block structure on the signal tensor~\citep{zhang2018tensor,zhang2019optimal,wang2019multiway}. We consider the sub-Gaussian noise with $r$-sign representable signal tensor.
 Suppose the noise tensor $\tE$ consists of zero-mean, independent sub-Gaussian entries with variance bounded by $\sigma^2$. To be specific, we consider the model in \eqref{eq:model} with the following assumption
