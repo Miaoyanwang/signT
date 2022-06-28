@@ -677,7 +677,7 @@ In principle, uses can choose their own favorite large-margin losses. Similar th
 In this section, we compare our nonparametric tensor method ({\bf NonParaT}) with two alternative approaches: low-rank tensor CP decomposition ({\bf CPT}), and the matrix version of our method applied to tensor unfolding ({\bf NonParaM}). We assess the performance under both complete and incomplete observations. The signal tensors are generated based on four models listed in Table~\ref{tab:simulation}. The simulation covers a wide range of complexity, including block tensors, transformed low rank tensors, min/max hypergraphon with logarithm and exponential functions. We consider order-3  tensors of equal dimension $d_1=d_2=d_3=d$, and set $d\in \{15, 20,\ldots,55,60\}$, $r=2$, $H=10+{(d-15)/ 5}$ in Algorithm~\ref{alg:tensorT}. For {\bf NonParaM}, we apply Algorithm~\ref{alg:tensorT} to each of the three unfolded matrices and report the average error. All summary statistics are averaged across $30$ replicates.  
 
 \begin{table*}[h]
-\includegraphics[width=1\textwidth]{figure/simulation2.pdf}
+\includegraphics[width=1\textwidth]{figure/simulation.pdf}
 \caption{Simulation models used for comparison. We use $\mM_k\in\{0,1\}^{d\times 3}$ to denote membership matrices, $\tC\in\mathbb{R}^{3\times 3\times 3}$ the block means, $\ma={1\over d}(1,2,\ldots,d)^T \in\mathbb{R}^d$, $\tZ_{\max}$ and $\tZ_{\min}$ are order-3 tensors with entries ${1\over d}\max(i,j,k)$ and ${1\over d}\min(i,j,k)$, respectively.}\label{tab:simulation}
 \end{table*}
 
@@ -1401,7 +1401,7 @@ This research is supported in part by NSF grant DMS-1915978, DMS-2023239 and Wis
 \appendix
 
 
-\section{Sensitivity of tensor rank to monotonic transformations}\label{sec:numericalrank}
+\section{Sensitivity of tensor rank to monotonic transformation}\label{sec:numericalrank}
 In Section~\ref{sec:intro} of the main paper, we have provided a motivating example to show the sensitivity of tensor rank to monotonic transformations. Here, we describe the details of the example set-up. 
 
 The step 1 is to generate a rank-3 tensor $\tZ$ based on the CP representation

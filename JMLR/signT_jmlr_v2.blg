@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: signT_jmlr_v2.aux
+The style file: plainnat.bst
+Database file #1: tensor_wang.bib.bib
+Warning--empty title in han2020optimal
+You've used 63 entries,
+            2773 wiz_defined-function locations,
+            966 strings with 14956 characters,
+and the built_in function-call counts, 32873 in all, are:
+= -- 3005
+> -- 1774
+< -- 48
++ -- 600
+- -- 537
+* -- 2664
+:= -- 4825
+add.period$ -- 190
+call.type$ -- 63
+change.case$ -- 365
+chr.to.int$ -- 63
+cite$ -- 127
+duplicate$ -- 1528
+empty$ -- 2745
+format.name$ -- 630
+if$ -- 7029
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 65
+newline$ -- 322
+num.names$ -- 252
+pop$ -- 736
+preamble$ -- 1
+purify$ -- 305
+quote$ -- 0
+skip$ -- 1224
+stack$ -- 0
+substring$ -- 1673
+swap$ -- 263
+text.length$ -- 20
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 683
+warning$ -- 1
+while$ -- 312
+width$ -- 0
+write$ -- 821
+(There was 1 warning)

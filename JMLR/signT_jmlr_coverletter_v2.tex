@@ -1,0 +1,98 @@
+\documentclass{article}
+\input{jmlr_coverletter_preamble.tex}
+
+
+\begin{document}
+\hfill{\today}
+
+Journal of Machine Learning Research
+
+\bigskip
+
+Dear Editors:
+
+We are writing to submit our manuscript \red{Beyond low-rankness: Nonparametric estimation and completion for sign-representable tensors} to the \emph{Journal of Machine Learning Research}.
+
+In this article, we consider the problem of nonparametric tensor estimation from noisy observations with possibly missing entries. Such data problems arise commonly in recommendation system, social networks, and multiway comparison applications. We develop a new nonparametric tensor model which coined as \emph{sign representable tensors}. Unlike earlier methods, our tensor model efficiently addresses possibly high-rank signals, allows various data types, and enjoys invariant property under unknown order-preserving entrywise transformations. We establish the excess risk bound, estimation error rate, and sample complexity for the tensor estimation problem with missingness. A divide-and-conquer algorithm is developed with accuracy guarantees. We demonstrate the efficacy of our procedure through simulations and real data applications.
+
+Part of this work was presented at \red{Advances in Neural Information Processing Systems Conference} in December 2021 under the title ``Beyond the Signs: Nonparametric tensor completion via sign series''.  However, this JMLR submission covers substantially deeper depth; many of the results have been substantially improved, sharpened, and expanded with new extensions. Therefore, this manuscript has limited overlap with the preliminary version. Newly added results are summarized below.
+
+\begin{itemize}
+\item We have added entirely new problem domains. The earlier version addresses tensor completion problem \emph{with bounded observations} only. In the current version, we propose new methods for a much wide range of problems, including sub-Gaussian tensor denoising (New Section 6.1), Probabilistic tensor estimation (New Section 6.2), and Binomial tensor problem (New Section 6.3). Algorithm and theory for each new problem are also developed. 
+\item We have substantially extended our theoretical results. In particular, five completely new Theorems and Propositions are developed. 
+\begin{itemize}
+\item Our newly added Theorem 3 establishes the risk minimizer for the $l_q$ weighted classification with a general $q\geq 0$. We \emph{provably} show the failure of $l_q$ weights for symmetric noises unless $q=1$. The fact provides deep insights on the choice of weights in our proposal. See the new Section 4.3.
+\item Our newly added Theorem 5 establishes the finite sample accuracy for hinge loss minimizer. We propose the new loss function, develop the penalized version of our algorithm, and establish the theoretical guarantees. We quantify the role of Fisher consistency and approximation bias in the accuracy. The new theory fills the gap between the theory and practice. See the new Section 6. 
+
+\item Our newly added Propositions 1-3 present the algebraic properties of our sign representable tensor model. In particular, we use constructive proof to show tensors with usual high rank but with low sign-rank in our new notion. The new propositions highlight the advantages of using sign-rank in high-dimensional tensor analysis. See the new Section 3. 
+\end{itemize}
+\item We have added significantly new analysis for our sign representable tensor models. In particular, we have substantially expanded the old framework via the following analyses: Noise effects (New Remark 2), Landscape of risk minimizers (New Remark 3), Connection between uniqueness and smoothness (New Remark 5), Comparison with classical nonparametric analysis (New Remark 6), Relationship between weights and noises (New Remark 7), Distinction between our algorithm and classical 1-bit tensor algorithm (New Remark 8), Sign estimation compared to existing work (Remark 9), and Sign estimation (Remark 10). 
+\item We have added new numerical experiment and data applications. Six new Figures (Figure 1b, Figure 2, Figure 4c-d, Figure 5c-d) and two new Tables (Table 1 and Table 4) are added. New comparisons and discussions are also provided. 
+\end{itemize}
+
+We suggest the following action editors for our submission.
+
+\begin{itemize}
+    \item \red{Jie Peng (High dimensional statistical inference), UC Davis (jiepeng@ucdavis.edu)}
+    \item \red{Xiaotong Shen (Learning),  University of Minnesota (xshen@umn.edu)}
+    \item \red{Ji Zhu (High-dimensional data), University of Michigan (jizhu@umich.edu)}   
+    \item \red{Animashree Anandkumar (Tensor decomposition), California Institute of Technology (anima@caltech.edu)}
+    \item \red{Genevera Allen (Tensor decompositions), Rice University (gallen@rice.edu)}
+\end{itemize}
+
+
+We believe our results will be of interest to a very broad readership -- from those interested in theoretical foundations of tensor methods to those in tensor data applications. Our method will help the practitioners efficiently analyze tensor datasets in various areas. Toward this end, the software package has been publicly released at CRAN.
+
+
+As the corresponding author, I confirm that none of the co-authors have a conflict of interest with the action editors I suggest above. Further, I confirm that all co-authors consent to my submission of this manuscript to the \emph{Journal of Machine Learning Research}.
+
+\bigskip
+
+Sincerely,
+
+\medskip
+
+Dr. Miaoyan Wang\\
+Assistant Professor of Statistics\\
+University of Wisconsin-Madison\\
+Homepage: \url{http://www.stat.wisc.edu/~miaoyan/} \\
+Email: miaoyan.wang@wisc.edu
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
